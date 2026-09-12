@@ -1,6 +1,13 @@
-// Vercelのサーバーレス関数として動作する、Anthropic APIへの中継エンドポイント。
-// ブラウザからは /api/claude というURLだけが見え、実際のAPIキーはここ(サーバー側)にしか存在しない。
-// APIキーは Vercel のプロジェクト設定 > Environment Variables で ANTHROPIC_API_KEY として登録する。
+// Anthropic APIへの中継サーバーレス関数。
+// APIキーはここ(サーバー側の環境変数)にだけ存在し、ブラウザには一切渡らない。
+
+// ★ 重要:Vercelのサーバーレス関数は、明示的に指定しない限りHobby(無料)プランで
+// デフォルト10秒でタイムアウトする。このゲームはプロンプトが大きく、AIの応答に
+// 10秒以上かかることが珍しくないため、maxDurationを明示的に伸ばしておく
+// (Hobbyプランでは最大60秒まで指定可能)。
+export const config = {
+  maxDuration: 60,
+};
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -10,12 +17,12 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    res.status(500).json({ error: "ANTHROPIC_API_KEY が設定されていません(サーバー側の環境変数を確認してください)" });
+    res.status(500).json({ error: "ANTHROPIC_API_KEY が設定されていません" });
     return;
   }
 
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const upstream = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,9 +32,11 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body),
     });
 
-    const data = await response.json();
-    res.status(response.status).json(data);
-  } catch (err) {
-    res.status(500).json({ error: "Anthropic API への中継に失敗しました", message: err.message });
+    const data = await upstream.text();
+    res.status(upstream.status);
+    res.setHeader("Content-Type", "application/json");
+    res.send(data);
+  } catch (e) {
+    res.status(502).json({ error: `中継サーバーでエラーが発生しました: ${e.message}` });
   }
 }

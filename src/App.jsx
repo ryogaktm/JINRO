@@ -169,6 +169,24 @@ function parseJSON(text) {
   }
 }
 
+// callClaude(通信エラー時は内部で3回リトライ済み)を呼んだ上で、
+// ①応答が空だった ②JSONとして解析できなかった 場合も、同じリクエストをもう1回だけ自動でやり直す。
+// これでも失敗した場合のみ呼び出し元にエラーを投げる(ここまで来たら、ユーザーに再操作してもらう)。
+async function callClaudeAutoRetry(systemPrompt, userPrompt, maxTokens, extraAttempts = 1) {
+  let lastErr;
+  for (let attempt = 0; attempt <= extraAttempts; attempt++) {
+    try {
+      const raw = await callClaude(systemPrompt, userPrompt, maxTokens);
+      const parsed = parseJSON(raw);
+      if (parsed) return parsed;
+      lastErr = new Error("応答をJSONとして解析できませんでした");
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw lastErr;
+}
+
 // ネタバレ語チェック(ト書きへの役職混入を機械的に検出して除去)
 const ROLE_WORDS = ["人狼", "狂人", "占い師", "霊媒師", "狩人", "ジョーカー", "共有者"];
 function sanitizeStageDirections(text) {
@@ -270,8 +288,7 @@ ${groundTruth ? `以下はこのゲームの内部真実データです。校閲
 出力は必ず修正後の同じJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...]}`;
   const userPrompt = `文脈: ${contextNote}\n\n下書き:\n${draftText}\n\n問題があれば直し、なければそのまま返してください。`;
   try {
-    const raw = await callClaude(system, userPrompt, 700);
-    const parsed = parseJSON(raw);
+    const parsed = await callClaudeAutoRetry(system, userPrompt, 700);
     return parsed?.lines || draftLines;
   } catch (e) {
     return draftLines; // チェック失敗時は下書きをそのまま採用(プレイヤーを止めない)
@@ -289,7 +306,7 @@ export default function JinroGame() {
   const [log, setLog] = useState([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const [userName, setUserName] = useState("リョウガ");
+  const [userName, setUserName] = useState("");
   const [userGender, setUserGender] = useState("男性");
   const [npcMaleCount, setNpcMaleCount] = useState(5); // NPC10人中の男性人数(残りは女性)。デフォルト5:5
   const [nameInput, setNameInput] = useState("");
@@ -665,9 +682,10 @@ ${fullTranscript}
 
   // ---------------- ゲーム開始 ----------------
   async function startGame() {
+    const finalName = nameInput.trim() || userName;
+    if (!finalName) return; // 名前が未入力の場合は開始しない(ボタン側でも無効化しているが念のため二重にガードする)
     tokenTotals = { input: 0, output: 0, calls: 0 };
     setTokenDisplay({ input: 0, output: 0, calls: 0 });
-    const finalName = nameInput.trim() || userName;
     try {
       window.storage.delete("game_save", false);
     } catch (e) {}
@@ -821,8 +839,7 @@ ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
     const userPrompt = `これまでの会話:\n${transcript}\n\n直前のプレイヤー発言:「${userMsg}」\n\nNPCの反応を生成してください。`;
 
     try {
-      const raw = await callClaude(system, userPrompt, 1100);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 1100);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -888,8 +905,7 @@ ${getGroundTruthBlock()}
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤー不在のまま、NPCたちの議論を進めてください。`;
 
     try {
-      const raw = await callClaude(system, userPrompt, 900);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 900);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -940,8 +956,7 @@ GMとして、この行動の結果(何が見えた・分かったか)を地の�
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーの行動:「${actionText}」\n\nこの行動の結果を描写してください。`;
 
     try {
-      const raw = await callClaude(system, userPrompt, 500);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 500);
       if (parsed?.narration) {
         addLog([{ type: "system", text: parsed.narration }]);
       }
@@ -1001,8 +1016,7 @@ ${getGroundTruthBlock()}
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーは沈黙しています。NPCの反応を生成してください(反応がなければ空配列でよい)。`;
 
     try {
-      const raw = await callClaude(system, userPrompt, 500);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 500);
       if (parsed?.lines?.length) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -1056,8 +1070,7 @@ JSON形式のみ: {"text":"セリフ"}`;
     const userPrompt = `本編(教室)の会話ログ:\n${mainTranscript}\n\n密談の会話:\n${allyTranscript}\n\n直前のプレイヤーの発言を踏まえ、本編の具体的な出来事に言及しながら返答を生成してください。`;
 
     try {
-      const raw = await callClaude(system, userPrompt, 500);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 500);
       addLog([{ type: "ally", speaker: ally.name, text: parsed?.text || "……そうだな。" }]);
     } catch (e) {
       addLog([{ type: "system", text: "通信エラー" }]);
@@ -1086,8 +1099,7 @@ ${getGroundTruthBlock()}
 JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\nプレイヤーの弁明:「${msg}」\n\nNPCの反応を生成してください。`;
     try {
-      const raw = await callClaude(system, userPrompt, 600);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 600);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -1196,8 +1208,7 @@ ${isWolfSide ? `**人狼陣営の投票方針**:本物の人狼が全滅すれ�
 理由も短く。絶対厳守:votesにプレイヤー「${userName}」を含めない。上記のNPC以外の名前もvoterに使わない。
 JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短い理由"}]}`;
       try {
-        const raw = await callClaude(system, `これまでの会話:\n${transcriptText}\n\n各NPCの投票先を決めてください。`, maxTokens);
-        const parsed = parseJSON(raw);
+        const parsed = await callClaudeAutoRetry(system, `これまでの会話:\n${transcriptText}\n\n各NPCの投票先を決めてください。`, maxTokens);
         return (parsed?.votes || []).filter((v) => g.npcs.some((p) => p.name === v.voter));
       } catch (e) {
         return null; // このグループだけ失敗(他のグループの票は活かす)
@@ -1308,13 +1319,11 @@ ${getGroundTruthBlock({ delusionsOverride })}
 JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\n弁明タイムのセリフを生成してください(各候補1〜2回発言。傍観者の割り込みがあれば含める)。`;
     try {
-      const raw = await callClaude(system, userPrompt, 1200);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 1200);
       let npcOnly = (parsed?.lines || []).filter((l) => l.speaker !== userName);
       if (npcOnly.length === 0) {
         // 生成結果が空(全てプレイヤー名義で除外された等)だった場合、もう一度だけ試す
-        const raw2 = await callClaude(system, userPrompt + "\n\n(前回は有効なセリフが得られませんでした。必ずNPCのセリフを生成してください)", 1200);
-        const parsed2 = parseJSON(raw2);
+        const parsed2 = await callClaudeAutoRetry(system, userPrompt + "\n\n(前回は有効なセリフが得られませんでした。必ずNPCのセリフを生成してください)", 1200);
         npcOnly = (parsed2?.lines || []).filter((l) => l.speaker !== userName);
       }
       if (npcOnly.length > 0) {
@@ -1358,8 +1367,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\nプレイヤーの${isAction ? "行動" : "発言"}:「${msg}」\n\n反応を生成してください。`;
 
     try {
-      const raw = await callClaude(system, userPrompt, 700);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 700);
       if (isAction && parsed?.narration) {
         addLog([{ type: "system", text: parsed.narration }]);
       }
@@ -1700,8 +1708,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-30).join("\n")}\n\n人狼陣営が数の力で押し切る場面を生成してください。`;
 
     try {
-      const raw = await callClaude(system, userPrompt, 700);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 700);
       if (parsed?.lines) {
         addLog(parsed.lines.map((l) => (l.speaker === "GM" ? { type: "system", text: l.text } : { type: "npc", speaker: l.speaker, text: l.text })));
       }
@@ -2091,8 +2098,7 @@ ${guardLogText}
 JSON形式のみ: {"tarotName":"タロットカード名","review":"振り返り文章","diagnosis":"そのカードに例えた理由の説明文","comments":[{"speaker":"名前","text":"感想"}, ...(全員分)],"monologue":"独白の文章"}`;
     const userPrompt = `ゲーム全体の会話ログ:\n${fullTranscript.slice(-6000)}`;
     try {
-      const raw = await callClaude(system, userPrompt, 3000);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 3000);
       if (parsed) {
         setEnding(parsed);
         if (parsed.tarotName) recordTarotCard(parsed.tarotName);
@@ -2152,8 +2158,7 @@ JSON形式のみ: {"tarotName":"タロットカード名","review":"振り返り
 JSON形式のみ: {"text":"回答"}`;
     const userPrompt = `ゲーム全体の会話ログ:\n${fullTranscript.slice(-6000)}\n\nプレイヤーからの最後の質問:「${endingQuestionInput.trim()}」\n\n${target.name}として答えてください。`;
     try {
-      const raw = await callClaude(system, userPrompt, 500);
-      const parsed = parseJSON(raw);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 500);
       setEndingAnswer({ speaker: target.name, text: parsed?.text || "……。", question: endingQuestionInput.trim() });
     } catch (e) {
       setEndingAnswer({ speaker: target.name, text: "(通信エラーのため、返事は届かなかった)", question: endingQuestionInput.trim() });
@@ -2224,7 +2229,7 @@ JSON形式のみ: {"text":"回答"}`;
               <input
                 className="w-full rounded-lg px-3 py-2 border outline-none mt-1"
                 style={{ borderColor: "#D8C4B5", color: "#2B2620", background: "#FFFFFF" }}
-                placeholder="リョウガ"
+                placeholder="ニックネーム"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
               />
@@ -2287,11 +2292,15 @@ JSON形式のみ: {"text":"回答"}`;
 
           <button
             onClick={startGame}
-            className="w-full px-10 py-3 rounded-lg font-bold text-lg"
+            disabled={!nameInput.trim() && !userName}
+            className="w-full px-10 py-3 rounded-lg font-bold text-lg disabled:opacity-40"
             style={{ background: "#8B3A3A", color: "#FFFFFF" }}
           >
             {hasSave ? "最初からはじめる" : "はじめる"}
           </button>
+          {!nameInput.trim() && !userName && (
+            <p className="text-xs text-center" style={{ color: "#B05050" }}>ニックネームを入力してください</p>
+          )}
 
           {favorites.length > 0 && (
             <button
