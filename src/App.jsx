@@ -331,12 +331,6 @@ export default function JinroGame() {
       } catch (e) {
         // コレクションがない場合は何もしない
       }
-      try {
-        const badgeResult = await window.storage.get("confession_badges", false);
-        if (badgeResult?.value) setConfessionBadges(JSON.parse(badgeResult.value));
-      } catch (e) {
-        // バッジがない場合は何もしない
-      }
     })();
   }, []);
   const [turnLabel, setTurnLabel] = useState(1); // 左上の「日-ターン」表示用(ターン番号)
@@ -497,13 +491,6 @@ ${fullTranscript}
   const [confirmedBlack, setConfirmedBlack] = useState([]);
   const [winner, setWinner] = useState(null);
   const [pendingMajorityWin, setPendingMajorityWin] = useState(false); // 朝を迎えた時点で人狼側が過半数に達した場合、即終了せず1ターンだけ猶予してから演出する
-  const [confessionPhaseActive, setConfessionPhaseActive] = useState(false); // 村人陣営勝利時の告白イベント中か
-  const [confessionTarget, setConfessionTarget] = useState(null);
-  const [confessionResult, setConfessionResult] = useState(null); // {target, success, text}
-  const [confessionBadges, setConfessionBadges] = useState({}); // {キャラ名: {success: bool, fail: bool}} 永続化するコレクション
-  const [pendingFinishWin, setPendingFinishWin] = useState(null); // 告白イベント終了後に呼ぶfinishGameの勝者陣営
-  const [confessionMode, setConfessionMode] = useState(null); // "player" | "npc"
-  const [npcConfessionDone, setNpcConfessionDone] = useState(false);
   const [ending, setEnding] = useState(null); // { review: string, diagnosis: string, title: string }
   const [endingQuestionTarget, setEndingQuestionTarget] = useState(null);
   const [endingQuestionInput, setEndingQuestionInput] = useState("");
@@ -539,7 +526,6 @@ ${fullTranscript}
   const [favorites, setFavorites] = useState([]); // 保存されたお気に入りストーリー一覧(最大3件)
   const [tarotCollection, setTarotCollection] = useState({}); // {カード名: {count, firstObtainedAt}} タロットカードのコレクション
   const [showTarotCollection, setShowTarotCollection] = useState(false);
-  const [showConfessionBadges, setShowConfessionBadges] = useState(false);
   const [tarotJustAdded, setTarotJustAdded] = useState(false); // 直近のゲームで新規カードを獲得したか(NEW!表示用)
   const [favoriteSaved, setFavoriteSaved] = useState(false); // 今回のゲームを既にお気に入り登録したか
   const [showFavorites, setShowFavorites] = useState(false);
@@ -737,11 +723,6 @@ ${fullTranscript}
     setFavoriteSaved(false);
     setTarotJustAdded(false);
     setPendingMajorityWin(false);
-    setConfessionPhaseActive(false);
-    setConfessionTarget(null);
-    setConfessionResult(null);
-    setConfessionMode(null);
-    setNpcConfessionDone(false);
     setVoteRound1Tally(null);
     setDefenseCandidates([]);
     setChatMode("class");
@@ -862,7 +843,9 @@ ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
       }
       if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
     } catch (e) {
-      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"})` }]);
+      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"}) このターンは消費されていません。もう一度送信してください。` }]);
+      setBusy(false);
+      return; // 通信エラー時はターンを消費せず、ここで処理を止める(再送信できるようにする)
     }
     setBusy(false);
     setTurnLabel((t) => t + 1);
@@ -913,7 +896,9 @@ ${getGroundTruthBlock()}
       }
       if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
     } catch (e) {
-      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"})` }]);
+      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"}) 自動的に再試行されます。` }]);
+      setBusy(false);
+      return; // 通信エラー時はターンを消費しない(次の自動進行タイマーで再試行される)
     }
     setBusy(false);
     if (pendingMajorityWin) { triggerWolfMajorityReveal(); return; }
@@ -977,7 +962,9 @@ GMとして、この行動の結果(何が見えた・分かったか)を地の�
       }
       if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
     } catch (e) {
-      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"})` }]);
+      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"}) このターンは消費されていません。もう一度送信してください。` }]);
+      setBusy(false);
+      return; // 通信エラー時はターンを消費せず、ここで処理を止める(再送信できるようにする)
     }
     setBusy(false);
     setTurnLabel((t) => t + 1);
@@ -1382,7 +1369,8 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
       }
       if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
     } catch (e) {
-      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"})` }]);
+      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"}) もう一度リアクションできます。` }]);
+      setDefenseReacted(false); // 通信エラー時は一度きりのリアクション権限を消費しない
     }
     setBusy(false);
   }
@@ -2045,31 +2033,6 @@ ${guardLogText}
     return null;
   }
   function finishGame(win, freshPlayers = null) {
-    const list = freshPlayers || players;
-    const me = list.find((p) => p.isUser);
-    const otherAliveNPCsNow = list.filter((p) => p.alive && !p.isUser);
-    const canConfess = win === "村人陣営" && me?.alive && otherAliveNPCsNow.length > 0;
-    if (canConfess) {
-      if (freshPlayers) setPlayers(freshPlayers);
-      setPendingFinishWin(win);
-      setConfessionMode("player");
-      setConfessionPhaseActive(true);
-      setPhase("confession");
-      addLog([{ type: "system", text: "【村人陣営の勝利が確定】生き残った興奮でアドレナリンが止まらない……気持ちが溢れて、誰かに伝えたくなっている自分に気づく。" }]);
-      return;
-    }
-    // プレイヤーが既に死亡していて村人陣営が勝った場合、生存NPC同士の告白シーンを演出する(プレイヤーの実績・バッジには含めない)
-    if (win === "村人陣営" && !me?.alive && otherAliveNPCsNow.length >= 2) {
-      if (freshPlayers) setPlayers(freshPlayers);
-      setPendingFinishWin(win);
-      setConfessionMode("npc");
-      setConfessionPhaseActive(true);
-      setPhase("confession");
-      setNpcConfessionDone(false);
-      addLog([{ type: "system", text: "【村人陣営の勝利が確定】生き残った皆の間に、生の実感からくる特別な空気が流れている……" }]);
-      runNPCConfessionScene();
-      return;
-    }
     actuallyFinishGame(win, freshPlayers);
   }
 
@@ -2097,81 +2060,6 @@ ${guardLogText}
       { type: "system", text: reason },
     ]);
     generateEnding(win);
-  }
-
-  // 村人陣営勝利時の告白イベント:生き残った興奮で、生存者の中から1人を選んで気持ちを伝える。
-  // 成功確率は好感度をベースにし、告白の内容(セリフ/行動)次第でAIが多少上下させる。
-  async function submitConfession(isAction) {
-    const msg = input.trim();
-    if (!msg || !confessionTarget || busy) return;
-    setInput("");
-    if (inputRef.current) inputRef.current.style.height = "auto";
-    addLog([{ type: isAction ? "action" : "user", speaker: userName, text: msg }]);
-    setBusy(true);
-
-    const targetP = players.find((p) => p.name === confessionTarget);
-    const baseAffinity = npcAffinity[confessionTarget] ?? 50; // 0〜100
-    const transcript = getTranscript();
-
-    const system = `あなたは人狼ゲームのGMです。ゲームは村人陣営の勝利で終わりました。生存者「${userName}」が、興奮のままに生存者「${targetP.name}」(${targetP.personality}・${targetP.club})へ愛の告白をしています。
-プレイヤーへの${targetP.name}の内心の好感度(0〜100、高いほど好意的): ${baseAffinity}
-プレイヤーの告白内容(${isAction ? "行動・仕草として表現" : "セリフとして発言"}): 「${msg}」
-**判定方針**:好感度をベースの目安にしつつ、告白の内容が誠実で気持ちがこもっている・${targetP.name}の性格に合っている場合は成功確率を上げ、雑・唐突・不自然な場合は下げてよい。最終的にsuccess(true=成功/交際OK、false=やんわり拒否)を判定し、${targetP.name}自身の言葉で反応を書く(性格に合った口調、2〜3文)。振られる場合も、傷つけすぎない優しい断り方にする(村人陣営が勝利した直後の温かい空気を保つ)。
-出力は必ずこのJSON形式のみ: {"success": true または false, "text":"${targetP.name}の反応セリフ"}`;
-    const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-20).join("\n")}\n\n告白への反応を生成してください。`;
-
-    try {
-      const raw = await callClaude(system, userPrompt, 400);
-      const parsed = parseJSON(raw);
-      const success = !!parsed?.success;
-      const text = parsed?.text || (success ? "……うん。" : "……ごめんね。");
-      addLog([{ type: "npc", speaker: targetP.name, text }]);
-      setConfessionResult({ target: targetP.name, success, text });
-      setConfessionBadges((prev) => {
-        const next = { ...prev, [targetP.name]: { ...(prev[targetP.name] || {}), [success ? "success" : "fail"]: true } };
-        window.storage.set("confession_badges", JSON.stringify(next), false).catch(() => {});
-        return next;
-      });
-    } catch (e) {
-      addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"})` }]);
-      setConfessionResult({ target: targetP.name, success: false, text: "……(応答なし)" });
-    }
-    setBusy(false);
-  }
-
-  function skipConfessionAndFinish() {
-    setConfessionPhaseActive(false);
-    if (pendingFinishWin) actuallyFinishGame(pendingFinishWin);
-  }
-
-  // プレイヤーが死亡していて村人陣営が勝った場合、生存NPC同士の告白シーンを演出する。
-  // 異性同士を優先しつつ、同性同士や意外な組み合わせもたまに起こってよい。結果はプレイヤーのバッジには含めない。
-  async function runNPCConfessionScene() {
-    setBusy(true);
-    const alive = players.filter((p) => p.alive && !p.isUser);
-    const rosterLine = alive.map((p) => `${p.name}(${p.gender}・${p.personality}・${p.club})`).join("、");
-    const transcript = getTranscript();
-
-    const system = `あなたは人狼ゲームのGMです。人狼陣営は全滅し、村人陣営が勝利しました。プレイヤーは既に途中で死亡しています。
-生存者: ${rosterLine}
-生き残った興奮とアドレナリンから、生存者の中の誰かが、別の誰かに愛の告白をする短いシーンを描写してください。
-**組み合わせの選び方**:基本的には異性同士の組み合わせを優先するが、生存者の構成やキャラクターの相性・関係性によっては、同性同士や意外な組み合わせが起きても面白い(必須ではないが、たまに起きてよい)。生存者が2人しかいない場合は、その2人の組み合わせにする。
-**結果**:成功(交際OK)でも、やんわりとした失敗(気持ちは受け止めつつ今は友達で、等)でも、どちらでもよい。性格・relationshipに合った自然な流れにする。
-3〜6行程度、短くドラマチックに。ナレーション(GM)と当事者2人のセリフを交える。
-出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前またはGM","text":"セリフ・地の文"}, ...]}`;
-    const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-30).join("\n")}\n\n生存者同士の告白シーンを生成してください。`;
-
-    try {
-      const raw = await callClaude(system, userPrompt, 700);
-      const parsed = parseJSON(raw);
-      if (parsed?.lines) {
-        addLog(parsed.lines.map((l) => (l.speaker === "GM" ? { type: "system", text: l.text } : { type: "npc", speaker: l.speaker, text: l.text })));
-      }
-    } catch (e) {
-      // 生成に失敗しても村の勝利自体は成立しているので、演出なしで進める
-    }
-    setBusy(false);
-    setNpcConfessionDone(true);
   }
 
   // プレイヤーの入力に不適切な内容が検知された場合、AIに送らず直ちにゲームを終了させる(全キャラクターが未成年という設定のため)
@@ -2422,44 +2310,8 @@ JSON形式のみ: {"text":"回答"}`;
           >
             🔮 タロットコレクション({Object.keys(tarotCollection).length}/{TAROT_CARDS.length})
           </button>
-
-          <button
-            onClick={() => setShowConfessionBadges(true)}
-            className="w-full py-2 text-sm underline"
-            style={{ color: "#8A5A2A" }}
-          >
-            💘 告白バッジコレクション({Object.keys(confessionBadges).length})
-          </button>
         </div>
       </div>
-
-      {showConfessionBadges && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowConfessionBadges(false)} />
-          <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl p-5 space-y-3 shadow-2xl" style={{ background: "#FBF8F1" }}>
-            <div className="flex justify-between items-center pb-2 border-b" style={{ borderColor: "#DDD5C3" }}>
-              <div className="text-lg font-bold" style={{ color: "#5B4636" }}>💘 告白バッジコレクション</div>
-              <button onClick={() => setShowConfessionBadges(false)} className="text-2xl leading-none" style={{ color: "#6B6355" }}>✕</button>
-            </div>
-            <div className="text-xs text-center" style={{ color: "#8A8272" }}>村人陣営で勝利した後、生存者に告白すると記録されます</div>
-            {Object.keys(confessionBadges).length === 0 ? (
-              <p className="text-sm text-center py-6" style={{ color: "#8A8272" }}>まだバッジがありません。村人陣営で勝利して、誰かに告白してみましょう。</p>
-            ) : (
-              <div className="grid grid-cols-2 gap-2">
-                {Object.entries(confessionBadges).map(([name, b]) => (
-                  <div key={name} className="rounded-lg p-3 border text-center" style={{ background: "#F0EAD9", borderColor: "#8A5A2A" }}>
-                    <div className="text-sm font-bold" style={{ color: "#5B4636" }}>{name}</div>
-                    <div className="text-xs mt-1 flex justify-center gap-2">
-                      {b.success && <span title="告白成功">💕成功</span>}
-                      {b.fail && <span title="告白失敗">💔失敗</span>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {showTarotCollection && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
@@ -2929,78 +2781,6 @@ JSON形式のみ: {"text":"回答"}`;
           })}
           {busy && phase === "discussion" && (
             <p className="max-w-2xl mx-auto text-sm" style={{ color: C.textFaint }}>……教室がざわめいています……</p>
-          )}
-
-          {phase === "confession" && confessionMode === "npc" && (
-            <div className="max-w-2xl mx-auto space-y-4 pb-6 text-center">
-              <div className="text-xl font-bold" style={{ color: C.gold }}>💘 村人陣営の勝利!</div>
-              {!npcConfessionDone ? (
-                <p className="text-sm" style={{ color: C.textFaint }}>……教室に、少し違う空気が流れ始めている……</p>
-              ) : (
-                <button onClick={() => { setConfessionPhaseActive(false); if (pendingFinishWin) actuallyFinishGame(pendingFinishWin); }} className="px-6 py-2 rounded-lg font-bold" style={{ background: C.accent, color: C.white }}>
-                  結末を見る
-                </button>
-              )}
-            </div>
-          )}
-
-          {phase === "confession" && confessionMode === "player" && (
-            <div className="max-w-2xl mx-auto space-y-4 pb-6">
-              <div className="text-center text-xl font-bold" style={{ color: C.gold }}>💘 村人陣営の勝利!</div>
-              {!confessionResult && !confessionTarget && (
-                <div className="space-y-3">
-                  <p className="text-sm text-center" style={{ color: C.textMuted }}>生き残った興奮でアドレナリンが止まらない……誰かに気持ちを伝えますか?</p>
-                  <div className="flex flex-wrap gap-2 justify-center">
-                    {players.filter((p) => p.alive && !p.isUser).map((p) => (
-                      <button
-                        key={p.name}
-                        onClick={() => setConfessionTarget(p.name)}
-                        className="px-4 py-2 rounded-full border text-sm font-bold"
-                        style={{ background: C.white, borderColor: C.gold, color: C.gold }}
-                      >
-                        {p.name}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="text-center">
-                    <button onClick={skipConfessionAndFinish} className="text-xs underline" style={{ color: C.textFaint }}>気持ちを伝えず、静かに終える</button>
-                  </div>
-                </div>
-              )}
-
-              {confessionTarget && !confessionResult && (
-                <div className="space-y-2">
-                  <p className="text-sm text-center" style={{ color: C.textMuted }}>{confessionTarget}に気持ちを伝えます。セリフか行動で表現してください。</p>
-                  <textarea
-                    className="w-full rounded-lg px-3 py-2 outline-none border resize-none overflow-y-auto text-sm"
-                    style={{ background: C.white, borderColor: C.borderStrong, color: C.text, minHeight: 70, fontSize: "16px" }}
-                    placeholder="想いを伝える言葉、または行動の描写を入力..."
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    disabled={busy}
-                  />
-                  <div className="flex gap-2">
-                    <button onClick={() => submitConfession(false)} disabled={busy || !input.trim()} className="flex-1 py-2 rounded-lg text-sm font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>💬 セリフで伝える</button>
-                    <button onClick={() => submitConfession(true)} disabled={busy || !input.trim()} className="flex-1 py-2 rounded-lg text-sm font-bold disabled:opacity-50" style={{ background: C.gold, color: C.white }}>🚶 行動で伝える</button>
-                  </div>
-                  <div className="text-center">
-                    <button onClick={() => setConfessionTarget(null)} className="text-xs underline" style={{ color: C.textFaint }}>相手を選び直す</button>
-                  </div>
-                  {busy && <p className="text-xs text-center" style={{ color: C.textFaint }}>……返事を待っています……</p>}
-                </div>
-              )}
-
-              {confessionResult && (
-                <div className="space-y-3 text-center">
-                  <div className="text-lg font-bold" style={{ color: confessionResult.success ? C.gold : C.textMuted }}>
-                    {confessionResult.success ? "💕 成功しました!" : "💔 やんわり断られました……"}
-                  </div>
-                  <button onClick={() => { setConfessionPhaseActive(false); if (pendingFinishWin) actuallyFinishGame(pendingFinishWin); }} className="px-6 py-2 rounded-lg font-bold" style={{ background: C.accent, color: C.white }}>
-                    結末を見る
-                  </button>
-                </div>
-              )}
-            </div>
           )}
 
           {phase === "gameover" && (
