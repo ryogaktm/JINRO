@@ -64,7 +64,7 @@ const RULE_BOX = {
   MADMAN: "**狂人は人狼陣営に洗脳(催眠)をかけられており、本人は自分の正体について何らかの思い込みを持っている(具体的に何を信じ込んでいるかは、その都度プロンプトで個別に指定される。ゲーム開始時は村人・占い師・霊媒師・狩人・共有者のいずれかで、キャラクターによって異なる。「人狼」だという思い込みは、生存者が少なくなった時・本物の人狼と決選投票で対決した時にのみ後から発生する特別な切り替えであり、最初からは発生しない)。この思い込みは絶対に揺るがず、本人には嘘をついている自覚が一切ない。心の底からその役職(または人狼)のつもりで、堂々と自然に振る舞う。処刑されそうになっても『実は狂人です』という告白は、本人がそう思っていないため絶対に起こらない。信じ込んでいる役職に応じて、開き直り方も変わる(占い師だと思っていれば占い師らしく、人狼だと思っていれば人狼らしく)。村側の情報源に対しては、思い込んでいる役職の視点から、しかし結果的に人狼陣営を利する形で行動する。受け身にならず、疑いを他人へそらす、村の議論の主導権を奪う等の工作を1日最低1回は試みる。『優しい』『世話焼き』といった表向きの性格は工作の隠れ蓑として使うものであり、行動しない言い訳にはしない。**対抗COの義務**:占い師・霊媒師・狩人・共有者の単独COに2ターン以内に誰も対抗しなければ、生存している人狼・狂人のうち少なくとも1人は高確率で対抗COを実行する(狂人は自分の思い込みに従った対抗COになる)。序盤の占い師COには特に積極的に偽の対抗をぶつける。**弁明タイムは沈黙する場ではない**:決選投票の弁明タイムは候補者だけの場ではなく、傍観者も割り込んで対抗COや疑義を挟める。**数的優位の逆算**:ゲームが終わっていない限り本物の人狼は最低1人生存している。狂人は自分と相方の生死は把握できる(ただし本物の人狼の生死は分からない)ため、生存者数・確定シロの数から人狼側の残存勢力を推測し、有利な局面ではより積極的・攻撃的に動く。**本物の人狼が全滅すると即座に村人陣営の勝利になる(狂人・寝返ったジョーカーが生き残っていても関係ない、絶対厳守)**。つまり狂人にとって最優先事項は、本物の人狼を生かし続けることである(誰が本物の人狼かは知らないため、直接守ることはできないが、村側の追及の勢いを削ぐ・議論をかき乱す・怪しまれている人物への処刑をためらわせる、といった間接的な形で人狼の生存確率を上げる行動を心がける)。**「人狼」だと思い込んでいる狂人の決選投票での投票行動(重要)**:自分が「人狼」だと思い込んでいる狂人は、決選投票で自分が候補者でない場合(傍観者として投票する場合)、**2人の候補のうち、より疑わしくない(村人らしく見える)方に投票する**。これは「本物の人狼(または仲間)を庇いたい」という思い込みに基づく無意識の行動であり、結果的に本物の人狼が処刑されにくくなるように働く。理由付けは性格に応じて自然な言い方にし、あからさまに人狼を庇っているようには見せない(例:「もう一方の方が根拠が弱い気がする」等、もっともらしい理由をつける)。",
   SHARER: "共有者はペアで正体を知り、確定シロから容疑者範囲を演繹して提示する。",
   HUNTER: "狩人は正体を隠す。処刑寸前のみリスク覚悟でCOする。",
-  JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、その能力を継承するか選べる。**継承のタイミングは役職によって異なる**:占い師・霊媒師は、その役職者が死んだ晩(襲われて能力が流れ込んできた、まさにその晩)から即座に使える。狩人は、その役職者が処刑された場合はその日の晩から使えるが、夜に襲われて死んだ場合は既にその晩の護衛のタイミングを過ぎているため、次の晩からになる。**能力を使った後は、その情報を村のために活かすことを積極的に検討する**:継承した役職として名乗り出て(CO)、得た結果を伝えれば、村の新たな情報源として機能できる。ただし正体を明かせば人狼に狙われるリスクも伴うため、他の役職者と同じようにCO優先度・タイミングを見て判断する。能力を使ったまま黙って情報を抱え込み続けることはせず、状況に応じて名乗り出る動きを取る。**特に霊媒師の力を継承した場合は報告を先延ばしにしすぎない(重要)**:霊媒師の情報は過去の処刑結果についてのものであり、時間が経つほど鮮度と価値が落ちる(村の議論はどんどん先に進んでしまう)。継承してから何日も黙り続けることはせず、比較的早いタイミング(継承した直後〜翌日程度)で名乗り出て結果を共有することを優先的に検討する。",
+  JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、その能力を継承するか選べる。**継承のタイミングは役職・死に方によって異なる**:占い師が処刑された場合、**継承したその場ですぐに新しく誰かを占える(夜を待つ必要がない)**。これによりCOと同時に占い結果も伝えられる。**占い師が夜に人狼に襲われて死んだ場合は、新しく誰かを占うのではなく、死んだ占い師本人がその晩に行った占いの記憶(対象と結果)をそのまま引き継ぐ**(継承した瞬間にその結果を知る)。霊媒師は、死んだ晩から即座に使える。狩人は、処刑された場合はその日の晩から使えるが、夜に襲われて死んだ場合は既にその晩の護衛のタイミングを過ぎているため、次の晩からになる。**能力を使った後は、その情報を村のために活かすことを積極的に検討する**:継承した役職として名乗り出て(CO)、得た結果を伝えれば、村の新たな情報源として機能できる。ただし正体を明かせば人狼に狙われるリスクも伴うため、他の役職者と同じようにCO優先度・タイミングを見て判断する。能力を使ったまま黙って情報を抱え込み続けることはせず、状況に応じて名乗り出る動きを取る。**特に霊媒師の力を継承した場合は報告を先延ばしにしすぎない(重要)**:霊媒師の情報は過去の処刑結果についてのものであり、時間が経つほど鮮度と価値が落ちる(村の議論はどんどん先に進んでしまう)。継承してから何日も黙り続けることはせず、比較的早いタイミング(継承した直後〜翌日程度)で名乗り出て結果を共有することを優先的に検討する。",
   VOTE_SPREAD: "投票は満場一致にしない(2〜3人は別候補)。相性・遺恨を反映する。",
   DEFENSE_PLEA: "処刑寸前の役職者は黙認しない。生き延びることが最優先であり、必ず正体を開示して抵抗する。まだ夜を経験しておらず結果を何も持っていなくても、COすること自体に価値がある(役職者だと分かれば狩人に守ってもらえる可能性が生まれ、生存すれば翌晩以降に能力を使える)。「情報がないから名乗らない」という理由で沈黙したまま処刑を受け入れることは絶対にさせない。一般論での反論だけで終わらせず、必ず具体的な正体開示を選択肢に含める。",
   STRATEGY_BASICS: "基本戦略知識を判断に使う:①対抗COが出ないまま単独COが通った場合、本物である可能性がかなり高いと判断する(NPCもこの推理を口にしてよい)②占い結果と霊媒結果が一致すれば、その情報の信頼度は非常に高い③確定シロの人物には根拠なく投票・疑いを向けない④黙っている人が必ずしも怪しいわけではないが、危機的局面で一言も発しない役職候補者は不自然に見える⑤投票が割れている時は、少数派の意見にも耳を傾ける価値がある。⑥**矛盾した主張への疑いは、発言者が誰であれ平等に適用する**:NPC(村人視点)は、狂人が本気で信じ込んで自信満々に話しているのか、人狼が計算して嘘をついているのかを区別する手段を持たない。誰かの占い・霊媒結果や過去の発言が、他の確定情報や真実の記録と矛盾している場合、それが自信満々な口調で語られていても、村側のNPCは人狼の嘘に対するのと同じ強さで疑うべきである。「堂々と話しているから信頼できる」という判断だけで矛盾を見逃させない。",
@@ -96,23 +96,34 @@ const TAROT_CARDS = ["愚者", "魔術師", "女教皇", "女帝", "皇帝", "�
 // ============================================================
 
 // トークン使用量の概算集計(モジュールレベル、コンポーネント外で保持)
-let tokenTotals = { input: 0, output: 0, calls: 0 };
+let tokenTotals = { input: 0, output: 0, calls: 0, cacheRead: 0, cacheWrite: 0 };
 
 // 直近の通信エラーの内容(デバッグログ・画面表示用)
 let lastApiError = "";
+let lastStopReason = null; // 直近の応答がmax_tokensで打ち切られたかどうかの記録(尻切れJSON対策用)
 
-async function callClaude(systemPrompt, userPrompt, maxTokens = 1200, retries = 3) {
+// cacheablePrefix を渡すと、システムプロンプトの先頭部分(ルール文など、呼び出しをまたいでほぼ変わらない部分)を
+// Anthropic APIのプロンプトキャッシュ対象にする。同じ内容が短時間内に繰り返し送られると、
+// 2回目以降はその部分の入力トークンが約1/10の料金になる(キャッシュ書き込み時は逆にやや割高になる)。
+// 挙動やAIの応答内容には一切影響しない、純粋なコスト最適化。
+async function callClaude(systemPrompt, userPrompt, maxTokens = 1200, retries = 2, cacheablePrefix = null) {
   let lastErr;
   for (let attempt = 0; attempt <= retries; attempt++) {
     let status = 0;
     try {
+      const systemField = cacheablePrefix
+        ? [
+            { type: "text", text: cacheablePrefix, cache_control: { type: "ephemeral" } },
+            { type: "text", text: systemPrompt },
+          ]
+        : systemPrompt;
       const res = await fetch("/api/claude", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "claude-sonnet-5",
           max_tokens: maxTokens,
-          system: systemPrompt,
+          system: systemField,
           messages: [{ role: "user", content: userPrompt }],
         }),
       });
@@ -135,7 +146,12 @@ async function callClaude(systemPrompt, userPrompt, maxTokens = 1200, retries = 
         tokenTotals.input += data.usage.input_tokens || 0;
         tokenTotals.output += data.usage.output_tokens || 0;
         tokenTotals.calls += 1;
+        tokenTotals.cacheRead = (tokenTotals.cacheRead || 0) + (data.usage.cache_read_input_tokens || 0);
+        tokenTotals.cacheWrite = (tokenTotals.cacheWrite || 0) + (data.usage.cache_creation_input_tokens || 0);
       }
+      // stop_reasonが"max_tokens"の場合、AIの応答が指定した上限で強制的に打ち切られている(=途中でJSONが切れている可能性が高い)。
+      // このケースを呼び出し元(callClaudeAutoRetry)が検知できるよう記録しておく。
+      lastStopReason = data.stop_reason || null;
       const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).join("\n");
       if (!text) throw new Error("空の応答");
       return text;
@@ -172,13 +188,21 @@ function parseJSON(text) {
 // callClaude(通信エラー時は内部で3回リトライ済み)を呼んだ上で、
 // ①応答が空だった ②JSONとして解析できなかった 場合も、同じリクエストをもう1回だけ自動でやり直す。
 // これでも失敗した場合のみ呼び出し元にエラーを投げる(ここまで来たら、ユーザーに再操作してもらう)。
-async function callClaudeAutoRetry(systemPrompt, userPrompt, maxTokens, extraAttempts = 1) {
+async function callClaudeAutoRetry(systemPrompt, userPrompt, maxTokens, extraAttempts = 1, cacheablePrefix = null) {
   let lastErr;
+  let currentMaxTokens = maxTokens;
   for (let attempt = 0; attempt <= extraAttempts; attempt++) {
     try {
-      const raw = await callClaude(systemPrompt, userPrompt, maxTokens);
+      // callClaude自体の内部リトライは1回(=最大2回試行)に抑える。ここでの外側のリトライと掛け算になり、
+      // 無駄打ち(特にmax_tokens到達による尻切れの空振り)が何度も積み重なるのを防ぐため。
+      const raw = await callClaude(systemPrompt, userPrompt, currentMaxTokens, 1, cacheablePrefix);
       const parsed = parseJSON(raw);
       if (parsed) return parsed;
+      // JSONとして解析できなかった場合、応答がmax_tokensで打ち切られていた(尻切れ)なら、
+      // 同じ上限のままもう一度試しても同じ結果になりやすいため、次の試行では上限を引き上げる。
+      if (lastStopReason === "max_tokens") {
+        currentMaxTokens = Math.min(Math.round(currentMaxTokens * 1.6), 4096);
+      }
       lastErr = new Error("応答をJSONとして解析できませんでした");
     } catch (e) {
       lastErr = e;
@@ -478,7 +502,9 @@ ${claimsText}
 
 ## 通信状況
 API呼び出し回数: ${tokenTotals.calls} / 入力トークン: ${tokenTotals.input} / 出力トークン: ${tokenTotals.output}
+プロンプトキャッシュ: 読み込み${tokenTotals.cacheRead || 0}トークン(約1/10料金) / 新規書き込み${tokenTotals.cacheWrite || 0}トークン
 直近の通信エラー: ${lastApiError || "なし"}
+直近の応答がmax_tokensで打ち切られたか: ${lastStopReason === "max_tokens" ? "はい(尻切れの可能性)" : "いいえ"}
 
 ## エンディング(振り返り・診断・感想)
 ${endingText}
@@ -499,6 +525,7 @@ ${fullTranscript}
 
   const [nightTarget, setNightTarget] = useState(null);
   const [privateInfo, setPrivateInfo] = useState([]);
+  const [pendingImmediateSeerChoice, setPendingImmediateSeerChoice] = useState(false); // 処刑継承直後、即座に占い先を選ぶUIを出すか
   const [npcSeerLog, setNpcSeerLog] = useState([]); // [{day, seerName, target, result}] NPC占い師の実際の占い結果(真実)
   const [npcGuardLog, setNpcGuardLog] = useState([]); // [{day, hunterName, target, blocked}] NPC狩人の実際の護衛履歴(真実)
   const [npcMediumLog, setNpcMediumLog] = useState([]); // [{day, mediumName, target, result}] NPC霊媒師の実際の霊媒結果(真実)
@@ -530,7 +557,7 @@ ${fullTranscript}
   function toggleExcludedSuspect(name) {
     setExcludedSuspects((prev) => (prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]));
   }
-  const [tokenDisplay, setTokenDisplay] = useState({ input: 0, output: 0, calls: 0 });
+  const [tokenDisplay, setTokenDisplay] = useState({ input: 0, output: 0, calls: 0, cacheRead: 0, cacheWrite: 0 });
 
   // トークン消費の概算をポーリングで反映する(モジュールレベル変数はReact stateではないため)
   useEffect(() => {
@@ -684,8 +711,8 @@ ${fullTranscript}
   async function startGame() {
     const finalName = nameInput.trim() || userName;
     if (!finalName) return; // 名前が未入力の場合は開始しない(ボタン側でも無効化しているが念のため二重にガードする)
-    tokenTotals = { input: 0, output: 0, calls: 0 };
-    setTokenDisplay({ input: 0, output: 0, calls: 0 });
+    tokenTotals = { input: 0, output: 0, calls: 0, cacheRead: 0, cacheWrite: 0 };
+    setTokenDisplay({ input: 0, output: 0, calls: 0, cacheRead: 0, cacheWrite: 0 });
     try {
       window.storage.delete("game_save", false);
     } catch (e) {}
@@ -741,6 +768,7 @@ ${fullTranscript}
     setFavoriteSaved(false);
     setTarotJustAdded(false);
     setPendingMajorityWin(false);
+    setPendingImmediateSeerChoice(false);
     setVoteRound1Tally(null);
     setDefenseCandidates([]);
     setChatMode("class");
@@ -797,9 +825,9 @@ ${fullTranscript}
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
+    const cacheableRules = buildRules(...activeBoxes); // 呼び出しをまたいで変わらない部分。プロンプトキャッシュ対象にする
 
     const system = `あなたは人狼ゲームのゲームマスターです。
-${buildRules(...activeBoxes)}
 このゲームの参加者は合計${players.length}人(プレイヤー1人+NPC${npcs.length}人)です。人数を聞かれたら必ずこの数字で正確に答える(誤った人数を言わせない)。
 **公開情報(全員が知っているゲームのルール)**:この11人の中には、人狼2人・狂人2人・占い師1人・霊媒師1人・狩人1人・共有者2人・ジョーカー1人・村人1人という役職構成が存在します(誰がどれかは誰も知らない)。**ジョーカーも実在する役職の一つとして、NPCの推理・会話の中で時々話題に上ってよいが、必須ではない**。ジョーカーの存在自体を忘れる必要はないが、**「ジョーカーとかいるんだよねー」のような特定の言い回しを毎回繰り返さない**。話題に出す時は表現や文脈を変え、そもそも出さないターンがあってもよい(このゲーム特有の"合言葉"のように定型化させない)。
 **絶対厳守**:役職構成(人狼・狂人・占い師・霊媒師・狩人・共有者・ジョーカー・村人)は、ゲーム開始時から全員が知っている前提のルールである。「ジョーカーって何?」「そのルールこのゲームにあったっけ?」のように、誰かが役職構成そのものの存在を疑ったり知らなかったりする発言は絶対にさせない(これは全員が最初から知っている公開情報であり、忘れる・知らないということはあり得ない)。
@@ -839,7 +867,7 @@ ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
     const userPrompt = `これまでの会話:\n${transcript}\n\n直前のプレイヤー発言:「${userMsg}」\n\nNPCの反応を生成してください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 1100);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 1500, 1, cacheableRules);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -889,9 +917,9 @@ ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
+    const cacheableRules = buildRules(...activeBoxes);
 
     const system = `あなたは人狼ゲームのゲームマスターです。
-${buildRules(...activeBoxes)}
 **公開情報(全員が知っているゲームのルール)**:この11人の中には、人狼2人・狂人2人・占い師1人・霊媒師1人・狩人1人・共有者2人・ジョーカー1人・村人1人という役職構成が存在します(誰がどれかは誰も知らない)。役職構成そのものの存在を疑う発言は絶対にさせない。
 ${getGroundTruthBlock()}
 **霊媒師の結果は「人狼だった/人狼ではなかった」の二択のみ(絶対厳守)**:具体的な役職名を名言させない。
@@ -905,7 +933,7 @@ ${getGroundTruthBlock()}
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤー不在のまま、NPCたちの議論を進めてください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 900);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 900, 1, cacheableRules);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -939,9 +967,9 @@ ${getGroundTruthBlock()}
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
+    const cacheableRules = buildRules(...activeBoxes);
 
     const system = `あなたは人狼ゲームのゲームマスターです。
-${buildRules(...activeBoxes)}
 ${getGroundTruthBlock()}
 各NPCのプレイヤー(${userName})への好感度(0〜100、内部数値。プレイヤーには絶対見せない):
 ${npcs.map((n) => `${n.name}: ${npcAffinity[n.name] ?? 50}`).join("、")}
@@ -956,7 +984,7 @@ GMとして、この行動の結果(何が見えた・分かったか)を地の�
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーの行動:「${actionText}」\n\nこの行動の結果を描写してください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 500);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 500, 1, cacheableRules);
       if (parsed?.narration) {
         addLog([{ type: "system", text: parsed.narration }]);
       }
@@ -1004,9 +1032,9 @@ GMとして、この行動の結果(何が見えた・分かったか)を地の�
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
+    const cacheableRules = buildRules(...activeBoxes);
 
     const system = `あなたは人狼ゲームのゲームマスターです。
-${buildRules(...activeBoxes)}
 ${getGroundTruthBlock()}
 プレイヤー「${userName}」は今回、あえて何も発言・行動しませんでした(沈黙)。
 これを受けて、生存NPC(${npcs.map((n) => n.name).join("、")})のうち0〜3人が自然に短く反応・会話を続けてください(プレイヤーの沈黙に触れても触れなくてもよい。誰も反応しなくてもよい)。
@@ -1016,7 +1044,7 @@ ${getGroundTruthBlock()}
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーは沈黙しています。NPCの反応を生成してください(反応がなければ空配列でよい)。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 500);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 500, 1, cacheableRules);
       if (parsed?.lines?.length) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -1090,8 +1118,8 @@ JSON形式のみ: {"text":"セリフ"}`;
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
+    const cacheableRules = buildRules(...activeBoxes);
     const system = `あなたは人狼ゲームのGMです。
-${buildRules(...activeBoxes)}
 ${getGroundTruthBlock()}
 決選投票中、プレイヤー「${userName}」が自ら弁明・反論を述べました。生存NPC(${npcs.map((n) => n.name).join("、")})のうち2〜3人が短く反応してください。この弁明が説得力を持てば態度を軟化させ、弱ければ引き続き疑いを見せてよい(不当に必ず信じさせない)。
 絶対厳守:speakerに「${userName}」を使わない。
@@ -1099,7 +1127,7 @@ ${getGroundTruthBlock()}
 JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\nプレイヤーの弁明:「${msg}」\n\nNPCの反応を生成してください。`;
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 600);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 600, 1, cacheableRules);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -1196,8 +1224,8 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaim
     const tasks = groups.map((g) => async () => {
       const isWolfSide = g.npcs.some((p) => isWolfTeamNPC(p));
       const knowledgeLines = g.npcs.map((p) => getNPCOwnKnowledge(p, delusionsOverride)).join("\n");
+      const cacheableRules = buildRules(...g.boxes); // グループごとの箱の組み合わせは固定なので、キャッシュがよく効く
       const system = `あなたは人狼ゲームのGMです。今は「${g.label}」グループのNPCの投票だけを決めます。
-${buildRules(...g.boxes)}
 **このプロンプトには、このグループのNPCが実際に知っている情報しか書かれていません。他のグループの誰が何の役職かは一切分かりません。**
 各NPCが知っていること(**各NPCは自分の行に書かれたことと公開情報だけを知っている**。同じグループの相方の行は、その相方とペアである場合のみ共有される):
 ${knowledgeLines}
@@ -1208,7 +1236,7 @@ ${isWolfSide ? `**人狼陣営の投票方針**:本物の人狼が全滅すれ�
 理由も短く。絶対厳守:votesにプレイヤー「${userName}」を含めない。上記のNPC以外の名前もvoterに使わない。
 JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短い理由"}]}`;
       try {
-        const parsed = await callClaudeAutoRetry(system, `これまでの会話:\n${transcriptText}\n\n各NPCの投票先を決めてください。`, maxTokens);
+        const parsed = await callClaudeAutoRetry(system, `これまでの会話:\n${transcriptText}\n\n各NPCの投票先を決めてください。`, maxTokens, 1, cacheableRules);
         return (parsed?.votes || []).filter((v) => g.npcs.some((p) => p.name === v.voter));
       } catch (e) {
         return null; // このグループだけ失敗(他のグループの票は活かす)
@@ -1241,7 +1269,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         voteLabel: `${day}日目の1回目投票。${userIsAlive ? `プレイヤーは「${voteTarget}」に投票済み。` : "プレイヤーは既に死亡しており投票権がない。"}`,
         targetsHint: "投票先は生存者の中から選ぶ(自分自身には投票しない)。",
         wolfExtraNote: "",
-        maxTokens: 900,
+        maxTokens: 1300,
         transcriptText: transcript,
       });
       const tally = userIsAlive ? { [voteTarget]: 1 } : {};
@@ -1307,8 +1335,8 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
     const bystanders = otherAliveNPCs().filter((p) => !candidates.includes(p.name));
     const transcript = getTranscript();
     const activeBoxes = ["CORE", "DEFENSE_PLEA", ...relevantBoxesForAliveRoles(alivePlayers()).filter((b) => b !== "CORE" && b !== "SHARER")];
+    const cacheableRules = buildRules(...activeBoxes);
     const system = `あなたは人狼ゲームのGMです。
-${buildRules(...activeBoxes)}
 決選投票候補(NPCのみ。プレイヤー「${userName}」自身が候補の場合、プレイヤーの弁明は本人が書くのでここでは絶対に生成しない):\n${candidateInfo}
 その他の生存NPC(傍観者、候補ではない): ${bystanders.map((p) => p.name).join("、") || "なし"}
 ${getGroundTruthBlock({ delusionsOverride })}
@@ -1319,11 +1347,11 @@ ${getGroundTruthBlock({ delusionsOverride })}
 JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\n弁明タイムのセリフを生成してください(各候補1〜2回発言。傍観者の割り込みがあれば含める)。`;
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 1200);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 1700, 1, cacheableRules);
       let npcOnly = (parsed?.lines || []).filter((l) => l.speaker !== userName);
       if (npcOnly.length === 0) {
         // 生成結果が空(全てプレイヤー名義で除外された等)だった場合、もう一度だけ試す
-        const parsed2 = await callClaudeAutoRetry(system, userPrompt + "\n\n(前回は有効なセリフが得られませんでした。必ずNPCのセリフを生成してください)", 1200);
+        const parsed2 = await callClaudeAutoRetry(system, userPrompt + "\n\n(前回は有効なセリフが得られませんでした。必ずNPCのセリフを生成してください)", 1700, 1, cacheableRules);
         npcOnly = (parsed2?.lines || []).filter((l) => l.speaker !== userName);
       }
       if (npcOnly.length > 0) {
@@ -1354,9 +1382,9 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaim
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
+    const cacheableRules = buildRules(...activeBoxes);
 
     const system = `あなたは人狼ゲームのGMです。
-${buildRules(...activeBoxes)}
 ${getGroundTruthBlock()}
 決選投票の弁明タイム中。候補は${defenseCandidates.join("・")}。プレイヤー「${userName}」が弁明を聞いた上で${isAction ? "行動を取りました(セリフではなく仕草・観察等)" : "発言しました"}。
 **最重要**:これは会話ログの一番最後にある、プレイヤーの直前の発言・行動への反応である。それより前のやり取り(弁明の内容そのもの等)に今さら反応するのではなく、**今まさに起きたプレイヤーの発言・行動に対して**反応すること。時系列を混同しない。
@@ -1367,7 +1395,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\nプレイヤーの${isAction ? "行動" : "発言"}:「${msg}」\n\n反応を生成してください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 700);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 700, 1, cacheableRules);
       if (isAction && parsed?.narration) {
         addLog([{ type: "system", text: parsed.narration }]);
       }
@@ -1395,7 +1423,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
         voteLabel: `決選投票。候補は${defenseCandidates.join("・")}の2名のみ。${userIsAlive ? `プレイヤーは「${voteTarget}」に投票済み。` : "プレイヤーは既に死亡しており投票権がない。"}`,
         targetsHint: `targetは${defenseCandidates.join("か")}のどちらか(候補者本人は自分以外の候補に投票)。相性・遺恨も反映。`,
         wolfExtraNote: "**重要**:村側の有力な情報源(CO済みの占い師・霊媒師・狩人・確定シロ等)が候補にいれば、そちらへ票を集める。自陣営(本物の人狼)が候補なら、もう一方の候補に票を入れて本物の人狼を守る。",
-        maxTokens: 700,
+        maxTokens: 1100,
         transcriptText: transcript.split("\n").slice(-40).join("\n"),
       });
       const tally = { [defenseCandidates[0]]: 0, [defenseCandidates[1]]: 0 };
@@ -1425,6 +1453,27 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
 
       const jokerResult = triggerJokerAwakeningIfNeeded(execPlayer, updated);
       if (jokerResult.line) addLog([jokerResult.line]);
+
+      // NPCジョーカーが処刑によって占い師を継承した場合、次の夜を待たず、この場で即座に誰かを占わせる
+      // (継承直後にCOと結果を同時に出せるようにするため)。
+      if (jokerResult.newlyInherited === "占い師") {
+        const newJoker = updated.find((p) => p.role === "ジョーカー" && p.alive && !p.isUser);
+        if (newJoker) {
+          const pool = updated.filter((p) => p.alive && p.name !== newJoker.name && p.name !== executed && !confirmedWhite.includes(p.name)).map((p) => p.name);
+          const finalPool = pool.length > 0 ? pool : updated.filter((p) => p.alive && p.name !== newJoker.name && p.name !== executed).map((p) => p.name);
+          if (finalPool.length > 0) {
+            const suspicion = await getSuspicionWeights(finalPool, "ジョーカーが処刑継承直後に占う相手");
+            const weighted = {};
+            const uniformShare = 100 / finalPool.length;
+            finalPool.forEach((n) => (weighted[n] = (suspicion[n] ?? uniformShare) * 0.55 + uniformShare * 0.45));
+            const targetName = weightedPick(weighted) || pickRandom(finalPool);
+            const targetPlayer = updated.find((p) => p.name === targetName);
+            const result = targetPlayer.role === "人狼" ? "人狼" : targetPlayer.role === "ジョーカー" ? "ジョーカーである" : "人狼ではない";
+            setNpcSeerLog((prev) => [...prev, { day, seerName: newJoker.name, target: targetName, result, reason: suspicion.__topReason || "" }]);
+            setNpcJokerState((prev) => ({ ...prev, abilityUsed: true }));
+          }
+        }
+      }
 
       // 霊媒師の結果は「真実の記録」として静かに保持するだけにする(強制的に登場させない)。
       // 他の役職と同じく、COするかどうかは会話の流れの中でNPC自身の判断に委ねる。
@@ -1584,27 +1633,18 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     const deadThisNight = wolfTarget && !attackBlocked ? updated.find((p) => p.name === wolfTarget) : null;
     let bonusSeerLogEntry = null;
     if (deadThisNight) {
-      const jokerResult = triggerJokerAwakeningIfNeeded(deadThisNight, updated);
+      const jokerResult = triggerJokerAwakeningIfNeeded(deadThisNight, updated, newSeerLogEntry);
       if (jokerResult.line) nightLines.push(jokerResult.line);
-      // 占い師の力を継承した場合、襲われて能力が流れ込んできたその晩から使える(狩人は既にこの晩の護衛タイミングを過ぎているため対象外)。
-      // Reactの状態更新は次の描画まで反映されないため、ここではローカルの返り値(jokerResult.newlyInherited)を根拠に、
-      // 継承したその晩のうちに占い先を決める処理を追加で行う。
+      // 占い師が夜に人狼に殺された場合、ジョーカーは「新しく誰かを占う」のではなく、
+      // 死んだ占い師本人が"その晩"に行った占いの記憶(対象と結果)をそのまま引き継ぐ。
+      // これは占い師自身の占い判定(このresolveNight関数の中で既に上で実行済み)の結果である
+      // newSeerLogEntry(ローカル変数、まだsetNpcSeerLogでコミットされていない)を、
+      // ジョーカーの名前でも重複して記録することで実現する。新しい占い先を選び直す処理は行わない。
       if (jokerResult.newlyInherited === "占い師") {
         const newJoker = updated.find((p) => p.role === "ジョーカー" && p.alive && !p.isUser);
-        if (newJoker) {
-          const pool = alive.filter((p) => p.name !== newJoker.name && p.name !== deadThisNight.name && !confirmedWhite.includes(p.name)).map((p) => p.name);
-          const finalPool = pool.length > 0 ? pool : alive.filter((p) => p.name !== newJoker.name && p.name !== deadThisNight.name).map((p) => p.name);
-          if (finalPool.length > 0) {
-            const suspicion = await getSuspicionWeights(finalPool, "ジョーカーが継承したその晩に占う相手");
-            const weighted = {};
-            const uniformShare = 100 / finalPool.length;
-            finalPool.forEach((n) => (weighted[n] = (suspicion[n] ?? uniformShare) * 0.55 + uniformShare * 0.45));
-            const targetName = weightedPick(weighted) || pickRandom(finalPool);
-            const targetPlayer = updated.find((p) => p.name === targetName);
-            const result = targetPlayer.role === "人狼" ? "人狼" : targetPlayer.role === "ジョーカー" ? "ジョーカーである" : "人狼ではない";
-            bonusSeerLogEntry = { day, seerName: newJoker.name, target: targetName, result, reason: suspicion.__topReason || "" };
-            setNpcJokerState((prev) => ({ ...prev, abilityUsed: true }));
-          }
+        if (newJoker && newSeerLogEntry) {
+          bonusSeerLogEntry = { ...newSeerLogEntry, seerName: newJoker.name, inheritedFrom: deadThisNight.name };
+          setNpcJokerState((prev) => ({ ...prev, abilityUsed: true }));
         }
       }
     }
@@ -1969,7 +2009,7 @@ ${guardLogText}
   }
 
   // 村人陣営役職者の死亡(夜の襲撃・処刑の両方)を受けて、ジョーカー(プレイヤー or NPC)の覚醒を判定する共通処理
-  function triggerJokerAwakeningIfNeeded(deadPerson, currentPlayers) {
+  function triggerJokerAwakeningIfNeeded(deadPerson, currentPlayers, inheritedSeerInfo = null) {
     if (!deadPerson || !["占い師", "霊媒師", "狩人"].includes(deadPerson.role)) return { line: null, newlyInherited: null };
     const joker = currentPlayers.find((p) => p.role === "ジョーカー" && p.alive);
     if (!joker) return { line: null, newlyInherited: null };
@@ -1981,7 +2021,9 @@ ${guardLogText}
       }
       // 既に能力を継承済み(使用済みかどうかは問わない)なら、これ以降は「どの役職か」だけ分かり、継承の選択肢はもう出さない
       if (!jokerState.abilityBank) {
-        setJokerState((prev) => ({ ...prev, pendingInheritance: { role: deadPerson.role } }));
+        // 占い師が夜に人狼に殺された場合、死んだ占い師本人がその晩に行った占いの記憶(対象・結果)を
+        // 継承候補データに含めておく。承諾した瞬間、新しく占い直す必要なくその結果をそのまま知ることができる。
+        setJokerState((prev) => ({ ...prev, pendingInheritance: { role: deadPerson.role, inheritedSeerInfo: deadPerson.role === "占い師" ? inheritedSeerInfo : null } }));
         return {
           newlyInherited: null, // プレイヤーは選択制のため、この場では確定しない(承諾すれば決選のUIから即座に反映される)
           line: {
@@ -2018,12 +2060,44 @@ ${guardLogText}
   function decideInheritance(accept) {
     if (!jokerState.pendingInheritance) return;
     if (accept) {
-      setJokerState((prev) => ({ ...prev, abilityBank: prev.pendingInheritance.role, abilityUsed: false, pendingInheritance: null }));
-      addLog([{ type: "system", text: `🃏 あなたは${jokerState.pendingInheritance.role}の力を継承しました。今夜から使えます。` }]);
+      const role = jokerState.pendingInheritance.role;
+      const inherited = jokerState.pendingInheritance.inheritedSeerInfo;
+      if (role === "占い師" && !inherited) {
+        // 処刑によって占い師を継承した場合:新しく占い直す必要があるが、次の夜まで待たせない。
+        // 継承した瞬間(今この場)に、占う相手を選んでもらうUIへ進む。
+        setJokerState((prev) => ({ ...prev, abilityBank: role, abilityUsed: false, pendingInheritance: null }));
+        addLog([{ type: "system", text: "🃏 あなたは占い師の力を継承しました。すぐに誰かを占うことができます。" }]);
+        setPendingImmediateSeerChoice(true);
+        return;
+      }
+      setJokerState((prev) => ({ ...prev, abilityBank: role, abilityUsed: !!inherited, pendingInheritance: null }));
+      if (inherited) {
+        // 占い師が夜に人狼へ殺された場合:新しく誰かを占うのではなく、死んだ占い師本人がその晩に行った
+        // 占いの記憶をそのまま受け継ぐ(対象・結果は変わらない)。継承した瞬間に分かる。
+        // ★ npcSeerLog(AIへの真実データ)には追加しない:「seerName」にプレイヤー名を入れてしまうと、
+        //   プレイヤーがこの力を持っていることがNPC側のAIに漏れてしまう(プレイヤーの正体は本人だけが知る情報のため)。
+        //   この情報はプレイヤー自身への通知に留め、公表するかどうかは会話の中でプレイヤー自身が選ぶ。
+        addLog([
+          { type: "system", text: `🃏 あなたは占い師の力を継承しました。それと同時に、${inherited.seerName}が今夜${inherited.target}を占っていた記憶が流れ込んでくる……結果は「${inherited.result}」。` },
+        ]);
+      } else {
+        addLog([{ type: "system", text: `🃏 あなたは${role}の力を継承しました。今夜から使えます。` }]);
+      }
     } else {
       setJokerState((prev) => ({ ...prev, pendingInheritance: null }));
       addLog([{ type: "system", text: "あなたはこの力を継承しないことを選びました。" }]);
     }
+  }
+
+  // 処刑継承による即時の占い先選択。結果はその場で私的情報として分かる(公表するかは本人の判断)。
+  function chooseImmediateSeerTarget(targetName) {
+    setPendingImmediateSeerChoice(false);
+    const target = players.find((p) => p.name === targetName);
+    if (!target) return;
+    const result = target.role === "人狼" ? "人狼" : target.role === "ジョーカー" ? "ジョーカーである" : "人狼ではない";
+    setJokerState((prev) => ({ ...prev, abilityUsed: true }));
+    setPrivateInfo((prev) => [...prev, `【占い結果】${targetName}は「${result}」`]);
+    addLog([{ type: "system", text: `🃏 あなたは${targetName}を占った。結果は「${result}」。` }]);
   }
 
   function checkWin(list, overrides = {}) {
@@ -2561,12 +2635,30 @@ JSON形式のみ: {"text":"回答"}`;
               <div className="rounded-lg p-3 space-y-2 border" style={{ background: "#EDE0D8", borderColor: C.gold }}>
                 <div className="text-xs font-bold" style={{ color: C.gold }}>能力継承の選択肢</div>
                 <div className="text-xs" style={{ color: C.text }}>
-                  役職者({jokerState.pendingInheritance.role})の力を継承しますか?
-                  一度きりの選択で、選べば今夜から使えます。
+                  役職者({jokerState.pendingInheritance.role})の力を継承しますか?一度きりの選択です。
+                  {jokerState.pendingInheritance.role === "占い師" ? "継承すればすぐに占うことができます。" : "選べば今夜から使えます。"}
                 </div>
                 <div className="flex gap-2">
                   <button onClick={() => decideInheritance(true)} className="flex-1 py-1.5 rounded text-xs font-bold" style={{ background: C.gold, color: C.white }}>継承する</button>
                   <button onClick={() => decideInheritance(false)} className="flex-1 py-1.5 rounded text-xs font-bold" style={{ background: C.white, color: C.textMuted, border: `1px solid ${C.borderStrong}` }}>継承しない</button>
+                </div>
+              </div>
+            )}
+
+            {user?.role === "ジョーカー" && pendingImmediateSeerChoice && (
+              <div className="rounded-lg p-3 space-y-2 border" style={{ background: "#EDE0D8", borderColor: C.gold }}>
+                <div className="text-xs font-bold" style={{ color: C.gold }}>占う相手を選んでください</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {players.filter((p) => p.alive && !p.isUser).map((p) => (
+                    <button
+                      key={p.name}
+                      onClick={() => chooseImmediateSeerTarget(p.name)}
+                      className="px-2.5 py-1 rounded-full border text-xs font-bold"
+                      style={{ background: C.white, borderColor: C.gold, color: C.gold }}
+                    >
+                      {p.name}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
@@ -2642,6 +2734,9 @@ JSON形式のみ: {"text":"回答"}`;
               <div>呼び出し回数: {tokenDisplay.calls}回</div>
               <div>入力トークン: 約{tokenDisplay.input.toLocaleString()}</div>
               <div>出力トークン: 約{tokenDisplay.output.toLocaleString()}</div>
+              {(tokenDisplay.cacheRead > 0 || tokenDisplay.cacheWrite > 0) && (
+                <div>キャッシュ節約: 約{(tokenDisplay.cacheRead || 0).toLocaleString()}トークン分(約1/10料金)</div>
+              )}
             </div>
 
             <button
