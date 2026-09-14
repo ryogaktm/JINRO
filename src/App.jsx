@@ -153,7 +153,11 @@ async function callClaude(systemPrompt, userPrompt, maxTokens = 1200, retries = 
       // このケースを呼び出し元(callClaudeAutoRetry)が検知できるよう記録しておく。
       lastStopReason = data.stop_reason || null;
       const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).join("\n");
-      if (!text) throw new Error("空の応答");
+      if (!text) {
+        // 診断のため、なぜ空になったのかの手がかりを残す(stop_reason、contentの構造、usage)
+        const contentTypes = (data.content || []).map((b) => b.type).join(",") || "なし";
+        throw new Error(`空の応答(stop_reason: ${data.stop_reason || "不明"}, content種別: ${contentTypes}, 出力トークン: ${data.usage?.output_tokens ?? "不明"})`);
+      }
       return text;
     } catch (e) {
       lastErr = e;
@@ -201,7 +205,7 @@ async function callClaudeAutoRetry(systemPrompt, userPrompt, maxTokens, extraAtt
       // JSONとして解析できなかった場合、応答がmax_tokensで打ち切られていた(尻切れ)なら、
       // 同じ上限のままもう一度試しても同じ結果になりやすいため、次の試行では上限を引き上げる。
       if (lastStopReason === "max_tokens") {
-        currentMaxTokens = Math.min(Math.round(currentMaxTokens * 1.6), 4096);
+        currentMaxTokens = Math.min(Math.round(currentMaxTokens * 1.8), 8000);
       }
       lastErr = new Error("応答をJSONとして解析できませんでした");
     } catch (e) {
@@ -867,7 +871,7 @@ ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
     const userPrompt = `これまでの会話:\n${transcript}\n\n直前のプレイヤー発言:「${userMsg}」\n\nNPCの反応を生成してください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 1500, 1, cacheableRules);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 2600, 1, cacheableRules);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -933,7 +937,7 @@ ${getGroundTruthBlock()}
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤー不在のまま、NPCたちの議論を進めてください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 900, 1, cacheableRules);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 1600, 1, cacheableRules);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -984,7 +988,7 @@ GMとして、この行動の結果(何が見えた・分かったか)を地の�
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーの行動:「${actionText}」\n\nこの行動の結果を描写してください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 500, 1, cacheableRules);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 900, 1, cacheableRules);
       if (parsed?.narration) {
         addLog([{ type: "system", text: parsed.narration }]);
       }
@@ -1044,7 +1048,7 @@ ${getGroundTruthBlock()}
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーは沈黙しています。NPCの反応を生成してください(反応がなければ空配列でよい)。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 500, 1, cacheableRules);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 900, 1, cacheableRules);
       if (parsed?.lines?.length) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -1127,7 +1131,7 @@ ${getGroundTruthBlock()}
 JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\nプレイヤーの弁明:「${msg}」\n\nNPCの反応を生成してください。`;
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 600, 1, cacheableRules);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 1100, 1, cacheableRules);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -1269,7 +1273,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         voteLabel: `${day}日目の1回目投票。${userIsAlive ? `プレイヤーは「${voteTarget}」に投票済み。` : "プレイヤーは既に死亡しており投票権がない。"}`,
         targetsHint: "投票先は生存者の中から選ぶ(自分自身には投票しない)。",
         wolfExtraNote: "",
-        maxTokens: 1300,
+        maxTokens: 1800,
         transcriptText: transcript,
       });
       const tally = userIsAlive ? { [voteTarget]: 1 } : {};
@@ -1347,11 +1351,11 @@ ${getGroundTruthBlock({ delusionsOverride })}
 JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\n弁明タイムのセリフを生成してください(各候補1〜2回発言。傍観者の割り込みがあれば含める)。`;
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 1700, 1, cacheableRules);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 2600, 1, cacheableRules);
       let npcOnly = (parsed?.lines || []).filter((l) => l.speaker !== userName);
       if (npcOnly.length === 0) {
         // 生成結果が空(全てプレイヤー名義で除外された等)だった場合、もう一度だけ試す
-        const parsed2 = await callClaudeAutoRetry(system, userPrompt + "\n\n(前回は有効なセリフが得られませんでした。必ずNPCのセリフを生成してください)", 1700, 1, cacheableRules);
+        const parsed2 = await callClaudeAutoRetry(system, userPrompt + "\n\n(前回は有効なセリフが得られませんでした。必ずNPCのセリフを生成してください)", 2600, 1, cacheableRules);
         npcOnly = (parsed2?.lines || []).filter((l) => l.speaker !== userName);
       }
       if (npcOnly.length > 0) {
@@ -1395,7 +1399,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\nプレイヤーの${isAction ? "行動" : "発言"}:「${msg}」\n\n反応を生成してください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 700, 1, cacheableRules);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 1300, 1, cacheableRules);
       if (isAction && parsed?.narration) {
         addLog([{ type: "system", text: parsed.narration }]);
       }
@@ -1423,7 +1427,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
         voteLabel: `決選投票。候補は${defenseCandidates.join("・")}の2名のみ。${userIsAlive ? `プレイヤーは「${voteTarget}」に投票済み。` : "プレイヤーは既に死亡しており投票権がない。"}`,
         targetsHint: `targetは${defenseCandidates.join("か")}のどちらか(候補者本人は自分以外の候補に投票)。相性・遺恨も反映。`,
         wolfExtraNote: "**重要**:村側の有力な情報源(CO済みの占い師・霊媒師・狩人・確定シロ等)が候補にいれば、そちらへ票を集める。自陣営(本物の人狼)が候補なら、もう一方の候補に票を入れて本物の人狼を守る。",
-        maxTokens: 1100,
+        maxTokens: 1600,
         transcriptText: transcript.split("\n").slice(-40).join("\n"),
       });
       const tally = { [defenseCandidates[0]]: 0, [defenseCandidates[1]]: 0 };
