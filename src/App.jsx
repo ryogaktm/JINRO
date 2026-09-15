@@ -325,6 +325,10 @@ ${groundTruth ? `以下はこのゲームの内部真実データです。校閲
 }
 
 
+// ★課金機能を一時的に無効化中。再開する時はこれをtrueに戻すだけでよい
+// (startGame内のクレジット消費チェックも別途コメントアウトしてあるので、そちらも一緒に戻すこと)
+const CREDIT_SYSTEM_ENABLED = false;
+
 export default function JinroGame() {
   const [phase, setPhase] = useState("setup");
   const [day, setDay] = useState(1);
@@ -341,6 +345,163 @@ export default function JinroGame() {
   const [nameInput, setNameInput] = useState("");
   const [voteRound1Tally, setVoteRound1Tally] = useState(null);
   const [discussionTurns, setDiscussionTurns] = useState(0);
+
+  // ============================================================
+  // クレジット(課金)システム(スタンドアロン版のみ)。
+  // 端末ごとの簡易ID(ログイン不要)でクレジット残高をサーバー側(Redis)に持たせ、
+  // 1プレイにつき1クレジット消費する。/api/create-checkout・/api/consume-credit・/api/check-credits と連動する。
+  // ============================================================
+  const [deviceId, setDeviceId] = useState("");
+  const [credits, setCredits] = useState(null); // nullは未取得(確認中)
+  const [creditsLoading, setCreditsLoading] = useState(true);
+  const [purchaseNotice, setPurchaseNotice] = useState(null); // "success" | "cancel" | null
+  const [insufficientCredits, setInsufficientCredits] = useState(false); // 残高不足でゲーム開始をブロックしている状態
+  const [isAdminMode, setIsAdminMode] = useState(false); // URLに ?admin=1 が付いている時だけtrue(開発者専用)
+  const [adminSecretInput, setAdminSecretInput] = useState("");
+  const [showDebugLogViewer, setShowDebugLogViewer] = useState(false);
+  const [debugLogList, setDebugLogList] = useState([]);
+
+  useEffect(() => {
+    let id = localStorage.getItem("jinro_device_id");
+    if (!id) {
+      id = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+      localStorage.setItem("jinro_device_id", id);
+    }
+    setDeviceId(id);
+
+    // Stripe決済から戻ってきた場合の通知(URLに?purchase=success/cancelが付く)
+    const params = new URLSearchParams(window.location.search);
+    const purchase = params.get("purchase");
+    if (purchase === "success" || purchase === "cancel") {
+      setPurchaseNotice(purchase);
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+    // 開発者用パネル(URLに ?admin=1 を付けた時だけ表示。URLは書き換えずそのままにしておく)
+    if (params.get("admin") === "1") {
+      setIsAdminMode(true);
+    }
+
+    (async () => {
+      try {
+        const res = await fetch(`/api/check-credits?deviceId=${encodeURIComponent(id)}`);
+        const data = await res.json();
+        setCredits(typeof data.credits === "number" ? data.credits : 0);
+      } catch (e) {
+        setCredits(0);
+      } finally {
+        setCreditsLoading(false);
+      }
+    })();
+  }, []);
+
+  async function refreshCredits() {
+    if (!deviceId) return;
+    try {
+      const res = await fetch(`/api/check-credits?deviceId=${encodeURIComponent(deviceId)}`);
+      const data = await res.json();
+      setCredits(typeof data.credits === "number" ? data.credits : 0);
+    } catch (e) {
+      // 取得失敗時は既存の表示のままにしておく
+    }
+  }
+
+  async function startPurchase() {
+    try {
+      const res = await fetch("/api/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deviceId }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        addLog([{ type: "system", text: `決済ページの作成に失敗しました。(${data.error || "原因不明"})` }]);
+      }
+    } catch (e) {
+      addLog([{ type: "system", text: "決済ページの作成に失敗しました。通信環境を確認してください。" }]);
+    }
+  }
+
+  // クレジットを1消費する。成功すればtrue、残高不足等で失敗すればfalseを返す。
+  async function tryConsumeCredit() {
+    try {
+      const res = await fetch("/api/consume-credit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deviceId }),
+      });
+      if (res.status === 402) {
+        setCredits(0);
+        setInsufficientCredits(true);
+        return false;
+      }
+      if (!res.ok) {
+        // サーバー側の一時的な不調時は、プレイヤーを止めないためゲーム続行を優先する(fail-open)
+        return true;
+      }
+      const data = await res.json();
+      setCredits(typeof data.credits === "number" ? data.credits : 0);
+      return true;
+    } catch (e) {
+      // 通信エラー時も同様にfail-openとする
+      return true;
+    }
+  }
+
+  async function grantTestCredits() {
+    try {
+      const res = await fetch("/api/add-test-credits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deviceId, secret: adminSecretInput, amount: 10 }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCredits(data.credits);
+        setInsufficientCredits(false);
+      } else {
+        addLog([{ type: "system", text: `テストクレジットの付与に失敗しました。(${data.error || "原因不明"})` }]);
+      }
+    } catch (e) {
+      addLog([{ type: "system", text: "テストクレジットの付与に失敗しました。通信環境を確認してください。" }]);
+    }
+  }
+
+  async function openDebugLogViewer() {
+    setShowDebugLogViewer(true);
+    try {
+      const res = await fetch(`/api/list-debug-logs?secret=${encodeURIComponent(adminSecretInput)}`);
+      const data = await res.json();
+      if (res.ok) {
+        setDebugLogList(data.logs || []);
+      } else {
+        addLog([{ type: "system", text: `ログ一覧の取得に失敗しました。(${data.error || "原因不明"})` }]);
+      }
+    } catch (e) {
+      addLog([{ type: "system", text: "ログ一覧の取得に失敗しました。通信環境を確認してください。" }]);
+    }
+  }
+
+  async function downloadSavedDebugLog(key) {
+    try {
+      const res = await fetch(`/api/get-debug-log?key=${encodeURIComponent(key)}&secret=${encodeURIComponent(adminSecretInput)}`);
+      const data = await res.json();
+      if (!res.ok) {
+        addLog([{ type: "system", text: `ダウンロードに失敗しました。(${data.error || "原因不明"})` }]);
+        return;
+      }
+      const blob = new Blob([data.content || ""], { type: "text/markdown;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${key.replace("debuglog:", "jinro_debug_")}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      addLog([{ type: "system", text: "ダウンロードに失敗しました。通信環境を確認してください。" }]);
+    }
+  }
 
   // デバッグ・繰り返しプレイのため、名前と性別を永続化ストレージから読み込む(個人用・非共有)
   useEffect(() => {
@@ -388,7 +549,7 @@ export default function JinroGame() {
 
   // ゲーム進行を都度、永続化ストレージに自動保存する(閉じても続きから遊べるように)
   useEffect(() => {
-    if (phase === "setup" || players.length === 0) return;
+    if (phase === "setup" || phase === "gameover" || players.length === 0) return;
     const snapshot = {
       phase, day, players, compatMap, log, turnLabel, discussionTurns,
       voteRound1Tally, defenseCandidates, voteTarget, nightTarget,
@@ -460,7 +621,7 @@ export default function JinroGame() {
   }
 
   // デバッグ用:全会話ログ・役職・真実の記録をファイルとしてダウンロードする(チャットに直接貼らずに済むように)
-  function copyDebugLog() {
+  function buildDebugLogText() {
     const rosterInfo = players.map((p) => {
       const defectedTag = p.role === "ジョーカー" && ((p.isUser && jokerState.defected) || (!p.isUser && npcJokerState.defected)) ? "・人狼側へ寝返っていた" : "";
       return `${p.name}(${p.age}歳・${p.personality}・${p.club}) 役職:${p.role}${defectedTag} 生存:${p.alive}${p.isUser ? " ←プレイヤー" : ""}`;
@@ -485,7 +646,7 @@ export default function JinroGame() {
       ? `タロットカード: ${ending.tarotName || "(なし)"}\n診断説明: ${ending.diagnosis || "(なし)"}\n運勢:\n${fortunesText}\n振り返り: ${ending.review || "(なし)"}\n感想:\n${(ending.comments || []).map((c) => `${c.speaker}: ${c.text}`).join("\n") || "(なし)"}`
       : "(エンディング未生成、またはゲーム進行中)";
 
-    const content = `# 人狼ゲーム デバッグログ
+    return `# 人狼ゲーム デバッグログ
 生成日時: ${new Date().toLocaleString("ja-JP")}
 現在: ${day}日目 / フェーズ:${phase} / ターン:${turnLabel}
 
@@ -522,6 +683,36 @@ ${endingText}
 ## 会話ログ全文
 ${fullTranscript}
 `;
+  }
+
+  // このゲームのプレイログをサーバーに自動保存する(開発者のデバッグ用途。ゲーム終了時に自動送信する)
+  async function autoSaveDebugLog() {
+    try {
+      await fetch("/api/save-debug-log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deviceId, userName, content: buildDebugLogText() }),
+      });
+    } catch (e) {
+      // 保存に失敗してもプレイヤーの体験は止めない(サイレントに諦める)
+    }
+  }
+
+  // ゲームが終了した(gameoverになった)瞬間、1回だけデバッグログをサーバーに自動送信する。
+  // useEffectで監視することで、setPlayers等のstate更新が確実に反映された後の最新状態を送信できる。
+  const autoSavedRef = useRef(false);
+  useEffect(() => {
+    if (phase === "gameover" && !autoSavedRef.current) {
+      autoSavedRef.current = true;
+      autoSaveDebugLog();
+    }
+    if (phase === "setup") {
+      autoSavedRef.current = false; // 新しいゲームが始まったらリセット
+    }
+  }, [phase]);
+
+  function copyDebugLog() {
+    const content = buildDebugLogText();
     const blob = new Blob([content], { type: "text/markdown;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -711,6 +902,23 @@ ${fullTranscript}
       })
       .join("\n");
   }
+  // 今日の議論で、まだ一度も(または最も少なく)発言していないNPCを機械的に検出する。
+  // 「誰が発言するか」をAIの裁量だけに委ねると、役職に関する暗黙の偏りが生まれるリスクがあるため、
+  // 発言回数という客観的な事実に基づいて、発言機会を均等に近づける補助情報として使う。
+  function getQuietNPCsToday(npcs) {
+    // 直近の「◯日目、昼になりました」以降のログだけを対象にする(前日までの発言はカウントしない)
+    const dayMarkerIdx = [...logRef.current].map((e, i) => ({ e, i })).reverse().find(
+      ({ e }) => e.type === "system" && /議論を始めてください|昼になりました/.test(e.text)
+    )?.i ?? 0;
+    const todayLog = logRef.current.slice(dayMarkerIdx);
+    const counts = {};
+    npcs.forEach((n) => { counts[n.name] = 0; });
+    todayLog.forEach((e) => {
+      if (e.type === "npc" && counts[e.speaker] !== undefined) counts[e.speaker]++;
+    });
+    const minCount = Math.min(...Object.values(counts));
+    return npcs.filter((n) => counts[n.name] === minCount).map((n) => n.name);
+  }
   function displayRole(p) {
     // ジョーカーで自覚前なら「村人」と表示する
     if (p.role === "ジョーカー" && jokerState.hidden) return "村人";
@@ -721,6 +929,9 @@ ${fullTranscript}
   async function startGame() {
     const finalName = nameInput.trim() || userName;
     if (!finalName) return; // 名前が未入力の場合は開始しない(ボタン側でも無効化しているが念のため二重にガードする)
+    // ★一時的に課金チェックを無効化中(再開する時はこの3行のコメントを外すだけでよい)
+    // const ok = await tryConsumeCredit();
+    // if (!ok) return; // 残高不足。insufficientCreditsがtrueになり、購入UIが表示される
     tokenTotals = { input: 0, output: 0, calls: 0, cacheRead: 0, cacheWrite: 0 };
     setTokenDisplay({ input: 0, output: 0, calls: 0, cacheRead: 0, cacheWrite: 0 });
     try {
@@ -838,6 +1049,7 @@ ${fullTranscript}
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
     const cacheableRules = buildRules(...activeBoxes); // 呼び出しをまたいで変わらない部分。プロンプトキャッシュ対象にする
+    const quietNpcs = getQuietNPCsToday(npcs);
 
     const system = `あなたは人狼ゲームのゲームマスターです。
 このゲームの参加者は合計${players.length}人(プレイヤー1人+NPC${npcs.length}人)です。人数を聞かれたら必ずこの数字で正確に答える(誤った人数を言わせない)。
@@ -859,6 +1071,8 @@ ${npcs.map((n) => `${n.name}: ${npcAffinity[n.name] ?? 50}`).join("、")}
 ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
 **最優先ルール**:直前の発言で名指し・疑われた人物がいれば、その人が最初に必ず直接反応(反論・弁明・受け流し等)する。話題が消化される前に別の新しい話題へ飛ばない。
 **発言者数は無理に増やさない**。話す必然性のない人は黙っていてよい(スルーは自然な反応)。目安は2〜4人。中身のある短い一言を優先し、世間話で終わらせない。**誰を発言させるか・スルーするかは、性格設定と話題の流れだけで選ぶ(役職を理由に選ばない)**。特定の役職(人狼・狂人等)を持つキャラクターを、他の人物より意図的に発言頻度が低くなるよう調整しない。
+**例外:自己紹介・「全員一言ずつ」のように、性質上その場にいる全員が順番に発言すべき場面(絶対厳守)**:この場合は上記の2〜4人という目安を適用せず、**その場の生存NPC全員(または大部分)に一言ずつ発言させる**。一部だけ発言させて残りを次のターン以降に持ち越し、プレイヤーに何度も催促させることはしない。1人あたりのセリフは短く保てば、人数が多くても問題ない。
+**発言回数の機械的な公平性チェック(重要)**:今日まだ発言回数が最も少ない生存NPCは ${quietNpcs.length > 0 ? quietNpcs.join("、") : "(全員ほぼ均等)"} です。これは実際の発言ログを数えた客観的な事実であり、役職とは無関係の集計です。**もっともらしい話題の流れがあれば、この中の1人には今回のターンで発言機会を回すことを優先的に検討する**(必須ではないが、同じ人ばかりが毎回黙ったままにならないよう配慮する)。
 **NPCはプレイヤー「${userName}」を積極的に名前で呼ぶ**(「${userName}はどう思う?」「${userName}くんは?」等)。プレイヤーを蚊帳の外にしない。
 **重要**:直前のNPC発言が「${userName}」宛ての質問だった場合、他のNPCがその場で代わりに答えない・話題を奪わない。プレイヤー自身の返答の余地を必ず残す。
 **質問と回答の対応関係を必ず確認**:プレイヤーの直前の発言が、それより前のNPCからの質問への回答になっている場合、それは「求められて答えた」だけであり、**単独の新しい怪しい発言として扱わない**。回答内容自体に矛盾や不自然さがない限り、疑いを深めない。プレイヤーが「さっき聞かれたから答えただけ」と指摘した場合、それは正当な指摘として受け止め、さらに追加で疑う理由にしない。
@@ -879,7 +1093,7 @@ ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
     const userPrompt = `これまでの会話:\n${transcript}\n\n直前のプレイヤー発言:「${userMsg}」\n\nNPCの反応を生成してください。`;
 
     try {
-      const parsed = await callClaudeAutoRetry(system, userPrompt, 2600, 1, cacheableRules);
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 3400, 1, cacheableRules);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
@@ -988,6 +1202,7 @@ ${npcs.map((n) => `${n.name}: ${npcAffinity[n.name] ?? 50}`).join("、")}
 **好感度を口調・態度に具体的に反映させる**:80以上は親しみを込めた口調・積極的な反応、60〜79は友好的、40〜59は普通に丁寧、20〜39はやや素っ気ない・距離感がある、20未満は明らかに冷たい・棘のある反応にする。
 プレイヤー「${userName}」が(セリフではなく)**行動**を取りました。これはセリフではなく、しぐさ・観察・様子見などの非言語的な行動です。
 GMとして、この行動の結果(何が見えた・分かったか)を地の文で短く描写してください。行動が他人に見える性質のものなら、気づいたNPCが短く反応してもよい(必須ではない)。
+${getQuietNPCsToday(npcs).length > 0 ? `**発言回数の公平性配慮**:今日まだ発言が少ないNPC(${getQuietNPCsToday(npcs).join("、")})がいれば、反応させる場合はこの中から優先的に選んでもよい(役職とは無関係の機械的な集計)。` : ""}
 絶対厳守:speakerにプレイヤー名「${userName}」を使わない(NPCのみ)。
 **好感度の変動を判定する**:行動の内容がNPCに好意的/不快な印象を与えた場合、好感度の増減を返す(-8〜+8)。目立った影響がなければ含めなくてよい。
 **CO(自称役職)の抽出**:今回の描写・セリフでCOが発生した場合、roleClaimsとして報告する(なければ空オブジェクト)。
@@ -2138,6 +2353,9 @@ ${guardLogText}
     if (freshPlayers) setPlayers(freshPlayers);
     setWinner(win);
     setPhase("gameover");
+    // ゲームが終わったら「続きから始める」の対象ではなくなるため、保存データを削除する
+    try { window.storage.delete("game_save", false); } catch (e) {}
+    setHasSave(false);
     const alive = (freshPlayers || players).filter((p) => p.alive);
     const wolvesAlive = alive.filter((p) => p.role === "人狼");
     const madmenAlive = alive.filter((p) => p.role === "狂人");
@@ -2176,6 +2394,7 @@ ${guardLogText}
     const system = `あなたは人狼ゲームのGMです。ゲームが終了しました(${win}の勝利)。プレイヤー「${userName}」(役職:${me.role})のゲーム全体の言動を振り返り、以下5つを生成してください。
 **プレイヤー自身の勝敗(絶対厳守)**: プレイヤーは${playerWon ? "勝者側です(自分の陣営が勝利した)。review・diagnosis・commentsのトーンは、たとえプレイヤー個人が途中で処刑・敗死していても、最終的に自分の陣営が勝ったことを踏まえた達成感・満足感のある語り口にする。「負けた」「敗北」のような否定的な結論で締めくくらない" : "敗者側です(自分の陣営が敗北した)。悔しさや反省を含むトーンにしてよい"}。この勝敗の事実と矛盾する語り口(勝ったのに敗北したかのような書き方、その逆)を絶対にしない。
 **各NPCの感想も、そのNPC自身の本当の陣営の勝敗と矛盾しないトーンにする(絶対厳守)**:上記の役職一覧で「人狼側へ寝返り済み」と明記されているキャラクターは、村人陣営が勝った場合は敗者側であり、「村が勝って良かった」のような肯定的な感想を言わせない(悔しさ・複雑な心境を滲ませる)。逆に人狼陣営が勝った場合、村人・占い師等の純粋な村側キャラクターは敗者側であり、手放しの喜びは表現させない。
+**狂人の勝敗は「本人の思い込み」ではなく「本当の陣営(人狼側)」で判定する(絶対厳守・見落としやすい重要ポイント)**:狂人はゲーム中、村人・占い師等だと思い込んでいたため、感覚としては村側のように振る舞っていたが、**陣営としては最初から最後まで人狼側である**。したがって、**人狼陣営が勝利した場合、狂人だったキャラクターも勝者側であり**、「結果的に負けた」「村が負けて複雑」のような、自分を敗者側として語らせることは絶対にしない。感想の中心は「我に返って自分の思い込みや言動を振り返る恥ずかしさ・驚き」であり、そこに**勝者側としての安堵・清々しさ・(村を欺けた結果への)複雑な達成感**を乗せる(例:「洗脳が解けてみると恥ずかしいけど、結果的に人狼陣営が勝ったなら良かったのかな」)。逆に村人陣営が勝った場合は、上記の「狂人は敗者側」の通り、悔しさ・複雑な心境のトーンにする。
 **実際のペア役職の組み合わせ(真実、絶対厳守)**: ${getRealPairsText()}
 **重要**:会話ログ中に誰かが特定の相方を主張していても、それが上記の実際の組み合わせと違う場合、その主張は嘘だった(狂人や人狼の偽CO)ということ。振り返り・感想を書く際、事実と異なる主張を「本物だった」「証明された」のように誤って肯定しない。役職構成の真実だけを根拠にする。
 **狂人の「我に返る」演出(重要)**:ゲーム中、狂人は洗脳により自分を別の役職(あるいは人狼)だと信じ込んでいた(以下参照)。しかし**ゲームが終わった今、洗脳が解けて我に返っている**。狂人だったキャラクターの感想は、「実はゲーム中ずっと〇〇だと思い込んでいた」ことを自覚した上で、当時の言動を振り返る内容にする(例:「今思うと、なんであんな結果を口走ってたんだろう…」「洗脳が解けてみると恥ずかしい」等)。ただし陣営としては人狼側なので、村が勝った場合は上記の「敗者側」トーンも両立させる。
@@ -2264,6 +2483,22 @@ JSON形式のみ: {"text":"回答"}`;
   }
 
   // お気に入りストーリーとして今回のゲームを保存する(最大3件、古いものから上書き)
+  // エンディング結果をXで共有する(専用の認証不要な共有リンク形式を使う)
+  function shareEndingToX() {
+    if (!ending) return;
+    const overall = ending.fortunes?.overall;
+    const stars = overall ? "★".repeat(Math.max(0, Math.min(5, Number(overall.stars) || 0))) : "";
+    const lines = [
+      `AI人狼で「${ending.tarotName}」でした🔮`,
+      winner ? `${winner}の勝利!` : "",
+      overall ? `総合運: ${stars} ${overall.text}` : "",
+      "#AI人狼",
+    ].filter(Boolean);
+    const text = lines.join("\n");
+    const url = "https://x.com/intent/tweet?text=" + encodeURIComponent(text);
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
   async function saveFavorite() {
     if (favoriteSaved) return;
     const story = {
@@ -2319,6 +2554,84 @@ JSON形式のみ: {"text":"回答"}`;
       <div className="min-h-screen flex items-center justify-center p-6" style={{ background: "#F7F3E9" }}>
         <div className="max-w-md w-full text-center space-y-6">
           <h1 className="text-4xl font-bold" style={{ color: "#2B2620" }}>AI人狼</h1>
+
+          {CREDIT_SYSTEM_ENABLED && purchaseNotice && (
+            <div
+              className="rounded-lg p-3 text-sm font-bold"
+              style={purchaseNotice === "success" ? { background: "#E8F5E9", color: "#2E7D32", border: "1px solid #A5D6A7" } : { background: "#FDECEA", color: "#B00020", border: "1px solid #F5C6CB" }}
+            >
+              {purchaseNotice === "success" ? "✅ 購入が完了しました!クレジットが追加されました。" : "決済はキャンセルされました。"}
+            </div>
+          )}
+
+          {CREDIT_SYSTEM_ENABLED && (
+            <div className="rounded-lg p-3 flex items-center justify-between" style={{ background: "#F0EAD9", border: "1px solid #D8C4B5" }}>
+              <div className="text-sm" style={{ color: "#6B6355" }}>
+                残りクレジット: <span className="font-bold text-lg" style={{ color: "#2B2620" }}>{creditsLoading ? "…" : credits}</span>
+              </div>
+              <button
+                onClick={startPurchase}
+                className="px-3 py-1.5 rounded-lg text-sm font-bold"
+                style={{ background: "#8B3A3A", color: "#FFFFFF" }}
+              >
+                購入(¥500)
+              </button>
+            </div>
+          )}
+
+          {isAdminMode && (
+            <div className="rounded-lg p-3 space-y-2 text-left" style={{ background: "#EDE0D8", border: "1px dashed #8A5A2A" }}>
+              <div className="text-xs font-bold" style={{ color: "#8A5A2A" }}>🔧 開発者用:テストクレジット付与(決済なし)</div>
+              <input
+                type="password"
+                placeholder="管理用の合言葉(ADMIN_SECRET)"
+                value={adminSecretInput}
+                onChange={(e) => setAdminSecretInput(e.target.value)}
+                className="w-full rounded px-2 py-1.5 text-sm border"
+                style={{ borderColor: "#D8C4B5" }}
+              />
+              <button
+                onClick={grantTestCredits}
+                className="w-full py-1.5 rounded text-sm font-bold"
+                style={{ background: "#8A5A2A", color: "#FFFFFF" }}
+              >
+                クレジットを10個付与する
+              </button>
+              <button
+                onClick={openDebugLogViewer}
+                className="w-full py-1.5 rounded text-sm font-bold border"
+                style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+              >
+                📋 保存済みデバッグログを見る
+              </button>
+            </div>
+          )}
+
+          {showDebugLogViewer && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div className="absolute inset-0 bg-black/50" onClick={() => setShowDebugLogViewer(false)} />
+              <div className="relative w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-4 space-y-2 shadow-2xl text-left" style={{ background: "#FBF8F1" }}>
+                <div className="flex justify-between items-center pb-2 border-b" style={{ borderColor: "#D8C4B5" }}>
+                  <div className="text-sm font-bold" style={{ color: "#2B2620" }}>📋 保存済みデバッグログ({debugLogList.length}件)</div>
+                  <button onClick={() => setShowDebugLogViewer(false)} className="text-xl leading-none" style={{ color: "#6B6355" }}>✕</button>
+                </div>
+                {debugLogList.length === 0 && <p className="text-sm" style={{ color: "#8A8272" }}>まだ保存されたログがありません。</p>}
+                {debugLogList.map((item) => (
+                  <div key={item.key} className="rounded-lg p-2 border text-xs" style={{ borderColor: "#D8C4B5" }}>
+                    <div className="font-bold" style={{ color: "#2B2620" }}>{item.userName || "(名前不明)"} — {new Date(item.savedAt).toLocaleString("ja-JP")}</div>
+                    <div className="mt-1 truncate" style={{ color: "#8A8272" }}>{item.preview}...</div>
+                    <button
+                      onClick={() => downloadSavedDebugLog(item.key)}
+                      className="mt-1 px-2 py-1 rounded text-xs font-bold"
+                      style={{ background: "#8A5A2A", color: "#FFFFFF" }}
+                    >
+                      ダウンロード
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="space-y-3 text-left">
             <div>
@@ -2387,13 +2700,22 @@ JSON形式のみ: {"text":"回答"}`;
             </div>
           )}
 
+          {CREDIT_SYSTEM_ENABLED && (insufficientCredits || (!creditsLoading && credits === 0)) && (
+            <div className="rounded-lg p-3 text-sm" style={{ background: "#FDECEA", color: "#B00020", border: "1px solid #F5C6CB" }}>
+              クレジットが不足しています。プレイするには購入してください。
+            </div>
+          )}
+
           <button
-            onClick={startGame}
+            onClick={() => {
+              if (CREDIT_SYSTEM_ENABLED && !creditsLoading && credits === 0) { startPurchase(); return; }
+              startGame();
+            }}
             disabled={!nameInput.trim() && !userName}
             className="w-full px-10 py-3 rounded-lg font-bold text-lg disabled:opacity-40"
             style={{ background: "#8B3A3A", color: "#FFFFFF" }}
           >
-            {hasSave ? "最初からはじめる" : "はじめる"}
+            {CREDIT_SYSTEM_ENABLED && !creditsLoading && credits === 0 ? "クレジットを購入する" : hasSave ? "最初からはじめる" : "はじめる"}
           </button>
           {!nameInput.trim() && !userName && (
             <p className="text-xs text-center" style={{ color: "#B05050" }}>ニックネームを入力してください</p>
@@ -2987,6 +3309,13 @@ JSON形式のみ: {"text":"回答"}`;
                           );
                         })}
                       </div>
+                      <button
+                        onClick={shareEndingToX}
+                        className="mt-3 w-full py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2"
+                        style={{ background: "#000000", color: "#FFFFFF" }}
+                      >
+                        𝕏で結果をシェアする
+                      </button>
                     </div>
                   )}
                 </div>
