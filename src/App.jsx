@@ -2959,6 +2959,18 @@ JSON形式のみ: {"text":"回答"}`;
               >
                 続きから始める
               </button>
+              {isAdminMode && (
+                <div className="flex justify-center">
+                  <button
+                    onClick={startGame}
+                    disabled={!nameInput.trim() && !userName}
+                    className="text-xs underline disabled:opacity-40"
+                    style={{ color: "#6B6355" }}
+                  >
+                    🔧 [開発者用] 最初からはじめる(保存データを破棄)
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
