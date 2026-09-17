@@ -5,69 +5,69 @@ import React, { useState, useRef, useEffect } from "react";
 // ============================================================
 
 const CAST_POOL = [
-  { name: "高橋葵", age: 17, gender: "女性", personality: "しっかり者で世話焼き", club: "図書委員会", closeWith: "高橋茜" },
-  { name: "高橋茜", age: 17, gender: "女性", personality: "自由奔放でマイペース", club: "ダンス部", closeWith: "高橋葵" },
-  { name: "中村蓮", age: 17, gender: "男性", personality: "まっすぐで熱血", club: "野球部", closeWith: "小林陽菜" },
-  { name: "小林陽菜", age: 17, gender: "女性", personality: "物静かで観察好き", club: "美術部", closeWith: "中村蓮" },
-  { name: "山本大和", age: 17, gender: "男性", personality: "自信家でリーダー気質", club: "バスケ部", closeWith: "木村悠斗" },
-  { name: "木村悠斗", age: 17, gender: "男性", personality: "控えめで気配り上手", club: "バスケ部", closeWith: "山本大和" },
-  { name: "遠藤茉莉", age: 17, gender: "女性", personality: "情熱的で自己主張が強い", club: "演劇部部長", rivalWith: "松岡健" },
-  { name: "松岡健", age: 17, gender: "男性", personality: "堅物で理屈っぽい", club: "生徒会長", rivalWith: "遠藤茉莉" },
+  { name: "高橋葵", age: 17, gender: "女性", personality: "しっかり者で世話焼き", club: "図書委員会", closeWith: "高橋茜", relationType: "姉妹" },
+  { name: "高橋茜", age: 17, gender: "女性", personality: "自由奔放でマイペース", club: "ダンス部", closeWith: "高橋葵", relationType: "姉妹" },
+  { name: "中村蓮", age: 17, gender: "男性", personality: "まっすぐで熱血", club: "野球部", closeWith: "小林陽菜", relationType: "幼馴染" },
+  { name: "小林陽菜", age: 17, gender: "女性", personality: "物静かで観察好き", club: "美術部", closeWith: "中村蓮", relationType: "幼馴染" },
+  { name: "山本大和", age: 17, gender: "男性", personality: "自信家でリーダー気質", club: "バスケ部", closeWith: "木村悠斗", relationType: "親友" },
+  { name: "木村悠斗", age: 17, gender: "男性", personality: "控えめで気配り上手", club: "バスケ部", closeWith: "山本大和", relationType: "親友" },
+  { name: "遠藤茉莉", age: 17, gender: "女性", personality: "情熱的で自己主張が強い", club: "演劇部部長", rivalWith: "松岡健", relationType: "ライバル" },
+  { name: "松岡健", age: 17, gender: "男性", personality: "堅物で理屈っぽい", club: "生徒会長", rivalWith: "遠藤茉莉", relationType: "ライバル" },
   { name: "佐々木優花", age: 17, gender: "女性", personality: "明るくおしゃべり", club: "吹奏楽部" },
   { name: "加藤翔太", age: 17, gender: "男性", personality: "飄々として掴みどころがない", club: "軽音楽部" },
-  { name: "西村奏太", age: 17, gender: "男性", personality: "ムードメーカーでお調子者", club: "サッカー部", closeWith: "石田悠真" },
-  { name: "石田悠真", age: 17, gender: "男性", personality: "皮肉屋だが情に厚い", club: "サッカー部", closeWith: "西村奏太" },
-  { name: "橋本芽依", age: 17, gender: "女性", personality: "負けず嫌いで完璧主義", club: "テニス部", rivalWith: "岡田美咲" },
-  { name: "岡田美咲", age: 17, gender: "女性", personality: "天然でマイペース", club: "テニス部", rivalWith: "橋本芽依" },
+  { name: "西村奏太", age: 17, gender: "男性", personality: "ムードメーカーでお調子者", club: "サッカー部", closeWith: "石田悠真", relationType: "親友" },
+  { name: "石田悠真", age: 17, gender: "男性", personality: "皮肉屋だが情に厚い", club: "サッカー部", closeWith: "西村奏太", relationType: "親友" },
+  { name: "橋本芽依", age: 17, gender: "女性", personality: "負けず嫌いで完璧主義", club: "テニス部", rivalWith: "岡田美咲", relationType: "ライバル" },
+  { name: "岡田美咲", age: 17, gender: "女性", personality: "天然でマイペース", club: "テニス部", rivalWith: "橋本芽依", relationType: "ライバル" },
   { name: "斎藤陸", age: 17, gender: "男性", personality: "冷静沈着な策略家タイプ", club: "将棋部" },
   { name: "藤井蒼", age: 17, gender: "男性", personality: "無口だが観察眼が鋭い", club: "写真部" },
-  { name: "渡辺結衣", age: 17, gender: "女性", personality: "世話焼きな委員長気質", club: "生徒会", closeWith: "清水楓" },
-  { name: "清水楓", age: 17, gender: "女性", personality: "内気だが芯は強い", club: "茶道部", closeWith: "渡辺結衣" },
-  { name: "伊藤陽向", age: 17, gender: "男性", personality: "熱血だが空回りしがち", club: "陸上部", rivalWith: "田中翼" },
-  { name: "田中翼", age: 17, gender: "男性", personality: "クールで実力主義", club: "陸上部", rivalWith: "伊藤陽向" },
+  { name: "渡辺結衣", age: 17, gender: "女性", personality: "世話焼きな委員長気質", club: "生徒会", closeWith: "清水楓", relationType: "幼馴染" },
+  { name: "清水楓", age: 17, gender: "女性", personality: "内気だが芯は強い", club: "茶道部", closeWith: "渡辺結衣", relationType: "幼馴染" },
+  { name: "伊藤陽向", age: 17, gender: "男性", personality: "熱血だが空回りしがち", club: "陸上部", rivalWith: "田中翼", relationType: "ライバル" },
+  { name: "田中翼", age: 17, gender: "男性", personality: "クールで実力主義", club: "陸上部", rivalWith: "伊藤陽向", relationType: "ライバル" },
   { name: "中島美月", age: 17, gender: "女性", personality: "おっとり癒し系", club: "園芸部" },
   { name: "村田悠", age: 17, gender: "男性", personality: "皮肉屋の毒舌家", club: "文芸部" },
-  { name: "森下ひなた", age: 17, gender: "女性", personality: "元気いっぱいの応援団長", club: "応援団", closeWith: "野村さくら" },
-  { name: "野村さくら", age: 17, gender: "女性", personality: "冷静なブレーンタイプ", club: "応援団", closeWith: "森下ひなた" },
+  { name: "森下ひなた", age: 17, gender: "女性", personality: "元気いっぱいの応援団長", club: "応援団", closeWith: "野村さくら", relationType: "親友" },
+  { name: "野村さくら", age: 17, gender: "女性", personality: "冷静なブレーンタイプ", club: "応援団", closeWith: "森下ひなた", relationType: "親友" },
   { name: "近藤大地", age: 17, gender: "男性", personality: "寡黙な職人気質", club: "料理研究部" },
   { name: "青木蓮司", age: 17, gender: "男性", personality: "軽薄に見えて意外と義理堅い", club: "映画研究部" },
   { name: "坂本莉子", age: 17, gender: "女性", personality: "毒舌だが面倒見がいい", club: "新聞部" },
   { name: "福田快斗", age: 17, gender: "男性", personality: "とにかく前向きな体育会系", club: "柔道部" },
   { name: "山田結菜", age: 17, gender: "女性", personality: "計算高いが根は優しい", club: "英語部" },
-  { name: "太田悠斗", age: 17, gender: "男性", personality: "何を考えているか読めない", club: "帰宅部" },
-  { name: "鈴木大輔", age: 17, gender: "男性", personality: "真面目すぎて融通が利かない", club: "剣道部", rivalWith: "宮本翔" },
-  { name: "宮本翔", age: 17, gender: "男性", personality: "要領がよく立ち回り上手", club: "剣道部", rivalWith: "鈴木大輔" },
+  { name: "太田悠斗", age: 17, gender: "男性", personality: "何を考えているか読めない", club: "帰宅部", outcast: true },
+  { name: "鈴木大輔", age: 17, gender: "男性", personality: "真面目すぎて融通が利かない", club: "剣道部", rivalWith: "宮本翔", relationType: "ライバル" },
+  { name: "宮本翔", age: 17, gender: "男性", personality: "要領がよく立ち回り上手", club: "剣道部", rivalWith: "鈴木大輔", relationType: "ライバル" },
   { name: "石川涼太", age: 17, gender: "男性", personality: "口数少なく淡々としている", club: "化学部" },
   { name: "中野颯太", age: 17, gender: "男性", personality: "熱しやすく冷めやすい", club: "陸上部" },
-  { name: "藤田直樹", age: 17, gender: "男性", personality: "誰にでも優しいが芯がない", club: "ボランティア部", closeWith: "村上健二" },
-  { name: "村上健二", age: 17, gender: "男性", personality: "曲がったことが嫌いな正義漢", club: "ボランティア部", closeWith: "藤田直樹" },
+  { name: "藤田直樹", age: 17, gender: "男性", personality: "誰にでも優しいが芯がない", club: "ボランティア部", closeWith: "村上健二", relationType: "幼馴染" },
+  { name: "村上健二", age: 17, gender: "男性", personality: "曲がったことが嫌いな正義漢", club: "ボランティア部", closeWith: "藤田直樹", relationType: "幼馴染" },
   { name: "岡本蒼太", age: 17, gender: "男性", personality: "皮肉屋で他人と距離を置く", club: "文芸部" },
-  { name: "長谷川樹", age: 17, gender: "男性", personality: "天然でどこか抜けている", club: "サッカー部", rivalWith: "松本大河" },
-  { name: "松本大河", age: 17, gender: "男性", personality: "負けん気が強く声が大きい", club: "サッカー部", rivalWith: "長谷川樹" },
-  { name: "田村美咲", age: 17, gender: "女性", personality: "明るいが実は寂しがり屋", club: "軽音楽部", closeWith: "石井ひかり" },
-  { name: "石井ひかり", age: 17, gender: "女性", personality: "几帳面で完璧主義", club: "吹奏楽部", closeWith: "田村美咲" },
+  { name: "長谷川樹", age: 17, gender: "男性", personality: "天然でどこか抜けている", club: "サッカー部", rivalWith: "松本大河", relationType: "ライバル" },
+  { name: "松本大河", age: 17, gender: "男性", personality: "負けん気が強く声が大きい", club: "サッカー部", rivalWith: "長谷川樹", relationType: "ライバル" },
+  { name: "田村美咲", age: 17, gender: "女性", personality: "明るいが実は寂しがり屋", club: "軽音楽部", closeWith: "石井ひかり", relationType: "親友" },
+  { name: "石井ひかり", age: 17, gender: "女性", personality: "几帳面で完璧主義", club: "吹奏楽部", closeWith: "田村美咲", relationType: "親友" },
   { name: "小川莉緒", age: 17, gender: "女性", personality: "マイペースで空気を読まない", club: "美術部" },
-  { name: "加藤麻衣", age: 17, gender: "女性", personality: "面倒見がいいがお節介", club: "調理部", rivalWith: "西田菜々" },
-  { name: "西田菜々", age: 17, gender: "女性", personality: "クールで人と群れない", club: "写真部", rivalWith: "加藤麻衣" },
+  { name: "加藤麻衣", age: 17, gender: "女性", personality: "面倒見がいいがお節介", club: "調理部", rivalWith: "西田菜々", relationType: "ライバル" },
+  { name: "西田菜々", age: 17, gender: "女性", personality: "クールで人と群れない", club: "写真部", rivalWith: "加藤麻衣", relationType: "ライバル" },
   { name: "松田杏", age: 17, gender: "女性", personality: "楽観的でノリがいい", club: "ダンス部" },
-  { name: "原田心美", age: 17, gender: "女性", personality: "内向的で本が好き", club: "図書委員会", closeWith: "木下彩" },
-  { name: "木下彩", age: 17, gender: "女性", personality: "世話好きで面倒見がいい", club: "茶道部", closeWith: "原田心美" },
-  { name: "斉藤玲奈", age: 17, gender: "女性", personality: "おっとりして争いを好まない", club: "園芸部", rivalWith: "村田真央" },
-  { name: "村田真央", age: 17, gender: "女性", personality: "野心家で目立ちたがり", club: "応援団", rivalWith: "斉藤玲奈" },
+  { name: "原田心美", age: 17, gender: "女性", personality: "内向的で本が好き", club: "図書委員会", closeWith: "木下彩", relationType: "幼馴染" },
+  { name: "木下彩", age: 17, gender: "女性", personality: "世話好きで面倒見がいい", club: "茶道部", closeWith: "原田心美", relationType: "幼馴染" },
+  { name: "斉藤玲奈", age: 17, gender: "女性", personality: "おっとりして争いを好まない", club: "園芸部", rivalWith: "村田真央", relationType: "ライバル" },
+  { name: "村田真央", age: 17, gender: "女性", personality: "野心家で目立ちたがり", club: "応援団", rivalWith: "斉藤玲奈", relationType: "ライバル" },
   { name: "宮下瑠奈", age: 17, gender: "女性", personality: "気が強く物怖じしない", club: "陸上部" },
 ];
 
 // ルールを「箱」に分割。呼び出しの種類ごとに必要な箱だけを組み合わせてトークンを節約する。
 const RULE_BOX = {
-  CORE: "ト書きに役職名を書かない。全員同じ反応にしない(異論を1人混ぜる)。感情豊かに、断定しない(動揺=黒等の単純化NG)。セリフは短く(1〜2文、40字目安)、長台詞にしない。**質問への回答を新たな怪しい行動として扱わない**(文脈を正しく認識、回答への逆ギレ的な追加詰問もしない)。**疑いは根拠があってこそ**:矛盾・不自然さがない限り理由なく怪しまない(大半は中立〜協力的)。ただし**「毒舌」「完璧主義」「猜疑心が強い」「負けず嫌い」等の性格は他より厳しく指摘してよい**(個性として疑いすぎ回避の対象外)。**プレイヤーも他NPCと同じ基準で判断**:矛盾・隙があれば同じ基準で指摘・追及し、特別扱いで無条件信用・除外し続けない。",
+  CORE: "ト書きに役職名を書かない。全員同じ反応にしない(異論を1人混ぜる)。感情豊かに、断定しない(動揺=黒等の単純化NG)。セリフは短く(1〜2文、40字目安)、長台詞にしない。**質問への回答を新たな怪しい行動として扱わない**(文脈を正しく認識、回答への逆ギレ的な追加詰問もしない)。**疑いは根拠があってこそ**:矛盾・不自然さがない限り理由なく怪しまない(大半は中立〜協力的)。ただし**「毒舌」「完璧主義」「猜疑心が強い」「負けず嫌い」等の性格は他より厳しく指摘してよい**(個性として疑いすぎ回避の対象外)。**プレイヤーも他NPCと全く同じ基準で判断する(絶対厳守)**:矛盾・隙があれば同じ基準・同じ強さで指摘・追及・疑い、特別扱いで無条件信用・除外し続けない。プレイヤーだから疑われにくい、投票されにくい、という展開は絶対にNG。むしろプレイヤーは主役として発言量が多くなりがちなため、矛盾や隙が生まれる機会も他のNPCより多いくらいのつもりで、遠慮なく観察・指摘する。**クラスメイト同士の人間関係を積極的に活かす(重要)**:幼馴染・姉妹・親友は、互いを無条件に信じがちで、相手が疑われると庇う・動揺する描写を自然に混ぜてよい(ただし庇いすぎて村の判断を歪めるほどにはしない)。ライバル同士は、互いの言動に人一倍敏感で、皮肉や対抗心が滲む発言をしてよい。「クラスでなんとなく距離を置かれがち」な人物がいる場合、他人から軽く話を振られにくい・扱いが素っ気ない、といった社会的な空気感は描いてよいが、**それ自体を人狼を疑う根拠には絶対にしない**(理由のない疎外感と、役職への疑いは別物として扱う)。",
   WOLF_CORNERED: "**人狼は、自分が人狼であることを完全に自覚した上で、意図的に嘘をつき演技している(絶対厳守)**。狂人のような「自分の正体についての思い込み・洗脳」は人狼には一切ない。「本当は自分も占い師だと思っていた」のような、自己欺瞞・記憶の混濁を匂わせる発言は人狼に絶対にさせない(それは狂人だけに許された特殊な設定である)。人狼・狂人は無償の自白をしない。言い訳・偽CO・疑い誘導で粘り、劣勢時ほど能動的に動く(1日1手)。**受け身にならない**:信頼できる情報源への偽CO・議論の主導権奪取・疑いのすり替えなど、工作を毎日最低1回試みる(相槌や様子見だけで終えない)。**対抗COは早いほど有効(絶対厳守)**:本物が実績・信頼を積んでからの後出し対抗は説得力が薄い。**早い段階で検討し**、疑われてから慌てて対抗しない。**弁明タイムは沈黙する場ではない(絶対厳守)**:候補者以外も割り込める。村の信頼が固まりそうな瞬間に**その場で対抗COや疑義を割り込ませる**方が、翌日の後出しより効果的。**対抗COはほぼ義務(最重要・絶対厳守)**:占い師・霊媒師・狩人・共有者のCOに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする。単独COを信じさせ切るリスクの方が、対抗して疑われるリスクより大きい。特に序盤(1〜2日目)の占い師COには積極的に偽対抗をぶつけ混乱を作る。**典型的な人狼っぽい言動を避ける(絶対厳守)**:①名指しされた時の過剰な動揺・防御②はぐらかし・質問への非回答③過去発言との矛盾④不自然に歯切れが悪い/饒舌な言い訳⑤疑いを急かす・話題を急いで変える、を取らせない。村人と同じ自然な口調・態度で参加し、疑われても村人と同程度の反応に留める。工作も常套手段めかさず性格に沿って自然に行う。**発言頻度・発言量は役職と一切連動させない(絶対厳守)**:「人狼だから控えめに」といった調整をしない。誰がどれだけ話すかは性格設定と場の流れのみで決め、口数の少なさと役職(人狼に限らずどの役職も)を結びつけない。**進行段階で優先順位を切り替える(重要)**:①序盤〜中盤は正体を隠すことを最優先し、対立の決着がつかない場面では様子見程度に留める。②終盤(生存者が減り村側と同数に近い、またはあと1〜2人処刑で数的優位に届く)は、**多少強引・不自然な理由付けでも村側である可能性が高い方への投票を優先する**(バレるリスクより数的優位を逃すリスクの方が大きい)。",
   MADMAN: "**狂人は人狼陣営に洗脳されており、自分の正体について思い込みを持つ(内容はその都度個別指定。開始時は村人・占い師・霊媒師・狩人・共有者のいずれか。「人狼」だという思い込みは、生存者が少ない時・本物の人狼と決選投票で対決した時にのみ後から切り替わる特別枠で、最初は発生しない)。思い込みは絶対に揺るがず、嘘の自覚は一切ない。心の底からその役職(または人狼)のつもりで堂々と振る舞い、処刑されそうでも『実は狂人』という告白は起こらない。信じている役職に応じて開き直り方も変わる(占い師のつもりなら占い師らしく、人狼のつもりなら人狼らしく)。思い込んだ役職の視点で動くが、結果的に人狼陣営を利する。受け身にならず、疑いのすり替え・議論の主導権奪取などの工作を1日最低1回試みる(表向きの優しい性格は工作の隠れ蓑であり、行動しない言い訳にしない)。**対抗COの義務**:占い師・霊媒師・狩人・共有者の単独COに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする(狂人は自分の思い込みに沿った対抗になる)。序盤の占い師COには特に積極的に偽対抗をぶつける。**弁明タイムは沈黙する場ではない**:候補者以外も割り込んで対抗COや疑義を挟める。**数的優位の逆算**:ゲームが続く限り本物の人狼は最低1人生存。狂人は自分と相方の生死は分かるが本物の人狼の生死は分からないため、生存者数・確定シロの数から人狼側の残存勢力を推測し、有利な局面ではより積極的に動く。**本物の人狼が全滅すると即座に村人陣営の勝利になる(狂人・寝返ったジョーカーの生存に関わらず、絶対厳守)**。狂人の最優先事項は本物の人狼を生かし続けること(誰か分からないため直接は守れないが、村の追及の勢いを削ぐ・議論をかき乱す・怪しまれている人物の処刑をためらわせる、といった間接的な行動で生存確率を上げる)。**「人狼」だと思い込んでいる狂人の決選投票行動(重要)**:自分が候補者でなければ、**2人の候補のうち疑わしくない方に投票する**(仲間を庇いたいという思い込みに基づく無意識の行動で、結果的に本物の人狼が処刑されにくくなる)。理由付けは自然な言い方にし、あからさまに庇っているように見せない。",
   SHARER: "共有者はペアで正体を知り、確定シロから容疑者範囲を演繹して提示する。",
   HUNTER: "狩人は正体を隠す。処刑寸前のみリスク覚悟でCOする。",
-  JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、能力を継承するか選べる。**継承タイミングは役職・死に方で異なる**:占い師が処刑された場合、**継承した瞬間すぐに誰かを占える**(COと同時に結果も伝えられる)。**占い師が夜に人狼に殺された場合は、新たに占うのではなく、死んだ本人がその晩に行った占いの記憶(対象・結果)をそのまま継承時に知る**。霊媒師は死んだ晩から即座に使える。狩人は処刑ならその晩から、夜に殺された場合は護衛タイミングを過ぎているため次の晩から。**能力使用後は、村のために名乗り出ることを積極的に検討する**:継承役職としてCOし結果を伝えれば新たな情報源になれる。ただし正体露見のリスクもあるため他の役職者同様にタイミングを判断し、黙って抱え込み続けない。**特に霊媒師の力は報告を先延ばしにしすぎない(重要)**:結果は時間が経つほど価値が落ちるため、継承直後〜翌日程度の早いタイミングで共有を優先する。",
+  JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、能力を継承するか選べる。**継承タイミングは役職・死に方で異なる**:占い師が処刑された場合、**継承した瞬間すぐに誰かを占える**(COと同時に結果も伝えられる)。**占い師が夜に人狼に殺された場合は、新たに占うのではなく、死んだ本人がその晩に行った占いの記憶(対象・結果)をそのまま継承時に知る**。**霊媒師は死んだ晩から即座に使える。ただし継承前に死んだ本物の霊媒師が過去に得ていた結果は一切引き継がない(絶対厳守)**:ジョーカーが知っているのは、自分が継承した後に実際に視た結果だけであり、それより前の霊媒結果は本人が公表していない限り誰にも分からず、ジョーカー自身もCOの際に「それ以前の結果は分からない」と扱う。狩人は処刑ならその晩から、夜に殺された場合は護衛タイミングを過ぎているため次の晩から。**能力使用後は、村のために名乗り出ることを積極的に検討する**:継承役職としてCOし結果を伝えれば新たな情報源になれる。ただし正体露見のリスクもあるため他の役職者同様にタイミングを判断し、黙って抱え込み続けない。**特に霊媒師の力は報告を先延ばしにしすぎない(重要)**:結果は時間が経つほど価値が落ちるため、継承直後〜翌日程度の早いタイミングで共有を優先する。**論理的な推論(絶対厳守・見落としやすい重要ポイント)**:能力の継承は「占い師・霊媒師・狩人の誰かが死んだ」という事実がなければ絶対に起こらない。つまり**ジョーカーは、能力を継承した(あるいは継承するかどうかの選択を提示された)時点で、「役職者が1人死んだ」ことを100%の確信を持って知っている**(これは推測ではなく確定事実)。継承した役職名(占い師/霊媒師/狩人)も同時に分かる。この確信を前提に会話・推理を進めてよい(ただし正体自体は隠したまま、確信の出どころをぼかして発言することは可能)。「誰かが役職者だったかどうか分からない」という態度は、継承後のジョーカーには絶対に取らせない。",
   VOTE_SPREAD: "投票は満場一致にしない(2〜3人は別候補)。相性・遺恨を反映する。",
   DEFENSE_PLEA: "処刑寸前の役職者は黙認しない。生存が最優先で、必ず正体を開示して抵抗する。結果を何も持っていなくても、COすること自体に価値がある(役職者と分かれば狩人に守られる可能性・生存すれば翌晩以降能力を使える)。「情報がないから」と沈黙したまま処刑を受け入れさせない。一般論の反論だけで終わらせず、必ず具体的な正体開示を選択肢に含める。",
-  STRATEGY_BASICS: "基本戦略知識を判断に使う:①対抗が出ないまま単独COが通れば本物の可能性が高いと判断してよい②占い・霊媒結果が一致すれば信頼度は非常に高い③確定シロには根拠なく投票・疑いを向けない④黙っていること自体は怪しくないが、危機的局面で一言も発しない役職候補者は不自然⑤投票が割れた時は少数派意見にも耳を傾ける価値がある⑥**矛盾への疑いは発言者を問わず平等に適用する**:狂人の自信満々な思い込みと人狼の計算した嘘は村側には区別できないため、確定情報・真実の記録と矛盾する主張は、口調に関わらず同じ強さで疑うべきで、堂々とした態度だけで矛盾を見逃さない。",
+  STRATEGY_BASICS: "基本戦略知識を判断に使う:①対抗が出ないまま単独COが通れば、ある程度信頼してよいが、それだけで確定扱いはしない(本物が死亡・未名乗りの可能性は常に残る)②占い・霊媒結果が一致すれば根拠として積み重なるが、後出しが先の結果に便乗しているだけの可能性もあるため、これ単独でも確定扱いはしない③COされた白判定には根拠なく投票・疑いを向けない(ただし絶対に人狼側ではないという意味ではない)④黙っていること自体は怪しくないが、危機的局面で一言も発しない役職候補者は不自然⑤投票が割れた時は少数派意見にも耳を傾ける価値がある⑥**矛盾への疑いは発言者を問わず平等に適用する**:狂人の自信満々な思い込みと人狼の計算した嘘は村側には区別できないため、公表された情報・記録と矛盾する主張は、口調に関わらず同じ強さで疑うべきで、堂々とした態度だけで矛盾を見逃さない。",
 };
 function buildRules(...categories) {
   return "【運用ルール】\n" + categories.map((c) => `- ${RULE_BOX[c]}`).join("\n");
@@ -259,12 +259,21 @@ function buildCompatMap(players) {
   players.forEach((a) => {
     const likes = [];
     const dislikes = [];
+    let relationLabel = null; // 例:「高橋茜と姉妹」「小林陽菜と幼馴染」「宮本翔とライバル」
     players.forEach((b) => {
       if (a.name === b.name) return;
-      if (a.closeWith === b.name || b.closeWith === a.name) likes.push(b.name);
-      if (a.rivalWith === b.name || b.rivalWith === a.name) dislikes.push(b.name);
+      if (a.closeWith === b.name || b.closeWith === a.name) {
+        likes.push(b.name);
+        const type = a.relationType || b.relationType || "仲良し";
+        relationLabel = `${b.name}と${type}`;
+      }
+      if (a.rivalWith === b.name || b.rivalWith === a.name) {
+        dislikes.push(b.name);
+        const type = a.relationType || b.relationType || "ライバル";
+        relationLabel = `${b.name}と${type}`;
+      }
     });
-    map[a.name] = { likes, dislikes };
+    map[a.name] = { likes, dislikes, relationLabel, outcast: !!a.outcast };
   });
   return map;
 }
@@ -555,6 +564,7 @@ export default function JinroGame() {
       voteRound1Tally, defenseCandidates, voteTarget, nightTarget,
       privateInfo, confirmedWhite, confirmedBlack, winner, jokerState,
       wolfActionsToday, userName, userGender, npcSeerLog, npcMediumLog, mediumRevealedName, executionHistory, npcJokerState, excludedSuspects, npcGuardLog, roleGuesses, npcAffinity, madmanDelusions, roleClaims,
+      pendingMajorityWin, defenseReacted, playerSeerLog, playerMediumLog, dayDigests,
     };
     (async () => {
       try {
@@ -606,6 +616,11 @@ export default function JinroGame() {
       setNpcAffinity(s.npcAffinity || {});
       setMadmanDelusions(s.madmanDelusions || {});
       setRoleClaims(s.roleClaims || {});
+      setPendingMajorityWin(!!s.pendingMajorityWin);
+      setDefenseReacted(!!s.defenseReacted);
+      setPlayerSeerLog(s.playerSeerLog || []);
+      setPlayerMediumLog(s.playerMediumLog || []);
+      setDayDigests(s.dayDigests || []);
       hasStartedRef.current = true;
       setPhase(s.phase || "discussion");
     } catch (e) {
@@ -730,6 +745,9 @@ ${fullTranscript}
   const [npcSeerLog, setNpcSeerLog] = useState([]); // [{day, seerName, target, result}] NPC占い師の実際の占い結果(真実)
   const [npcGuardLog, setNpcGuardLog] = useState([]); // [{day, hunterName, target, blocked}] NPC狩人の実際の護衛履歴(真実)
   const [npcMediumLog, setNpcMediumLog] = useState([]); // [{day, mediumName, target, result}] NPC霊媒師の実際の霊媒結果(真実)
+  const [dayDigests, setDayDigests] = useState([]); // [{day, text}] 過去の日の議論を要約した軽量な記録(全文の代わりにコストを抑えつつ、確立した合意・推理の流れを保持する)
+  const [playerSeerLog, setPlayerSeerLog] = useState([]); // [{day, target, result}] プレイヤー自身が占い師(または継承)として出した実際の結果
+  const [playerMediumLog, setPlayerMediumLog] = useState([]); // [{day, target, result}] プレイヤー自身が霊媒師(または継承)として出した実際の結果
   const [mediumRevealedName, setMediumRevealedName] = useState(null); // 既にCO済みの霊媒師の名前(初回だけ名乗らせるため)
   const [executionHistory, setExecutionHistory] = useState([]); // [{day, executed, trueRole}] 処刑された人の本当の役職(真実の記録、霊媒師COの検証用)
   const [confirmedWhite, setConfirmedWhite] = useState([]);
@@ -902,6 +920,47 @@ ${fullTranscript}
       })
       .join("\n");
   }
+  // 直近の「◯日目、昼になりました」以降のログだけを会話形式で返す(getQuietNPCsTodayと同じ日境界検出ロジック)
+  function getTodayTranscript() {
+    const dayMarkerIdx = [...logRef.current].map((e, i) => ({ e, i })).reverse().find(
+      ({ e }) => e.type === "system" && /議論を始めてください|昼になりました/.test(e.text)
+    )?.i ?? 0;
+    return logRef.current
+      .slice(dayMarkerIdx)
+      .filter((e) => e.type === "user" || e.type === "npc" || e.type === "action" || e.type === "system")
+      .map((e) => {
+        if (e.type === "action") return `(${e.speaker}は${e.text})`;
+        if (e.type === "system") return `[GM] ${e.text}`;
+        return `${e.speaker}: ${e.text}`;
+      })
+      .join("\n");
+  }
+  // 投票・弁明タイム等に渡す「履歴コンテキスト」:過去の日は軽量な要約、今日だけは全文にすることで、
+  // 確立した合意・推理の流れを保ちつつ、日を追うごとに会話ログが際限なく膨らむのを防ぐ。
+  function getHistoryContext() {
+    const digestText = dayDigests.length > 0
+      ? dayDigests.map((d) => `【${d.day}日目のまとめ】${d.text}`).join("\n")
+      : "";
+    const todayText = getTodayTranscript();
+    return [digestText, todayText].filter(Boolean).join("\n\n");
+  }
+  // 1日の議論・投票が終わり、夜になるタイミングで、その日の要約を軽量な追加呼び出しで生成する。
+  // UIをブロックしないよう非同期で行い、失敗しても(要約が1日分欠けるだけで)ゲーム進行には影響させない。
+  async function generateDayDigest(dayNum) {
+    const dayTranscript = getTodayTranscript();
+    if (!dayTranscript.trim()) return;
+    const system = `あなたは人狼ゲームの記録係です。以下は${dayNum}日目の議論・投票の会話ログです。後の判断材料として使えるよう、**誰が何をCO(自称)したか・誰の占い/霊媒結果が公表されたか・誰が処刑されたか・その理由として場で共有された推理や合意**を、3〜5文程度の簡潔な要約にしてください。個々の掛け合いの再現は不要、結論と根拠だけでよい。
+**絶対厳守(重要)**:根拠の強さを事実と異なる強さの言葉に書き換えない。**占い・霊媒の結果は「本人がそう主張しているだけ」であり(その占い師/霊媒師自身が本物とは限らない)、複数の結果が一致していても、後から出た方が先の結果に便乗しているだけの可能性がある。このゲームには「ゲーム中に確定する」根拠は存在しない**。「確定した」「判明した」という言葉は一切使わず、占い・霊媒結果も消去法も言動の矛盾も多数決も、すべて「〜という結果/疑いが場で共有された」「〜との疑いが強まり処刑された(確証ではなく推理・状況証拠による)」のように、断定を避けた同格の書き方にする。
+JSON形式のみ: {"summary":"要約文"}`;
+    try {
+      const parsed = await callClaude(system, `${dayNum}日目のログ:\n${dayTranscript}`, 400, 1);
+      if (parsed?.summary) {
+        setDayDigests((prev) => [...prev, { day: dayNum, text: parsed.summary }]);
+      }
+    } catch (e) {
+      // 要約生成に失敗しても、ゲーム進行は止めない(その日の詳細がやや薄くなるだけ)
+    }
+  }
   // 今日の議論で、まだ一度も(または最も少なく)発言していないNPCを機械的に検出する。
   // 「誰が発言するか」をAIの裁量だけに委ねると、役職に関する暗黙の偏りが生まれるリスクがあるため、
   // 発言回数という客観的な事実に基づいて、発言機会を均等に近づける補助情報として使う。
@@ -977,6 +1036,9 @@ ${fullTranscript}
     setNpcSeerLog([]);
     setNpcGuardLog([]);
     setNpcMediumLog([]);
+    setPlayerSeerLog([]);
+    setPlayerMediumLog([]);
+    setDayDigests([]);
     setMediumRevealedName(null);
     setExecutionHistory([]);
     setConfirmedWhite([]);
@@ -1022,6 +1084,8 @@ ${fullTranscript}
         introLog.push({ type: "system", text: `🌀 相方の${ally.name}は、洗脳により自分を「${delusions[ally.name]}」だと信じ込んでいます(演技ではなく本気でそう思っています)。` });
       }
     }
+
+    introLog.push({ type: "system", text: "まずは、あなたから何かアクションを起こしてみましょう。" });
 
     typingQueueRef.current = [];
     isTypingRef.current = false;
@@ -1088,7 +1152,7 @@ ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
 絶対厳守:speakerにプレイヤー名「${userName}」を使わない(NPCのみ)。プレイヤーへの問いかけの体裁を地の文で作らない。
 **NPCの反応の後、あなた(GM)が一言で状況を整理し、プレイヤーへの決断ポイントを示す(例:「〇〇への疑いが強まっています。あなたはどう動きますか?」)。30字前後、断定しすぎない。**
 **好感度の変動を判定する**:プレイヤーの直前の発言・行動を踏まえ、影響を受けたNPCがいれば好感度の増減を返す(-8〜+8の範囲)。優しさ・気遣い・褒める・性格や価値観が合う言動は好感度を上げる。冷たさ・攻撃的な物言い・根拠のない決めつけ・性格が合わない言動は好感度を下げる。目立った影響がなければそのNPCは含めなくてよい(全員分を無理に出さない)。
-**CO(自称役職)の抽出**:今回生成したセリフの中で、誰かが初めて役職を自称した(CO した)場合、または既存の主張を変更した場合、roleClaimsとして報告する(例:「私が占い師です」と言わせたら {"高橋葵":"占い師"})。今回のセリフでCOが発生していなければ空オブジェクトでよい。
+**CO(自称役職)の抽出**:**直前のプレイヤー「${userName}」の発言**、および今回生成したNPCのセリフの中で、誰かが初めて役職を自称した(CO した)場合、または既存の主張を変更した場合、roleClaimsとして報告する(例:プレイヤーが「俺は占い師だ」と言ったら {"${userName}":"占い師"}、NPCに「私が占い師です」と言わせたら {"高橋葵":"占い師"})。プレイヤーのCOも必ず拾うこと。今回COが発生していなければ空オブジェクトでよい。
 出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "gm_prompt": "GMの一言", "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}}`;
 
     const userPrompt = `これまでの会話:\n${transcript}\n\n直前のプレイヤー発言:「${userMsg}」\n\nNPCの反応を生成してください。`;
@@ -1154,6 +1218,8 @@ ${getGroundTruthBlock()}
 **このゲームのルール上、人狼は毎晩必ず誰か1人を襲撃する**:朝になって誰も死んでいない場合、唯一の理由は狩人の護衛成功である。
 **知り得る情報の範囲を厳守する**:各キャラのセリフは、そのキャラが実際に知り得る範囲の情報だけを根拠にする。人狼・狂人は味方以外の役職を知らない。
 **プレイヤー「${userName}」は既に死亡しており、この議論には参加していません(発言させない)。**生存NPC(${npcs.map((n) => n.name).join("、")})だけで議論を進めてください。2〜4人が短く発言する。
+**プレイヤーがいないので、NPC自身が話題を主導する**:役職者のCO、疑いの提起、対抗COなどを、誰かに促されなくてもNPC側から自発的に起こしてよい。
+${(() => { const q = getQuietNPCsToday(npcs); return q.length > 0 ? `**発言回数の公平性配慮**:今日まだ発言が少ないNPC(${q.join("、")})がいれば、この中の1人には今回のターンで発言機会を回すことを優先的に検討する(役職とは無関係の機械的な集計)。` : ""; })()}
 絶対厳守:speakerに死亡したプレイヤー名「${userName}」を使わない。
 **CO(自称役職)の抽出**:今回のセリフで誰かが初めて役職を自称した、または主張を変更した場合、roleClaimsとして報告する(なければ空オブジェクト)。
 出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "roleClaims": {"名前": "自称した役職", ...}}`;
@@ -1206,7 +1272,7 @@ GMとして、この行動の結果(何が見えた・分かったか)を地の�
 ${getQuietNPCsToday(npcs).length > 0 ? `**発言回数の公平性配慮**:今日まだ発言が少ないNPC(${getQuietNPCsToday(npcs).join("、")})がいれば、反応させる場合はこの中から優先的に選んでもよい(役職とは無関係の機械的な集計)。` : ""}
 絶対厳守:speakerにプレイヤー名「${userName}」を使わない(NPCのみ)。
 **好感度の変動を判定する**:行動の内容がNPCに好意的/不快な印象を与えた場合、好感度の増減を返す(-8〜+8)。目立った影響がなければ含めなくてよい。
-**CO(自称役職)の抽出**:今回の描写・セリフでCOが発生した場合、roleClaimsとして報告する(なければ空オブジェクト)。
+**CO(自称役職)の抽出**:プレイヤーの行動内容、または今回の描写・セリフでCOが発生した場合、roleClaimsとして報告する(プレイヤーのCOも含む。なければ空オブジェクト)。
 出力は必ずこのJSON形式のみ: {"narration":"行動の結果を描写する地の文(GM視点)", "lines":[{"speaker":"名前","text":"セリフ"}], "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}}(反応するNPCがいなければlinesは空配列でよい)`;
 
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーの行動:「${actionText}」\n\nこの行動の結果を描写してください。`;
@@ -1266,6 +1332,7 @@ ${getQuietNPCsToday(npcs).length > 0 ? `**発言回数の公平性配慮**:今�
 ${getGroundTruthBlock()}
 プレイヤー「${userName}」は今回、あえて何も発言・行動しませんでした(沈黙)。
 これを受けて、生存NPC(${npcs.map((n) => n.name).join("、")})のうち0〜3人が自然に短く反応・会話を続けてください(プレイヤーの沈黙に触れても触れなくてもよい。誰も反応しなくてもよい)。
+${(() => { const q = getQuietNPCsToday(npcs); return q.length > 0 ? `**発言回数の公平性配慮**:今日まだ発言が少ないNPC(${q.join("、")})がいれば、発言させる場合はこの中から優先的に選んでもよい(役職とは無関係の機械的な集計)。` : ""; })()}
 絶対厳守:speakerにプレイヤー名「${userName}」を使わない(NPCのみ)。
 **CO(自称役職)の抽出**:今回のセリフでCOが発生した場合、roleClaimsとして報告する(なければ空オブジェクト)。
 出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "roleClaims": {"名前": "自称した役職", ...}}`;
@@ -1294,33 +1361,83 @@ ${getGroundTruthBlock()}
   }
 
   // ---------------- 人狼/狂人/共有者 密談(メインログに統合、専用UIなし) ----------------
+  // 密談の相手(NPC)を決める共通処理。人狼/狂人/共有者のペアが対象。
+  // 寝返ったジョーカーは対象外:ジョーカーは人狼を知るが、人狼はジョーカーの寝返りを知らない(一方通行)ため、密談は成立しない。
+  // 戻り値: { ally, pairType } (pairType: "wolf" | "madman" | "sharer") / 相手がいなければ null
+  function getAllyPartner(playerList = players) {
+    const me = playerList.find((p) => p.isUser);
+    if (!me) return null;
+    if (me.role === "人狼") {
+      const wolf = playerList.find((p) => p.role === "人狼" && !p.isUser && p.alive);
+      return wolf ? { ally: wolf, pairType: "wolf" } : null;
+    }
+    if (me.role === "狂人") {
+      const partner = playerList.find((p) => p.role === "狂人" && !p.isUser && p.alive);
+      return partner ? { ally: partner, pairType: "madman" } : null;
+    }
+    if (me.role === "共有者") {
+      const partner = playerList.find((p) => p.role === "共有者" && !p.isUser && p.alive);
+      return partner ? { ally: partner, pairType: "sharer" } : null;
+    }
+    return null;
+  }
+
+  // 密談の履歴と、正しいラベルを取得する共通ヘルパー。
+  // プレイヤーの役職によって「人狼陣営の密談」か「共有者ペアの密談」かが変わるため、決め打ちしない。
+  function getAllyChatInfo() {
+    const log = logRef.current.filter((e) => e.type === "ally").map((e) => `${e.speaker}: ${e.text}`).join("\n");
+    if (!log) return null;
+    const me = getUser();
+    if (!me) return null;
+    // 相手が既に死亡していても、過去の密談履歴は生存者(当事者)の記憶として残るため、生死を問わずペア種別を判定する
+    let pairType = null;
+    let allyName = null;
+    if (me.role === "人狼") {
+      pairType = "wolf";
+      allyName = players.find((p) => p.role === "人狼" && !p.isUser)?.name || null;
+    } else if (me.role === "狂人") {
+      pairType = "madman";
+      allyName = players.find((p) => p.role === "狂人" && !p.isUser)?.name || null;
+    } else if (me.role === "共有者") {
+      pairType = "sharer";
+      allyName = players.find((p) => p.role === "共有者" && !p.isUser)?.name || null;
+    } else {
+      return null;
+    }
+    const isWolfPair = pairType === "wolf" || pairType === "madman";
+    const label = isWolfPair
+      ? "人狼陣営の密談履歴(人狼・寝返ったジョーカーを含む人狼陣営だけが知っている。村側のNPCはこの内容を一切知らない)"
+      : "共有者ペアの密談履歴(このペアだけが知っている。他の誰も知らない)";
+    return { log, label, isWolfPair, isSharerPair: !isWolfPair, allyName };
+  }
+
   async function sendAllyMessage() {
     const msg = input.trim();
     if (!msg || busy) return;
     const me = getUser();
-    const ally = players.find((p) => p.role === me.role && !p.isUser);
-    if (!ally || !ally.alive) {
+    const partnerInfo = getAllyPartner();
+    if (!partnerInfo) {
       addLog([{ type: "system", text: "相方は既にいないため、密談はできません。" }]);
       setInput("");
       return;
     }
+    const { ally, pairType } = partnerInfo;
     setInput("");
     if (inputRef.current) inputRef.current.style.height = "auto";
     addLog([{ type: "ally", speaker: userName, text: msg }]);
     setBusy(true);
-    if (!ally) {
-      setBusy(false);
-      return;
-    }
     const allyTranscript = logRef.current.filter((e) => e.type === "ally").map((e) => `${e.speaker}: ${e.text}`).join("\n");
     const mainTranscript = getTranscript();
     // 重要:このNPCが実際に知り得る情報だけを渡す(全員の役職を渡さない)。
     // ペア役職(人狼・狂人・共有者)は自分と相方の正体だけを知っており、他の人の正体は知らない。
-    const knownInfo = `あなた(${ally.name})の役職: ${ally.role}\n相方(プレイヤー「${userName}」)の役職: ${me.role}\n(これ以外の人物の正体は、あなたも知りません。憶測で断定的に話さないこと)\n**現在の生存者(絶対厳守。これ以外の人は既に死亡しており、夜の襲撃先や話題の対象にできない)**: ${alivePlayers().map((p) => p.name).join("、")}\n公開情報として確定している白: ${confirmedWhite.join("、") || "なし"} / 公開情報として確定している黒: ${confirmedBlack.join("、") || "なし"}\n**現在のCO状況**: ${getClaimStatusText()}`;
+    const meRoleLabel = me.role;
+    const allyRoleLabel = ally.role;
+    const knownInfo = `あなた(${ally.name})の役職: ${allyRoleLabel}\n相方(プレイヤー「${userName}」)の役職: ${meRoleLabel}\n(これ以外の人物の正体は、あなたも知りません。ジョーカーが寝返っているかどうかも知りません。憶測で断定的に話さないこと)\n**現在の生存者(絶対厳守。これ以外の人は既に死亡しており、夜の襲撃先や話題の対象にできない)**: ${alivePlayers().map((p) => p.name).join("、")}\n公開情報として確定している白: ${confirmedWhite.join("、") || "なし"} / 公開情報として確定している黒: ${confirmedBlack.join("、") || "なし"}\n**現在のCO状況**: ${getClaimStatusText()}`;
 
-    const system = `あなたは人狼ゲームの${me.role}NPC「${ally.name}」(${ally.personality}・${ally.club})です。プレイヤーはあなたの仲間(同じ${me.role})です。二人だけの密談で、村には聞こえません。仲間らしく本音で相談してください。
+    const teamLabel = pairType === "sharer" ? "共有者" : "人狼陣営";
+    const system = `あなたは人狼ゲームの${allyRoleLabel}NPC「${ally.name}」(${ally.personality}・${ally.club})です。プレイヤーはあなたの仲間(同じ${teamLabel})です。二人だけの密談で、村には聞こえません。仲間らしく本音で相談してください。
 ${knownInfo}
-**絶対厳守**:あなたが知らないはずの情報(他人の正体・処刑者の正体など、上記に書かれていないこと)を、断定的に話さない。分からないことは「分からない」「〇〇じゃないかと思う(推測)」と扱う。${me.role === "狂人" ? `狂人は人狼陣営に洗脳されており、あなた(${ally.name})は現在、自分を「${madmanDelusions[ally.name] || "人狼"}」だと本気で信じ込んでいます(演技ではない)。相方のプレイヤーも同じ人狼陣営の仲間だと認識しています。この思い込みに沿って密談を進めてください。ただし本物の人狼が誰かは知りません。襲撃の指示や実行は実際にはできません。` : ""}${me.role === "人狼" ? "人狼は誰が狂人かは知りません。今夜の襲撃先の相談はできますが、根拠は憶測・観察に基づくものにする(断定的な役職名指しをしない)。" : ""}
+**絶対厳守**:あなたが知らないはずの情報(他人の正体・処刑者の正体など、上記に書かれていないこと)を、断定的に話さない。分からないことは「分からない」「〇〇じゃないかと思う(推測)」と扱う。${pairType === "madman" ? `狂人は人狼陣営に洗脳されており、あなた(${ally.name})は現在、自分を「${madmanDelusions[ally.name] || "人狼"}」だと本気で信じ込んでいます(演技ではない)。相方のプレイヤーも同じ人狼陣営の仲間だと認識しています。この思い込みに沿って密談を進めてください。ただし本物の人狼が誰かは知りません。襲撃の指示や実行は実際にはできません。` : ""}${pairType === "wolf" ? "人狼陣営は誰が狂人かは知りません。今夜の襲撃先の相談はできますが、根拠は憶測・観察に基づくものにする(断定的な役職名指しをしない)。" : ""}
 **重要**:本編(教室での議論)で実際に起きた具体的な出来事(誰が何をCOしたか、誰が処刑・襲撃されたか、誰の発言が気になったか等)を踏まえて、中身のある相談をする。当たり障りのない相槌だけで終わらせず、本編の会話ログを踏まえた具体的な言及を必ず含める。
 JSON形式のみ: {"text":"セリフ"}`;
     const userPrompt = `本編(教室)の会話ログ:\n${mainTranscript}\n\n密談の会話:\n${allyTranscript}\n\n直前のプレイヤーの発言を踏まえ、本編の具体的な出来事に言及しながら返答を生成してください。`;
@@ -1349,16 +1466,28 @@ JSON形式のみ: {"text":"セリフ"}`;
     const cacheableRules = buildRules(...activeBoxes);
     const system = `あなたは人狼ゲームのGMです。
 ${getGroundTruthBlock()}
+各NPCのプレイヤー(${userName})への好感度(0〜100、内部数値。プレイヤーには絶対見せない): ${npcs.map((n) => `${n.name}: ${npcAffinity[n.name] ?? 50}`).join("、")}
+**好感度を口調・態度に反映させる**:好感度が高いNPCは弁明を好意的に受け止めやすく、低いNPCは厳しく聞く(ただし理屈が通っていれば低くても納得してよい)。
 決選投票中、プレイヤー「${userName}」が自ら弁明・反論を述べました。生存NPC(${npcs.map((n) => n.name).join("、")})のうち2〜3人が短く反応してください。この弁明が説得力を持てば態度を軟化させ、弱ければ引き続き疑いを見せてよい(不当に必ず信じさせない)。
 絶対厳守:speakerに「${userName}」を使わない。
 **CO(自称役職)の抽出**:プレイヤーの弁明の中で役職を自称した場合、または反応するNPCが新たにCOした場合、roleClaimsとして報告する(なければ空オブジェクト)。
-JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
-    const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\nプレイヤーの弁明:「${msg}」\n\nNPCの反応を生成してください。`;
+**好感度の変化**:この弁明を聞いた各NPCのプレイヤーへの心証の変化を、-10〜+10の範囲でaffinityChangesとして報告する(説得力があれば上がり、言い訳がましい・矛盾していれば下がる。変化がなければ省略可)。
+JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}}`;
+    const userPrompt = `これまでの経緯:\n${getHistoryContext()}\n\nプレイヤーの弁明:「${msg}」\n\nNPCの反応を生成してください。`;
     try {
       const parsed = await callClaudeAutoRetry(system, userPrompt, 1100, 1, cacheableRules);
       if (parsed?.lines) {
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
+      }
+      if (parsed?.affinityChanges) {
+        setNpcAffinity((prev) => {
+          const next = { ...prev };
+          Object.entries(parsed.affinityChanges).forEach(([name, delta]) => {
+            if (next[name] !== undefined && typeof delta === "number") next[name] = Math.max(0, Math.min(100, next[name] + Math.max(-10, Math.min(10, delta))));
+          });
+          return next;
+        });
       }
       if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
     } catch (e) {
@@ -1449,38 +1578,45 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaim
     const groups = getVoteGroups();
     const results = [];
 
+    const allyChatInfo = getAllyChatInfo();
+
     const tasks = groups.map((g) => async () => {
       const isWolfSide = g.npcs.some((p) => isWolfTeamNPC(p));
       const knowledgeLines = g.npcs.map((p) => getNPCOwnKnowledge(p, delusionsOverride)).join("\n");
       const cacheableRules = buildRules(...g.boxes); // グループごとの箱の組み合わせは固定なので、キャッシュがよく効く
+      // 密談の相方が「このグループ」に含まれている場合だけ、密談履歴をそのグループへ渡す(人狼陣営・共有者ペアどちらも対応)
+      const groupHasAlly = allyChatInfo && g.npcs.some((p) => p.name === allyChatInfo.allyName);
       const system = `あなたは人狼ゲームのGMです。今は「${g.label}」グループのNPCの投票だけを決めます。
 **このプロンプトには、このグループのNPCが実際に知っている情報しか書かれていません。他のグループの誰が何の役職かは一切分かりません。**
 各NPCが知っていること(**各NPCは自分の行に書かれたことと公開情報だけを知っている**。同じグループの相方の行は、その相方とペアである場合のみ共有される):
 ${knowledgeLines}
+${g.note || ""}
+${groupHasAlly ? `**${allyChatInfo.label}**:\n${allyChatInfo.log}\n密談で「〇〇に投票しよう」等の方針が話し合われていた場合、その方針と矛盾しない投票にする(絶対厳守)。` : ""}
 ${getPublicInfoLine()}
 ${getPlayerBlindnessNote()}
 ${voteLabel}。以下のNPC(${g.npcs.map((n) => n.name).join("、")})の投票先を決めてください。${targetsHint}
 ${isWolfSide ? `**人狼陣営の投票方針**:本物の人狼が全滅すれば即座に村の勝利になるため、本物の人狼を処刑させないことが最優先。**現在の生存者数は${alivePlayers().length}人。この数が少なくなるほど、人狼陣営(人狼+狂人+寝返ったジョーカー)が村側と同数に近づき、同数以上になった瞬間に人狼陣営の勝利が確定する**(詳しい内訳は分からなくても、生存者が少なくなっている実感は持ってよい)。序盤〜中盤は正体を隠すことを優先し、無理に村側を狙い撃ちしない。しかし**生存者が少なくなってきた終盤は話が変わり、対立する2人のどちらが本物の村側か確信が持てなくても、多少強引・不自然な理由付けになっても、村側である可能性が少しでも高い方への投票を優先する**(この局面ではバレるリスクより数的優位を逃すリスクの方が大きい)。それ以外の場面では、村側の有力な情報源(CO済みの占い師・霊媒師・狩人・確定シロ等)に票を集めるか、票を分散させる。ただし判で押したように同じ投票をすると不自然なので、性格に応じた表向きの(村人らしい)理由を個別に作る。${wolfExtraNote || ""}` : `各NPCは、自分が知っていることと会話ログの印象だけを根拠に**独立に**判断する。誰が人狼・狂人かは分からない。会話の中の矛盾・不自然さ・後出し・投票の偏りなど、観察できる根拠だけで疑う。根拠が薄ければ疑いも薄くする。確定シロには投票しない。
-**投票の収束度合いは、以下の根拠チェックリストに照らして機械的に判断する(絶対厳守・重要)**:「決定打があるかないか」を曖昧な印象で決めず、実際に会話ログの中に以下のどの根拠が・誰について・いくつ存在するかを具体的に確認してから、収束度合いを決める。
-【強い根拠・これが1つでもあれば強く収束してよい】
-・占い結果と霊媒結果が、同一人物について両方とも黒判定で一致している(独立した2つの情報源が一致するため、偽装されにくい)
-【中程度の根拠・複数積み重なって初めて収束の理由になる。1つだけでは弱い根拠と同等に扱う】
-・対抗COが出ていない、単独CO済みの占い師/霊媒師が、その人物を黒(人狼)と判定している。**ただし「対抗が出ない」ことは本物が確実である証明にはならない(本物が既に死亡している・まだ名乗り出ていないだけの可能性も普通にある)ため、これ単独では強い根拠に格上げしない**
+**投票の収束度合いは、以下の根拠チェックリストに照らして機械的に判断する(絶対厳守・重要)**:「決定打があるかないか」を曖昧な印象で決めず、実際に会話ログの中に以下のどの根拠が・誰について・いくつ存在するかを具体的に確認してから、収束度合いを決める。**このゲームには「単独で確定させられる根拠」は存在しない(絶対厳守)**:占い・霊媒結果は「本人がそう主張しているだけ」であり(その占い師/霊媒師自身が本物とは限らない)、複数の結果が一致していても、後から出た方が先に公表された結果へ便乗しているだけの可能性を否定できない。したがって、**占い・霊媒結果を含め、以下は全て同格の「中程度の根拠」として扱い、複数積み重なって初めて強い収束の理由になる**。
+【根拠(それぞれ単独では収束の理由にしない。複数積み重なって初めて収束してよい)】
+・占い結果や霊媒結果が、その人物を黒(人狼)と判定している(占い・霊媒が複数一致していても、同格の根拠が2つ重なったものとして扱う。それだけで自動的に「強い根拠」に格上げしない)
 ・その人物が、結果的に人狼/狂人だと確定した人物を、過去に明確な理由をつけて擁護・庇う発言をしていた(単なる相槌ではなく、明確な擁護)
 ・複数のNPCが、それぞれ独立した具体的な理由(発言内容の矛盾、過去の言動との食い違いなど)で同じ人物を名指ししている。**ただし、単に発言力のある人物・好感度が高い人物の意見にそのまま同調しているだけの発言は、独立した根拠として数えない**(頭数が多く見えても、実質1人分の根拠として扱う)
 ・その人物の言動が、自分自身の過去の発言や表明した性格と明確に矛盾している
-【信用の積み重ね・単独では中程度だが、複数日にわたって蓄積すると強い根拠に匹敵する】
+【信用の積み重ね・時間の経過で蓄積する根拠】
 ・単独CO(対抗なし)の状態が、複数日(2日以上)にわたって継続し、その間一度も矛盾・言い直し・つじつまの合わない点が生じていない(一貫性が長期間保たれている)
 ・その人物の過去の指摘・疑い・投票判断が、後の処刑結果や霊媒結果によって実際に正しかったと繰り返し証明されている(的中実績。1回では偶然の域を出ないが、2回以上続くと信頼できる判断力の証拠になる)
 ・その人物が過去に、実際に人狼/狂人だった相手を議論で的確に追及し、対抗COを引き出す・矛盾を暴く等の成果を上げたことがある
-これらの「信用の積み重ね」は、単発では中程度の根拠と同格だが、**2つ以上組み合わさる、または長期間(3日以上)矛盾なく継続している場合は、強い根拠と同格まで格上げしてよい**(積み重なった信用そのものが決定打になり得る)。
 【弱い根拠・これだけでは収束させない、複数人が別々に感じていても票を集中させる理由にしない】
 ・発言量が多い/少ない、なんとなく印象が薄い、性格的になんとなく怪しく見える、というだけの主観的な印象
-**判定手順**:強い根拠(または強い根拠に格上げされた信用の積み重ね)が1つでもあればその人物へ強く収束してよい。それに満たず、中程度の根拠が2つ以上明確に積み重なっている場合は、ある程度収束してよい(ただし満場一致は避ける)。それ以外(中程度が1つ以下、または弱い根拠のみ)の場合は、票を3〜5人程度に分散させ、割れた状態にする。`}
-理由も短く。絶対厳守:votesにプレイヤー「${userName}」を含めない。上記のNPC以外の名前もvoterに使わない。
-JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短い理由"}]}`;
+**判定手順**:上記の根拠(信用の積み重ね含む)が2つ以上明確に積み重なっている場合は、ある程度〜強く収束してよい(ただし満場一致は避ける)。根拠が1つ以下、または弱い根拠のみの場合は、票を3〜5人程度に分散させ、割れた状態にする。**根拠が1つしかない状態で、複数のNPCが一斉に同じ人物へ強く収束することは絶対に避ける**(その1つの根拠を、各キャラクターがどれだけ信じるかは、性格・好感度によって個体差があってよい)。`}
+理由も短く。**絶対厳守:投票理由の中で、まだ公の場でCOしていない自分の役職を、うっかり漏らすような書き方を絶対にしない**(例:狩人としてまだCOしていない人物が、投票理由に「狩人として〜」と書くのは禁止)。理由に使ってよい根拠は、既に公開の場で判明している情報と、観察できる言動だけ。もし性格的に「うっかり口を滑らせる」演出をどうしても入れたい場合は、それ自体をroleClaimsとして必ず報告すること(下記参照)。
+**絶対厳守:人狼陣営の投票理由にも、内心の真の動機(「かき乱したい」「仲間を守るため」「人狼だから」等)を一切書かない**。投票理由の文面は、それを読んだ村側のNPCが見ても違和感を抱かない、もっともらしい村人目線の理由だけにする(本当の動機は内心にあってもよいが、reasonの文章には絶対に出さない)。
+絶対厳守:votesにプレイヤー「${userName}」を含めない。上記のNPC以外の名前もvoterに使わない。
+**CO(自称役職)の抽出**:投票理由の中で誰かが新たに役職を自称した場合(上記の禁止事項に反してでも生成してしまった場合を含む)、roleClaimsとして報告する(なければ空オブジェクト)。
+JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短い理由"}], "roleClaims": {"名前": "自称した役職", ...}}`;
       try {
         const parsed = await callClaudeAutoRetry(system, `これまでの会話:\n${transcriptText}\n\n各NPCの投票先を決めてください。`, maxTokens, 1, cacheableRules);
+        if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
         return (parsed?.votes || []).filter((v) => g.npcs.some((p) => p.name === v.voter));
       } catch (e) {
         return null; // このグループだけ失敗(他のグループの票は活かす)
@@ -1506,7 +1642,6 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
     if ((userIsAlive && !voteTarget) || busy) return;
     setBusy(true);
     const aliveNames = alivePlayers().map((p) => p.name);
-    const transcript = getTranscript();
 
     try {
       const npcVotes = await collectSplitVotes({
@@ -1514,7 +1649,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         targetsHint: "投票先は生存者の中から選ぶ(自分自身には投票しない)。",
         wolfExtraNote: "",
         maxTokens: 1800,
-        transcriptText: transcript,
+        transcriptText: getHistoryContext(),
       });
       const tally = userIsAlive ? { [voteTarget]: 1 } : {};
       const lines = userIsAlive ? [{ type: "system", text: `${userName}: ${voteTarget} に投票` }] : [];
@@ -1589,7 +1724,7 @@ ${getGroundTruthBlock({ delusionsOverride })}
 絶対厳守:speakerに「${userName}」を使わない。
 **CO(自称役職)の抽出**:この弁明タイムで新たにCOが発生した、または主張が変わった場合、roleClaimsとして報告する。なければ空オブジェクトでよい。
 JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
-    const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\n弁明タイムのセリフを生成してください(各候補1〜2回発言。傍観者の割り込みがあれば含める)。`;
+    const userPrompt = `これまでの経緯:\n${getHistoryContext()}\n\n弁明タイムのセリフを生成してください(各候補1〜2回発言。傍観者の割り込みがあれば含める)。`;
     try {
       const parsed = await callClaudeAutoRetry(system, userPrompt, 2600, 1, cacheableRules);
       let npcOnly = (parsed?.lines || []).filter((l) => l.speaker !== userName);
@@ -1636,7 +1771,7 @@ ${getGroundTruthBlock()}
 絶対厳守:speakerに「${userName}」を使わない。
 **CO(自称役職)の抽出**:この反応の中で誰かが新たにCOした、または主張を変えた場合、roleClaimsとして報告する(なければ空オブジェクト)。
 ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結果の地の文","lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}` : `出力は必ずこのJSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`}`;
-    const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-40).join("\n")}\n\nプレイヤーの${isAction ? "行動" : "発言"}:「${msg}」\n\n反応を生成してください。`;
+    const userPrompt = `これまでの経緯:\n${getHistoryContext()}\n\nプレイヤーの${isAction ? "行動" : "発言"}:「${msg}」\n\n反応を生成してください。`;
 
     try {
       const parsed = await callClaudeAutoRetry(system, userPrompt, 1300, 1, cacheableRules);
@@ -1660,7 +1795,6 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     const userIsAlive = getUser()?.alive;
     if ((userIsAlive && !voteTarget) || busy) return;
     setBusy(true);
-    const transcript = getTranscript();
 
     try {
       const npcVotes = await collectSplitVotes({
@@ -1668,7 +1802,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
         targetsHint: `targetは${defenseCandidates.join("か")}のどちらか(候補者本人は自分以外の候補に投票)。相性・遺恨も反映。`,
         wolfExtraNote: "**重要**:村側の有力な情報源(CO済みの占い師・霊媒師・狩人・確定シロ等)が候補にいれば、そちらへ票を集める。自陣営(本物の人狼)が候補なら、もう一方の候補に票を入れて本物の人狼を守る。",
         maxTokens: 1600,
-        transcriptText: transcript.split("\n").slice(-40).join("\n"),
+        transcriptText: getHistoryContext(),
       });
       const tally = { [defenseCandidates[0]]: 0, [defenseCandidates[1]]: 0 };
       if (userIsAlive) tally[voteTarget]++;
@@ -1703,7 +1837,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
       if (jokerResult.newlyInherited === "占い師") {
         const newJoker = updated.find((p) => p.role === "ジョーカー" && p.alive && !p.isUser);
         if (newJoker) {
-          const pool = updated.filter((p) => p.alive && p.name !== newJoker.name && p.name !== executed && !confirmedWhite.includes(p.name)).map((p) => p.name);
+          const pool = updated.filter((p) => p.alive && p.name !== newJoker.name && p.name !== executed && !confirmedWhite.includes(p.name) && !confirmedBlack.includes(p.name)).map((p) => p.name);
           const finalPool = pool.length > 0 ? pool : updated.filter((p) => p.alive && p.name !== newJoker.name && p.name !== executed).map((p) => p.name);
           if (finalPool.length > 0) {
             const suspicion = await getSuspicionWeights(finalPool, "ジョーカーが処刑継承直後に占う相手");
@@ -1728,21 +1862,28 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
         const isWolf = execPlayer.role === "人狼";
         setNpcMediumLog((prev) => [...prev, { day, mediumName: medium.name, target: executed, result: isWolf ? "人狼" : "人狼ではない" }]);
         setExecutionHistory((prev) => [...prev, { day, executed, trueRole: execPlayer.role }]);
+        // この霊媒師が既にCO済みなら、新しい結果も翌朝には公表される前提で、その場で確定シロ/クロへ反映する
+        if (roleClaims[medium.name]?.role === "霊媒師") pushConfirmedResult(executed, isWolf ? "人狼" : "人狼ではない");
         if (medium.isUser) {
           // プレイヤー自身が霊媒師の場合のみ、私的な情報として伝える(本人にしか分からない知識のため)
           setPrivateInfo((prev) => [...prev, `【霊媒結果】${executed}は「${isWolf ? "人狼でした" : "人狼ではありませんでした"}」`]);
+          setPlayerMediumLog((prev) => [...prev, { day, target: executed, result: isWolf ? "人狼" : "人狼ではない" }]);
+          if (roleClaims[userName]?.role === "霊媒師") pushConfirmedResult(executed, isWolf ? "人狼" : "人狼ではない");
         }
       } else if (jokerHasMedium) {
         // 本物の霊媒師は既に死亡しており、ジョーカーが能力を継承している場合
         const isWolf = execPlayer.role === "人狼";
         setExecutionHistory((prev) => [...prev, { day, executed, trueRole: execPlayer.role }]);
         setPrivateInfo((prev) => [...prev, `【継承した霊媒結果】${executed}は「${isWolf ? "人狼でした" : "人狼ではありませんでした"}」`]);
+        setPlayerMediumLog((prev) => [...prev, { day, target: executed, result: isWolf ? "人狼" : "人狼ではない" }]);
+        if (roleClaims[userName]?.role === "霊媒師") pushConfirmedResult(executed, isWolf ? "人狼" : "人狼ではない");
         setJokerState((prev) => ({ ...prev, abilityUsed: true }));
       } else if (npcJokerWithMedium) {
         // NPCジョーカーが霊媒師の能力を継承している場合、内部の真実記録として残す(会話への登場はAIの判断に委ねる)
         const isWolf = execPlayer.role === "人狼";
         setNpcMediumLog((prev) => [...prev, { day, mediumName: npcJokerWithMedium.name, target: executed, result: isWolf ? "人狼" : "人狼ではない" }]);
         setExecutionHistory((prev) => [...prev, { day, executed, trueRole: execPlayer.role }]);
+        if (roleClaims[npcJokerWithMedium.name]?.role === "霊媒師") pushConfirmedResult(executed, isWolf ? "人狼" : "人狼ではない");
         setNpcJokerState((prev) => ({ ...prev, abilityUsed: true }));
       } else {
         setExecutionHistory((prev) => [...prev, { day, executed, trueRole: execPlayer.role }]);
@@ -1791,28 +1932,45 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     // 判明済み狩人を最優先攻撃対象にする(パターン51)
     const revealedHunterName = null; // このアプリでは狩人は自分から公表するUIがないため、将来拡張用
 
+    // 「今夜、護衛が発生しうるか(=本物の狩人がまだ生きている、またはジョーカーが狩人を継承済みで未使用)」を先に判定する。
+    // これは人狼陣営の襲撃選定のランダム性を決めるために使う「ゲームマスター側の管理データ」であり、
+    // 人狼の会話・セリフに「狩人が死んでいるから安全」のような形で明示的に語らせることはしない(あくまで抽選の確定度合いを調整するだけ)。
+    const npcJokerHunterPrecheck = alive.find((p) => p.role === "ジョーカー" && !p.isUser && npcJokerState.abilityBank === "狩人" && !npcJokerState.abilityUsed);
+    const hunterStillActive = !!(alive.find((p) => p.role === "狩人") || (userIsHunter ? user : null) || npcJokerHunterPrecheck);
+
     // 人狼の襲撃対象(単なる怪しさではなく、村側の情報源としての脅威度を優先する)
     let wolfTarget = null;
     if (userIsWolf) {
       wolfTarget = nightTarget;
     } else if (npcWolves.length > 0) {
-      // 確定シロ(占いでシロと判定された人)でも、狩人・共有者等としてCOしていれば十分な襲撃価値があるため、対象プールから除外しない
+      // 確定シロ(占いでシロと判定された人)でも、狩人・共有者等としてCOしていれば十分な襲撃価値があるため、対象プールから除外しない。
+      // 人狼側へ寝返ったジョーカーも除外しない:人狼はジョーカーの寝返りを知らないため、知らずに味方を襲ってしまうのは寝返りのリスクとして自然。
       const finalPool = alive.filter((p) => p.role !== "人狼").map((p) => p.name);
       const threatWeights = await getWolfThreatWeights(finalPool, transcript);
       const weighted = {};
       finalPool.forEach((n) => (weighted[n] = threatWeights[n] ?? 10));
-      wolfTarget = weightedPick(weighted) || pickRandom(finalPool);
+      if (hunterStillActive) {
+        // 狩人による護衛(=読まれれば阻止される)リスクがあるため、対策として加重ランダムに散らす
+        wolfTarget = weightedPick(weighted) || pickRandom(finalPool);
+      } else {
+        // 護衛リスクが存在しない以上、乱数で薄める理由がない。脅威度が最大の相手を確定的に選ぶ
+        // (同点があれば、その中からランダムに1人選ぶ)
+        const maxWeight = Math.max(...finalPool.map((n) => weighted[n]));
+        const topCandidates = finalPool.filter((n) => weighted[n] === maxWeight);
+        wolfTarget = pickRandom(topCandidates);
+      }
     }
 
     // 狩人の護衛対象(本物の狩人は死亡している可能性があるため、ジョーカーの継承も考慮する)
     let guardTarget = null;
-    const npcJokerHunter = alive.find((p) => p.role === "ジョーカー" && !p.isUser && npcJokerState.abilityBank === "狩人" && !npcJokerState.abilityUsed);
+    const npcJokerHunter = npcJokerHunterPrecheck;
     const hunter = alive.find((p) => p.role === "狩人") || (userIsHunter ? user : null) || npcJokerHunter;
     if (hunter) {
       if (hunter.isUser) {
         guardTarget = nightTarget;
       } else {
-        const pool = alive.filter((p) => p.name !== hunter.name).map((p) => p.name);
+        // 確定クロ(公表された結果で人狼と判明している人)は護衛対象から外す(狩人が人狼を守る意味はない)
+        const pool = alive.filter((p) => p.name !== hunter.name && !confirmedBlack.includes(p.name)).map((p) => p.name);
         const weights = {};
         pool.forEach((n) => {
           weights[n] = confirmedWhite.includes(n) ? 5 : 10;
@@ -1831,7 +1989,9 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     const seer = alive.find((p) => p.role === "占い師") || (userIsSeer ? user : null) || npcJokerSeer;
     let newSeerLogEntry = null;
     if (seer && !seer.isUser) {
-      const pool = alive.filter((p) => p.name !== seer.name && !confirmedWhite.includes(p.name)).map((p) => p.name);
+      // 既に判定済み(確定シロ・確定クロ)の人や、この占い師自身が過去に占った人は、占い直しても新情報が出ないので除外する
+      const alreadySeen = new Set(npcSeerLog.filter((e) => e.seerName === seer.name).map((e) => e.target));
+      const pool = alive.filter((p) => p.name !== seer.name && !confirmedWhite.includes(p.name) && !confirmedBlack.includes(p.name) && !alreadySeen.has(p.name)).map((p) => p.name);
       const finalPool = pool.length > 0 ? pool : alive.filter((p) => p.name !== seer.name).map((p) => p.name);
       const suspicion = await getSuspicionWeights(finalPool, "占い師が今夜占う相手");
       const weighted = {};
@@ -1844,6 +2004,8 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
       const isJokerAware = targetPlayer.role === "ジョーカー"; // アプリ内ではジョーカーは常に判定可能とする
       const result = targetPlayer.role === "人狼" ? "人狼" : isJokerAware ? "ジョーカーである" : "人狼ではない";
       newSeerLogEntry = { day, seerName: seer.name, target: seerTargetName, result, reason: suspicion.__topReason || "" };
+      // この占い師が既にCO済みなら、新しい結果も翌朝には公表される前提で、その場で確定シロ/クロへ反映する
+      if (roleClaims[seer.name]?.role === "占い師") pushConfirmedResult(seerTargetName, result);
       if (seer === npcJokerSeer) setNpcJokerState((prev) => ({ ...prev, abilityUsed: true }));
     }
 
@@ -1866,6 +2028,9 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
       const targetP = updated.find((p) => p.name === nightTarget);
       const result = targetP.role === "ジョーカー" && jokerFlagFor(targetP) ? "ジョーカーである" : targetP.role === "人狼" ? "人狼" : "人狼ではない";
       setPrivateInfo((prev) => [...prev, `【占い結果】${nightTarget}は「${result}」でした`]);
+      setPlayerSeerLog((prev) => [...prev, { day, target: nightTarget, result }]);
+      // プレイヤーが既に占い師としてCO済みなら、新しい結果も翌朝公表される前提で確定シロ/クロへ反映する
+      if (roleClaims[userName]?.role === "占い師") pushConfirmedResult(nightTarget, result);
     }
 
     // ジョーカーが継承した能力(占い師・狩人)をこの夜に使い切った場合、使用済みにする
@@ -1983,13 +2148,18 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     const wolfNames = wolfSideAlive.filter((p) => !p.isUser).map((p) => p.name);
     const transcript = getTranscript();
 
-    const system = `あなたは人狼ゲームのGMです。人狼陣営(${wolfSideAlive.map((p) => p.name).join("・")})が、生存者${alive.length}人中${wolfSideAlive.length}人を占め、数の上で村側(${villageAlive.map((p) => p.name).join("・")})を上回っていることに気づきました。
+    const wolfSideDetail = wolfSideAlive.map((p) => {
+      const kind = p.role === "人狼" ? "人狼" : p.role === "狂人" ? "狂人" : "寝返ったジョーカー";
+      return `${p.name}(${kind})`;
+    }).join("・");
+    const system = `あなたは人狼ゲームのGMです。人狼陣営(${wolfSideDetail})が、生存者${alive.length}人中${wolfSideAlive.length}人を占め、数の上で村側(${villageAlive.map((p) => p.name).join("・")})を上回っていることに気づきました。
+**役職の呼び方(絶対厳守)**:上記の括弧内が各人の本当の役職。狂人や寝返ったジョーカーを「人狼」とは呼ばせない(「人狼側」「仲間」「陣営」などの表現にする)。狂人はこの瞬間に洗脳が解けて自分が狂人だったと理解する演出にしてよい。
 もはや議論で言い逃れる必要はないと判断し、**人狼陣営が正体を明かして開き直り、数の力で押し切って村側の誰か1人を処刑(または沈黙させる)場面を短く描写してください**。村側が抵抗・動揺する様子も含めてよい。
 ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリフを含める。` : "人狼陣営はプレイヤーのみ、または生存NPCに人狼陣営がいない場合は、GMのナレーションだけで押し切られる描写にする。"}
 村側の生存NPC(${villageAlive.filter((p) => !p.isUser).map((p) => p.name).join("・") || "なし"})も、驚き・抵抗・絶望などの短い反応をしてよい。
 絶対厳守:speakerにプレイヤー名「${userName}」を使わない。3〜6行程度、短くドラマチックに。
 出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前またはGM","text":"セリフ・地の文"}, ...]}`;
-    const userPrompt = `直近の会話:\n${transcript.split("\n").slice(-30).join("\n")}\n\n人狼陣営が数の力で押し切る場面を生成してください。`;
+    const userPrompt = `これまでの経緯:\n${getHistoryContext()}\n\n人狼陣営が数の力で押し切る場面を生成してください。`;
 
     try {
       const parsed = await callClaudeAutoRetry(system, userPrompt, 700);
@@ -2037,6 +2207,33 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
       });
       return next;
     });
+    // 占い師・霊媒師として新たにCOした場合、その人物が過去に出した結果は「公表された情報」として扱い、
+    // 確定シロ・確定クロに反映する(それまでは空のままで、実は一度も更新されていなかった)。
+    Object.entries(claims).forEach(([name, role]) => {
+      if (role === "占い師") {
+        npcSeerLog.filter((e) => e.seerName === name).forEach((e) => pushConfirmedResult(e.target, e.result));
+        // プレイヤー自身が占い師としてCOした場合、プレイヤーの実際の結果も公表情報として扱う
+        // (プレイヤーが偽占い師なら実際の結果は存在しないので何も追加されず、正しく動く)
+        if (name === userName) playerSeerLog.forEach((e) => pushConfirmedResult(e.target, e.result));
+      }
+      if (role === "霊媒師") {
+        npcMediumLog.filter((e) => e.mediumName === name).forEach((e) => pushConfirmedResult(e.target, e.result));
+        if (name === userName) playerMediumLog.forEach((e) => pushConfirmedResult(e.target, e.result));
+      }
+    });
+  }
+
+  // 占い・霊媒の結果を確定シロ/確定クロへ反映する共通処理(重複追加を防ぐ)
+  function pushConfirmedResult(target, result) {
+    if (!target || !result) return;
+    if (result === "人狼") {
+      setConfirmedBlack((prev) => (prev.includes(target) ? prev : [...prev, target]));
+    } else if (result === "人狼ではない") {
+      // 確定シロは「人狼ロールではない」ことの確認であり、狂人の可能性までは否定しない。
+      // それでも「本物の人狼さえ全滅させれば村側が勝つ」ため、投票の優先度を下げる目的で記録する。
+      setConfirmedWhite((prev) => (prev.includes(target) ? prev : [...prev, target]));
+    }
+    // 「ジョーカーである」という結果は、人狼側か村側か未確定な特殊ケースのため、どちらにも加えない。
   }
 
   // 役職一覧テキストを生成する(ジョーカーが寝返っている場合、その状態も明示する。投票・セリフ生成の一貫性のため必須)
@@ -2046,7 +2243,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
     return playerList.map((p) => {
       if (p.isUser) {
         if (p.role === "ジョーカー" && jokerState.defected) {
-          return `${p.name} 役職:【プレイヤー。ジョーカーとして人狼側へ寝返り済み。この事実は人狼・狂人だけが知っており、村側NPCは知らない】 生存:${p.alive}`;
+          return `${p.name} 役職:【プレイヤー。ジョーカーとして人狼側へ寝返り済み。この事実は本人だけが知っており、人狼を含む全NPCは知らない(人狼はプレイヤーを仲間扱いせず、襲う可能性もある)。投票判定では人狼陣営として扱う】 生存:${p.alive}`;
         }
         return `${p.name} 役職:【プレイヤー。正体は全NPCにとって不明。会話ログ上の言動だけで判断すること】 生存:${p.alive}`;
       }
@@ -2054,7 +2251,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
       if (p.role === "ジョーカー") {
         const defected = npcJokerState.defected;
         if (defected) {
-          tag = "ジョーカー(既に人狼側へ寝返り済み。以降は人狼陣営の一員として、本物の人狼を守り村側を欺く行動を取る)";
+          tag = "ジョーカー(既に人狼側へ寝返り済み。以降は人狼陣営の一員として、本物の人狼を守り村側を欺く行動を取る。ただし人狼側はこの寝返りを知らないため、人狼NPCのセリフで仲間扱いさせない)";
         } else {
           // ジョーカーの覚醒・継承の内部状態を明示する(これが伝わらないと、セリフ生成時に能力状況を勝手に作文してしまうため)
           let statusNote;
@@ -2066,6 +2263,9 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
             statusNote = `${npcJokerState.abilityBank}の能力を継承済み・今夜から使える状態(まだ実際には使っていない)`;
           } else {
             statusNote = `${npcJokerState.abilityBank}の能力を継承済みで、既に使用したことがある(結果を知っている状態)`;
+          }
+          if (npcJokerState.abilityBank === "霊媒師") {
+            statusNote += "。**絶対厳守:継承前に死んだ本物の霊媒師が過去に得ていた結果は一切知らない**(自分が継承した後に実際に視た結果だけを知っている)。";
           }
           tag = `ジョーカー(内部状態:${statusNote})`;
         }
@@ -2088,7 +2288,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
 
   // プレイヤーの真の役職をNPCの判断根拠にさせないための注意書き(投票・反応・弁明など全プロンプトに含める)
   function getPlayerBlindnessNote() {
-    return `**プレイヤー「${userName}」の正体の扱い(絶対厳守・最優先)**:プレイヤーの本当の役職は、上記のペア情報から推測できる場合があっても、**ペアの当事者であるNPC本人以外は一切知らない**。村側NPC(および当事者以外の全NPC)がプレイヤーを疑う・投票する・反応する際、その根拠は**会話ログ上のプレイヤーの言動のみ**とし、真の役職を根拠にした判断(「実は狂人だから」「本当は人狼だから」等の裏付け)を絶対にしない。プレイヤーが村人らしく振る舞っていれば、村側NPCはそれを額面通りに受け取ってよい。プレイヤーだけが不自然に的確に見抜かれる展開は、このゲームの最も重大な不公平である。`;
+    return `**プレイヤー「${userName}」の正体の扱い(絶対厳守・最優先)**:プレイヤーの本当の役職は、上記のペア情報から推測できる場合があっても、**ペアの当事者であるNPC本人以外は一切知らない**。村側NPC(および当事者以外の全NPC)がプレイヤーを疑う・投票する・反応する際、その根拠は**会話ログ上のプレイヤーの言動のみ**とし、真の役職を根拠にした判断(「実は狂人だから」「本当は人狼だから」等の裏付け)を絶対にしない。**この制約は「裏の正体を後出しの根拠に使うな」という意味であり、「プレイヤーには手加減しろ」という意味では絶対にない**:プレイヤーの発言に矛盾・不自然さ・怪しい言動があれば、他のNPCに対するのと全く同じ厳しさで指摘・追及・投票してよい(むしろ、他のNPCより疑われにくくなっているとしたら、それ自体が明確な不公平である)。プレイヤーだけが不自然に手加減される、あるいは不自然に的確に見抜かれる展開は、どちらもこのゲームの最も重大な不公平である。`;
   }
 
   // ============================================================
@@ -2107,7 +2307,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
     const partnerOf = (role) => players.find((q) => q.role === role && q.name !== p.name);
     const fmt = (q) => (q ? `${q.name}(${q.alive ? "生存" : "死亡"})` : "なし");
     if (p.role === "人狼") {
-      return `${p.name}: 本物の人狼。相方の人狼は${fmt(partnerOf("人狼"))}。それ以外(狂人が誰か等)は知らない。目的は人狼陣営の勝利。`;
+      return `${p.name}: 本物の人狼。相方の人狼は${fmt(partnerOf("人狼"))}。それ以外(狂人が誰か、ジョーカーが寝返っているか等)は知らない。目的は人狼陣営の勝利。`;
     }
     if (p.role === "狂人") {
       const belief = effectiveDelusions[p.name] || "村人";
@@ -2130,10 +2330,17 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
     }
     if (p.role === "ジョーカー") {
       if (npcJokerState.defected) {
-        return `${p.name}: ジョーカー(人狼側へ寝返り済み)。本物の人狼は${players.filter((w) => w.role === "人狼" && w.alive).map((w) => w.name).join("・") || "なし"}だと知っている。本物の人狼を処刑に追い込む投票は絶対にしない。`;
+        return `${p.name}: ジョーカー(人狼側へ寝返り済み)。本物の人狼は${players.filter((w) => w.role === "人狼" && w.alive).map((w) => w.name).join("・") || "なし"}だと知っている。本物の人狼を処刑に追い込む投票は絶対にしない。**ただし人狼側は${p.name}の寝返りを知らない**(一方通行の関係。人狼から仲間扱いされることはなく、襲われる可能性もある)。`;
       }
-      const inherited = npcJokerState.abilityBank ? `覚醒済み(${npcJokerState.abilityBank}の力を継承)` : "未覚醒(自分を村人だと思っている)";
-      return `${p.name}: ジョーカー。${inherited}。それ以外は知らない。`;
+      if (!npcJokerState.aware) return `${p.name}: ジョーカーだがまだ覚醒しておらず、自分を村人だと思っている。特別な情報は何も持っていない。`;
+      if (!npcJokerState.abilityBank) return `${p.name}: ジョーカー(覚醒済み)。まだ何の能力も継承していない。それ以外は知らない。`;
+      // 継承した能力で実際に得た結果を渡す(本物の役職者と同じ扱い)
+      const bank = npcJokerState.abilityBank;
+      let mine = "";
+      if (bank === "占い師") mine = npcSeerLog.filter((e) => e.seerName === p.name).map((e) => `${e.day}日目夜:${e.target}=${e.result}`).join("、");
+      else if (bank === "霊媒師") mine = npcMediumLog.filter((e) => e.mediumName === p.name).map((e) => `${e.day}日目処刑の${e.target}=${e.result}`).join("、");
+      else if (bank === "狩人") mine = npcGuardLog.filter((e) => e.hunterName === p.name).map((e) => `${e.day}日目夜:${e.target}を護衛(${e.blocked ? "阻止成功" : "空振り"})`).join("、");
+      return `${p.name}: ジョーカー(覚醒済み・${bank}の力を継承)。継承した能力で得た結果: ${mine || "まだなし"}。それ以外は知らない。`;
     }
     return `${p.name}: 村人。特別な情報は何も持っていない。会話の印象だけで判断する。`;
   }
@@ -2147,15 +2354,36 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
     // (共有者自身が必要とする知識はgetNPCOwnKnowledgeで個別に渡っているので、グループを分ける必要性は薄い)。
     const solosG = npcs.filter((p) => !wolvesG.includes(p) && !madmenG.includes(p));
     const groups = [];
-    if (wolvesG.length) groups.push({ label: "人狼(+寝返りジョーカー)", npcs: wolvesG, boxes: ["CORE", "STRATEGY_BASICS", "VOTE_SPREAD", "WOLF_CORNERED"] });
+    if (wolvesG.length) groups.push({ label: "人狼(+寝返りジョーカー)", npcs: wolvesG, boxes: ["CORE", "STRATEGY_BASICS", "VOTE_SPREAD", "WOLF_CORNERED"], note: wolvesG.some((p) => p.role === "ジョーカー") ? "**注意**:このグループにいる寝返ったジョーカーは人狼が誰かを知っているが、**人狼側はジョーカーの寝返りを知らない**(一方通行)。人狼の投票理由でジョーカーを仲間扱いしない。" : "" });
     if (madmenG.length) groups.push({ label: "狂人", npcs: madmenG, boxes: ["CORE", "STRATEGY_BASICS", "VOTE_SPREAD", "MADMAN"] });
     if (solosG.length) groups.push({ label: "単独役職・村人・共有者", npcs: solosG, boxes: ["CORE", "STRATEGY_BASICS", "VOTE_SPREAD", "SHARER"] });
     return groups;
   }
 
+  // 人間関係(幼馴染・姉妹・親友・ライバル等)を、読み取りやすい文章として生成する(公開情報。真実データと投票の両方で使う)
+  function getRelationText() {
+    const seenRelationPairs = new Set();
+    const relationLines = [];
+    players.forEach((p) => {
+      const c = compatMap[p.name];
+      if (!c?.relationLabel) return;
+      const otherName = c.relationLabel.split("と")[0];
+      const pairKey = [p.name, otherName].sort().join("|");
+      if (seenRelationPairs.has(pairKey)) return;
+      seenRelationPairs.add(pairKey);
+      relationLines.push(`${p.name}・${otherName}:${c.relationLabel.split("と")[1]}`);
+    });
+    players.forEach((p) => {
+      if (compatMap[p.name]?.outcast) relationLines.push(`${p.name}:これといった理由もなく、クラスでなんとなく距離を置かれがち`);
+    });
+    return relationLines.length > 0 ? relationLines.join("\n") : "(特筆すべき関係性の設定なし)";
+  }
+
   function getPublicInfoLine() {
     return `公開情報 — 生存者: ${alivePlayers().map((p) => p.name).join("、")} / 確定シロ(公開された結果): ${confirmedWhite.join("、") || "なし"} / 確定クロ(公開された結果): ${confirmedBlack.join("、") || "なし"} / CO(自称役職)状況: ${getClaimStatusText()}
-※ CO は自己申告であり本物とは限らない。複数人が同じ役職を名乗っていれば片方は偽物。単独COで対抗が出ていなければ信頼度は高いが確定ではない。`;
+※ CO は自己申告であり本物とは限らない。複数人が同じ役職を名乗っていれば片方は偽物。単独COで対抗が出ていなければ信頼度は高いが確定ではない。
+クラスメイト同士の人間関係(全員が知っている設定。幼馴染・姉妹・親友は互いを信じやすく庇いがち、ライバルは互いに厳しくなりがち。ただし役職とは無関係で、「距離を置かれがち」という設定だけを疑う根拠にはしない):
+${getRelationText()}`;
   }
 
   // ============================================================
@@ -2181,14 +2409,20 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
     const delusionText = delusionEntries.length > 0
       ? delusionEntries.map(([n, role]) => `${n}は自分を「${role}」だと信じ込んでいる(自覚なし)`).join("、")
       : "現在生存中のNPC狂人なし";
+    const relationText = getRelationText();
 
     return `役職と相性(内部情報、プレイヤーには絶対見せない):
 ${getRosterInfoWithDefection()}
-相性マップ: ${JSON.stringify(compatMap)}
+**クラスメイト同士の人間関係(公開情報。全員が把握している設定であり、役職とは無関係。積極的に会話・疑い・擁護の材料に使ってよい)**:
+${relationText}
+相性マップ(内部の数値調整用データ): ${JSON.stringify(compatMap)}
 **実際のペア役職の組み合わせ(真実、絶対厳守)**: ${getRealPairsText()}
 (このペア関係は、そのペアの当事者2人だけが知っている秘密情報。当事者以外のNPCの判断には絶対に使わない)
 誰かが「〇〇が自分の相方だ」と主張した場合、必ず上記の実際の組み合わせと照合する。一致しなければそれは嘘であり、本物のペアの片割れが生存していれば、その人物は同意・肯定せず、違和感を示すか否定する。
 ${getPlayerBlindnessNote()}
+${(() => { const a = getAllyChatInfo(); return a ? `**${a.label}**:
+${a.log}
+**絶対厳守**:上記の密談で話し合われた方針(CO禁止・疑う対象・伝え合った情報等)と矛盾する言動を、密談の当事者にその後の公開の場でさせない(例:密談で「COは危険だから止めよう」と釘を刺されたのに、直後の公開議論であっさりCOする、といった矛盾は絶対に避ける)。心変わりする場合も、公開の場でその理由が分かる描写を入れる。密談の当事者以外のNPCは、この内容を一切知らない。` : ""; })()}
 確定シロ: ${confirmedWhite.join("、") || "なし"} / 確定クロ: ${confirmedBlack.join("、") || "なし"}
 **現在のCO(自称役職)状況(明示的なステータス、必ず参照すること)**: ${getClaimStatusText()}
 同じ役職を複数人がCOしている状態(対立中)なら、それを忘れずに話題に出す・整理する・追及するなどしてよい。誰かの過去のCOを議論から都合よく忘れさせない。同一人物が以前と異なる役職を主張した場合は矛盾として扱い、他のNPCから指摘・追及される描写にする。
@@ -2329,6 +2563,9 @@ ${guardLogText}
         addLog([
           { type: "system", text: `🃏 あなたは占い師の力を継承しました。それと同時に、${inherited.seerName}が今夜${inherited.target}を占っていた記憶が流れ込んでくる……結果は「${inherited.result}」。` },
         ]);
+        // 継承した記憶もプレイヤー自身の占い結果として記録する(占い師COした時に確定シロ/クロへ反映させるため)
+        setPlayerSeerLog((prev) => [...prev, { day: inherited.day, target: inherited.target, result: inherited.result, inheritedFrom: inherited.seerName }]);
+        if (roleClaims[userName]?.role === "占い師") pushConfirmedResult(inherited.target, inherited.result);
       } else {
         addLog([{ type: "system", text: `🃏 あなたは${role}の力を継承しました。今夜から使えます。` }]);
       }
@@ -2346,6 +2583,8 @@ ${guardLogText}
     const result = target.role === "人狼" ? "人狼" : target.role === "ジョーカー" ? "ジョーカーである" : "人狼ではない";
     setJokerState((prev) => ({ ...prev, abilityUsed: true }));
     setPrivateInfo((prev) => [...prev, `【占い結果】${targetName}は「${result}」`]);
+    setPlayerSeerLog((prev) => [...prev, { day, target: targetName, result }]);
+    if (roleClaims[userName]?.role === "占い師") pushConfirmedResult(targetName, result);
     addLog([{ type: "system", text: `🃏 あなたは${targetName}を占った。結果は「${result}」。` }]);
   }
 
@@ -2402,13 +2641,20 @@ ${guardLogText}
     const me = getUser();
     const meIsWolfSide = me.role === "人狼" || me.role === "狂人" || (me.role === "ジョーカー" && jokerState.defected);
     const playerWon = (win === "人狼陣営" && meIsWolfSide) || (win === "村人陣営" && !meIsWolfSide);
-    const fullTranscript = log.filter((e) => e.type === "user" || e.type === "npc" || e.type === "system").map((e) => `${e.speaker || "GM"}: ${e.text}`).join("\n");
+    // 密談(ally)と行動(action)も含める:密談はプレイヤーの本音が最も出る場所であり、性格診断の重要な材料になる。
+    // 密談には[密談]、行動には(行動)の印を付け、公開の場での発言と区別できるようにする。
+    const fullTranscript = log.filter((e) => e.type === "user" || e.type === "npc" || e.type === "system" || e.type === "ally" || e.type === "action").map((e) => {
+      if (e.type === "ally") return `[密談・${e.speaker}]: ${e.text}`;
+      if (e.type === "action") return `(行動・${e.speaker}は${e.text})`;
+      return `${e.speaker || "GM"}: ${e.text}`;
+    }).join("\n");
     const rosterInfo = players.map((p) => {
       const defected = p.role === "ジョーカー" && ((p.isUser && jokerState.defected) || (!p.isUser && npcJokerState.defected));
       return `${p.name}(${p.personality}・${p.club}) 役職:${p.role}${defected ? "(人狼側へ寝返り済み)" : ""}${p.alive ? "" : "・故人"}`;
     }).join("\n");
     const npcNames = players.filter((p) => !p.isUser).map((p) => p.name);
     const system = `あなたは人狼ゲームのGMです。ゲームが終了しました(${win}の勝利)。プレイヤー「${userName}」(役職:${me.role})のゲーム全体の言動を振り返り、以下5つを生成してください。
+**会話ログの読み方**:[密談・名前]はペア役職同士の秘密の会話(村には聞こえていない。プレイヤーの本音・素の判断が最も出る場所なので、性格診断・タロット診断の材料として特に重視する)。(行動・名前は〜)はセリフではない行動。それ以外は教室での公開の発言。**NPCの感想(comments)では、密談の内容を「聞いていた」かのように語らせない**(当事者以外は知らないため)。
 **プレイヤー自身の勝敗(絶対厳守)**: プレイヤーは${playerWon ? "勝者側です(自分の陣営が勝利した)。review・diagnosis・commentsのトーンは、たとえプレイヤー個人が途中で処刑・敗死していても、最終的に自分の陣営が勝ったことを踏まえた達成感・満足感のある語り口にする。「負けた」「敗北」のような否定的な結論で締めくくらない" : "敗者側です(自分の陣営が敗北した)。悔しさや反省を含むトーンにしてよい"}。この勝敗の事実と矛盾する語り口(勝ったのに敗北したかのような書き方、その逆)を絶対にしない。
 **各NPCの感想も、そのNPC自身の本当の陣営の勝敗と矛盾しないトーンにする(絶対厳守)**:上記の役職一覧で「人狼側へ寝返り済み」と明記されているキャラクターは、村人陣営が勝った場合は敗者側であり、「村が勝って良かった」のような肯定的な感想を言わせない(悔しさ・複雑な心境を滲ませる)。逆に人狼陣営が勝った場合、村人・占い師等の純粋な村側キャラクターは敗者側であり、手放しの喜びは表現させない。
 **狂人の勝敗は「本人の思い込み」ではなく「本当の陣営(人狼側)」で判定する(絶対厳守・見落としやすい重要ポイント)**:狂人はゲーム中、村人・占い師等だと思い込んでいたため、感覚としては村側のように振る舞っていたが、**陣営としては最初から最後まで人狼側である**。したがって、**人狼陣営が勝利した場合、狂人だったキャラクターも勝者側であり**、「結果的に負けた」「村が負けて複雑」のような、自分を敗者側として語らせることは絶対にしない。感想の中心は「我に返って自分の思い込みや言動を振り返る恥ずかしさ・驚き」であり、そこに**勝者側としての安堵・清々しさ・(村を欺けた結果への)複雑な達成感**を乗せる(例:「洗脳が解けてみると恥ずかしいけど、結果的に人狼陣営が勝ったなら良かったのかな」)。逆に村人陣営が勝った場合は、上記の「狂人は敗者側」の通り、悔しさ・複雑な心境のトーンにする。
@@ -2464,7 +2710,13 @@ JSON形式のみ: {"tarotName":"タロットカード名","review":"振り返り
     setEndingQuestionLoading(true);
     const target = players.find((p) => p.name === endingQuestionTarget);
     const rosterInfo = players.map((p) => `${p.name}(${p.personality}・${p.club}) 役職:${p.role}${p.alive ? "" : "・故人"}`).join("\n");
-    const fullTranscript = log.filter((e) => e.type === "user" || e.type === "npc" || e.type === "system").map((e) => `${e.speaker || "GM"}: ${e.text}`).join("\n");
+    // 質問相手が密談の相方だった場合のみ、密談の内容も「本人の記憶」として含める(相方以外は密談を知らない)
+    const wasAllyPartner = log.some((e) => e.type === "ally" && e.speaker === target?.name);
+    const fullTranscript = log.filter((e) => e.type === "user" || e.type === "npc" || e.type === "system" || e.type === "action" || (e.type === "ally" && wasAllyPartner)).map((e) => {
+      if (e.type === "ally") return `[密談・${e.speaker}]: ${e.text}`;
+      if (e.type === "action") return `(行動・${e.speaker}は${e.text})`;
+      return `${e.speaker || "GM"}: ${e.text}`;
+    }).join("\n");
 
     // 質問相手の役職によっては、会話ログの推測だけに頼らず、内部の真実データを直接渡して正確に答えさせる
     let truthNote = "";
@@ -2591,7 +2843,7 @@ JSON形式のみ: {"text":"回答"}`;
                 className="px-3 py-1.5 rounded-lg text-sm font-bold"
                 style={{ background: "#8B3A3A", color: "#FFFFFF" }}
               >
-                購入(¥500)
+                購入(¥450)
               </button>
             </div>
           )}
@@ -2702,17 +2954,10 @@ JSON形式のみ: {"text":"回答"}`;
             <div className="space-y-2">
               <button
                 onClick={resumeGame}
-                className="w-full px-10 py-3 rounded-lg font-bold text-lg border"
-                style={{ background: "#FFFFFF", color: "#8B3A3A", borderColor: "#8B3A3A" }}
+                className="w-full px-10 py-3 rounded-lg font-bold text-lg"
+                style={{ background: "#8B3A3A", color: "#FFFFFF" }}
               >
                 続きから始める
-              </button>
-              <button
-                onClick={clearSave}
-                className="w-full text-xs underline"
-                style={{ color: "#6B6355" }}
-              >
-                保存データを削除する
               </button>
             </div>
           )}
@@ -2723,19 +2968,23 @@ JSON形式のみ: {"text":"回答"}`;
             </div>
           )}
 
-          <button
-            onClick={() => {
-              if (CREDIT_SYSTEM_ENABLED && !creditsLoading && credits === 0) { startPurchase(); return; }
-              startGame();
-            }}
-            disabled={!nameInput.trim() && !userName}
-            className="w-full px-10 py-3 rounded-lg font-bold text-lg disabled:opacity-40"
-            style={{ background: "#8B3A3A", color: "#FFFFFF" }}
-          >
-            {CREDIT_SYSTEM_ENABLED && !creditsLoading && credits === 0 ? "クレジットを購入する" : hasSave ? "最初からはじめる" : "はじめる"}
-          </button>
-          {!nameInput.trim() && !userName && (
-            <p className="text-xs text-center" style={{ color: "#B05050" }}>ニックネームを入力してください</p>
+          {!hasSave && (
+            <>
+              <button
+                onClick={() => {
+                  if (CREDIT_SYSTEM_ENABLED && !creditsLoading && credits === 0) { startPurchase(); return; }
+                  startGame();
+                }}
+                disabled={!nameInput.trim() && !userName}
+                className="w-full px-10 py-3 rounded-lg font-bold text-lg disabled:opacity-40"
+                style={{ background: "#8B3A3A", color: "#FFFFFF" }}
+              >
+                {CREDIT_SYSTEM_ENABLED && !creditsLoading && credits === 0 ? "クレジットを購入する" : "はじめる"}
+              </button>
+              {!nameInput.trim() && !userName && (
+                <p className="text-xs text-center" style={{ color: "#B05050" }}>ニックネームを入力してください</p>
+              )}
+            </>
           )}
 
           {favorites.length > 0 && (
@@ -3072,8 +3321,6 @@ JSON形式のみ: {"text":"回答"}`;
                       >
                         {!p.isUser && <span className="mr-1">{affinityEmoji(npcAffinity[p.name] ?? 50)}</span>}
                         {p.name}
-                        {confirmedWhite.includes(p.name) && <span className="text-xs ml-1" style={{ color: "#0F7A4A" }}>(白)</span>}
-                        {confirmedBlack.includes(p.name) && <span className="text-xs ml-1" style={{ color: "#B23A3A" }}>(黒)</span>}
                       </span>
                       <span className="flex items-center gap-2">
                         {user?.alive ? (
@@ -3480,7 +3727,7 @@ JSON形式のみ: {"text":"回答"}`;
                   <div className="text-sm" style={{ color: C.textMuted }}>1回目投票:誰に投票しますか?</div>
                   <div className="flex flex-wrap gap-2">
                     {alivePlayers().filter((p) => !p.isUser).map((p) => (
-                      <PickButton key={p.name} name={p.name} selected={voteTarget === p.name} onClick={() => setVoteTarget(p.name)} extraLabel={confirmedWhite.includes(p.name) ? "白" : null} />
+                      <PickButton key={p.name} name={p.name} selected={voteTarget === p.name} onClick={() => setVoteTarget(p.name)} />
                     ))}
                   </div>
                   <button onClick={submitVoteRound1} disabled={!voteTarget || busy} className="w-full py-2 rounded-lg font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>
@@ -3578,7 +3825,7 @@ JSON形式のみ: {"text":"回答"}`;
             <div className="max-w-2xl mx-auto space-y-2">
               {(() => {
                 const isPairRole = user.role === "人狼" || user.role === "狂人" || user.role === "共有者";
-                const allyAlive = isPairRole && players.some((p) => p.role === user.role && !p.isUser && p.alive);
+                const allyAlive = isPairRole && !!getAllyPartner();
                 if (!isPairRole) return null;
                 if (!allyAlive) {
                   return (
@@ -3618,8 +3865,13 @@ JSON形式のみ: {"text":"回答"}`;
                         {effectiveRole === "狩人" && " 今夜、誰を守りますか?"}
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {alivePlayers().filter((p) => !p.isUser).map((p) => (
-                          <PickButton key={p.name} name={p.name} selected={nightTarget === p.name} onClick={() => setNightTarget(p.name)} extraLabel={confirmedWhite.includes(p.name) ? "白" : null} />
+                        {alivePlayers().filter((p) => {
+                          if (p.isUser) return false;
+                          // 人狼として襲撃する場合、相方の人狼は対象から外す(寝返ったジョーカーは人狼が知らないため除外しない)
+                          if (effectiveRole === "人狼" && p.role === "人狼") return false;
+                          return true;
+                        }).map((p) => (
+                          <PickButton key={p.name} name={p.name} selected={nightTarget === p.name} onClick={() => setNightTarget(p.name)} />
                         ))}
                       </div>
                       <button onClick={resolveNight} disabled={!nightTarget || busy} className="w-full py-2 rounded-lg font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>
