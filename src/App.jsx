@@ -369,6 +369,8 @@ export default function JinroGame() {
   const [adminSecretInput, setAdminSecretInput] = useState("");
   const [showDebugLogViewer, setShowDebugLogViewer] = useState(false);
   const [debugLogList, setDebugLogList] = useState([]);
+  const [showNpcCandidateViewer, setShowNpcCandidateViewer] = useState(false);
+  const [npcCandidateList, setNpcCandidateList] = useState([]);
 
   useEffect(() => {
     let id = localStorage.getItem("jinro_device_id");
@@ -489,6 +491,39 @@ export default function JinroGame() {
       }
     } catch (e) {
       addLog([{ type: "system", text: "ログ一覧の取得に失敗しました。通信環境を確認してください。" }]);
+    }
+  }
+
+  async function openNpcCandidateViewer() {
+    setShowNpcCandidateViewer(true);
+    try {
+      const res = await fetch(`/api/list-npc-candidates?secret=${encodeURIComponent(adminSecretInput)}`);
+      const data = await res.json();
+      if (res.ok) {
+        setNpcCandidateList(data.candidates || []);
+      } else {
+        addLog([{ type: "system", text: `候補一覧の取得に失敗しました。(${data.error || "原因不明"})` }]);
+      }
+    } catch (e) {
+      addLog([{ type: "system", text: "候補一覧の取得に失敗しました。通信環境を確認してください。" }]);
+    }
+  }
+
+  async function reviewNpcCandidate(key, action) {
+    try {
+      const res = await fetch("/api/review-npc-candidate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key, action, secret: adminSecretInput }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setNpcCandidateList((prev) => prev.map((c) => (c.key === key ? { ...c, status: action === "approve" ? "approved" : "rejected" } : c)));
+      } else {
+        addLog([{ type: "system", text: `処理に失敗しました。(${data.error || "原因不明"})` }]);
+      }
+    } catch (e) {
+      addLog([{ type: "system", text: "処理に失敗しました。通信環境を確認してください。" }]);
     }
   }
 
@@ -713,6 +748,43 @@ ${fullTranscript}
     }
   }
 
+  // プレイヤーが同意した場合、今回のプレイ内容を「NPC分身候補」としてサーバーに送信する。
+  // 承認されるまでは他の誰のゲームにも一切登場しない(開発者の手動承認が必須)。
+  async function submitNpcCandidate() {
+    const nickname = npcNicknameInput.trim();
+    if (!nickname || npcSubmitting) return;
+    setNpcSubmitting(true);
+    try {
+      const res = await fetch("/api/save-npc-candidate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deviceId, nickname, content: buildDebugLogText() }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setNpcFarewellLine(data.farewellLine || "");
+        setNpcSubmitted(true);
+      } else {
+        addLog([{ type: "system", text: "分身の登録に失敗しました。通信環境を確認してもう一度試してみてください。" }]);
+      }
+    } catch (e) {
+      addLog([{ type: "system", text: "分身の登録に失敗しました。通信環境を確認してもう一度試してみてください。" }]);
+    } finally {
+      setNpcSubmitting(false);
+    }
+  }
+
+  async function openNpcBattleHistory() {
+    setShowNpcBattleHistory(true);
+    try {
+      const res = await fetch(`/api/get-npc-battle-history?deviceId=${encodeURIComponent(deviceId)}`);
+      const data = await res.json();
+      setNpcBattleRecords(res.ok ? (data.records || []) : []);
+    } catch (e) {
+      setNpcBattleRecords([]);
+    }
+  }
+
   // ゲームが終了した(gameoverになった)瞬間、1回だけデバッグログをサーバーに自動送信する。
   // useEffectで監視することで、setPlayers等のstate更新が確実に反映された後の最新状態を送信できる。
   const autoSavedRef = useRef(false);
@@ -789,8 +861,15 @@ ${fullTranscript}
   const [favorites, setFavorites] = useState([]); // 保存されたお気に入りストーリー一覧(最大3件)
   const [tarotCollection, setTarotCollection] = useState({}); // {カード名: {count, firstObtainedAt}} タロットカードのコレクション
   const [showTarotCollection, setShowTarotCollection] = useState(false);
+  const [showNpcBattleHistory, setShowNpcBattleHistory] = useState(false);
+  const [npcBattleRecords, setNpcBattleRecords] = useState(null); // nullは未取得
   const [tarotJustAdded, setTarotJustAdded] = useState(false); // 直近のゲームで新規カードを獲得したか(NEW!表示用)
   const [favoriteSaved, setFavoriteSaved] = useState(false); // 今回のゲームを既にお気に入り登録したか
+  const [npcConsentChoice, setNpcConsentChoice] = useState(null); // null(未回答) | true(同意) | false(辞退)
+  const [npcNicknameInput, setNpcNicknameInput] = useState("");
+  const [npcSubmitting, setNpcSubmitting] = useState(false);
+  const [npcSubmitted, setNpcSubmitted] = useState(false);
+  const [npcFarewellLine, setNpcFarewellLine] = useState("");
   const [showFavorites, setShowFavorites] = useState(false);
   const [viewingFavorite, setViewingFavorite] = useState(null); // 閲覧中のお気に入り(読み取り専用ビュー)
   const [jokerState, setJokerState] = useState({ hidden: false, selfAware: false, abilityBank: null, abilityUsed: false, defected: false, defectionOffered: false, pendingInheritance: null });
@@ -912,7 +991,7 @@ ${fullTranscript}
   }
   function getTranscript() {
     return logRef.current
-      .filter((e) => e.type === "user" || e.type === "npc" || e.type === "action" || e.type === "system")
+      .filter((e) => !e.secret && (e.type === "user" || e.type === "npc" || e.type === "action" || e.type === "system"))
       .map((e) => {
         if (e.type === "action") return `(${e.speaker}は${e.text})`;
         if (e.type === "system") return `[GM] ${e.text}`;
@@ -927,7 +1006,7 @@ ${fullTranscript}
     )?.i ?? 0;
     return logRef.current
       .slice(dayMarkerIdx)
-      .filter((e) => e.type === "user" || e.type === "npc" || e.type === "action" || e.type === "system")
+      .filter((e) => !e.secret && (e.type === "user" || e.type === "npc" || e.type === "action" || e.type === "system"))
       .map((e) => {
         if (e.type === "action") return `(${e.speaker}は${e.text})`;
         if (e.type === "system") return `[GM] ${e.text}`;
@@ -1008,6 +1087,25 @@ JSON形式のみ: {"summary":"要約文"}`;
     const wantMale = npcMaleCount;
     const wantFemale = 10 - npcMaleCount;
     const chosen = shuffle([...malePool.slice(0, wantMale), ...femalePool.slice(0, wantFemale)]);
+
+    // 承認済みのプレイヤー分身NPCが存在すれば、低い確率(15%)で通常のキャストの1人と差し替える。
+    // 失敗しても通常の進行に一切影響させない(失敗時は普段通りのキャストのまま)。
+    try {
+      if (Math.random() < 0.15) {
+        const poolRes = await fetch("/api/get-npc-pool");
+        const poolData = await poolRes.json();
+        const pool = poolData?.pool || [];
+        if (pool.length > 0) {
+          const picked = pickRandom(pool);
+          const sameGenderIdx = chosen.findIndex((c) => c.gender === picked.gender);
+          const idx = sameGenderIdx !== -1 ? sameGenderIdx : Math.floor(Math.random() * chosen.length);
+          chosen[idx] = { name: picked.name, age: picked.age || 17, gender: picked.gender, personality: picked.personality, club: picked.club, signatureLine: picked.signatureLine || null, creatorDeviceId: picked.creatorDeviceId || null };
+        }
+      }
+    } catch (e) {
+      // 取得に失敗しても、通常のキャストのままゲームを続行する
+    }
+
     const roles = shuffle(ROLE_SET_11);
     const all = [
       ...chosen.map((n) => ({ ...n, alive: true, isUser: false })),
@@ -1051,6 +1149,11 @@ JSON形式のみ: {"summary":"要約文"}`;
     setEndingQuestionLoading(false);
     setEndingLoading(false);
     setFavoriteSaved(false);
+    setNpcConsentChoice(null);
+    setNpcNicknameInput("");
+    setNpcSubmitting(false);
+    setNpcSubmitted(false);
+    setNpcFarewellLine("");
     setTarotJustAdded(false);
     setPendingMajorityWin(false);
     setPendingImmediateSeerChoice(false);
@@ -1071,17 +1174,19 @@ JSON形式のみ: {"summary":"要約文"}`;
 
     const introLog = [
       { type: "system", text: `${all.length}人のクラスメイトが揃いました。役職がシャッフルされました。` },
-      { type: "system", text: `あなた(${finalName})の役職は「${isJoker ? "村人" : me.role}」です。` },
+      { type: "system", text: `あなた(${finalName})の役職は「${isJoker ? "村人" : me.role}」です。`, secret: true },
     ];
 
     // ペア役職の場合、相方の情報もGMのセリフとして伝える(専用UIは使わない)
+    // ★これらはプレイヤー自身の画面表示専用。AIへの入力(getTranscript)には絶対に含めない(secret: true)。
+    // 含めてしまうと、密談で一言も話していなくても、この1行だけでプレイヤーの役職がAIに直接漏れてしまう。
     if (me.role === "人狼" || me.role === "狂人" || me.role === "共有者") {
       const ally = all.find((p) => p.role === me.role && !p.isUser);
-      introLog.push({ type: "system", text: `相方は${ally.name}です。お互い、ゲーム開始時から正体を知っています。` });
+      introLog.push({ type: "system", text: `相方は${ally.name}です。お互い、ゲーム開始時から正体を知っています。`, secret: true });
       // プレイヤー自身が狂人の場合、自分がどう振る舞うかは自由(演出上の思い込みは強制しない)。
       // ただし、相方のNPC狂人が今何を自分の正体だと思い込んでいるかは伝える(仲間の状況として把握できるように)。
       if (me.role === "狂人" && ally) {
-        introLog.push({ type: "system", text: `🌀 相方の${ally.name}は、洗脳により自分を「${delusions[ally.name]}」だと信じ込んでいます(演技ではなく本気でそう思っています)。` });
+        introLog.push({ type: "system", text: `🌀 相方の${ally.name}は、洗脳により自分を「${delusions[ally.name]}」だと信じ込んでいます(演技ではなく本気でそう思っています)。`, secret: true });
       }
     }
 
@@ -2410,11 +2515,17 @@ ${getRelationText()}`;
       ? delusionEntries.map(([n, role]) => `${n}は自分を「${role}」だと信じ込んでいる(自覚なし)`).join("、")
       : "現在生存中のNPC狂人なし";
     const relationText = getRelationText();
+    // 実プレイヤーの分身NPCが今回のキャストに含まれている場合、その人らしさが出る「署名フレーズ」を、
+    // 会話のどこかで一度だけ自然に(一字一句そのまま)使わせる。無理に挟み込む必要はない。
+    const signatureLines = players.filter((p) => !p.isUser && p.signatureLine).map((p) => `${p.name}:「${p.signatureLine}」`);
+    const signatureLineText = signatureLines.length > 0
+      ? `\n**キャラクターの口癖・決め台詞(自然な流れの中で、ゲーム中に一度だけ一字一句そのまま使わせる。毎回無理に使う必要はない)**:\n${signatureLines.join("\n")}`
+      : "";
 
     return `役職と相性(内部情報、プレイヤーには絶対見せない):
 ${getRosterInfoWithDefection()}
 **クラスメイト同士の人間関係(公開情報。全員が把握している設定であり、役職とは無関係。積極的に会話・疑い・擁護の材料に使ってよい)**:
-${relationText}
+${relationText}${signatureLineText}
 相性マップ(内部の数値調整用データ): ${JSON.stringify(compatMap)}
 **実際のペア役職の組み合わせ(真実、絶対厳守)**: ${getRealPairsText()}
 (このペア関係は、そのペアの当事者2人だけが知っている秘密情報。当事者以外のNPCの判断には絶対に使わない)
@@ -2483,7 +2594,7 @@ ${guardLogText}
     if (!me || me.role !== "狂人") return;
     const ally = currentPlayers.find((p) => p.role === "狂人" && !p.isUser);
     if (ally && changedNames.includes(ally.name)) {
-      addLog([{ type: "system", text: `🌀 相方の${ally.name}の思い込みに変化がありました。今は自分を「人狼」だと信じ込んでいるようです。` }]);
+      addLog([{ type: "system", text: `🌀 相方の${ally.name}の思い込みに変化がありました。今は自分を「人狼」だと信じ込んでいるようです。`, secret: true }]);
     }
   }
 
@@ -2549,7 +2660,7 @@ ${guardLogText}
         // 処刑によって占い師を継承した場合:新しく占い直す必要があるが、次の夜まで待たせない。
         // 継承した瞬間(今この場)に、占う相手を選んでもらうUIへ進む。
         setJokerState((prev) => ({ ...prev, abilityBank: role, abilityUsed: false, pendingInheritance: null }));
-        addLog([{ type: "system", text: "🃏 あなたは占い師の力を継承しました。すぐに誰かを占うことができます。" }]);
+        addLog([{ type: "system", text: "🃏 あなたは占い師の力を継承しました。すぐに誰かを占うことができます。", secret: true }]);
         setPendingImmediateSeerChoice(true);
         return;
       }
@@ -2567,11 +2678,11 @@ ${guardLogText}
         setPlayerSeerLog((prev) => [...prev, { day: inherited.day, target: inherited.target, result: inherited.result, inheritedFrom: inherited.seerName }]);
         if (roleClaims[userName]?.role === "占い師") pushConfirmedResult(inherited.target, inherited.result);
       } else {
-        addLog([{ type: "system", text: `🃏 あなたは${role}の力を継承しました。今夜から使えます。` }]);
+        addLog([{ type: "system", text: `🃏 あなたは${role}の力を継承しました。今夜から使えます。`, secret: true }]);
       }
     } else {
       setJokerState((prev) => ({ ...prev, pendingInheritance: null }));
-      addLog([{ type: "system", text: "あなたはこの力を継承しないことを選びました。" }]);
+      addLog([{ type: "system", text: "あなたはこの力を継承しないことを選びました。", secret: true }]);
     }
   }
 
@@ -2585,7 +2696,7 @@ ${guardLogText}
     setPrivateInfo((prev) => [...prev, `【占い結果】${targetName}は「${result}」`]);
     setPlayerSeerLog((prev) => [...prev, { day, target: targetName, result }]);
     if (roleClaims[userName]?.role === "占い師") pushConfirmedResult(targetName, result);
-    addLog([{ type: "system", text: `🃏 あなたは${targetName}を占った。結果は「${result}」。` }]);
+    addLog([{ type: "system", text: `🃏 あなたは${targetName}を占った。結果は「${result}」。`, secret: true }]);
   }
 
   function checkWin(list, overrides = {}) {
@@ -2605,6 +2716,27 @@ ${guardLogText}
     actuallyFinishGame(win, freshPlayers);
   }
 
+  // 今回のゲームに分身NPC(承認済みプールから選ばれたNPC)がいれば、その戦歴を作成者本人の端末に記録する。
+  // 記録するのは役職・生死・勝敗・日時だけ。一緒に遊んだ他プレイヤーの名前や会話内容は一切含めない。
+  function recordNpcBattleIfAny(finalPlayers, win) {
+    const npcWithOwner = finalPlayers.find((p) => !p.isUser && p.creatorDeviceId);
+    if (!npcWithOwner) return;
+    const isWolfSideRole = npcWithOwner.role === "人狼" || npcWithOwner.role === "狂人" ||
+      (npcWithOwner.role === "ジョーカー" && npcJokerState.defected);
+    const teamWon = (win === "人狼陣営" && isWolfSideRole) || (win === "村人陣営" && !isWolfSideRole);
+    fetch("/api/save-npc-battle-record", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        creatorDeviceId: npcWithOwner.creatorDeviceId,
+        npcName: npcWithOwner.name,
+        role: npcWithOwner.role,
+        survived: npcWithOwner.alive,
+        teamWon,
+      }),
+    }).catch(() => {}); // 失敗してもゲーム進行には影響させない
+  }
+
   function actuallyFinishGame(win, freshPlayers = null) {
     if (freshPlayers) setPlayers(freshPlayers);
     setWinner(win);
@@ -2612,6 +2744,7 @@ ${guardLogText}
     // ゲームが終わったら「続きから始める」の対象ではなくなるため、保存データを削除する
     try { window.storage.delete("game_save", false); } catch (e) {}
     setHasSave(false);
+    recordNpcBattleIfAny(freshPlayers || players, win);
     const alive = (freshPlayers || players).filter((p) => p.alive);
     const wolvesAlive = alive.filter((p) => p.role === "人狼");
     const madmenAlive = alive.filter((p) => p.role === "狂人");
@@ -2672,7 +2805,7 @@ ${guardLogText}
 ⑤monologue:**勝敗が確定した瞬間の、プレイヤー自身(${userName})の一人称の独白**。1〜2文、短く余韻のある文体で(例:「……勝った。それだけで、十分だった。」のような簡潔な語り口)。生きていても死んでいても、魂の声として書く。プレイヤーの勝敗(${playerWon ? "勝利" : "敗北"})と矛盾しないトーンにする。
 役職構成(ネタバレ・全員分):\n${rosterInfo}
 JSON形式のみ: {"tarotName":"タロットカード名","review":"振り返り文章","diagnosis":"そのカードに例えた理由の説明文","fortunes":{"money":{"stars":数値,"text":"金運の一言占い"},"work":{"stars":数値,"text":"仕事運の一言占い"},"love":{"stars":数値,"text":"恋愛運の一言占い"},"health":{"stars":数値,"text":"健康運の一言占い"},"overall":{"stars":数値,"text":"総合運の一言占い"}},"comments":[{"speaker":"名前","text":"感想"}, ...(全員分)],"monologue":"独白の文章"}`;
-    const userPrompt = `ゲーム全体の会話ログ:\n${fullTranscript.slice(-6000)}`;
+    const userPrompt = `ゲーム全体の会話ログ:\n${fullTranscript}`;
     try {
       const parsed = await callClaudeAutoRetry(system, userPrompt, 3400);
       if (parsed) {
@@ -2741,7 +2874,7 @@ JSON形式のみ: {"tarotName":"タロットカード名","review":"振り返り
 ゲームは終わっているので、${target.name}は正体を隠す必要はなく、本音で率直に答えてよい。1〜3文、性格に合った口調で。
 **出力前の最終チェック**:上記の内部真実データがあれば、それと矛盾する回答を絶対にしない。会話ログの記憶が曖昧でも、内部真実データを優先する。
 JSON形式のみ: {"text":"回答"}`;
-    const userPrompt = `ゲーム全体の会話ログ:\n${fullTranscript.slice(-6000)}\n\nプレイヤーからの最後の質問:「${endingQuestionInput.trim()}」\n\n${target.name}として答えてください。`;
+    const userPrompt = `ゲーム全体の会話ログ:\n${fullTranscript}\n\nプレイヤーからの最後の質問:「${endingQuestionInput.trim()}」\n\n${target.name}として答えてください。`;
     try {
       const parsed = await callClaudeAutoRetry(system, userPrompt, 500);
       setEndingAnswer({ speaker: target.name, text: parsed?.text || "……。", question: endingQuestionInput.trim() });
@@ -2801,7 +2934,7 @@ JSON形式のみ: {"text":"回答"}`;
   function declareBetrayal(betray) {
     if (betray) {
       setJokerState((prev) => ({ ...prev, defected: true, abilityBank: null, abilityUsed: false, pendingInheritance: null }));
-      addLog([{ type: "system", text: "🐺 あなたは人狼側へ寝返ることを選びました。以後、人狼陣営として振る舞います。継承していた力(未使用分)は消え去りました。" }]);
+      addLog([{ type: "system", text: "🐺 あなたは人狼側へ寝返ることを選びました。以後、人狼陣営として振る舞います。継承していた力(未使用分)は消え去りました。", secret: true }]);
       // 寝返った瞬間に数的優位へ達している可能性があるため、即座に勝敗判定する
       const win = checkWin(players, { userDefected: true });
       if (win === "人狼陣営") {
@@ -2809,7 +2942,7 @@ JSON形式のみ: {"text":"回答"}`;
       }
     } else {
       setJokerState((prev) => ({ ...prev, defectionOffered: false })); // 次の夜、また再抽選できるようにする
-      addLog([{ type: "system", text: "あなたは寝返らないことを選びました。" }]);
+      addLog([{ type: "system", text: "あなたは寝返らないことを選びました。", secret: true }]);
     }
   }
 
@@ -2873,6 +3006,13 @@ JSON形式のみ: {"text":"回答"}`;
               >
                 📋 保存済みデバッグログを見る
               </button>
+              <button
+                onClick={openNpcCandidateViewer}
+                className="w-full py-1.5 rounded text-sm font-bold border"
+                style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+              >
+                🎭 NPC分身候補を確認する
+              </button>
             </div>
           )}
 
@@ -2896,6 +3036,55 @@ JSON形式のみ: {"text":"回答"}`;
                     >
                       ダウンロード
                     </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {showNpcCandidateViewer && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div className="absolute inset-0 bg-black/50" onClick={() => setShowNpcCandidateViewer(false)} />
+              <div className="relative w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-4 space-y-2 shadow-2xl text-left" style={{ background: "#FBF8F1" }}>
+                <div className="flex justify-between items-center pb-2 border-b" style={{ borderColor: "#D8C4B5" }}>
+                  <div className="text-sm font-bold" style={{ color: "#2B2620" }}>🎭 NPC分身候補({npcCandidateList.length}件)</div>
+                  <button onClick={() => setShowNpcCandidateViewer(false)} className="text-xl leading-none" style={{ color: "#6B6355" }}>✕</button>
+                </div>
+                {npcCandidateList.length === 0 && <p className="text-sm" style={{ color: "#8A8272" }}>まだ候補がありません。</p>}
+                {npcCandidateList.map((item) => (
+                  <div key={item.key} className="rounded-lg p-2 border text-xs" style={{ borderColor: "#D8C4B5" }}>
+                    <div className="flex justify-between items-center">
+                      <div className="font-bold" style={{ color: "#2B2620" }}>{item.nickname} — {new Date(item.submittedAt).toLocaleString("ja-JP")}</div>
+                      <span
+                        className="px-1.5 py-0.5 rounded text-[10px] font-bold"
+                        style={
+                          item.status === "approved" ? { background: "#E8F5E9", color: "#2E7D32" } :
+                          item.status === "rejected" ? { background: "#FDECEA", color: "#B00020" } :
+                          { background: "#FFF7E0", color: "#8A5A2A" }
+                        }
+                      >
+                        {item.status === "approved" ? "承認済み" : item.status === "rejected" ? "却下済み" : "未審査"}
+                      </span>
+                    </div>
+                    <div className="mt-1 truncate" style={{ color: "#8A8272" }}>{item.preview}...</div>
+                    {item.status === "pending" && (
+                      <div className="mt-1 flex gap-2">
+                        <button
+                          onClick={() => reviewNpcCandidate(item.key, "approve")}
+                          className="px-2 py-1 rounded text-xs font-bold"
+                          style={{ background: "#8A5A2A", color: "#FFFFFF" }}
+                        >
+                          承認する
+                        </button>
+                        <button
+                          onClick={() => reviewNpcCandidate(item.key, "reject")}
+                          className="px-2 py-1 rounded text-xs font-bold border"
+                          style={{ color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                        >
+                          却下する
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -3016,6 +3205,13 @@ JSON形式のみ: {"text":"回答"}`;
           >
             🔮 タロットコレクション({Object.keys(tarotCollection).length}/{TAROT_CARDS.length})
           </button>
+          <button
+            onClick={openNpcBattleHistory}
+            className="w-full py-2 text-sm underline"
+            style={{ color: "#8A5A2A" }}
+          >
+            🎭 自分の分身の戦歴を見る
+          </button>
         </div>
       </div>
 
@@ -3049,6 +3245,41 @@ JSON形式のみ: {"text":"回答"}`;
                 );
               })}
             </div>
+          </div>
+        </div>
+      )}
+
+      {showNpcBattleHistory && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowNpcBattleHistory(false)} />
+          <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl p-5 space-y-3 shadow-2xl" style={{ background: "#FBF8F1" }}>
+            <div className="flex justify-between items-center pb-2 border-b" style={{ borderColor: "#DDD5C3" }}>
+              <div className="text-lg font-bold" style={{ color: "#5B4636" }}>🎭 自分の分身の戦歴</div>
+              <button onClick={() => setShowNpcBattleHistory(false)} className="text-2xl leading-none" style={{ color: "#6B6355" }}>✕</button>
+            </div>
+            {npcBattleRecords === null && (
+              <div className="text-sm text-center py-4" style={{ color: "#8A8272" }}>読み込み中…</div>
+            )}
+            {npcBattleRecords?.length === 0 && (
+              <div className="text-sm text-center py-4" style={{ color: "#8A8272" }}>
+                まだ記録がありません。分身が承認され、誰かのゲームに実際に登場すると、ここに戦歴が増えていきます。
+              </div>
+            )}
+            {npcBattleRecords?.length > 0 && (
+              <div className="space-y-2">
+                {npcBattleRecords.map((r, i) => (
+                  <div key={i} className="rounded-lg p-3 border text-sm" style={{ background: "#F0EAD9", borderColor: "#D8C4B5" }}>
+                    <div className="flex justify-between items-center">
+                      <div className="font-bold" style={{ color: "#5B4636" }}>{r.npcName}として参加</div>
+                      <div className="text-xs" style={{ color: "#8A8272" }}>{new Date(r.playedAt).toLocaleDateString("ja-JP")}</div>
+                    </div>
+                    <div className="text-xs mt-1" style={{ color: "#6B6355" }}>
+                      役職:{r.role} / {r.survived ? "生存" : "死亡"} / {r.teamWon ? "🏆 勝利" : "敗北"}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -3684,6 +3915,58 @@ JSON形式のみ: {"text":"回答"}`;
                       {favoriteSaved ? "⭐ 登録済み" : "☆ お気に入りに登録"}
                     </button>
                     <button onClick={startGame} className="px-6 py-2 rounded-lg font-bold" style={{ background: C.accent, color: C.white }}>もう一度遊ぶ</button>
+                  </div>
+
+                  <div className="rounded-lg p-4 border text-left space-y-2" style={{ background: C.bgCard, borderColor: C.borderStrong }}>
+                    {npcSubmitted ? (
+                      <div className="space-y-2">
+                        {npcFarewellLine && (
+                          <div className="rounded-lg p-3 text-sm italic border-l-4" style={{ background: "#F0EAD9", borderColor: C.gold, color: C.text }}>
+                            「{npcFarewellLine}」
+                          </div>
+                        )}
+                        <div className="text-sm" style={{ color: C.text }}>
+                          ✅ ありがとうございます!審査の上、承認されたら他の誰かのゲームに「{npcNicknameInput.trim()}」として登場するかもしれません。
+                        </div>
+                      </div>
+                    ) : npcConsentChoice === null ? (
+                      <>
+                        <div className="text-sm font-bold" style={{ color: C.text }}>今回のゲーム内容を元に、あなたの分身(NPC)を作って良いですか?</div>
+                        <div className="text-xs" style={{ color: C.textFaint }}>
+                          生成された分身は他のプレイヤーのゲームに参加します。1つの端末につき分身は1体までです(新しく作ると、前のものは上書きされます)。今回の会話のやり取りから、AIが性格の傾向と印象的な発言を1つだけ抽出します。開発者が内容を確認して承認したものだけが、低い確率で他のプレイヤーのゲームにNPCとして登場します。
+                        </div>
+                        <div className="flex gap-2">
+                          <button onClick={() => setNpcConsentChoice(true)} className="px-4 py-1.5 rounded-lg text-sm font-bold" style={{ background: C.accent, color: C.white }}>作ってもいい</button>
+                          <button onClick={() => setNpcConsentChoice(false)} className="px-4 py-1.5 rounded-lg text-sm border" style={{ color: C.textMuted, borderColor: C.borderStrong }}>やめておく</button>
+                        </div>
+                      </>
+                    ) : npcConsentChoice === false ? (
+                      <div className="text-sm" style={{ color: C.textFaint }}>承知しました。今回のプレイ内容が分身に使われることはありません。</div>
+                    ) : (
+                      <>
+                        <div className="text-sm font-bold" style={{ color: C.text }}>分身として登場する時のニックネームを決めてください</div>
+                        <div className="text-xs" style={{ color: C.textFaint }}>今回のプレイ中に使った名前と、同じでも違う名前でも構いません。</div>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={npcNicknameInput}
+                            onChange={(e) => setNpcNicknameInput(e.target.value)}
+                            placeholder="ニックネーム"
+                            maxLength={20}
+                            className="flex-1 rounded-lg px-3 py-2 border outline-none"
+                            style={{ borderColor: C.borderStrong, color: C.text, background: C.white }}
+                          />
+                          <button
+                            onClick={submitNpcCandidate}
+                            disabled={!npcNicknameInput.trim() || npcSubmitting}
+                            className="px-4 py-2 rounded-lg font-bold disabled:opacity-40"
+                            style={{ background: C.accent, color: C.white }}
+                          >
+                            {npcSubmitting ? "送信中…" : "この名前で登録"}
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </>
               )}

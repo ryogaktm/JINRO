@@ -1,0 +1,13 @@
+{
+  "name": "AI人狼",
+  "short_name": "AI人狼",
+  "description": "AIキャラクターと一緒に遊べる人狼ゲーム",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a142e",
+  "theme_color": "#1a142e",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

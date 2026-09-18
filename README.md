@@ -1,27 +1,56 @@
 # AI人狼 スタンドアロン版
 
-Claudeアカウント不要で、誰でもブラウザから遊べる人狼ゲームです。
+Claudeアカウント不要で、誰でもブラウザから遊べる人狼ゲームです。クレジット制の課金機能・アプリアイコンを搭載しています。
 
 ## 元のコードから変えた箇所
 
-1. **`src/App.jsx`**:API呼び出し先を `https://api.anthropic.com/v1/messages` から `/api/claude`(自前の中継サーバー)に変更し、モデル名も実際にAnthropic APIで有効な名前(`claude-sonnet-5`)に変更しました。ゲームのロジック・プロンプト・UIは無変更です。
-2. **`src/storagePolyfill.js`**(新規):アーティファクト専用の`window.storage`を、通常のブラウザの`localStorage`で再現する互換レイヤーです。
-3. **`api/claude.js`**(新規):Anthropic APIへの中継サーバーレス関数。APIキーはここ(サーバー側)だけに存在し、ブラウザには一切渡りません。
-4. **`vercel.json`**(新規)・`api/claude.js`内の`maxDuration`設定:Vercelのサーバーレス関数はデフォルトで実行時間が10秒に制限されており、このゲームはプロンプトが大きいためAIの応答に10秒以上かかることがあります。**明示的に60秒まで延長**し、応答が返ってくる前に処理が打ち切られて「通信エラー」になる問題を防いでいます。
+1. **`src/App.jsx`**:API呼び出し先を `https://api.anthropic.com/v1/messages` から `/api/claude`(自前の中継サーバー)に変更し、モデル名も実際にAnthropic APIで有効な名前(`claude-sonnet-5`)に変更。思考モードは`thinking: {type: "disabled"}`で無効化。ゲームのロジック・プロンプトは無変更で、末尾にクレジット(課金)システムのUI・ロジックを追加しています。
+2. **`src/storagePolyfill.js`**:アーティファクト専用の`window.storage`を`localStorage`で再現する互換レイヤー。
+3. **`api/claude.js`**:Anthropic APIへの中継サーバーレス関数。APIキーはサーバー側だけに存在。
+4. **`api/create-checkout.js`**(新規):Stripe Checkoutの決済セッションを作成する。1回のプレイにつき¥450。
+5. **`api/stripe-webhook.js`**(新規):Stripeからの決済完了通知を受け取り、該当する端末にクレジットを1つ付与する。
+6. **`api/consume-credit.js`**(新規):ゲーム開始時にクレジットを1消費する(Redisのアトミック処理で二重消費を防止)。
+7. **`api/check-credits.js`**(新規):現在のクレジット残高を確認する。
+8. **`public/`**(新規):アプリアイコン一式(`favicon.ico`、`icon-192.png`、`icon-512.png`、`apple-touch-icon.png`)とPWAマニフェスト(`manifest.json`)。
+
+## クレジット(課金)の仕組み
+
+- **本人確認方法**:ログイン不要の簡易方式。初回アクセス時にブラウザの`localStorage`へ端末ごとのID(UUID)を保存し、それをキーにサーバー側(Redis)でクレジット残高を管理します。**別の端末・別のブラウザでは残高を引き継げません**(意図した仕様)。
+- **価格**:1プレイ ¥500(税込)。`api/create-checkout.js`内の`PRICE_JPY`を変えれば調整できます。
+- **決済フロー**:「購入」ボタン→Stripe Checkoutページ(カード決済、Apple Pay/Google Payにも対応)→決済完了→Stripeからのwebhook通知でクレジットを1つ付与→サイトに戻る。
+- **消費**:新しくゲームを始める(「はじめる」)たびに1消費。「続きから始める」は消費しません。
 
 ## デプロイ手順
 
-1. Anthropic APIキーを取得する(https://console.anthropic.com → API Keys → Create Key)
-   - 「Settings」→「Limits」で月間の使用上限額(スペンドキャップ)を必ず設定してください
-2. このフォルダ一式をGitHubリポジトリにアップロードする(`node_modules`は含めなくてよい)
-3. Vercel(https://vercel.com )でそのリポジトリをインポートしてデプロイ
-4. デプロイ後、Vercelの「Environment Variables」で以下を追加し、Redeployする:
-   - Key: `ANTHROPIC_API_KEY`
-   - Value: 1.で取得したAPIキー
+### 1. Anthropic APIキー
+https://console.anthropic.com → API Keys → Create Key。「Settings」→「Limits」で使用上限額を必ず設定してください。
+
+### 2. Stripeアカウント
+1. https://dashboard.stripe.com でアカウント作成
+2. 「開発者」→「APIキー」から**シークレットキー**(`sk_live_...`または`sk_test_...`)を取得
+3. デプロイ後(下記4を終えてから)、「開発者」→「Webhook」→「エンドポイントを追加」
+   - エンドポイントURL: `https://あなたのドメイン/api/stripe-webhook`
+   - リッスンするイベント: `checkout.session.completed`
+   - 作成後に表示される**署名シークレット**(`whsec_...`)を控える
+
+### 3. Vercelにデプロイ
+1. このフォルダ一式をGitHubにアップロード(`node_modules`は含めなくてよい)
+2. Vercel(https://vercel.com )でリポジトリをインポート
+3. デプロイ後、「Storage」タブから **Upstash Redis** を追加(Marketplace統合、無料枠あり)。追加すると`UPSTASH_REDIS_REST_URL`・`UPSTASH_REDIS_REST_TOKEN`が自動的に環境変数に設定されます
+4. 「Environment Variables」で以下を追加してRedeploy:
+   - `ANTHROPIC_API_KEY`:1.で取得したキー
+   - `STRIPE_SECRET_KEY`:2.で取得したキー
+   - `STRIPE_WEBHOOK_SECRET`:2.で取得した署名シークレット(Webhook作成後に追加)
+
+### 動作確認
+1. サイトにアクセス→クレジット残高が「0」と表示されることを確認
+2. 「購入(¥500)」→Stripeのテスト決済(本番キーの場合は実際のカードが必要)
+3. 決済完了後、サイトに戻ってクレジットが「1」になっているか確認
+4. 「はじめる」でゲーム開始→クレジットが「0」に戻ることを確認
 
 ## 費用について
 
-機能の作り込みが進んだ分、1ゲームあたりのAPIトークン消費は当初(約60〜70円)より増えています。目安として、1ゲームあたり100〜150円程度を想定しておくと安心です。
+APIトークン消費の目安は1ゲームあたり100〜300円程度(ゲームの長さによって変動)。¥450での販売なら、Anthropic APIのコストを差し引いても利益が残る計算です。
 
 ## ローカルで動作確認したい場合
 
@@ -30,4 +59,28 @@ npm install
 npm run dev
 ```
 
-ただし `npm run dev` だけでは `/api/claude` の中継サーバーレス関数は動きません。ローカルでAPI込みの動作確認をしたい場合は、Vercel CLI(`npm i -g vercel` → `vercel dev`)を使ってください。
+ただし `npm run dev` だけでは `/api/*` のサーバーレス関数は動きません。API込みで確認したい場合は、Vercel CLI(`npm i -g vercel` → `vercel dev`)を使ってください。
+
+
+## 開発者自身がテストプレイする方法(無料)
+
+決済を挟まずにクレジットを付与できる、開発者専用の仕組みがあります。
+
+1. Vercelの環境変数に `ADMIN_SECRET` を追加(好きな合言葉を設定し、誰にも教えない)
+2. サイトのURLの末尾に `?admin=1` を付けてアクセスする(例: `https://あなたのドメイン/?admin=1`)
+3. タイトル画面に「🔧 開発者用」パネルが表示されるので、合言葉を入力して「クレジットを10個付与する」を押す
+4. あとは通常通り「はじめる」でプレイできる(1回につき1クレジット消費)
+
+このURL・合言葉は友人にも教えないでください(誰でもクレジットを無料で付与できてしまいます)。
+
+
+## プレイヤーのデバッグログを自動でサーバーに保存する(開発者向け)
+
+友人が遊んだゲームのデバッグログを、手動で送ってもらわなくても自動的に確認できます。
+
+- **仕組み**:ゲームが終了する(gameoverになる)たびに、そのプレイのデバッグログが自動的にサーバー(Redis)へ保存されます。プレイヤー側には見えない、裏側の処理です(合計200件まで保存、それを超えると古いものから消えます)
+- **確認方法**:`https://あなたのドメイン/?admin=1` にアクセスし、タイトル画面の開発者パネルに合言葉(`ADMIN_SECRET`)を入力→「📋 保存済みデバッグログを見る」で一覧・ダウンロードできます
+
+### プライバシーについての注意
+
+この仕組みは、**プレイヤーに気づかれずにゲームの会話内容を収集するもの**です。身内・友人向けのテスト段階では問題になりにくいですが、**広く一般公開する場合は、事前に「デバッグ目的でプレイ内容を保存することがある」旨をどこかに明記しておくことを強く推奨します**。
