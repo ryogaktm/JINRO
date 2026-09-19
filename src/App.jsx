@@ -491,7 +491,7 @@ export default function JinroGame() {
 
   async function grantTestCredits() {
     try {
-      const res = await fetch("/api/add-test-credits", {
+      const res = await fetch("/api/check-credits", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ deviceId, secret: adminSecretInput, amount: 10 }),
@@ -511,7 +511,7 @@ export default function JinroGame() {
   async function openDebugLogViewer() {
     setShowDebugLogViewer(true);
     try {
-      const res = await fetch(`/api/list-debug-logs?secret=${encodeURIComponent(adminSecretInput)}`);
+      const res = await fetch(`/api/debug-log?action=list&secret=${encodeURIComponent(adminSecretInput)}`);
       const data = await res.json();
       if (res.ok) {
         setDebugLogList(data.logs || []);
@@ -528,7 +528,7 @@ export default function JinroGame() {
     setCostStatsLoading(true);
     setCostStatsError(null);
     try {
-      const res = await fetch(`/api/debug-log-cost-stats?secret=${encodeURIComponent(adminSecretInput)}`);
+      const res = await fetch(`/api/debug-log?action=cost-stats&secret=${encodeURIComponent(adminSecretInput)}`);
       const data = await res.json();
       if (res.ok) {
         setCostStats(data);
@@ -544,10 +544,10 @@ export default function JinroGame() {
 
   async function toggleDebugLogFavorite(key, nextFavorite) {
     try {
-      const res = await fetch("/api/toggle-debug-log-favorite", {
+      const res = await fetch("/api/debug-log", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key, favorite: nextFavorite, secret: adminSecretInput }),
+        body: JSON.stringify({ action: "toggle-favorite", key, favorite: nextFavorite, secret: adminSecretInput }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -595,7 +595,7 @@ export default function JinroGame() {
 
   async function downloadSavedDebugLog(key) {
     try {
-      const res = await fetch(`/api/get-debug-log?key=${encodeURIComponent(key)}&secret=${encodeURIComponent(adminSecretInput)}`);
+      const res = await fetch(`/api/debug-log?action=get&key=${encodeURIComponent(key)}&secret=${encodeURIComponent(adminSecretInput)}`);
       const data = await res.json();
       if (!res.ok) {
         addLog([{ type: "system", text: `ダウンロードに失敗しました。(${data.error || "原因不明"})` }]);
@@ -805,10 +805,10 @@ ${fullTranscript}
   // このゲームのプレイログをサーバーに自動保存する(開発者のデバッグ用途。ゲーム終了時に自動送信する)
   async function autoSaveDebugLog() {
     try {
-      await fetch("/api/save-debug-log", {
+      await fetch("/api/debug-log", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ deviceId, userName, content: buildDebugLogText() }),
+        body: JSON.stringify({ action: "save", deviceId, userName, content: buildDebugLogText() }),
       });
     } catch (e) {
       // 保存に失敗してもプレイヤーの体験は止めない(サイレントに諦める)
@@ -844,7 +844,7 @@ ${fullTranscript}
   async function openNpcBattleHistory() {
     setShowNpcBattleHistory(true);
     try {
-      const res = await fetch(`/api/get-npc-battle-history?deviceId=${encodeURIComponent(deviceId)}`);
+      const res = await fetch(`/api/npc-battle?action=get&deviceId=${encodeURIComponent(deviceId)}`);
       const data = await res.json();
       setNpcBattleRecords(res.ok ? (data.records || []) : []);
     } catch (e) {
@@ -2918,10 +2918,11 @@ ${guardLogText}
     const isWolfSideRole = npcWithOwner.role === "人狼" || npcWithOwner.role === "狂人" ||
       (npcWithOwner.role === "ジョーカー" && npcJokerState.defected);
     const teamWon = (win === "人狼陣営" && isWolfSideRole) || (win === "村人陣営" && !isWolfSideRole);
-    fetch("/api/save-npc-battle-record", {
+    fetch("/api/npc-battle", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        action: "save",
         creatorDeviceId: npcWithOwner.creatorDeviceId,
         npcName: npcWithOwner.name,
         role: npcWithOwner.role,
