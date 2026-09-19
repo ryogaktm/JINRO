@@ -371,6 +371,10 @@ export default function JinroGame() {
   const [debugLogList, setDebugLogList] = useState([]);
   const [showNpcCandidateViewer, setShowNpcCandidateViewer] = useState(false);
   const [npcCandidateList, setNpcCandidateList] = useState([]);
+  const [showCostStats, setShowCostStats] = useState(false);
+  const [costStats, setCostStats] = useState(null);
+  const [costStatsLoading, setCostStatsLoading] = useState(false);
+  const [costStatsError, setCostStatsError] = useState(null);
 
   useEffect(() => {
     let id = localStorage.getItem("jinro_device_id");
@@ -491,6 +495,43 @@ export default function JinroGame() {
       }
     } catch (e) {
       addLog([{ type: "system", text: "ログ一覧の取得に失敗しました。通信環境を確認してください。" }]);
+    }
+  }
+
+  async function openCostStats() {
+    setShowCostStats(true);
+    setCostStatsLoading(true);
+    setCostStatsError(null);
+    try {
+      const res = await fetch(`/api/debug-log-cost-stats?secret=${encodeURIComponent(adminSecretInput)}`);
+      const data = await res.json();
+      if (res.ok) {
+        setCostStats(data);
+      } else {
+        setCostStatsError(data.error || "原因不明");
+      }
+    } catch (e) {
+      setCostStatsError("通信環境を確認してください。");
+    } finally {
+      setCostStatsLoading(false);
+    }
+  }
+
+  async function toggleDebugLogFavorite(key, nextFavorite) {
+    try {
+      const res = await fetch("/api/toggle-debug-log-favorite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key, favorite: nextFavorite, secret: adminSecretInput }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setDebugLogList((prev) => prev.map((item) => (item.key === key ? { ...item, favorite: data.favorite, legacy: false } : item)));
+      } else {
+        addLog([{ type: "system", text: `お気に入り設定に失敗しました。(${data.error || "原因不明"})` }]);
+      }
+    } catch (e) {
+      addLog([{ type: "system", text: "お気に入り設定に失敗しました。通信環境を確認してください。" }]);
     }
   }
 
@@ -3076,6 +3117,13 @@ JSON形式のみ: {"text":"回答"}`;
               >
                 🎭 NPC分身候補を確認する
               </button>
+              <button
+                onClick={openCostStats}
+                className="w-full py-1.5 rounded text-sm font-bold border"
+                style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+              >
+                💰 1プレイあたりのコストを集計する
+              </button>
             </div>
           )}
 
@@ -3088,19 +3136,80 @@ JSON形式のみ: {"text":"回答"}`;
                   <button onClick={() => setShowDebugLogViewer(false)} className="text-xl leading-none" style={{ color: "#6B6355" }}>✕</button>
                 </div>
                 {debugLogList.length === 0 && <p className="text-sm" style={{ color: "#8A8272" }}>まだ保存されたログがありません。</p>}
-                {debugLogList.map((item) => (
-                  <div key={item.key} className="rounded-lg p-2 border text-xs" style={{ borderColor: "#D8C4B5" }}>
-                    <div className="font-bold" style={{ color: "#2B2620" }}>{item.userName || "(名前不明)"} — {new Date(item.savedAt).toLocaleString("ja-JP")}</div>
-                    <div className="mt-1 truncate" style={{ color: "#8A8272" }}>{item.preview}...</div>
-                    <button
-                      onClick={() => downloadSavedDebugLog(item.key)}
-                      className="mt-1 px-2 py-1 rounded text-xs font-bold"
-                      style={{ background: "#8A5A2A", color: "#FFFFFF" }}
-                    >
-                      ダウンロード
-                    </button>
-                  </div>
-                ))}
+                {debugLogList.map((item) => {
+                  const isProtected = item.favorite || item.legacy;
+                  return (
+                    <div key={item.key} className="rounded-lg p-2 border text-xs" style={{ borderColor: "#D8C4B5" }}>
+                      <div className="font-bold flex items-center gap-1" style={{ color: "#2B2620" }}>
+                        {item.favorite ? "★" : item.legacy ? "🔒" : "☆"} {item.userName || "(名前不明)"} — {new Date(item.savedAt).toLocaleString("ja-JP")}
+                      </div>
+                      <div className="mt-0.5" style={{ color: "#8A8272" }}>
+                        {item.favorite ? "お気に入り登録済み(自動削除の対象外)" : item.legacy ? "保護中(このお気に入り機能導入前のログ)" : "通常ログ(古くなると自動削除される場合があります)"}
+                      </div>
+                      <div className="mt-1 truncate" style={{ color: "#8A8272" }}>{item.preview}...</div>
+                      <div className="mt-1 flex gap-2">
+                        <button
+                          onClick={() => downloadSavedDebugLog(item.key)}
+                          className="px-2 py-1 rounded text-xs font-bold"
+                          style={{ background: "#8A5A2A", color: "#FFFFFF" }}
+                        >
+                          ダウンロード
+                        </button>
+                        <button
+                          onClick={() => toggleDebugLogFavorite(item.key, !isProtected)}
+                          className="px-2 py-1 rounded text-xs font-bold border"
+                          style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                        >
+                          {isProtected ? "お気に入り解除" : "★ お気に入りにする"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {showCostStats && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div className="absolute inset-0 bg-black/50" onClick={() => setShowCostStats(false)} />
+              <div className="relative w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-4 space-y-3 shadow-2xl text-left" style={{ background: "#FBF8F1" }}>
+                <div className="flex justify-between items-center pb-2 border-b" style={{ borderColor: "#D8C4B5" }}>
+                  <div className="text-sm font-bold" style={{ color: "#2B2620" }}>💰 1プレイあたりのAPIコスト集計</div>
+                  <button onClick={() => setShowCostStats(false)} className="text-xl leading-none" style={{ color: "#6B6355" }}>✕</button>
+                </div>
+                {costStatsLoading && <p className="text-sm" style={{ color: "#8A8272" }}>集計中...</p>}
+                {costStatsError && <p className="text-sm" style={{ color: "#B23A3A" }}>{costStatsError}</p>}
+                {!costStatsLoading && !costStatsError && costStats && (
+                  costStats.gamesAnalyzed === 0 ? (
+                    <p className="text-sm" style={{ color: "#8A8272" }}>集計対象のログがまだありません(有効なプレイ記録が保存されると集計できます)。</p>
+                  ) : (
+                    <div className="space-y-3 text-sm" style={{ color: "#2B2620" }}>
+                      <div>集計対象:{costStats.gamesAnalyzed}件(除外:{costStats.gamesSkipped}件・記録が空のログ)</div>
+                      <div className="rounded-lg p-3 border" style={{ borderColor: "#D8C4B5", background: "#FFF" }}>
+                        <div className="font-bold mb-1">平均コスト / 1プレイ</div>
+                        <div className="text-2xl font-bold" style={{ color: "#8A5A2A" }}>
+                          ¥{Math.round(costStats.average.costJpy).toLocaleString("ja-JP")}
+                          <span className="text-sm font-normal" style={{ color: "#8A8272" }}> (${costStats.average.costUsd.toFixed(4)})</span>
+                        </div>
+                      </div>
+                      <div className="rounded-lg p-3 border" style={{ borderColor: "#D8C4B5" }}>
+                        <div className="font-bold mb-1">ばらつき(最小〜最大)</div>
+                        <div>¥{Math.round(costStats.range.minCostJpy).toLocaleString("ja-JP")} 〜 ¥{Math.round(costStats.range.maxCostJpy).toLocaleString("ja-JP")}</div>
+                      </div>
+                      <div className="rounded-lg p-3 border" style={{ borderColor: "#D8C4B5" }}>
+                        <div className="font-bold mb-1">1プレイあたりの平均トークン数</div>
+                        <div>API呼び出し:約{Math.round(costStats.average.callsPerGame)}回</div>
+                        <div>入力:約{Math.round(costStats.average.inputPerGame).toLocaleString("ja-JP")}トークン</div>
+                        <div>出力:約{Math.round(costStats.average.outputPerGame).toLocaleString("ja-JP")}トークン</div>
+                      </div>
+                      <div className="text-xs" style={{ color: "#8A8272" }}>
+                        為替レート:1USD=¥{costStats.jpyRate}(概算・変動あり)<br />
+                        料金基準:{costStats.pricingBasis}
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           )}
