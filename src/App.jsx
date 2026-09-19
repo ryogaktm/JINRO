@@ -1137,6 +1137,15 @@ JSON形式のみ: {"summary":"要約文"}`;
     return p.role;
   }
 
+  // ゲーム中いつでもトップ画面(お気に入りストーリー・タロットコレクション閲覧用)に戻れるようにする。
+  // 現在の進行はオートセーブ済みなので、hasSaveを明示的にtrueにして「続きから始める」で必ず復帰できるようにする
+  // (誤って「はじめる」を押しても新規ゲームで上書きされないよう、念のためのガード)。
+  function returnToTitle() {
+    setShowDrawer(false);
+    setHasSave(true);
+    setPhase("setup");
+  }
+
   // 「対抗COはほぼ義務」というルールは、あくまでAIへの文章での指示にすぎず、
   // 毎ターン確実に実行されるとは限らない(実際、これが機能しないまま単独COが押し通ると、
   // 投票が不自然なほど的確に正解し続ける原因になる)。
@@ -3468,6 +3477,9 @@ JSON形式のみ: {"text":"回答"}`;
         </div>
       </div>
 
+      <div className="fixed bottom-0 inset-x-0 text-center py-3 text-xs" style={{ color: "#8A8272" }}>© 2026 KTM GAMES</div>
+
+
       {showTarotCollection && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowTarotCollection(false)} />
@@ -3721,6 +3733,14 @@ JSON形式のみ: {"text":"回答"}`;
               <div className="text-sm font-bold" style={{ color: C.textMuted }}>状況</div>
               <button onClick={() => setShowDrawer(false)} className="text-xl leading-none" style={{ color: C.textMuted }}>✕</button>
             </div>
+
+            <button
+              onClick={returnToTitle}
+              className="w-full py-2 rounded-lg text-sm font-bold border"
+              style={{ background: C.white, color: C.gold, borderColor: C.borderStrong }}
+            >
+              🏠 トップに戻る(お気に入り・タロットコレクション)
+            </button>
 
             <div className="rounded-lg p-3" style={{ background: C.bgCard }}>
               <div className="flex justify-between items-start">
