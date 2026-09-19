@@ -13,7 +13,8 @@ export default async function handler(req, res) {
     return;
   }
   try {
-    const keys = await redis.lrange("debuglog:index", 0, 199);
+    // 上限は通常20件だが、お気に入り保護により一時的に超過することがあるため余裕を持って取得する
+    const keys = await redis.lrange("debuglog:index", 0, 299);
     if (!keys || keys.length === 0) {
       res.status(200).json({ logs: [] });
       return;
@@ -29,6 +30,9 @@ export default async function handler(req, res) {
         userName: parsed.userName,
         deviceId: parsed.deviceId,
         preview: (parsed.content || "").slice(0, 120),
+        favorite: parsed.favorite === true,
+        // favoriteフィールドが存在しない旧ログ(この機能導入前の保存分)。自動削除からは保護されている。
+        legacy: parsed.favorite === undefined,
       };
     }).filter(Boolean);
     res.status(200).json({ logs });
