@@ -1481,6 +1481,12 @@ ${fullTranscript}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, busy, players, giveUp]);
 
+  // 初心者モードの案内役セリフは、改行(段落)ごとに別々の吹き出し(ログのエントリ)に分割する。
+  // 1つの長い塊のまま1文字ずつタイプさせると表示し終わるまで時間がかかりすぎるため、
+  // 実際のチャットのように、短いメッセージを連続で送っているような見た目にする(タイプライター演出はそのまま活かす)。
+  function guideLines(speaker, text) {
+    return text.split("\n").map((line) => line.trim()).filter(Boolean).map((line) => ({ type: "npc", speaker, text: line, secret: true }));
+  }
   function addLog(entries) {
     const sanitized = entries.map((e) => ({ ...e, text: e.text ? sanitizeStageDirections(e.text) : e.text }));
     logRef.current = [...logRef.current, ...sanitized]; // 同期的に更新し、直後のgetTranscript()が最新を見られるようにする
@@ -1770,7 +1776,7 @@ JSON形式のみ: {"summary":"要約文"}`;
     if (beginnerMode && chosenGuideName) {
       const guideP = chosen.find((p) => p.name === chosenGuideName);
       const pronoun = region === "en" ? guidePronounEn() : guidePronounJa(guideP?.gender);
-      introLog.push({ type: "npc", speaker: chosenGuideName, text: applyGuideVoice(buildBeginnerTutorialText(0, region, finalName, pronoun), guideP?.gender, region), secret: true });
+      introLog.push(...guideLines(chosenGuideName, applyGuideVoice(buildBeginnerTutorialText(0, region, finalName, pronoun), guideP?.gender, region)));
     }
 
     setBeginnerStageShown(beginnerMode ? 0 : null);
@@ -2164,7 +2170,7 @@ JSON形式のみ: {"text":"セリフ"}`;
     if (beginnerMode && guideNpcName) {
       const guide = players.find((p) => p.name === guideNpcName);
       if (guide && guide.alive) {
-        addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(region === "en" ? DEFENSE_MSG.preVoteEn() : DEFENSE_MSG.preVoteJa(), guide.gender, region), secret: true }]);
+        addLog(guideLines(guideNpcName, applyGuideVoice(region === "en" ? DEFENSE_MSG.preVoteEn() : DEFENSE_MSG.preVoteJa(), guide.gender, region)));
       }
     }
     setPhase("vote_final");
@@ -2302,7 +2308,7 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityC
         const text = region === "en"
           ? `Whoa, you might already be a Werewolf pro at this point! Alright, voting time! Put everything you've gathered so far into that vote!`
           : `さすが!!いいね!いいね!もう人狼上級者と言っても過言ではないかもね。さあそろそろ投票の時間だ!今まで集めた情報を元に、導き出した答えを投票に込めるんだ!!よく分からなかったら、自分への好感度が低そうな人に投票してみても良いかもね。`;
-        addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+        addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
         setBeginnerStageShown(3);
       }
     }
@@ -2496,7 +2502,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
           const text = isCandidate
             ? (region === "en" ? DEFENSE_MSG.candidateIntroEn() : DEFENSE_MSG.candidateIntroJa())
             : (region === "en" ? DEFENSE_MSG.bystanderIntroEn(finalists.join(", ")) : DEFENSE_MSG.bystanderIntroJa(finalists.join("・")));
-          addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+          addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
         }
       }
       setDefenseLoading(true);
@@ -2510,7 +2516,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
           const text = isCandidate
             ? (region === "en" ? DEFENSE_MSG.candidatePromptEn(3) : DEFENSE_MSG.candidatePromptJa(3))
             : (region === "en" ? DEFENSE_MSG.bystanderPromptEn() : DEFENSE_MSG.bystanderPromptJa());
-          addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+          addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
         }
       }
     } catch (e) {
@@ -3619,7 +3625,7 @@ ${guardLogText}
         ? `\nOops, went off on a tangent there! Well, keep in mind what your role can actually do when you're deciding what to say next.\nWhat, nothing to say right now? Fair enough, maybe try taking an action instead — like watching people closely? Write out what you want to do and hit the action button. Who knows, you might notice something?`
         : `\nおっと!横道にそれたね!まあでも自分の役職で出来る事を念頭に置いて、次話すことを考えても良いかもね。\nえ?今は特に何も話すことが無い?そうかそうか、だったら行動してみても良いかもね、周りを注意深く観察するとか?やりたい行動を書いて、行動するを押してごらん。もしかしたら何か見えてくるかも??`;
     }
-    addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+    addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
     setBeginnerStageShown(nextStage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [discussionTurns, beginnerMode, day, phase, busy, guideNpcName, beginnerStageShown, players]);
@@ -3633,7 +3639,7 @@ ${guardLogText}
     const text = region === "en"
       ? `Oh, that role claim just now — that's the "CO" I mentioned earlier. Someone's declaring their role out loud.`
       : `あ、今の役職の名乗り、さっき教えた「CO」ってやつだよ。誰かが自分の役職を宣言してるんだね。`;
-    addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+    addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
     setBeginnerCoExplained(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleClaims, beginnerMode, beginnerCoExplained, guideNpcName, busy, players]);
@@ -3651,7 +3657,7 @@ ${guardLogText}
     const table = region === "en" ? NIGHT_FLAVOR_EN : NIGHT_FLAVOR_JA;
     const builder = table[me.role];
     if (!builder) return;
-    addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(builder(userName), guide.gender, region), secret: true }]);
+    addLog(guideLines(guideNpcName, applyGuideVoice(builder(userName), guide.gender, region)));
     setBeginnerNightFlavorDay(day);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, day, beginnerMode, beginnerNightFlavorDay, guideNpcName, busy, players, jokerState]);
@@ -3672,7 +3678,7 @@ ${guardLogText}
     const adviceRole = (me.role === "ジョーカー" && jokerState.hidden) ? "村人" : me.role;
     const advice = adviceTable?.[adviceRole];
     const text = advice ? `${openText}\n${advice}` : openText;
-    if (text) addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+    if (text) addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
     setBeginnerMorningAdviceDay(day);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, day, beginnerMode, beginnerMorningAdviceDay, guideNpcName, busy, players, jokerState]);
@@ -3693,7 +3699,7 @@ ${guardLogText}
       if (explainedGlossaryTermsRef.current.has(entry.id)) continue;
       if (entry.terms.some((t) => combinedText.includes(t))) {
         explainedGlossaryTermsRef.current.add(entry.id);
-        addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(region === "en" ? entry.en : entry.ja, guide.gender, region), secret: true }]);
+        addLog(guideLines(guideNpcName, applyGuideVoice(region === "en" ? entry.en : entry.ja, guide.gender, region)));
         break; // 1回のチェックで解説を挟むのは1つだけ(まとめて連発させない)
       }
     }
