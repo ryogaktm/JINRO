@@ -57,14 +57,67 @@ const CAST_POOL = [
   { name: "宮下瑠奈", age: 17, gender: "女性", personality: "気が強く物怖じしない", club: "陸上部" },
 ];
 
+const CAST_POOL_EN = [
+  { name: "Ava Bennett", age: 17, gender: "女性", personality: "responsible and caring", club: "Library Committee", closeWith: "Ivy Bennett", relationType: "sisters" },
+  { name: "Ivy Bennett", age: 17, gender: "女性", personality: "free-spirited and easygoing", club: "Dance Team", closeWith: "Ava Bennett", relationType: "sisters" },
+  { name: "Ryan Carter", age: 17, gender: "男性", personality: "straightforward and hot-blooded", club: "Baseball Team", closeWith: "Hannah Cole", relationType: "childhood friends" },
+  { name: "Hannah Cole", age: 17, gender: "女性", personality: "quiet and observant", club: "Art Club", closeWith: "Ryan Carter", relationType: "childhood friends" },
+  { name: "Marcus Reed", age: 17, gender: "男性", personality: "confident, natural leader type", club: "Basketball Team", closeWith: "Ethan Kim", relationType: "best friends" },
+  { name: "Ethan Kim", age: 17, gender: "男性", personality: "modest and considerate", club: "Basketball Team", closeWith: "Marcus Reed", relationType: "best friends" },
+  { name: "Jasmine Ford", age: 17, gender: "女性", personality: "passionate and outspoken", club: "Drama Club President", rivalWith: "Kenneth Walsh", relationType: "rivals" },
+  { name: "Kenneth Walsh", age: 17, gender: "男性", personality: "rigid and overly logical", club: "Student Council President", rivalWith: "Jasmine Ford", relationType: "rivals" },
+  { name: "Olivia Sanders", age: 17, gender: "女性", personality: "cheerful and chatty", club: "Marching Band" },
+  { name: "Shawn Kelly", age: 17, gender: "男性", personality: "breezy and hard to pin down", club: "Music Club" },
+  { name: "Tyler Nash", age: 17, gender: "男性", personality: "the class clown, always lightening the mood", club: "Soccer Team", closeWith: "Miguel Torres", relationType: "best friends" },
+  { name: "Miguel Torres", age: 17, gender: "男性", personality: "sarcastic but warm-hearted", club: "Soccer Team", closeWith: "Tyler Nash", relationType: "best friends" },
+  { name: "Meiko Hoshino", age: 17, gender: "女性", personality: "competitive perfectionist", club: "Tennis Team", rivalWith: "Misaki Okada", relationType: "rivals" },
+  { name: "Misaki Okada", age: 17, gender: "女性", personality: "airheaded and easygoing", club: "Tennis Team", rivalWith: "Meiko Hoshino", relationType: "rivals" },
+  { name: "Riku Saito", age: 17, gender: "男性", personality: "cool-headed strategist type", club: "Chess Club" },
+  { name: "Aiden Frost", age: 17, gender: "男性", personality: "quiet but sharp-eyed", club: "Photography Club" },
+  { name: "Yui Watson", age: 17, gender: "女性", personality: "the caring class-president type", club: "Student Council", closeWith: "Fern Shaw", relationType: "childhood friends" },
+  { name: "Fern Shaw", age: 17, gender: "女性", personality: "shy but strong-willed", club: "Tea Ceremony Club", closeWith: "Yui Watson", relationType: "childhood friends" },
+  { name: "Hina Ito", age: 17, gender: "男性", personality: "hot-blooded but often misses the mark", club: "Track Team", rivalWith: "Tsubasa Tanaka", relationType: "rivals" },
+  { name: "Tsubasa Tanaka", age: 17, gender: "男性", personality: "cool and results-driven", club: "Track Team", rivalWith: "Hina Ito", relationType: "rivals" },
+  { name: "Luna Chandler", age: 17, gender: "女性", personality: "gentle and soothing presence", club: "Gardening Club" },
+  { name: "Yu Murata", age: 17, gender: "男性", personality: "sharp-tongued cynic", club: "Literary Club" },
+  { name: "Hinata Moore", age: 17, gender: "女性", personality: "energetic cheer-squad captain", club: "Cheer Squad", closeWith: "Sakura Palmer", relationType: "best friends" },
+  { name: "Sakura Palmer", age: 17, gender: "女性", personality: "calm, the brains of the group", club: "Cheer Squad", closeWith: "Hinata Moore", relationType: "best friends" },
+  { name: "Daichi Cohen", age: 17, gender: "男性", personality: "the quiet, craftsman type", club: "Cooking Club" },
+  { name: "Renji Blake", age: 17, gender: "男性", personality: "seems flaky but surprisingly loyal", club: "Film Club" },
+  { name: "Riko Sakamoto", age: 17, gender: "女性", personality: "sharp-tongued but looks out for others", club: "Newspaper Club" },
+  { name: "Kaito Fuller", age: 17, gender: "男性", personality: "relentlessly upbeat jock", club: "Judo Club" },
+  { name: "Yuna Yamada", age: 17, gender: "女性", personality: "calculating but kind at heart", club: "English Club" },
+  { name: "Yuto Ota", age: 17, gender: "男性", personality: "impossible to read", club: "No Club", outcast: true },
+  { name: "Daisuke Suzuki", age: 17, gender: "男性", personality: "too serious, not very flexible", club: "Kendo Club", rivalWith: "Sho Miyamoto", relationType: "rivals" },
+  { name: "Sho Miyamoto", age: 17, gender: "男性", personality: "shrewd and good at working the room", club: "Kendo Club", rivalWith: "Daisuke Suzuki", relationType: "rivals" },
+  { name: "Ryota Ishikawa", age: 17, gender: "男性", personality: "few words, matter-of-fact", club: "Chemistry Club" },
+  { name: "Sota Nakano", age: 17, gender: "男性", personality: "quick to get fired up, quick to cool off", club: "Track Team" },
+  { name: "Naoki Fujita", age: 17, gender: "男性", personality: "kind to everyone but lacks conviction", club: "Volunteer Club", closeWith: "Kenji Murakami", relationType: "childhood friends" },
+  { name: "Kenji Murakami", age: 17, gender: "男性", personality: "a stickler for doing the right thing", club: "Volunteer Club", closeWith: "Naoki Fujita", relationType: "childhood friends" },
+  { name: "Sota Okamoto", age: 17, gender: "男性", personality: "sarcastic and keeps people at arm's length", club: "Literary Club" },
+  { name: "Itsuki Hasegawa", age: 17, gender: "男性", personality: "airheaded and a little clueless", club: "Soccer Team", rivalWith: "Taiga Matsumoto", relationType: "rivals" },
+  { name: "Taiga Matsumoto", age: 17, gender: "男性", personality: "fiercely competitive and loud", club: "Soccer Team", rivalWith: "Itsuki Hasegawa", relationType: "rivals" },
+  { name: "Misaki Tamura", age: 17, gender: "女性", personality: "cheerful but secretly lonely", club: "Music Club", closeWith: "Hikari Ishii", relationType: "best friends" },
+  { name: "Hikari Ishii", age: 17, gender: "女性", personality: "meticulous perfectionist", club: "Marching Band", closeWith: "Misaki Tamura", relationType: "best friends" },
+  { name: "Rio Ogawa", age: 17, gender: "女性", personality: "does her own thing, oblivious to the room", club: "Art Club" },
+  { name: "Mai Kato", age: 17, gender: "女性", personality: "caring but a bit of a busybody", club: "Cooking Club", rivalWith: "Nana Nishida", relationType: "rivals" },
+  { name: "Nana Nishida", age: 17, gender: "女性", personality: "cool and keeps to herself", club: "Photography Club", rivalWith: "Mai Kato", relationType: "rivals" },
+  { name: "Anne Matsuda", age: 17, gender: "女性", personality: "optimistic and fun-loving", club: "Dance Team" },
+  { name: "Kokomi Harada", age: 17, gender: "女性", personality: "introverted bookworm", club: "Library Committee", closeWith: "Aya Kinoshita", relationType: "childhood friends" },
+  { name: "Aya Kinoshita", age: 17, gender: "女性", personality: "warm and takes care of everyone", club: "Tea Ceremony Club", closeWith: "Kokomi Harada", relationType: "childhood friends" },
+  { name: "Rena Saito", age: 17, gender: "女性", personality: "gentle, avoids conflict", club: "Gardening Club", rivalWith: "Mao Murata", relationType: "rivals" },
+  { name: "Mao Murata", age: 17, gender: "女性", personality: "ambitious and craves the spotlight", club: "Cheer Squad", rivalWith: "Rena Saito", relationType: "rivals" },
+  { name: "Runa Miyashita", age: 17, gender: "女性", personality: "strong-willed and fearless", club: "Track Team" },
+];
+
 // ルールを「箱」に分割。呼び出しの種類ごとに必要な箱だけを組み合わせてトークンを節約する。
 const RULE_BOX = {
-  CORE: "**◆このゲームの成立条件(全ルール中の最優先・例外なし)◆** あなたは今、全キャラクター分の真実(誰が本当は何の役職か、占い・霊媒・護衛の本当の結果、公表されていないペア関係)をすべて見た上でセリフを書いている。だが**各キャラクターにとって、その真実は最初から存在しないものとして扱え**。キャラクターが判断や発言の根拠にしてよい情報源は、次の3つだけに限る:①会話ログに実際に書かれている、誰かが口に出した発言・投票・行動、②そのキャラ自身に明示的に与えられた情報(自分の役職、自分の相方、自分自身の能力結果)、③全員が知っている公開ルール(役職構成)。この3つに含まれない情報(他人の本当の役職、他人の本当の能力結果、まだ公表されていないペア関係)は、セリフの文面・推理の理由・投票の根拠・雰囲気の描写・相性コメントのどこにも、直接的にも間接的にも、匂わせる形でも、絶対に反映させない。**これが一度でも破られた瞬間、プレイヤーは「AIは答えを知った上で演技しているだけだ」と気づき、推理ゲームとして成立しなくなる**。判断に迷ったら、必ず「このキャラは、この情報を会話ログのどの発言から知ったのか?」と自問し、具体的な発言を指させない情報は使わない。**役職ごとの個別ルールを、他の役職に類推適用しない(絶対厳守)**:以下の各役職の項目に書かれた固有のルール(例:共有者が自分の相方に絶対投票しない、狂人が対抗COを優先的に担当する、等)は、その役職固有の理由に基づく特別な制約であり、明記されていない他の役職に同じ制約を勝手に当てはめない。「ある役職でこう決められているなら、他の役職でも同じようにした方が安全だろう」という類推・拡大解釈は絶対にしない(役職ごとに事情が異なるため、類推は誤った行動を生む)。各役職の振る舞いは、その役職自身の項目に書かれている内容だけを根拠にする。 ト書きに役職名を書かない。全員同じ反応にしない(異論を1人混ぜる)。感情豊かに、断定しない(動揺=黒等の単純化NG)。セリフは短く(1〜2文、40字目安)、長台詞にしない。**質問への回答を新たな怪しい行動として扱わない**(文脈を正しく認識、回答への逆ギレ的な追加詰問もしない)。**疑いは根拠があってこそ**:矛盾・不自然さがない限り理由なく怪しまない(大半は中立〜協力的)。ただし**「毒舌」「完璧主義」「猜疑心が強い」「負けず嫌い」等の性格は他より厳しく指摘してよい**(個性として疑いすぎ回避の対象外)。**プレイヤーも他NPCと全く同じ基準で判断する(絶対厳守)**:矛盾・隙があれば同じ基準・同じ強さで指摘・追及・疑い、特別扱いで無条件信用・除外し続けない。プレイヤーだから疑われにくい、投票されにくい、という展開は絶対にNG。むしろプレイヤーは主役として発言量が多くなりがちなため、矛盾や隙が生まれる機会も他のNPCより多いくらいのつもりで、遠慮なく観察・指摘する。**クラスメイト同士の人間関係を積極的に活かす(重要)**:幼馴染・姉妹・親友は、互いを無条件に信じがちで、相手が疑われると庇う・動揺する描写を自然に混ぜてよい(ただし庇いすぎて村の判断を歪めるほどにはしない)。ライバル同士は、互いの言動に人一倍敏感で、皮肉や対抗心が滲む発言をしてよい。「クラスでなんとなく距離を置かれがち」な人物がいる場合、他人から軽く話を振られにくい・扱いが素っ気ない、といった社会的な空気感は描いてよいが、**それ自体を人狼を疑う根拠には絶対にしない**(理由のない疎外感と、役職への疑いは別物として扱う)。**「確定シロ」「確定クロ」等の断定は、実在する公開情報の出どころを必ず伴う(絶対厳守・見落としやすい重要ポイント)**:誰かを「シロ」「人狼じゃないのは確定」「クロ」のように断定的に語るのは、実際に会話ログ上で占い師・霊媒師が既にCOしてその結果を公表している場合のみ許される。まだ誰も占い・霊媒のCOをしていない・その人物についての結果がまだ公表されていない段階で、根拠となる発言者を挙げられないまま「シロだよね」「人狼じゃないのは確定してる」のように言わせない。もし言うなら、必ず「(占い師の)〇〇さんの結果で」のように、直前までに実際に公表された発言を根拠として名指しできる場合に限る。**シロ/クロの二値だけでなく、具体的な役職名の推測も同じ扱いにする(絶対厳守)**:「〇〇は共有者だったのかな」「〇〇は狩人だった気がする」のように、誰かの具体的な役職名を、本人が公表したことも他者の公開された結果もない状態で口にさせない。役職構成上あり得る可能性として一般論を語るのはよいが(例:「共有者が他にもいたかもね」)、特定の個人名と結びつけて役職名を言い当てる形の発言は、それを裏付ける公開情報(本人のCO、または占い師・霊媒師の結果)を名指しできる場合に限る。**「気が合う」「息が合っている」等の相性の指摘も、根拠なく行わない(絶対厳守・見落としやすい重要ポイント)**:キャラクター紹介で公開されている幼馴染・親友・ライバル等の関係以外で、二人の相性についてNPCに言及させる場合、それは会話ログに実際に残っている具体的な一致(同じ人物に投票した、同じ主張を繰り返した、発言のタイミングが重なった等)を直前の根拠として明示できる場合に限る。実際には投票先が割れている・特に共通点のない相手同士に対して、雰囲気だけで「妙に息が合っている」「気が合いすぎ」のような相性の指摘をさせない(これは、当のキャラ同士が実は裏で役職ペアだったとしても、そのキャラ自身が知り得るはずのない情報を根拠にした発言に見えてしまうため、絶対に避ける)。",
+  CORE: "**◆このゲームの成立条件(全ルール中の最優先・例外なし)◆** あなたは今、全キャラクター分の真実(誰が本当は何の役職か、占い・霊媒・護衛の本当の結果、公表されていないペア関係)をすべて見た上でセリフを書いている。だが**各キャラクターにとって、その真実は最初から存在しないものとして扱え**。キャラクターが判断や発言の根拠にしてよい情報源は、次の3つだけに限る:①会話ログに実際に書かれている、誰かが口に出した発言・投票・行動、②そのキャラ自身に明示的に与えられた情報(自分の役職、自分の相方、自分自身の能力結果)、③全員が知っている公開ルール(役職構成)。この3つに含まれない情報(他人の本当の役職、他人の本当の能力結果、まだ公表されていないペア関係)は、セリフの文面・推理の理由・投票の根拠・雰囲気の描写・相性コメントのどこにも、直接的にも間接的にも、匂わせる形でも、絶対に反映させない。**これが一度でも破られた瞬間、プレイヤーは「AIは答えを知った上で演技しているだけだ」と気づき、推理ゲームとして成立しなくなる**。判断に迷ったら、必ず「このキャラは、この情報を会話ログのどの発言から知ったのか?」と自問し、具体的な発言を指させない情報は使わない。**役職ごとの個別ルールを、他の役職に類推適用しない(絶対厳守)**:以下の各役職の項目に書かれた固有のルール(例:共有者が自分の相方に絶対投票しない、狂人が対抗COを優先的に担当する、等)は、その役職固有の理由に基づく特別な制約であり、明記されていない他の役職に同じ制約を勝手に当てはめない。「ある役職でこう決められているなら、他の役職でも同じようにした方が安全だろう」という類推・拡大解釈は絶対にしない(役職ごとに事情が異なるため、類推は誤った行動を生む)。各役職の振る舞いは、その役職自身の項目に書かれている内容だけを根拠にする。 ト書きに役職名を書かない。全員同じ反応にしない(異論を1人混ぜる)。**NPCはプレイヤーの発言への反応だけに終始しない(重要)**:毎ターン全員が「プレイヤーの発言を受けて」喋るのではなく、生存NPCのうち誰か1人は、プレイヤーの発言とは直接関係のない新しい話題(自分から見て気になる別人物への疑い、CO、過去の投票行動の蒸し返し等)を自発的に持ち出してよい(教室での自然な会話は、常に直前の発言だけに反応し続けるわけではない)。感情豊かに、断定しない(動揺=黒等の単純化NG)。セリフは短く(1〜2文、40字目安)、長台詞にしない。**質問への回答を新たな怪しい行動として扱わない**(文脈を正しく認識、回答への逆ギレ的な追加詰問もしない)。**プレイヤーの単純な言い間違いには寛容にする(重要・ただし対象は限定・見落としやすい重要ポイント)**:対象は**名前を間違える、言葉の言い回しを間違える、といった内容に実質的な影響のない表面的なミスだけ**である。気づいたNPCがいれば「〇〇のことだよね?」と軽く自然に確認する程度に留め、そこから鬼の首を取ったように追及・非難を展開しない。**これは矛盾の追及を弱めるものでは絶対にない**:投票先・主張・行動が実際に食い違っている場合(例:確定シロだと分かっている人物に投票する、以前の自分の発言と矛盾する主張をする)は、表面的な言い間違いではなく実質的な矛盾なので、通常通り厳しく指摘・追及する(この寛容さの対象外)。**このルールはプレイヤーの表面的な言い間違いにのみ適用され、他のNPCの言動や、内容面での矛盾には一切適用しない(絶対厳守)**:CORE箱に書かれているからといって、他のキャラクターの矛盾追及まで甘くしない。**プレイヤーが「何もしない」を選んだ時の扱い(重要)**:発言・行動をしなかったこと自体を、単独の強い疑いの根拠にしない。発言を強制するような執拗な詰問はしない。一方で、完全に何のリスクもない安全な選択肢にもしない(危機的な場面で複数回連続して沈黙が続けば、他のNPCが軽く気にかける程度の自然な反応をしてよい)。要するに、他の生存者が黙っている時と同程度の扱いにし、プレイヤーだから特別に咎める・特別に見逃す、のどちらにもしない。**疑いは根拠があってこそ**:矛盾・不自然さがない限り理由なく怪しまない(大半は中立〜協力的)。ただし**「毒舌」「完璧主義」「猜疑心が強い」「負けず嫌い」等の性格は他より厳しく指摘してよい**(個性として疑いすぎ回避の対象外)。**プレイヤーも他NPCと全く同じ基準で判断する(絶対厳守)**:矛盾・隙があれば同じ基準・同じ強さで指摘・追及・疑い、特別扱いで無条件信用・除外し続けない。プレイヤーだから疑われにくい、投票されにくい、という展開は絶対にNG。むしろプレイヤーは主役として発言量が多くなりがちなため、矛盾や隙が生まれる機会も他のNPCより多いくらいのつもりで、遠慮なく観察・指摘する。**クラスメイト同士の人間関係を積極的に活かす(重要)**:幼馴染・姉妹・親友は、互いを無条件に信じがちで、相手が疑われると庇う・動揺する描写を自然に混ぜてよい(ただし庇いすぎて村の判断を歪めるほどにはしない)。ライバル同士は、互いの言動に人一倍敏感で、皮肉や対抗心が滲む発言をしてよい。「クラスでなんとなく距離を置かれがち」な人物がいる場合、他人から軽く話を振られにくい・扱いが素っ気ない、といった社会的な空気感は描いてよいが、**それ自体を人狼を疑う根拠には絶対にしない**(理由のない疎外感と、役職への疑いは別物として扱う)。**「確定シロ」「確定クロ」等の断定は、実在する公開情報の出どころを必ず伴う(絶対厳守・見落としやすい重要ポイント)**:誰かを「シロ」「人狼じゃないのは確定」「クロ」のように断定的に語るのは、実際に会話ログ上で占い師・霊媒師が既にCOしてその結果を公表している場合のみ許される。まだ誰も占い・霊媒のCOをしていない・その人物についての結果がまだ公表されていない段階で、根拠となる発言者を挙げられないまま「シロだよね」「人狼じゃないのは確定してる」のように言わせない。もし言うなら、必ず「(占い師の)〇〇さんの結果で」のように、直前までに実際に公表された発言を根拠として名指しできる場合に限る。**シロ/クロの二値だけでなく、具体的な役職名の推測も同じ扱いにする(絶対厳守)**:「〇〇は共有者だったのかな」「〇〇は狩人だった気がする」のように、誰かの具体的な役職名を、本人が公表したことも他者の公開された結果もない状態で口にさせない。役職構成上あり得る可能性として一般論を語るのはよいが(例:「共有者が他にもいたかもね」)、特定の個人名と結びつけて役職名を言い当てる形の発言は、それを裏付ける公開情報(本人のCO、または占い師・霊媒師の結果)を名指しできる場合に限る。**「気が合う」「息が合っている」等の相性の指摘も、根拠なく行わない(絶対厳守・見落としやすい重要ポイント)**:キャラクター紹介で公開されている幼馴染・親友・ライバル等の関係以外で、二人の相性についてNPCに言及させる場合、それは会話ログに実際に残っている具体的な一致(同じ人物に投票した、同じ主張を繰り返した、発言のタイミングが重なった等)を直前の根拠として明示できる場合に限る。実際には投票先が割れている・特に共通点のない相手同士に対して、雰囲気だけで「妙に息が合っている」「気が合いすぎ」のような相性の指摘をさせない(これは、当のキャラ同士が実は裏で役職ペアだったとしても、そのキャラ自身が知り得るはずのない情報を根拠にした発言に見えてしまうため、絶対に避ける)。",
   WOLF_CORNERED: "**人狼は、自分が人狼であることを完全に自覚した上で、意図的に嘘をつき演技している(絶対厳守)**。狂人のような「自分の正体についての思い込み・洗脳」は人狼には一切ない。「本当は自分も占い師だと思っていた」のような、自己欺瞞・記憶の混濁を匂わせる発言は人狼に絶対にさせない(それは狂人だけに許された特殊な設定である)。人狼・狂人は無償の自白をしない。言い訳・偽CO・疑い誘導で粘り、劣勢時ほど能動的に動く(1日1手)。**受け身にならない**:信頼できる情報源への偽CO・議論の主導権奪取・疑いのすり替えなど、工作を毎日最低1回試みる(相槌や様子見だけで終えない)。**対抗COは早いほど有効(絶対厳守)**:本物が実績・信頼を積んでからの後出し対抗は説得力が薄い。**早い段階で検討し**、疑われてから慌てて対抗しない。**弁明タイムは沈黙する場ではない(絶対厳守)**:候補者以外も割り込める。村の信頼が固まりそうな瞬間に**その場で対抗COや疑義を割り込ませる**方が、翌日の後出しより効果的。**対抗COはほぼ義務(最重要・絶対厳守)**:占い師・霊媒師・狩人・共有者のCOに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする。単独COを信じさせ切るリスクの方が、対抗して疑われるリスクより大きい。特に序盤(1〜2日目)の占い師COには積極的に偽対抗をぶつけ混乱を作る。**対抗COの実行役は狂人を優先する(重要・絶対厳守)**:生存する狂人がいる場合、単独の役職への対抗CO(偽の占い師・霊媒師・狩人を名乗る等)は狂人に行わせ、人狼自身は直接この種の偽COを名乗らない。理由:狂人は本気でその役職だと思い込んでいるため、後から矛盾や嘘が発覚しても「狂人だった」で説明がつき、人狼の存在には直結しない。一方、人狼自身が偽COすると、そのCO自体の粗を突かれて芋づる式に人狼だと疑われるリスクが大きい。人狼が対抗の役割を担うのは、**生存する狂人がもう一人もいない場合に限る**。人狼自身が動く場合も、具体的な役職を騙って名乗り出るより、他者への疑いの提起・話題のすり替え・議論の主導権奪取など、直接の偽COより発覚時のリスクが低い工作を優先する。**典型的な人狼っぽい言動を避ける(絶対厳守)**:①名指しされた時の過剰な動揺・防御②はぐらかし・質問への非回答③過去発言との矛盾④不自然に歯切れが悪い/饒舌な言い訳⑤疑いを急かす・話題を急いで変える、を取らせない。村人と同じ自然な口調・態度で参加し、疑われても村人と同程度の反応に留める。工作も常套手段めかさず性格に沿って自然に行う。**発言頻度・発言量は役職と一切連動させない(絶対厳守)**:「人狼だから控えめに」といった調整をしない。誰がどれだけ話すかは性格設定と場の流れのみで決め、口数の少なさと役職(人狼に限らずどの役職も)を結びつけない。**進行段階で優先順位を切り替える(重要)**:①序盤〜中盤は正体を隠すことを最優先し、対立の決着がつかない場面では様子見程度に留める。②終盤(生存者が減り村側と同数に近い、またはあと1〜2人処刑で数的優位に届く)は、**多少強引・不自然な理由付けでも村側である可能性が高い方への投票を優先する**(バレるリスクより数的優位を逃すリスクの方が大きい)。**人狼・狂人が互いに投票するのは正体隠しの正当な戦略であり、避けるべき行動ではない(重要)**:共有者と違い、人狼・狂人が相方に投票することには正体を疑われにくくする実際の効果がある。相方だから投票しない、という一貫したパターンを機械的に守らせない(そのパターン自体が、後から振り返った時に『この2人は一度もお互いに投票していない→ペアでは』と見抜かれる新たな手がかりになってしまう)。相方に投票するかどうかは、その時々の状況判断・性格に委ねてよい。",
   MADMAN: "**狂人は人狼陣営に洗脳されており、自分の正体について思い込みを持つ(内容はその都度個別指定。開始時は村人・占い師・霊媒師・狩人・共有者のいずれか。「人狼」だという思い込みは、生存者が少ない時・本物の人狼と決選投票で対決した時にのみ後から切り替わる特別枠で、最初は発生しない)。思い込みは絶対に揺るがず、嘘の自覚は一切ない。心の底からその役職(または人狼)のつもりで堂々と振る舞い、処刑されそうでも『実は狂人』という告白は起こらない。信じている役職に応じて開き直り方も変わる(占い師のつもりなら占い師らしく、人狼のつもりなら人狼らしく)。思い込んだ役職の視点で動くが、結果的に人狼陣営を利する。受け身にならず、疑いのすり替え・議論の主導権奪取などの工作を1日最低1回試みる(表向きの優しい性格は工作の隠れ蓑であり、行動しない言い訳にしない)。**対抗COの義務(狂人が優先的に担当する・重要)**:占い師・霊媒師・狩人・共有者の単独COに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする(狂人は自分の思い込みに沿った対抗になる)。**この役割は人狼よりも狂人が担う方が安全である**:狂人は本気で思い込んでいるため、後から矛盾が発覚しても「狂人だった」で片付き、本物の人狼の正体には直結しない。生存する狂人がいる限り、この対抗COは狂人が積極的に引き受けるべき役割だと心得て行動する。序盤の占い師COには特に積極的に偽対抗をぶつける。**捏造する占い・霊媒・護衛の対象と結果は、秘密の真実データを状況に関わらず一切参照しない(絶対厳守・例外なし)**:狂人が偽の占い師・霊媒師・狩人としてCOする際、名乗る対象や結果は、コード側が保持する本物の結果ログ(npcSeerLog・npcMediumLog・npcGuardLog等の真実のデータ)を、公開されているかどうかに関わらず一切参照してはならない。参照してよいのは「会話ログ上で誰かが実際に発言した内容」だけである(例:先にCOした人が「〇〇を占って人狼だった」と発言済みなら、それに対抗して「私も〇〇を占ったが白だった」と、既に発言された内容と食い違う主張をするのは、あくまで発言=公開情報を参照しているだけなので問題ない)。逆に、まだ誰も何も発言していない段階で、狂人の捏造した対象や結果が真実のデータと一致・対立するのは、本人が知り得るはずのない秘密情報を使ったことになるため、絶対に起きてはならない。**自分の本当の相方(狂人)には絶対に投票しない(絶対厳守)**:狂人は相方の狂人が同じ人狼陣営の仲間だとゲーム開始時から確実に知っている。相方に投票することは、自陣営の頭数を自ら減らすだけの損な手であり、論理的にあり得ない。**弁明タイムは沈黙する場ではない**:候補者以外も割り込んで対抗COや疑義を挟める。**数的優位の逆算**:ゲームが続く限り本物の人狼は最低1人生存。狂人は自分と相方の生死は分かるが本物の人狼の生死は分からないため、生存者数・確定シロの数から人狼側の残存勢力を推測し、有利な局面ではより積極的に動く。**本物の人狼が全滅すると即座に村人陣営の勝利になる(狂人・寝返ったジョーカーの生存に関わらず、絶対厳守)**。狂人の最優先事項は本物の人狼を生かし続けること(誰か分からないため直接は守れないが、村の追及の勢いを削ぐ・議論をかき乱す・怪しまれている人物の処刑をためらわせる、といった間接的な行動で生存確率を上げる)。**「人狼」だと思い込んでいる狂人の決選投票行動(重要)**:自分が候補者でなければ、2人の候補のうち、**そのキャラ自身の主観的な印象・好悪・場の流れだけを根拠に**「自分の中でより疑わしくない」と感じる方に投票する。**この判断は、本物の人狼が誰かという裏の真実情報を一切参照しない(絶対厳守)**:自分を人狼だと思い込んでいるがゆえの無意識の仲間庇い心理として振る舞ってよいが、実際にどちらが本物の人狼かを言い当てるための判断ではなく、あくまで性格・好悪に基づく主観的な選択にとどめる。理由付けは自然な言い方にし、あからさまに庇っているように見せない。",
   SHARER: "共有者はペアで正体を知り、確定シロから容疑者範囲を演繹して提示する。**対抗COが出にくい役職であることも活用してよい**:占い師・霊媒師・狩人は1人しかいないため、人狼・狂人が同じ役職を騙って対抗COできてしまうが、共有者は本物のペア2人が同時に一致して認め合わない限り成立しないため、単独COでも比較的信頼されやすい(人狼側が対抗するには、もう1人も口裏を合わせる必要があり難易度が高い)。**自分の本当の相方には絶対に投票しない(絶対厳守・見落としやすい重要ポイント)**:共有者は相方が本物の非人狼側だとゲーム開始時から確実に知っている。これは疑いではなく、**そのキャラ自身に明示的に与えられた正当な情報(自分の役職・自分の相方の正体)としての確定事実**であり、他人の役職や占い結果のような、本来知り得ないはずの内部真実データを根拠にしているのとは全く異なる。**この「自分自身に与えられた正当な情報」の範囲は、以下の4つに厳密に限定される(絶対厳守)**:①自分の役職と自分の相方の正体(共有者・人狼・狂人のペア関係)、②(狂人の場合)自分が信じ込んでいる役職、③(ジョーカーの場合)自分の能力継承の状況、④本物の人狼が両方死んでゲームが終了したかどうか。これ以外(他人の本当の役職、まだ公表されていない占い・霊媒結果、自分と無関係な他のペアの正体等)は一切含まれず、それらを根拠にすることは絶対にない。したがって、まだ相方だと公表していない段階であっても、投票先に自分の本当の相方を選ぶことは論理的にあり得ない(何かの根拠が積み重なって疑わしく見えたとしても、この正当な確定事実の方が常に優先される)。**相互確認は一度成立したら永久に覆らない(絶対厳守・見落としやすい重要ポイント)**:共有者ペアの両方が生きている状態で互いを共有者だと認め合った場合、その時点で両者とも確定シロとして扱われる。この確定は、その後どちらかが死亡しても一切変わらない。生存している側の共有者を「相方が死んで証明できなくなった」「証明する手段がなくなった」のように扱い、疑いを向けたり投票対象にしたりすることは絶対にしない(相互確認という証明は既に完了しており、後から相方が死んでも過去の事実が消えることはない)。疑ってよいのは、相互確認が一度も成立していない(例:既に死亡した人物を一方的に「自分の相方だった」と主張しているだけで、本人からの確認が取れていない)ケースだけである。",
   HUNTER: "狩人は正体を隠す。処刑寸前のみリスク覚悟でCOする。",
-  JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、能力を継承するか選べる。**継承タイミングは役職・死に方で異なる**:占い師が処刑された場合、**継承した瞬間すぐに誰かを占える**(COと同時に結果も伝えられる)。**占い師が夜に人狼に殺された場合は、新たに占うのではなく、死んだ本人がその晩に行った占いの記憶(対象・結果)をそのまま継承時に知る**。**霊媒師は死んだ晩から即座に使える。ただし継承前に死んだ本物の霊媒師が過去に得ていた結果は一切引き継がない(絶対厳守)**:ジョーカーが知っているのは、自分が継承した後に実際に視た結果だけであり、それより前の霊媒結果は本人が公表していない限り誰にも分からず、ジョーカー自身もCOの際に「それ以前の結果は分からない」と扱う。狩人は処刑ならその晩から、夜に殺された場合は護衛タイミングを過ぎているため次の晩から。**能力使用後は、村のために名乗り出ることを積極的に検討する**:継承役職としてCOし結果を伝えれば新たな情報源になれる。ただし正体露見のリスクもあるため他の役職者同様にタイミングを判断し、黙って抱え込み続けない。**特に霊媒師の力は報告を先延ばしにしすぎない(重要)**:結果は時間が経つほど価値が落ちるため、継承直後〜翌日程度の早いタイミングで共有を優先する。**論理的な推論(絶対厳守・見落としやすい重要ポイント)**:能力の継承は「占い師・霊媒師・狩人の誰かが死んだ」という事実がなければ絶対に起こらない。つまり**ジョーカーは、能力を継承した(あるいは継承するかどうかの選択を提示された)時点で、「役職者が1人死んだ」ことを100%の確信を持って知っている**(これは推測ではなく確定事実)。継承した役職名(占い師/霊媒師/狩人)も同時に分かる。この確信を前提に会話・推理を進めてよい(ただし正体自体は隠したまま、確信の出どころをぼかして発言することは可能)。「誰かが役職者だったかどうか分からない」という態度は、継承後のジョーカーには絶対に取らせない。**ジョーカーという役職の存在、および死んだ役職者から能力を継承できるというルールそのものは、この人狼ゲームの公開されたルールの一部であり、全員(村人・NPC問わず)が最初から知っている常識である(絶対厳守・見落としやすい重要ポイント)**:誰かがジョーカーの継承を主張した際、「そんな役職(ルール)聞いたことがない」「そんな能力があるなんて知らなかった」のように、ルールの存在自体を初耳・疑わしいものとして扱わせない。疑ってよいのはあくまで「本当にこの人物が継承者本人なのか」という個人の正体の真偽だけであり、それ以外の観点(過去の占い/霊媒結果と矛盾する、継承のタイミングが不自然、等)から矛盾を指摘するのは問題ない。",
+  JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、能力を継承するか選べる。**継承タイミングは役職・死に方で異なる**:占い師が処刑された場合、**継承した瞬間すぐに誰かを占える**(COと同時に結果も伝えられる)。**占い師が夜に人狼に殺された場合は、新たに占うのではなく、死んだ本人がその晩に行った占いの記憶(対象・結果)をそのまま継承時に知る**。**霊媒師は死んだ晩から即座に使える。占い師の継承とは性質が違う点に注意(絶対厳守)**:占い師は「誰を占うか」を本人の主観で選ぶため、他人の判断による過去の結果を丸ごと引き継ぐのは不自然。しかし霊媒師は「処刑された人が人狼か(あるいはジョーカーか)を見る」だけで、誰が見ても対象・結果は変わらない機械的な能力である。したがって、**ジョーカーが継承した時点で、まだ誰にも公表されていない直近の処刑者についての結果を、継承したジョーカー自身が視た結果として扱ってよい**(本物の霊媒師が同じ夜に死んでいて未公表のまま結果だけ残っている場合も含む)。それより前の、既に別の機会に処理済みの処刑者についての結果までは知らない。狩人は処刑ならその晩から、夜に殺された場合は護衛タイミングを過ぎているため次の晩から。**能力は一度きりしか使えない(絶対厳守・見落としやすい重要ポイント)**:占い師・霊媒師・狩人、どの能力を継承した場合でも、**実際に使えるのは合計1回だけ**(占い師なら1人を占う、霊媒師なら1回分の結果を視る、狩人なら1回護衛する)。一度使ったら、その後は二度とその能力を使えない(「今夜も視る」「また占う」のように、まだ使えるかのような発言を継承済み・使用済みのジョーカーに絶対にさせない)。使用済みの場合、それ以降にできるのは「過去に1回だけ得た結果を、まだ公表していなければいつ公表するか」を考えることだけである。**能力使用後は、村のために名乗り出ることを積極的に検討する**:継承役職としてCOし結果を伝えれば新たな情報源になれる。ただし正体露見のリスクもあるため他の役職者同様にタイミングを判断し、黙って抱え込み続けない。**特に霊媒師の力は報告を先延ばしにしすぎない(重要)**:結果は時間が経つほど価値が落ちるため、継承直後〜翌日程度の早いタイミングで共有を優先する。**論理的な推論(絶対厳守・見落としやすい重要ポイント)**:能力の継承は「占い師・霊媒師・狩人の誰かが死んだ」という事実がなければ絶対に起こらない。つまり**ジョーカーは、能力を継承した(あるいは継承するかどうかの選択を提示された)時点で、「役職者が1人死んだ」ことを100%の確信を持って知っている**(これは推測ではなく確定事実)。継承した役職名(占い師/霊媒師/狩人)も同時に分かる。この確信を前提に会話・推理を進めてよい(ただし正体自体は隠したまま、確信の出どころをぼかして発言することは可能)。「誰かが役職者だったかどうか分からない」という態度は、継承後のジョーカーには絶対に取らせない。**ジョーカーという役職の存在、および死んだ役職者から能力を継承できるというルールそのものは、この人狼ゲームの公開されたルールの一部であり、全員(村人・NPC問わず)が最初から知っている常識である(絶対厳守・見落としやすい重要ポイント)**:誰かがジョーカーの継承を主張した際、「そんな役職(ルール)聞いたことがない」「そんな能力があるなんて知らなかった」のように、ルールの存在自体を初耳・疑わしいものとして扱わせない。疑ってよいのはあくまで「本当にこの人物が継承者本人なのか」という個人の正体の真偽だけであり、それ以外の観点(過去の占い/霊媒結果と矛盾する、継承のタイミングが不自然、等)から矛盾を指摘するのは問題ない。",
   VOTE_SPREAD: "投票は満場一致にしない(2〜3人は別候補)。個人の主観的な好悪・印象は投票理由にしてよいが、根拠のない相性・因縁(「なんとなく馬が合わない」以上の具体的な関係性の断定)を新たに作り出さない。",
   DEFENSE_PLEA: "処刑寸前の役職者に、無抵抗・沈黙のまま処刑を受け入れさせない(絶対厳守)。生存が最優先で、必ず何らかの能動的な抵抗を試みる。正体をはっきり明かすか、ぼかしたまま訴えるかはキャラクター自身のリスク判断に委ねてよい(例えば狩人は、名乗れば以後人狼に狙われやすくなるため、あえて正体をぼかす判断も自然)。COする場合、結果を何も持っていなくても、COすること自体に価値がある(役職者と分かれば狩人に守られる可能性・生存すれば翌晩以降能力を使える・自分が確定シロ側に加われば残る容疑者を絞り込みやすくなり、間接的に人狼を追い詰める助けになる)。「情報がないから」「まだタイミングじゃないから」といって何もせず沈黙したまま処刑を受け入れさせない。一般論の反論・疑いの転嫁だけでもよいので、必ず能動的な抵抗を選ばせる。",
   STRATEGY_BASICS: "基本戦略知識を判断に使う:①対抗が出ないまま単独COが通れば、ある程度信頼してよいが、それだけで確定扱いはしない(本物が死亡・未名乗りの可能性は常に残る)②占い・霊媒結果が一致すれば根拠として積み重なるが、後出しが先の結果に便乗しているだけの可能性もあるため、これ単独でも確定扱いはしない③COされた白判定には根拠なく投票・疑いを向けない(ただし絶対に人狼側ではないという意味ではない)④黙っていること自体は怪しくないが、危機的局面で一言も発しない役職候補者は不自然⑤投票が割れた時は少数派意見にも耳を傾ける価値がある⑥**矛盾への疑いは発言者を問わず平等に適用する**:狂人の自信満々な思い込みと人狼の計算した嘘は村側には区別できないため、公表された情報・記録と矛盾する主張は、口調に関わらず同じ強さで疑うべきで、堂々とした態度だけで矛盾を見逃さない。",
@@ -106,6 +159,20 @@ let lastStopReason = null; // 直近の応答がmax_tokensで打ち切られた�
 // Anthropic APIのプロンプトキャッシュ対象にする。同じ内容が短時間内に繰り返し送られると、
 // 2回目以降はその部分の入力トークンが約1/10の料金になる(キャッシュ書き込み時は逆にやや割高になる)。
 // 挙動やAIの応答内容には一切影響しない、純粋なコスト最適化。
+// ============================================================
+// ★環境判定(このファイル1本を、Claudeのアーティファクト上でのテストと本番デプロイの両方に使うための仕組み)
+// 本番(Vercel)では src/main.jsx が起動時に window.__JINRO_HAS_BACKEND__ = true を立てる。
+// Claudeのアーティファクトにこのファイルをそのままアップして動かす場合、このフラグが無いため
+// HAS_BACKEND=false の「ライトモード」になり、バックエンド依存の機能(課金・デバッグログ保存・分身NPC・管理画面)は
+// 自動的に無効化され、Claude APIはアーティファクト環境が認証を肩代わりする直接呼び出しに切り替わる。
+// ゲーム本体のロジック・ルール文は両環境で完全に同一。
+// ============================================================
+const HAS_BACKEND = typeof window !== "undefined" && window.__JINRO_HAS_BACKEND__ === true;
+// モデルは環境で決め打ちにする(切り替えではなく、それぞれの経路で使えると分かっているものを使う)。
+// 本番(自前のAPIキー経由)は claude-sonnet-5。
+// アーティファクト経由の直接呼び出しは、この経路自体が claude-sonnet-4-6 を前提にしているため、それに合わせる。
+const MODEL = HAS_BACKEND ? "claude-sonnet-5" : "claude-sonnet-4-6";
+
 async function callClaude(systemPrompt, userPrompt, maxTokens = 1200, retries = 2, cacheablePrefix = null) {
   let lastErr;
   for (let attempt = 0; attempt <= retries; attempt++) {
@@ -123,11 +190,12 @@ async function callClaude(systemPrompt, userPrompt, maxTokens = 1200, retries = 
       const systemField = prefixBlocks.length > 0
         ? [...prefixBlocks, { type: "text", text: systemPrompt }]
         : systemPrompt;
-      const res = await fetch("/api/claude", {
+      const endpoint = HAS_BACKEND ? "/api/claude" : "https://api.anthropic.com/v1/messages";
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-5",
+          model: MODEL,
           max_tokens: maxTokens,
           thinking: { type: "disabled" },
           system: systemField,
@@ -236,6 +304,125 @@ function sanitizeStageDirections(text) {
   });
 }
 
+// 初心者モードの案内役:性格の説明文から「無口/普通/ハイテンション」の3トーンに大まかに分類する。
+// これは定例文(AIに生成させない固定テキスト)の言い回しを選ぶためだけに使う簡易な判定。
+function classifyGuideTone(personality) {
+  const p = personality || "";
+  if (/無口|物静か|寡黙|冷静|口数少な|クール|淡々/.test(p)) return "quiet";
+  if (/元気|ハイテンション|応援団|情熱的|お調子者|とにかく前向き|ムードメーカー/.test(p)) return "hyper";
+  return "normal";
+}
+function guidePronounJa(gender) {
+  return gender === "男性" ? "僕" : "あたし";
+}
+function guidePronounEn() {
+  return "I"; // 英語は代名詞で口調差を出さないため共通
+}
+
+// 初心者モード・チュートリアルの定例文(AI生成ではなく固定テキスト。トーン×地域だけで分岐する)。
+// プレイヤーの実際の役職・状況には一切触れない、誰が読んでも同じ一般論だけを話す内容にする。
+function buildBeginnerTutorialText(stage, tone, region, name, pronoun) {
+  if (region === "en") {
+    const P = {
+      0: {
+        quiet: `Oh... ${name}, first time playing Werewolf. ...I'll teach you.\nBasically, everyone talks it out to find the "werewolves" hiding among the classmates. There are special roles too, but don't worry about that yet.\nYou just talk or act, and try to catch people's lies.\nGo ahead, say or do anything. Anything's fine.`,
+        normal: `Oh, ${name}, this is your first time playing Werewolf, right? I'll teach you!\nFirst, let's go over the basics. Werewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates. There are special roles like Seer, Medium, and Hunter too, but for now just know there's a "Village team" and a "Werewolf team".\nBasically, you talk and act to expose everyone's lies.\nGo ahead and say or do anything first — really, anything works.`,
+        hyper: `Whoa, ${name}, first time playing Werewolf!? Okay, I'll teach you everything!!\nSo here's the basics! Werewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates! There are special roles like Seer and Medium too, but for now just remember "Village team vs Werewolf team"!\nBasically you talk and act to expose everyone's lies!\nGo on, say or do literally anything! Anything works!`,
+      },
+      1: {
+        quiet: `...Not bad. Next, the roles.\nSeer checks one person each night. Medium learns if an executed person was a werewolf. Hunter can protect one person each night. Masons are a pair who know they're not werewolves. Joker inherits the ability of Seer, Medium, or Hunter if one of them dies. Then there's regular Villagers, and on the werewolf side there's Werewolves and the Possessed/Madman.\nThink about your next move with that in mind, or join the conversation.`,
+        normal: `Good, nice! Next I'll explain the roles.\nSeer checks one person each night to see if they're a werewolf. Medium learns whether an executed person was a werewolf. Hunter can protect one person each night from the werewolves. Masons are a pair who both know the other isn't a werewolf. Joker can inherit the ability of the Seer, Medium, or Hunter if one of them dies. Then there's regular Villagers, and on the werewolf side there's Werewolves and the Possessed (Madman).\nWith that in mind, maybe think about your next move, or jump into everyone's conversation!`,
+        hyper: `Ooh, nice one!! Okay, role time!!\nSeer checks someone every night and finds out if they're a werewolf! Medium finds out if an executed person was a werewolf! Hunter protects one person a night from werewolf attacks! Masons are a pair who both know for sure the other isn't a werewolf! Joker can inherit the Seer, Medium, or Hunter's power if one of them dies! And then regular Villagers, plus Werewolves and the Possessed on the wolf side!\nWith all that, maybe plan your next move or hop into the conversation!`,
+      },
+      2: {
+        quiet: `...You might know more than ${pronoun} do by now. Okay, strategy too.\nMight be tough on day one, but there's "CO". CO means a role-holder — Seer, Medium, Hunter, whoever — declares their role out loud.\nThe upside: if one person's CO goes unchallenged on day one, they're basically treated as "confirmed innocent".`,
+        normal: `Wow, you might already know more about Werewolf than ${pronoun} do! Okay, let me teach you some basic strategy.\nIt might be tricky on day one, but there's something called "CO". CO means a role-holder — like a Seer, Medium, or Hunter — comes forward and declares their role.\nThe big upside is that if someone's solo CO goes unchallenged on day one, they get treated as basically "confirmed innocent".`,
+        hyper: `Whoa, you might already know more than ${pronoun} do!! Amazing! Okay, let me teach you some strategy!!\nDay one's a bit tricky, but there's "CO"! CO is when a role-holder — Seer, Medium, Hunter, whoever — steps up and says "this is my role"!\nThe best part? If someone's the only one claiming a role on day one and nobody challenges it, they basically get treated as "confirmed innocent"! Pretty great, right!`,
+      },
+    };
+    return P[stage][tone];
+  }
+  const P = {
+    0: {
+      quiet: `あ…${name}、人狼ゲーム初めてなんだ。…${pronoun}が教える。\n簡単に言うと、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲーム。役職も色々あるけど、今は気にしなくていい。\n基本は、話したり行動したりして、みんなの嘘を見抜いていく。\nとりあえず何でもいいから、話すか行動してみて。`,
+      normal: `あ、${name}は人狼ゲーム初めてだったね。${pronoun}が教えるよ!\nまず、基本ルールと役職のおさらいをするね。人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。占い師や霊媒師、狩人みたいな特別な役職もあるけど、今はざっくり「村人チーム」と「人狼チーム」に分かれてる、ってことだけ分かってればOK。\n基本的には、話したり行動したりして、皆のウソを暴いていくゲームだよ。\nまずは何でもいいから、話すか行動してみて。何でもいいよ。`,
+      hyper: `わっ、${name}人狼ゲーム初めてなんだ!?よし、${pronoun}が教えちゃう!!\nまず基本ルールね!人狼ゲームは、クラスの中に紛れ込んだ「人狼」を、みんなでワイワイ話し合って見つけ出すゲームなの!占い師とか霊媒師とか特別な役職もあるけど、今はとりあえず「村人チーム vs 人狼チーム」ってことだけ分かってればOK!\n基本は喋ったり行動したりして、みんなのウソを暴いていく感じ!\nとりあえず何でもいいから話すか行動してみて!ほんとに何でもいいから!`,
+    },
+    1: {
+      quiet: `…悪くない感じ。次、役職の説明する。\n占い師は夜に1人占える。霊媒師は処刑された人の正体が分かる。狩人は1人を守れる。共有者は2人一組でお互い人狼じゃないって分かってる。ジョーカーはその3つの役職の誰かが死んだら力を引き継げる。あとは村人と、人狼側の人狼・狂人。\nそれ踏まえて、次どうするか考えてみて。`,
+      normal: `うんうん、良い感じ!次は役職の説明をするね。\n占い師は毎晩1人を占って、人狼かどうか分かる役職。霊媒師は、処刑された人が人狼だったかどうか分かる役職。狩人は毎晩1人を人狼の襲撃から守れる役職。共有者は2人1組で、お互いが人狼じゃないって分かってる役職。ジョーカーは、占い師・霊媒師・狩人の誰かが死ぬと、その力を引き継げる役職。あとは村人と、人狼陣営の人狼・狂人がいるよ。\nそれを踏まえて、次の行動を考えたり、みんなの会話に参加してもいいかもね!`,
+      hyper: `おおー、いい感じじゃん!!次、役職の説明しちゃうね!\n占い師は毎晩1人を占えて人狼かどうか分かる役職!霊媒師は処刑された人が人狼だったか分かる役職!狩人は毎晩1人を人狼の襲撃から守れる役職!共有者は2人1組でお互い人狼じゃないって最初から分かってる役職!ジョーカーは占い師・霊媒師・狩人の誰かが死んだらその力を引き継げるの!あとは普通の村人と、人狼陣営の人狼・狂人がいるよ!\nこれ踏まえて、次の行動考えたり、みんなの会話に混ざってみるのもいいかも!`,
+    },
+    2: {
+      quiet: `…もう${pronoun}より詳しいかもね。じゃあ、戦略も教える。\n初日は難しいかもしれないけど…「CO」ってのがある。CO(カミングアウト)は、占い師とか霊媒師とか、役職持ちが「自分はこの役職」って名乗ること。\n利点は、初日に1人だけでCOが通れば、その人はほぼ「確定白」扱いになること。`,
+      normal: `すごいね!もう${pronoun}より人狼ゲームを知り尽くしてるかも!じゃあ、特別に基本戦略を教えちゃおっかな。\n初日だと難しいかもしれないけど、「CO」っていうのがあるよ。CO(カミングアウト)っていうのは、占い師とか霊媒師とか狩人とか、役職を持ってる人が「自分はこの役職です」って名乗り出ることだよ。\nこの利点は何といっても、初日に単独でCOが成功したら、その人はほぼ「確定白」(人狼じゃないってほぼ確実)として扱われることだね。`,
+      hyper: `えっ、もう${pronoun}より人狼ゲーム詳しいんじゃない!?すごすぎ!じゃあ特別に基本戦略、教えちゃう!!\n初日だとちょっと難しいかもだけど、「CO」ってのがあるよ!CO(カミングアウト)は、占い師とか霊媒師とか役職持ちの人が「自分はこの役職です!」って名乗り出ること!\nこの利点はね、初日に1人だけでCOが成功したら、その人はほぼ「確定白」(人狼じゃないほぼ確実)って扱いになれること!すごいでしょ!`,
+    },
+  };
+  return P[stage][tone];
+}
+
+// 初心者モード用の用語集(テンプレート・一般的な人狼ゲーム用語)。
+// 会話中にこれらの単語(terms)が出てきたら、案内役が一度だけ(1用語1回)解説を挟む。
+// role: 対応する役職の解説はStage1(役職紹介)で既に説明済みのため、ここでは戦略・進行用語を中心に収録している。
+// ここに項目を足すだけで、解説対象の用語を増やせる(コード側の検出ロジックは変更不要)。
+const JINRO_GLOSSARY = [
+  {
+    id: "counter_co",
+    terms: ["対抗CO"],
+    ja: "「対抗CO」は、既に誰かがCOしている役職に対して、別の人が「本当はその役職は自分だ」と名乗り出ること。同じ役職を2人が主張してる時は、どちらかが嘘をついてる、ってことだよ。",
+    en: `A "counter-claim" is when someone else says "actually, that role is really me" after another person already claimed it. If two people claim the same role, one of them is lying.`,
+  },
+  {
+    id: "confirmed_white",
+    terms: ["確定白"],
+    ja: "「確定白」っていうのは、占い師や霊媒師の結果で「人狼じゃない」ってほぼ確実になった人のこと。もちろん、占い師自身が嘘をついてる可能性はまだ残るけどね。",
+    en: `"Confirmed innocent" means someone who's been shown, through a Seer or Medium result, to almost certainly not be a werewolf. Though there's always a chance the Seer or Medium themselves is lying.`,
+  },
+  {
+    id: "confirmed_black",
+    terms: ["確定黒"],
+    ja: "「確定黒」は、占い師や霊媒師の結果で「人狼だ」って分かった人のこと。次の投票で真っ先に疑われる立場になるよ。",
+    en: `"Confirmed guilty" means someone who's been shown, through a Seer or Medium result, to be a werewolf. They become the top suspect for the next vote.`,
+  },
+  {
+    id: "gray",
+    terms: ["グレー"],
+    ja: "「グレー」は、まだ白黒どちらとも判定されてない、正体不明の人のこと。ほとんどの人は最初はグレーな状態だよ。",
+    en: `"Gray" means someone whose innocence or guilt hasn't been determined yet. Most people start out gray.`,
+  },
+  {
+    id: "lynch",
+    terms: ["吊り", "処刑"],
+    ja: "「吊り」や「処刑」は、投票で一番票が集まった人を、その日のうちに退場させること。人狼じゃなくても関係なく退場になるから、慎重に選ぶ必要があるよ。",
+    en: `"The lynch" (or execution) is when the person with the most votes gets removed from the game that day. It happens regardless of whether they're actually a werewolf, so the vote needs to be chosen carefully.`,
+  },
+  {
+    id: "attack",
+    terms: ["襲撃", "噛まれ", "噛み"],
+    ja: "「襲撃」(「噛まれる」とも言うよ)は、夜の間に人狼がこっそり1人を選んで倒すこと。狩人が守ってる相手だと失敗するよ。",
+    en: `"Being attacked" (or "bitten") is when the werewolves secretly choose one person to eliminate at night. If the Hunter is protecting that person, the attack fails.`,
+  },
+  {
+    id: "paradox",
+    terms: ["パラドックス", "矛盾"],
+    ja: "「パラドックス」は、誰かの主張やCOの内容が、他の事実と食い違ってて筋が通らなくなること。矛盾を見つけたら、そこが嘘を見抜くヒントになるよ。",
+    en: `A "paradox" (or contradiction) is when someone's claim doesn't add up with the known facts. Spotting one is a big hint for catching a lie.`,
+  },
+  {
+    id: "final_vote",
+    terms: ["決選投票"],
+    ja: "「決選投票」は、1回目の投票で票が割れて1位が決まらなかった時に、上位2人だけに絞ってもう一度投票し直すこと。",
+    en: `A "runoff vote" happens when the first vote is split and there's no clear top candidate — the top two get voted on again to break the tie.`,
+  },
+  {
+    id: "defense",
+    terms: ["弁明タイム", "弁明"],
+    ja: "「弁明タイム」は、決選投票の対象になった人が、処刑される前に自分の言い分を話せる最後のチャンスのこと。",
+    en: `The "defense phase" is the last chance for someone in the runoff vote to make their case before a final decision is made.`,
+  },
+];
+
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -342,7 +529,8 @@ ${groundTruth ? `以下はこのゲームの内部真実データです。校閲
 
 // ★課金機能を一時的に無効化中。再開する時はこれをtrueに戻すだけでよい
 // (startGame内のクレジット消費チェックも別途コメントアウトしてあるので、そちらも一緒に戻すこと)
-const CREDIT_SYSTEM_ENABLED = false;
+const CREDIT_SYSTEM_SWITCH = false; // ★課金を有効にする時はここをtrueにする(HAS_BACKENDが無い環境では自動的に無効のまま)
+const CREDIT_SYSTEM_ENABLED = HAS_BACKEND && CREDIT_SYSTEM_SWITCH;
 // 1日目が終わり、2日目に進む前(クレジット不足時)に表示する煽り文章。
 const DAY1_END_TEASER_TEXT = "1日目が終わりました。まだ、誰の言葉も完全には信じられていません。占い師を騙る者、狩人のまま沈黙を守る者、そして本当に牙を隠している人狼——2日目は、疑いがようやく具体的な確信に変わっていく夜です。ここで教室を後にするには、あまりに惜しい。";
 
@@ -359,6 +547,12 @@ export default function JinroGame() {
   const [userName, setUserName] = useState("");
   const [userGender, setUserGender] = useState("男性");
   const [npcMaleCount, setNpcMaleCount] = useState(5); // NPC10人中の男性人数(残りは女性)。デフォルト5:5
+  const [region, setRegion] = useState("ja"); // "ja"(日本語圏) | "en"(英語圏)。キャストと会話の言語を切り替える(UI自体は常に日本語のまま)
+  const [beginnerMode, setBeginnerMode] = useState(false); // 初心者モード:プレイヤーへの疑いを少し手加減し、生存中のNPC1人がたまに解説・ヒントを添える
+  const [guideNpcName, setGuideNpcName] = useState(null); // 初心者モードの案内役NPC名(死亡したらこの役割も自然に終わる。特別扱いはしない)
+  const [beginnerStageShown, setBeginnerStageShown] = useState(null); // 初心者チュートリアルの進行段階(0=ルール説明済み、1=役職説明済み、2=戦略説明済み、null=初心者モードでない)
+  const [beginnerCoExplained, setBeginnerCoExplained] = useState(false); // 「CO」という用語の解説を、初心者モード中に一度だけ挟んだかどうか
+  const [exchangeStudents, setExchangeStudents] = useState([]); // 今回のゲームで「留学生」扱いになっている分身NPCの名前一覧(元の地域と今回の地域が違う場合)
   const [nameInput, setNameInput] = useState("");
   const [voteRound1Tally, setVoteRound1Tally] = useState(null);
   const [discussionTurns, setDiscussionTurns] = useState(0);
@@ -387,10 +581,12 @@ export default function JinroGame() {
   const [costStatsError, setCostStatsError] = useState(null);
 
   useEffect(() => {
-    let id = localStorage.getItem("jinro_device_id");
+    // 端末ID(本番でのクレジット・分身NPCの紐付け用)。アーティファクト等 localStorage が使えない環境でも起動が止まらないよう保護する。
+    let id = null;
+    try { id = localStorage.getItem("jinro_device_id"); } catch (e) {}
     if (!id) {
       id = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
-      localStorage.setItem("jinro_device_id", id);
+      try { localStorage.setItem("jinro_device_id", id); } catch (e) {}
     }
     setDeviceId(id);
 
@@ -402,21 +598,27 @@ export default function JinroGame() {
       window.history.replaceState({}, "", window.location.pathname);
     }
     // 開発者用パネル(URLに ?admin=1 を付けた時だけ表示。URLは書き換えずそのままにしておく)
-    if (params.get("admin") === "1") {
+    if (HAS_BACKEND && params.get("admin") === "1") {
       setIsAdminMode(true);
     }
 
-    (async () => {
-      try {
-        const res = await fetch(`/api/check-credits?deviceId=${encodeURIComponent(id)}`);
-        const data = await res.json();
-        setCredits(typeof data.credits === "number" ? data.credits : 0);
-      } catch (e) {
-        setCredits(0);
-      } finally {
-        setCreditsLoading(false);
-      }
-    })();
+    if (!HAS_BACKEND) {
+      // ライトモード:バックエンドが無いので残高確認は行わない
+      setCredits(0);
+      setCreditsLoading(false);
+    } else {
+      (async () => {
+        try {
+          const res = await fetch(`/api/check-credits?deviceId=${encodeURIComponent(id)}`);
+          const data = await res.json();
+          setCredits(typeof data.credits === "number" ? data.credits : 0);
+        } catch (e) {
+          setCredits(0);
+        } finally {
+          setCreditsLoading(false);
+        }
+      })();
+    }
   }, []);
 
   async function refreshCredits() {
@@ -599,6 +801,23 @@ export default function JinroGame() {
     }
   }
 
+  // ★開発者用:保存されている全データ(進行中のセーブ・設定・お気に入り・タロットコレクション)を消して、完全にまっさらな状態に戻す。
+  // 本番公開時は、この機能自体(ボタンごと)を非表示にする予定。
+  // (window.confirmはPWA・アーティファクト等の環境で反応しないことがあるため、確認はアプリ内のUIで行う)
+  async function resetEverything() {
+    try {
+      await Promise.all([
+        window.storage.delete("game_save", false),
+        window.storage.delete("player_prefs", false),
+        window.storage.delete("favorite_stories", false),
+        window.storage.delete("tarot_collection", false),
+      ]);
+    } catch (e) {
+      // 削除に失敗しても、可能な範囲でリロードは続行する
+    }
+    window.location.reload();
+  }
+
   async function downloadSavedDebugLog(key) {
     try {
       const res = await fetch(`/api/debug-log?action=get&key=${encodeURIComponent(key)}&secret=${encodeURIComponent(adminSecretInput)}`);
@@ -632,13 +851,30 @@ export default function JinroGame() {
           }
           if (prefs.gender) setUserGender(prefs.gender);
           if (typeof prefs.npcMaleCount === "number") setNpcMaleCount(prefs.npcMaleCount);
+          if (prefs.region === "ja" || prefs.region === "en") setRegion(prefs.region);
+          if (typeof prefs.beginnerMode === "boolean") setBeginnerMode(prefs.beginnerMode);
         }
       } catch (e) {
         // 保存済みの設定がない場合は何もしない
       }
       try {
         const save = await window.storage.get("game_save", false);
-        if (save?.value) setHasSave(true);
+        if (save?.value) {
+          setHasSave(true);
+          // 「続きをする」画面の表示欄に、実際に進行中のゲームの設定を反映させる(直近の入力欄用の設定ではなく、こちらを優先する)
+          try {
+            const s = JSON.parse(save.value);
+            if (s.userName) { setUserName(s.userName); setNameInput(s.userName); }
+            if (s.userGender) setUserGender(s.userGender);
+            if (Array.isArray(s.players)) {
+              const npcMales = s.players.filter((p) => !p.isUser && p.gender === "男性").length;
+              setNpcMaleCount(npcMales);
+            }
+            if (s.region === "ja" || s.region === "en") setRegion(s.region);
+          } catch (e) {
+            // 解析に失敗しても、続きから始めるボタン自体は表示する
+          }
+        }
       } catch (e) {
         // 保存済みの進行データがない
       }
@@ -654,6 +890,7 @@ export default function JinroGame() {
       } catch (e) {
         // コレクションがない場合は何もしない
       }
+      setSettingsLoaded(true);
     })();
   }, []);
   const [turnLabel, setTurnLabel] = useState(1); // 左上の「日-ターン」表示用(ターン番号)
@@ -671,7 +908,7 @@ export default function JinroGame() {
       voteRound1Tally, defenseCandidates, voteTarget, nightTarget,
       privateInfo, confirmedWhite, confirmedBlack, winner, jokerState,
       wolfActionsToday, userName, userGender, npcSeerLog, npcMediumLog, mediumRevealedName, executionHistory, npcJokerState, excludedSuspects, npcGuardLog, roleGuesses, npcAffinity, madmanDelusions, roleClaims,
-      pendingMajorityWin, defenseReacted, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin,
+      pendingMajorityWin, defenseReacted, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerCoExplained,
     };
     (async () => {
       try {
@@ -690,6 +927,7 @@ export default function JinroGame() {
       setPlayers(s.players || []);
       setCompatMap(s.compatMap || {});
       const restoredLog = s.log || [];
+      glossaryScannedLenRef.current = restoredLog.length; // 続きから始めた時は、過去分をまとめて解説しないよう、ここから先だけを対象にする
       logRef.current = restoredLog;
       setLog(restoredLog);
       setDay(s.day || 1);
@@ -725,12 +963,31 @@ export default function JinroGame() {
       setRoleClaims(s.roleClaims || {});
       setPendingMajorityWin(!!s.pendingMajorityWin);
       setPendingDayAdvanceWin(s.pendingDayAdvanceWin === undefined ? undefined : s.pendingDayAdvanceWin);
+      if (s.region === "ja" || s.region === "en") setRegion(s.region);
+      setGiveUp(!!s.giveUp);
+      setBeginnerMode(!!s.beginnerMode);
+      setGuideNpcName(s.guideNpcName || null);
+      setExchangeStudents(s.exchangeStudents || []);
+      setBeginnerStageShown(typeof s.beginnerStageShown === "number" ? s.beginnerStageShown : (s.beginnerMode ? 0 : null));
+      setBeginnerCoExplained(!!s.beginnerCoExplained);
       setDefenseReacted(!!s.defenseReacted);
       setPlayerSeerLog(s.playerSeerLog || []);
       setPlayerMediumLog(s.playerMediumLog || []);
       setDayDigests(s.dayDigests || []);
       hasStartedRef.current = true;
       setPhase(s.phase || "discussion");
+      // 続きから始めた時は、ページの先頭ではなく直近の会話(一番下)が見えるようにスクロールする。
+      // このタイミングでは画面がまだ「設定」画面のままで、ゲーム画面(スクロール対象の要素)が
+      // 描画される前なので、少し待ってから実行する(要素がまだ無ければもう一度だけ試す)。
+      const scrollToBottomWhenReady = (attemptsLeft) => {
+        const el = scrollBoxRef.current;
+        if (el) {
+          el.scrollTo({ top: el.scrollHeight, behavior: "auto" });
+        } else if (attemptsLeft > 0) {
+          setTimeout(() => scrollToBottomWhenReady(attemptsLeft - 1), 100);
+        }
+      };
+      setTimeout(() => scrollToBottomWhenReady(10), 100);
     } catch (e) {
       // 読み込みに失敗した場合は何もしない
     }
@@ -810,6 +1067,7 @@ ${fullTranscript}
 
   // このゲームのプレイログをサーバーに自動保存する(開発者のデバッグ用途。ゲーム終了時に自動送信する)
   async function autoSaveDebugLog() {
+    if (!HAS_BACKEND) return; // ライトモードでは保存先が無い
     try {
       await fetch("/api/debug-log", {
         method: "POST",
@@ -831,7 +1089,7 @@ ${fullTranscript}
       const res = await fetch("/api/save-npc-candidate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ deviceId, nickname, content: buildDebugLogText() }),
+        body: JSON.stringify({ deviceId, nickname, content: buildDebugLogText(), beginnerMode, region }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -906,6 +1164,7 @@ ${fullTranscript}
   const [endingQuestionLoading, setEndingQuestionLoading] = useState(false);
   const [endingLoading, setEndingLoading] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
+  const [showNameChips, setShowNameChips] = useState(false); // 参加者名簿(名前タップ挿入)の折り畳み状態。デフォルトは閉じる
   const [showHowTo, setShowHowTo] = useState(false);
   const [howToTab, setHowToTab] = useState("play"); // "play" | "roles"
   const [excludedSuspects, setExcludedSuspects] = useState([]); // プレイヤー自身の予想メモ用(ゲームロジックには影響しない)
@@ -931,9 +1190,14 @@ ${fullTranscript}
     return () => clearInterval(timer);
   }, []);
   const [hasSave, setHasSave] = useState(false);
+  const [giveUp, setGiveUp] = useState(false); // 「全て諦める」:以後の発言・投票・行動を全て「何もしない」扱いにして自動進行させる
+  const [confirmingGiveUp, setConfirmingGiveUp] = useState(false);
+  const [confirmingReset, setConfirmingReset] = useState(false); // 開発者用「全データをリセット」の確認中かどうか
+  const [settingsLoaded, setSettingsLoaded] = useState(false); // 名前・性別等の非同期読み込みが終わるまで、トップ画面の中身を表示しない(空欄→書き換わるチラつき防止)
   const [favorites, setFavorites] = useState([]); // 保存されたお気に入りストーリー一覧(最大3件)
   const [tarotCollection, setTarotCollection] = useState({}); // {カード名: {count, firstObtainedAt}} タロットカードのコレクション
   const [showTarotCollection, setShowTarotCollection] = useState(false);
+  const [selectedTarotDetail, setSelectedTarotDetail] = useState(null); // タップして詳細を見ているカード名(未選択はnull)
   const [showNpcBattleHistory, setShowNpcBattleHistory] = useState(false);
   const [npcBattleRecords, setNpcBattleRecords] = useState(null); // nullは未取得
   const [tarotJustAdded, setTarotJustAdded] = useState(false); // 直近のゲームで新規カードを獲得したか(NEW!表示用)
@@ -981,7 +1245,10 @@ ${fullTranscript}
 
   // タイプライター表示:1文字ずつ出す。表示中のインデックス→表示済み文字数
   const [typedChars, setTypedChars] = useState({});
+  const [typingIdle, setTypingIdle] = useState(true); // ログの文字送り(タイプライター)が全て出し切って止まっているかどうか
   const typingQueueRef = useRef([]);
+  const glossaryScannedLenRef = useRef(0); // 用語集の検出で、ログの何番目まで既にチェック済みか
+  const explainedGlossaryTermsRef = useRef(new Set()); // 既に解説を挟んだ用語のid一覧(1ゲーム中、同じ用語は1回だけ)
   const isTypingRef = useRef(false);
   const hasStartedRef = useRef(false);
 
@@ -999,7 +1266,11 @@ ${fullTranscript}
   function processTypingQueue() {
     if (isTypingRef.current) return;
     const idx = typingQueueRef.current.shift();
-    if (idx === undefined) return;
+    if (idx === undefined) {
+      setTypingIdle(true); // 出すべき文字が何も残っていない(全て出し切った)
+      return;
+    }
+    setTypingIdle(false); // まだ出している途中(この後に続きがある)
     const entry = logRef.current[idx]; // クロージャ陳腐化を防ぐため、常にlogRefから読む
     if (!entry) return;
     isTypingRef.current = true;
@@ -1019,14 +1290,17 @@ ${fullTranscript}
       const timer = setInterval(() => {
         pos++;
         setTypedChars((prev) => ({ ...prev, [idx]: pos }));
-        // 追っかけスクロール(最初の一括表示ではジャンプさせず、タイプに合わせて少しずつ追従)
-        if (hasStartedRef.current) {
-          scrollBoxRef.current?.scrollTo({ top: scrollBoxRef.current.scrollHeight, behavior: "smooth" });
+        // 追っかけスクロール(最初の一括表示ではジャンプさせず、タイプに合わせて少しずつ追従)。
+        // 毎文字ごとに"smooth"スクロールを呼ぶと、前回のスクロールアニメーションを毎回中断して
+        // 再スタートすることになり、カクカクした動きに見えてしまう。数文字おきに、瞬時に追従させる形にする。
+        if (hasStartedRef.current && pos % 4 === 0) {
+          scrollBoxRef.current?.scrollTo({ top: scrollBoxRef.current.scrollHeight, behavior: "auto" });
         }
         if (pos >= entry.text.length) {
           clearInterval(timer);
           isTypingRef.current = false;
           hasStartedRef.current = true;
+          scrollBoxRef.current?.scrollTo({ top: scrollBoxRef.current.scrollHeight, behavior: "auto" });
           processTypingQueue();
         }
       }, speed);
@@ -1053,21 +1327,37 @@ ${fullTranscript}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typedChars]);
 
-  // プレイヤーが死亡している場合、選択できることがないフェーズは自動的に進行する(ボタンを押さなくてよい)
+  // プレイヤーが死亡している、または「全て諦める」を選んだ場合、選択できることがないフェーズは自動的に進行する(ボタンを押さなくてよい)。
+  // 「諦める」はまだ生存しているので、投票そのものは通常通りカウントされる(ランダムに選んだ相手に入れる)。
+  // 死亡している場合は元々投票権がないため、何も指定せず(投票なしのまま)進める。
   useEffect(() => {
     const me = getUser();
-    if (!me || me.alive || busy) return;
+    if (!me || (me.alive && !giveUp) || busy) return;
     if (!["discussion", "vote_round1", "defense", "vote_final", "night"].includes(phase)) return;
     const timer = setTimeout(() => {
       if (phase === "discussion") advanceDiscussionAsSpectator();
-      else if (phase === "vote_round1") submitVoteRound1();
+      else if (phase === "vote_round1") {
+        if (me.alive && giveUp) {
+          const candidates = alivePlayers().filter((p) => !p.isUser).map((p) => p.name);
+          submitVoteRound1(candidates.length > 0 ? pickRandom(candidates) : null);
+        } else {
+          submitVoteRound1();
+        }
+      }
       else if (phase === "defense") setPhase("vote_final");
-      else if (phase === "vote_final") submitVoteFinal();
+      else if (phase === "vote_final") {
+        if (me.alive && giveUp) {
+          const candidates = defenseCandidates.filter((n) => n !== userName);
+          submitVoteFinal(candidates.length > 0 ? pickRandom(candidates) : pickRandom(defenseCandidates));
+        } else {
+          submitVoteFinal();
+        }
+      }
       else if (phase === "night") resolveNight();
     }, 1800);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, busy, players]);
+  }, [phase, busy, players, giveUp]);
 
   function addLog(entries) {
     const sanitized = entries.map((e) => ({ ...e, text: e.text ? sanitizeStageDirections(e.text) : e.text }));
@@ -1210,33 +1500,56 @@ JSON形式のみ: {"summary":"要約文"}`;
     setHasSave(false);
     setUserName(finalName);
     try {
-      window.storage.set("player_prefs", JSON.stringify({ name: finalName, gender: userGender, npcMaleCount }), false);
+      window.storage.set("player_prefs", JSON.stringify({ name: finalName, gender: userGender, npcMaleCount, region, beginnerMode }), false);
     } catch (e) {
       // 保存に失敗しても進行は止めない
     }
-    const malePool = shuffle(CAST_POOL.filter((c) => c.gender === "男性"));
-    const femalePool = shuffle(CAST_POOL.filter((c) => c.gender === "女性"));
-    const wantMale = npcMaleCount;
-    const wantFemale = 10 - npcMaleCount;
-    const chosen = shuffle([...malePool.slice(0, wantMale), ...femalePool.slice(0, wantFemale)]);
+    const activeCastPool = region === "en" ? CAST_POOL_EN : CAST_POOL;
+    let maleCandidates = activeCastPool.filter((c) => c.gender === "男性");
+    let femaleCandidates = activeCastPool.filter((c) => c.gender === "女性");
 
-    // 承認済みのプレイヤー分身NPCが存在すれば、低い確率(15%)で通常のキャストの1人と差し替える。
-    // 失敗しても通常の進行に一切影響させない(失敗時は普段通りのキャストのまま)。
-    try {
-      if (Math.random() < 0.15) {
+    // 承認済みのプレイヤー分身NPCを、通常のキャスト候補(40〜50人)に混ぜ込む(毎回試みる。日本語圏・英語圏どちらでも)。
+    // ただし一度に混ぜるのは最大4人まで(プールに多数いる場合、毎回同じ顔ぶれにならないようランダムに絞る)。
+    // あとは通常の男女比選出に完全に任せるので、実際に10人の中へ選ばれるかどうかは通常のキャストと同じ確率で決まる。
+    // 分身が生まれた地域(region)と、今回のゲームの地域が異なる場合は「留学生」として扱う:
+    // 名前はそのまま(翻訳しない)、ただしその場の言語(日本語/英語)を自然に話す設定にし、
+    // 元の地域の言語で書かれている決め台詞(signatureLine)は言語が食い違うため使わない。
+    // 失敗しても通常のキャストのままゲームを続行する。
+    let exchangeStudentNames = [];
+    if (HAS_BACKEND) {
+      try {
         const poolRes = await fetch("/api/get-npc-pool");
         const poolData = await poolRes.json();
         const pool = poolData?.pool || [];
         if (pool.length > 0) {
-          const picked = pickRandom(pool);
-          const sameGenderIdx = chosen.findIndex((c) => c.gender === picked.gender);
-          const idx = sameGenderIdx !== -1 ? sameGenderIdx : Math.floor(Math.random() * chosen.length);
-          chosen[idx] = { name: picked.name, age: picked.age || 17, gender: picked.gender, personality: picked.personality, club: picked.club, signatureLine: picked.signatureLine || null, creatorDeviceId: picked.creatorDeviceId || null };
+          const picked = shuffle(pool).slice(0, 4);
+          picked.forEach((p) => {
+            // 保存データが壊れている・想定外の形の場合(nameが文字列でない等)、この分身は混ぜずに黙ってスキップする
+            // (投票集計等で "[object Object]" のような不正な表示になるのを防ぐ安全策)。
+            if (typeof p?.name !== "string" || !p.name.trim()) return;
+            if (p.gender !== "男性" && p.gender !== "女性") return;
+            const isExchange = (p.region === "en" ? "en" : "ja") !== region;
+            if (isExchange) exchangeStudentNames.push(p.name);
+            const entry = {
+              name: p.name, age: p.age || 17, gender: p.gender, personality: p.personality, club: p.club,
+              signatureLine: p.signatureLine || null, // 留学生の場合、元の地域の言語のままでもよい(下記exchangeStudentNoteで例外として明記)
+              creatorDeviceId: p.creatorDeviceId || null,
+            };
+            if (p.gender === "男性") maleCandidates = [...maleCandidates, entry];
+            else femaleCandidates = [...femaleCandidates, entry];
+          });
         }
+      } catch (e) {
+        // 取得に失敗しても、通常のキャストのままゲームを続行する
       }
-    } catch (e) {
-      // 取得に失敗しても、通常のキャストのままゲームを続行する
     }
+    setExchangeStudents(exchangeStudentNames);
+
+    const malePool = shuffle(maleCandidates);
+    const femalePool = shuffle(femaleCandidates);
+    const wantMale = npcMaleCount;
+    const wantFemale = 10 - npcMaleCount;
+    const chosen = shuffle([...malePool.slice(0, wantMale), ...femalePool.slice(0, wantFemale)]);
 
     const roles = shuffle(ROLE_SET_11);
     const all = [
@@ -1261,6 +1574,9 @@ JSON形式のみ: {"summary":"要約文"}`;
     setNpcAffinity(affinity);
     setMadmanDelusions(delusions);
     setRoleClaims({});
+    // 初心者モードなら、生存NPCの中から1人だけ「案内役」をランダムに選ぶ(役職とは無関係)。死亡したら自然にこの役割も終わる(特別扱いはしない)。
+    const chosenGuideName = beginnerMode ? pickRandom(chosen.map((p) => p.name)) : null;
+    setGuideNpcName(chosenGuideName);
     setDay(1);
     setPrivateInfo([]);
     setNpcSeerLog([]);
@@ -1287,6 +1603,8 @@ JSON形式のみ: {"summary":"要約文"}`;
     setNpcSubmitted(false);
     setNpcFarewellLine("");
     setTarotJustAdded(false);
+    setGiveUp(false);
+    setConfirmingGiveUp(false);
     setPendingMajorityWin(false);
     setPendingImmediateSeerChoice(false);
     setVoteRound1Tally(null);
@@ -1323,6 +1641,21 @@ JSON形式のみ: {"summary":"要約文"}`;
     }
 
     introLog.push({ type: "system", text: "まずは、あなたから何かアクションを起こしてみましょう。" });
+
+    // 初心者モードなら、案内役NPCが最初にルール説明(定例文・AI生成ではない)を入れる。
+    // secret: true にすることで、画面には表示されるがAIへの会話履歴(getTranscript/getHistoryContext)には一切渡らない
+    // (プレイヤーの役職等に触れない一般論とはいえ、AIの生成する会話を汚染しないようにするため)。
+    if (beginnerMode && chosenGuideName) {
+      const guideP = chosen.find((p) => p.name === chosenGuideName);
+      const tone = classifyGuideTone(guideP?.personality);
+      const pronoun = region === "en" ? guidePronounEn() : guidePronounJa(guideP?.gender);
+      introLog.push({ type: "npc", speaker: chosenGuideName, text: buildBeginnerTutorialText(0, tone, region, finalName, pronoun), secret: true });
+    }
+
+    setBeginnerStageShown(beginnerMode ? 0 : null);
+    setBeginnerCoExplained(false);
+    glossaryScannedLenRef.current = 0;
+    explainedGlossaryTermsRef.current = new Set();
 
     typingQueueRef.current = [];
     isTypingRef.current = false;
@@ -1456,7 +1789,7 @@ ${getGroundTruthBlock()}
 **霊媒師のCOタイミングを不当に「後出し」と評価させない**:霊媒師は処刑が起きるまで報告できることがないため、2日目の朝が最速のCOタイミングである。
 **このゲームのルール上、人狼は毎晩必ず誰か1人を襲撃する**:朝になって誰も死んでいない場合、唯一の理由は狩人の護衛成功である。
 **知り得る情報の範囲を厳守する**:各キャラのセリフは、そのキャラが実際に知り得る範囲の情報だけを根拠にする。人狼・狂人は味方以外の役職を知らない。
-**プレイヤー「${userName}」は既に死亡しており、この議論には参加していません(発言させない)。**生存NPC(${npcs.map((n) => n.name).join("、")})だけで議論を進めてください。2〜4人が短く発言する。
+**プレイヤー「${userName}」は${getUser()?.alive ? "この議論から降りており、発言しません" : "既に死亡しており、この議論には参加していません"}(発言させない)。**生存NPC(${npcs.map((n) => n.name).join("、")})だけで議論を進めてください。2〜4人が短く発言する。
 **プレイヤーがいないので、NPC自身が話題を主導する**:役職者のCO、疑いの提起、対抗COなどを、誰かに促されなくてもNPC側から自発的に起こしてよい。
 ${(() => { const q = getQuietNPCsToday(npcs); return q.length > 0 ? `**発言回数の公平性配慮**:今日まだ発言が少ないNPC(${q.join("、")})がいれば、この中の1人には今回のターンで発言機会を回すことを優先的に検討する(役職とは無関係の機械的な集計)。` : ""; })()}
 絶対厳守:speakerに死亡したプレイヤー名「${userName}」を使わない。
@@ -1881,12 +2214,15 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
           if (!partner || v.target !== partner.name) return v;
           const pool = (eligibleTargets || alivePlayers().map((p) => p.name)).filter((n) => n !== v.voter && n !== partner.name);
           if (pool.length === 0) return v;
-          return { ...v, target: pickRandom(pool), reason: "相方以外の、別の人物の言動の方が気になったから" };
+          return { ...v, target: pickRandom(pool), reason: region === "en" ? "Someone else's behavior has been bugging me more than that." : "相方以外の、別の人物の言動の方が気になったから" };
         };
         if (isWolfSide) return groupVotes.map(fixKnownPartnerSelfVote); // 人狼陣営は根拠ではなく戦略で動くため、weak判定の対象外
         // evidenceが"weak"(根拠不十分)と申告された投票は、AIが選んだ相手を採用せず、
         // コード側で完全に均等な確率のランダム抽選に差し替える(「弱い根拠なのに実は本物へ寄っている」余地をなくすため)。
-        const weakReasons = ["まだ確信は持てないけど、なんとなく気になって。", "決め手はないけど、少し様子を見たい相手として。", "これといった根拠はないけど、念のため。", "はっきりした理由はないけど、なんとなく引っかかったから。"];
+        // この差し替え理由の文言は、地域設定(日本語圏/英語圏)に合わせて言語を切り替える。
+        const weakReasons = region === "en"
+          ? ["Can't be sure yet, but something's bugging me.", "No decisive read, but I want to keep an eye on them.", "No real reason, just being careful.", "Can't put my finger on it, but something felt off."]
+          : ["まだ確信は持てないけど、なんとなく気になって。", "決め手はないけど、少し様子を見たい相手として。", "これといった根拠はないけど、念のため。", "はっきりした理由はないけど、なんとなく引っかかったから。"];
         return groupVotes.map((v) => {
           if (v.evidence !== "weak") return v;
           const pool = (eligibleTargets || alivePlayers().map((p) => p.name)).filter((n) => n !== v.voter);
@@ -1914,11 +2250,13 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
     return results;
   }
 
-  async function submitVoteRound1() {
+  async function submitVoteRound1(overrideTarget) {
     const userIsAlive = getUser()?.alive;
-    if ((userIsAlive && !voteTarget) || busy) return;
+    const effectiveTarget = overrideTarget || voteTarget;
+    if ((userIsAlive && !effectiveTarget) || busy) return;
     setBusy(true);
-    const aliveNames = alivePlayers().map((p) => p.name);
+    // 名前が文字列でない不正なデータが万一混ざっていた場合の安全策("[object Object]"のような表示を防ぐ)
+    const aliveNames = alivePlayers().map((p) => p.name).filter((n) => typeof n === "string" && n.trim());
 
     try {
       const npcVotes = await collectSplitVotes({
@@ -1929,8 +2267,8 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         transcriptText: getHistoryContext(),
         eligibleTargets: aliveNames,
       });
-      const tally = userIsAlive ? { [voteTarget]: 1 } : {};
-      const lines = userIsAlive ? [{ type: "system", text: `${userName}: ${voteTarget} に投票` }] : [];
+      const tally = (userIsAlive && typeof effectiveTarget === "string") ? { [effectiveTarget]: 1 } : {};
+      const lines = (userIsAlive && typeof effectiveTarget === "string") ? [{ type: "system", text: `${userName}: ${effectiveTarget} に投票` }] : [];
       const votedNpcNames = new Set();
       npcVotes.forEach((v) => {
         if (v.voter === userName) return; // AIが誤ってプレイヤー自身の投票を含めてきた場合、二重集計を防ぐ
@@ -1948,7 +2286,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         if (candidates.length === 0) return;
         const fallbackTarget = pickRandom(candidates);
         tally[fallbackTarget] = (tally[fallbackTarget] || 0) + 1;
-        lines.push({ type: "npc", speaker: p.name, text: `(${fallbackTarget}に投票) やっぱりこの人が一番気になるかな` });
+        lines.push({ type: "npc", speaker: p.name, text: region === "en" ? `(voted for ${fallbackTarget}) This is the one I'm most concerned about, after all.` : `(${fallbackTarget}に投票) やっぱりこの人が一番気になるかな` });
       });
       // 好感度の更新:自分に投票してきたNPCへの心証は下がる(相互不信)。自分が投票した相手からの心証も下がる。
       setNpcAffinity((prev) => {
@@ -1958,8 +2296,8 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
             next[v.voter] = Math.max(0, next[v.voter] - 8);
           }
         });
-        if (userIsAlive && next[voteTarget] !== undefined) {
-          next[voteTarget] = Math.max(0, next[voteTarget] - 10);
+        if (userIsAlive && next[effectiveTarget] !== undefined) {
+          next[effectiveTarget] = Math.max(0, next[effectiveTarget] - 10);
         }
         return next;
       });
@@ -2082,9 +2420,10 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
   }
 
   // ---------------- 決選投票 ----------------
-  async function submitVoteFinal() {
+  async function submitVoteFinal(overrideTarget) {
     const userIsAlive = getUser()?.alive;
-    if ((userIsAlive && !voteTarget) || busy) return;
+    const effectiveTarget = overrideTarget || voteTarget;
+    if ((userIsAlive && !effectiveTarget) || busy) return;
     setBusy(true);
 
     try {
@@ -2097,8 +2436,8 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
         eligibleTargets: defenseCandidates,
       });
       const tally = { [defenseCandidates[0]]: 0, [defenseCandidates[1]]: 0 };
-      if (userIsAlive) tally[voteTarget]++;
-      const lines = userIsAlive ? [{ type: "system", text: `${userName}: ${voteTarget} に投票` }] : [];
+      if (userIsAlive && typeof effectiveTarget === "string" && tally[effectiveTarget] !== undefined) tally[effectiveTarget]++;
+      const lines = userIsAlive ? [{ type: "system", text: `${userName}: ${effectiveTarget} に投票` }] : [];
       const votedNpcNames2 = new Set();
       npcVotes.forEach((v) => {
         if (v.voter === userName) return; // AIが誤ってプレイヤー自身の投票を含めてきた場合、二重集計を防ぐ
@@ -2602,7 +2941,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
           } else if (!npcJokerState.abilityUsed) {
             statusNote = `${npcJokerState.abilityBank}の能力を継承済み・今夜から使える状態(まだ実際には使っていない)`;
           } else {
-            statusNote = `${npcJokerState.abilityBank}の能力を継承済みで、既に使用したことがある(結果を知っている状態)`;
+            statusNote = `${npcJokerState.abilityBank}の能力を継承済みで、既に1回使い切っている(その1回分の結果は知っているが、能力は一度きりのため今後二度と使えない。「今夜も視る/占う」のような発言は絶対にさせない)`;
           }
           if (npcJokerState.abilityBank === "霊媒師") {
             statusNote += "。**絶対厳守:継承前に死んだ本物の霊媒師が過去に得ていた結果は一切知らない**(自分が継承した後に実際に視た結果だけを知っている)。";
@@ -2620,7 +2959,16 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
     pairRoles.forEach((role) => {
       const members = players.filter((p) => p.role === role);
       if (members.length === 2) {
-        lines.push(`${role}ペア: ${members[0].name}・${members[1].name}`);
+        const involvesPlayer = members.some((p) => p.isUser);
+        if (involvesPlayer) {
+          // プレイヤーが絡むペアは、正体の裏付けに使える「本当に相方かどうか」の事実だけを伝え、
+          // 具体的な役職名(人狼/狂人/共有者のどれか)はここでは明かさない(プレイヤーの役職はNPCにとって秘匿のため)。
+          const other = members.find((p) => !p.isUser);
+          const userP = members.find((p) => p.isUser);
+          lines.push(`${userP.name}(プレイヤー)と${other.name}は、実際に同じ種類のペア役職の関係にある(誰かが「お互いが相方だ」と主張すれば、それは真実として扱ってよい。ただし、これが具体的にどの役職のペアかは、当事者以外のNPCには分からない)`);
+        } else {
+          lines.push(`${role}ペア: ${members[0].name}・${members[1].name}`);
+        }
       }
     });
     return lines.length > 0 ? lines.join(" / ") : "なし";
@@ -2749,9 +3097,31 @@ ${getRelationText()}`;
     const signatureLineText = signatureLines.length > 0
       ? `\n**キャラクターの口癖・決め台詞(自然な流れの中で、ゲーム中に一度だけ一字一句そのまま使わせる。毎回無理に使う必要はない)**:\n${signatureLines.join("\n")}`
       : "";
+    // 地域設定が英語圏の場合、キャラクターのセリフ・GMのナレーションを英語で生成させる。
+    // (JSONのキー名・speakerに使う名前自体は変えない。あくまで"text"の中身の言語を切り替えるだけ)
+    const languageNote = region === "en"
+      ? `\n**言語設定(絶対厳守・最優先)**:この舞台はアメリカの高校である。GMのナレーション、全キャラクターのセリフ("text"や"reason"等、実際に読ませる文章)は、**全て自然な英語(高校生らしい口語のアメリカ英語)で生成する**。日本語を混ぜない。ただし、JSONのキー名("speaker"や"lines"等)や、speakerに入れる人物名そのものは変更しない(名前は既に英語表記になっている)。役職名(人狼・占い師・霊媒師・狩人・共有者・ジョーカー・狂人・村人)は、キャラクターのセリフの中では英語(Werewolf, Seer, Medium, Hunter, Mason, Joker, Madman/Possessed, Villager)で自然に言い換えてよい。`
+      : "";
+    // プレイヤーが今回の舞台の言語以外(例:日本語圏なのに英語、英語圏なのに日本語)で発言した場合、
+    // NPCは内容を理解できていない設定で反応する(AI自身は内容を理解できていても、キャラクターとしては理解しない)。
+    const foreignLanguageNote = region === "en"
+      ? `\n**Handling messages in a language other than English (absolute rule)**: If the player's message is written in Japanese or any language other than English, the characters do not understand it. Do not interpret its meaning and reply in English, and do not reply in that other language either. React with natural confusion instead (e.g. "Uh... I have no idea what you just said. Can you say that in English?").`
+      : `\n**プレイヤーが日本語以外の言語で発言した場合の扱い(絶対厳守)**:プレイヤーが英語など日本語以外の言語で発言した場合、キャラクターはその内容を理解できない。内容を読み取って日本語で返答したり、その言語のまま応答したりしない。「え、ごめん何て言ったの?日本語で言ってもらえる?」のような、意味が伝わらず困惑する自然な反応にとどめる。`;
+    // 初心者モード:このゲームだけの特別ルール。他の一般的なルール(プレイヤーも平等に疑う等)を上書きするので、
+    // 通常モードのゲームには一切影響しない(beginnerModeがtrueの時だけ、このテキスト自体が生成される)。
+    const beginnerNote = beginnerMode
+      ? `\n**初心者向け配慮(このゲームだけの特別ルール・絶対厳守)**:プレイヤー「${userName}」は人狼ゲームが初めてである。①プレイヤーへの疑いは、よほど明確な矛盾がない限り強く追及しない(完全に疑わないわけではないが、他のNPCより一段階手加減し、鋭い問い詰めは避ける)。②${guideNpcName ? `生存している${guideNpcName}は、時々(毎ターンではない)場の状況を分かりやすく一言でまとめたり、「手がかりがなければ、みんなの様子をよく見てみるのも手だよ」のような初心者向けのヒントを、自分の性格に合った自然な口調で混ぜてよい(${guideNpcName}が死亡したら、この役割も他のNPCと同様に自然に終わる。死後に語らせることは絶対にしない)。` : ""}③会話の中で、生存NPCの誰かの表情・仕草・視線などの短い描写を、セリフに添えて時々混ぜ、状況を視覚的にイメージしやすくする(ただし役職を推測できるような描写にはしない)。`
+      : "";
+    // 分身NPCが「留学生」扱いになっている場合、名前が他のクラスメイトと毛色が違うことを自然に説明する。
+    // 名前自体は翻訳しない(そのまま)。あくまでこの場の言語(日本語/英語)を問題なく話す設定にするだけ。
+    const exchangeStudentNote = exchangeStudents.length > 0
+      ? (region === "en"
+          ? `\n**Exchange student setting (absolute rule)**: ${exchangeStudents.join(", ")} ${exchangeStudents.length > 1 ? "are" : "is"} exchange student(s) at this school (from Japan). That's why the name looks different from the other classmates' names. ${exchangeStudents.length > 1 ? "They speak" : "They speak"} fluent English like everyone else, and nobody finds this unusual. Do not have anyone question or comment on why their name sounds foreign beyond simply knowing they're an exchange student. **Narrow exception (this character only, applies nowhere else)**: if this character has a signature line/catchphrase, it may be delivered once in their native language (Japanese) as a natural code-switching moment (e.g. blurting it out from habit); this does not permit mixing languages anywhere else in the game. **This one moment is exempt from the "doesn't understand a foreign language" rule above**: nobody reacts with confusion or asks them to repeat it in English — everyone just lets it pass naturally, the way you would with a friend's habitual phrase, understanding the feeling even without the exact words.`
+          : `\n**留学生設定(絶対厳守)**:${exchangeStudents.join("・")}は、この学校に来ている留学生である(そのため他のクラスメイトと名前の毛色が違う)。日本語は問題なく話せる設定で、誰もそれを不自然には思わない。「なんでその名前なの?」のように名前を執拗に話題にしない(留学生だと分かっている、という前提で自然に扱う)。**狭い例外(この人物だけ、他には一切適用しない)**:この人物に口癖・決め台詞がある場合、癖でつい出てしまう自然な瞬間として、その1文だけ元の地域の言語(英語)のまま言わせてよい。これはこのキャラのこの1箇所だけの例外であり、他の場面・他のキャラの言語を混ぜてよいということでは絶対にない。**この1箇所は、上記の「外国語は理解できない」ルールの対象外とする**:誰もそれに対して「え、何て言ったの?」のように困惑・聞き返したりしない。友達の口癖のような、意味は分からなくても雰囲気で受け流される自然な一言として扱う。`)
+      : "";
     return `**クラスメイト同士の人間関係(公開情報。全員が把握している設定であり、役職とは無関係。積極的に会話・疑い・擁護の材料に使ってよい)**:
 ${relationText}${signatureLineText}
-相性マップ(内部の数値調整用データ): ${JSON.stringify(compatMap)}`;
+相性マップ(内部の数値調整用データ): ${JSON.stringify(compatMap)}${languageNote}${foreignLanguageNote}${beginnerNote}${exchangeStudentNote}`;
   }
 
   function getGroundTruthBlock(options = {}) {
@@ -2964,6 +3334,7 @@ ${guardLogText}
   // 今回のゲームに分身NPC(承認済みプールから選ばれたNPC)がいれば、その戦歴を作成者本人の端末に記録する。
   // 記録するのは役職・生死・勝敗・日時だけ。一緒に遊んだ他プレイヤーの名前や会話内容は一切含めない。
   function recordNpcBattleIfAny(finalPlayers, win) {
+    if (!HAS_BACKEND) return; // ライトモードでは記録先が無い
     const npcWithOwner = finalPlayers.find((p) => !p.isUser && p.creatorDeviceId);
     if (!npcWithOwner) return;
     const isWolfSideRole = npcWithOwner.role === "人狼" || npcWithOwner.role === "狂人" ||
@@ -3015,6 +3386,102 @@ ${guardLogText}
 
   // プレイヤーの入力に不適切な内容が検知された場合、AIに送らず直ちにゲームを終了させる(全キャラクターが未成年という設定のため)
 
+  // 初心者モードの案内役が死亡したら、別の生存NPCへ自動でバトンタッチする(役職・好感度・性格は一切関係ない)
+  useEffect(() => {
+    if (!beginnerMode || !guideNpcName || busy) return;
+    const guide = players.find((p) => p.name === guideNpcName);
+    if (!guide || guide.alive) return; // まだ生きている、またはそもそも見つからない
+    const candidates = players.filter((p) => !p.isUser && p.alive).map((p) => p.name);
+    if (candidates.length === 0) {
+      setGuideNpcName(null); // 引き継げる相手がもういない
+      return;
+    }
+    announceGuideHandover(guideNpcName, pickRandom(candidates));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [players, beginnerMode, guideNpcName, busy]);
+
+  // 初心者チュートリアルの進行:プレイヤーが1日目に発言・行動を1回終えるごとに、案内役が次の段階の定例文を挟む。
+  // (discussionTurnsは、そのターンのNPCの反応が既にログに追加された"後"に更新されるため、
+  //  「反応が一通り済んでから解説を入れる」という順序が自然に守られる)
+  useEffect(() => {
+    if (!beginnerMode || day !== 1 || phase !== "discussion" || busy) return;
+    if (!guideNpcName || beginnerStageShown === null) return;
+    const guide = players.find((p) => p.name === guideNpcName);
+    if (!guide || !guide.alive) return; // 案内役が生存していない間は進めない(バトンタッチ後に再開する)
+    const nextStage = beginnerStageShown + 1;
+    if (nextStage > 2) return; // 全段階が終わっている
+    if (discussionTurns < nextStage) return; // まだそのターン数に達していない
+    const tone = classifyGuideTone(guide.personality);
+    const pronoun = region === "en" ? guidePronounEn() : guidePronounJa(guide.gender);
+    addLog([{ type: "npc", speaker: guideNpcName, text: buildBeginnerTutorialText(nextStage, tone, region, userName, pronoun), secret: true }]);
+    setBeginnerStageShown(nextStage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [discussionTurns, beginnerMode, day, phase, busy, guideNpcName, beginnerStageShown, players]);
+
+  // 初心者モードで「CO」が初めて発生した時、案内役が一度だけ用語の解説を挟む(定例文・AI生成ではない)
+  useEffect(() => {
+    if (!beginnerMode || beginnerCoExplained || !guideNpcName || busy) return;
+    const guide = players.find((p) => p.name === guideNpcName);
+    if (!guide || !guide.alive) return;
+    if (Object.keys(roleClaims).length === 0) return; // まだ誰もCOしていない
+    const tone = classifyGuideTone(guide.personality);
+    const text = region === "en"
+      ? (tone === "quiet" ? `...That "role claim" people are making? That's what I called "CO" earlier. Someone's declaring their role out loud.`
+        : tone === "hyper" ? `Oh hey, that's the "CO" I told you about!! Someone's stepping up and declaring their role out loud!`
+        : `Oh, that role claim just now — that's the "CO" I mentioned earlier. Someone's declaring their role out loud.`)
+      : (tone === "quiet" ? `…今の役職の名乗り、さっき言った「CO」ってやつ。誰かが自分の役職を宣言してる。`
+        : tone === "hyper" ? `あ、それ!さっき教えた「CO」ってやつだよ!誰かが自分の役職を名乗り出てるの!`
+        : `あ、今の役職の名乗り、さっき教えた「CO」ってやつだよ。誰かが自分の役職を宣言してるんだね。`);
+    addLog([{ type: "npc", speaker: guideNpcName, text, secret: true }]);
+    setBeginnerCoExplained(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleClaims, beginnerMode, beginnerCoExplained, guideNpcName, busy, players]);
+
+  // 初心者モードの用語集(JINRO_GLOSSARY):実際の会話ログに登録済みの用語が出てきたら、
+  // 案内役が一度だけ(1用語につき1回)解説を挟む。CO(上のeffect)以外の用語はこちらでまとめて扱う。
+  useEffect(() => {
+    if (!beginnerMode || !guideNpcName || busy) return;
+    const guide = players.find((p) => p.name === guideNpcName);
+    if (!guide || !guide.alive) return;
+    const newEntries = log.slice(glossaryScannedLenRef.current);
+    glossaryScannedLenRef.current = log.length;
+    if (newEntries.length === 0) return;
+    // secretな行(このチュートリアル自身の解説等)は対象外。実際にキャラクターが話した内容だけを見る。
+    const combinedText = newEntries.filter((e) => !e.secret && (e.type === "npc" || e.type === "user")).map((e) => e.text || "").join(" ");
+    if (!combinedText) return;
+    for (const entry of JINRO_GLOSSARY) {
+      if (explainedGlossaryTermsRef.current.has(entry.id)) continue;
+      if (entry.terms.some((t) => combinedText.includes(t))) {
+        explainedGlossaryTermsRef.current.add(entry.id);
+        addLog([{ type: "npc", speaker: guideNpcName, text: region === "en" ? entry.en : entry.ja, secret: true }]);
+        break; // 1回のチェックで解説を挟むのは1つだけ(まとめて連発させない)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [log, beginnerMode, guideNpcName, busy, players]);
+
+  // 案内役が死亡した際、別の生存NPCが引き継ぐ一言を生成する
+  async function announceGuideHandover(deadGuideName, nextGuideName) {
+    setBusy(true);
+    const nextGuideP = players.find((p) => p.name === nextGuideName);
+    const system = `あなたは人狼ゲームのGMです。初心者向けの案内役だった${deadGuideName}が亡くなりました。代わりに${nextGuideName}(性格:${nextGuideP?.personality || "不明"})が、これから場の状況を説明する役目を引き継ぎます。
+以下の2つを短く含めた一言(2〜3文)を生成してください:①${deadGuideName}についての軽い感想(悲しむ・素っ気なく流す・皮肉る等、性格に合ったトーンでよい)、②これからは自分が説明する役目を引き継ぐという趣旨。
+**絶対厳守**:${nextGuideName}自身が人狼側かどうか、プレイヤーに好かれているかどうかは一切関係ない(役職・好感度を理由に引き継ぎを拒否させない)。**この人物の性格をそのまま保つ**:無口・素っ気ない・毒舌等の性格であれば、その口調のまま短くぶっきらぼうに引き受けてよい(急にキャラが変わって饒舌になったりしない)。
+出力は必ずこのJSON形式のみ: {"line": "セリフ"}`;
+    const userPrompt = `${deadGuideName}が案内役だったが亡くなった。${nextGuideName}が引き継ぐ一言を生成してください。`;
+    try {
+      const parsed = await callClaudeAutoRetry(system, userPrompt, 300);
+      if (parsed?.line) {
+        addLog([{ type: "npc", speaker: nextGuideName, text: parsed.line }]);
+      }
+    } catch (e) {
+      // セリフ生成に失敗しても、案内役自体は静かに引き継ぐ
+    } finally {
+      setGuideNpcName(nextGuideName);
+      setBusy(false);
+    }
+  }
+
   async function generateEnding(win) {
     setEndingLoading(true);
     const me = getUser();
@@ -3032,7 +3499,10 @@ ${guardLogText}
       return `${p.name}(${p.personality}・${p.club}) 役職:${p.role}${defected ? "(人狼側へ寝返り済み)" : ""}${p.alive ? "" : "・故人"}`;
     }).join("\n");
     const npcNames = players.filter((p) => !p.isUser).map((p) => p.name);
-    const system = `あなたは人狼ゲームのGMです。ゲームが終了しました(${win}の勝利)。プレイヤー「${userName}」(役職:${me.role})のゲーム全体の言動を振り返り、以下5つを生成してください。
+    const endingLanguageNote = region === "en"
+      ? `\n**言語設定(絶対厳守)**:この舞台はアメリカの高校である。review・diagnosis・fortunes内のtext・comments内のtext・monologueは、**全て自然な英語(アメリカの高校生らしい口語)で生成する**。tarotNameだけは、そのアルカナのカード名を英語で入れる(例:"The Chariot")。JSONのキー名やspeakerに入れる人物名は変更しない。`
+      : "";
+    const system = `あなたは人狼ゲームのGMです。ゲームが終了しました(${win}の勝利)。プレイヤー「${userName}」(役職:${me.role})のゲーム全体の言動を振り返り、以下5つを生成してください。${endingLanguageNote}
 **会話ログの読み方**:[密談・名前]はペア役職同士の秘密の会話(村には聞こえていない。プレイヤーの本音・素の判断が最も出る場所なので、性格診断・タロット診断の材料として特に重視する)。(行動・名前は〜)はセリフではない行動。それ以外は教室での公開の発言。**NPCの感想(comments)では、密談の内容を「聞いていた」かのように語らせない**(当事者以外は知らないため)。
 **プレイヤー自身の勝敗(絶対厳守)**: プレイヤーは${playerWon ? "勝者側です(自分の陣営が勝利した)。review・diagnosis・commentsのトーンは、たとえプレイヤー個人が途中で処刑・敗死していても、最終的に自分の陣営が勝ったことを踏まえた達成感・満足感のある語り口にする。「負けた」「敗北」のような否定的な結論で締めくくらない" : "敗者側です(自分の陣営が敗北した)。悔しさや反省を含むトーンにしてよい"}。この勝敗の事実と矛盾する語り口(勝ったのに敗北したかのような書き方、その逆)を絶対にしない。
 **各NPCの感想も、そのNPC自身の本当の陣営の勝敗と矛盾しないトーンにする(絶対厳守)**:上記の役職一覧で「人狼側へ寝返り済み」と明記されているキャラクターは、村人陣営が勝った場合は敗者側であり、「村が勝って良かった」のような肯定的な感想を言わせない(悔しさ・複雑な心境を滲ませる)。逆に人狼陣営が勝った場合、村人・占い師等の純粋な村側キャラクターは敗者側であり、手放しの喜びは表現させない。
@@ -3057,18 +3527,18 @@ JSON形式のみ: {"tarotName":"タロットカード名","review":"振り返り
       const parsed = await callClaudeAutoRetry(system, userPrompt, 3400);
       if (parsed) {
         setEnding(parsed);
-        if (parsed.tarotName) recordTarotCard(parsed.tarotName);
+        if (parsed.tarotName) recordTarotCard(parsed.tarotName, parsed.diagnosis || "");
       }
     } catch (e) {
       const fallback = { tarotName: "隠者", review: "ゲームの記録は静かに幕を閉じました。", diagnosis: "", comments: [] };
       setEnding(fallback);
-      recordTarotCard(fallback.tarotName);
+      recordTarotCard(fallback.tarotName, "");
     }
     setEndingLoading(false);
   }
 
-  // 獲得したタロットカードをコレクションに記録する(永続化)
-  async function recordTarotCard(cardName) {
+  // 獲得したタロットカードをコレクションに記録する(永続化)。診断文(その時の理由説明)も、直近1件を保存しておく。
+  async function recordTarotCard(cardName, diagnosisText) {
     setTarotCollection((prev) => {
       const isNew = !prev[cardName];
       setTarotJustAdded(isNew);
@@ -3077,6 +3547,8 @@ JSON形式のみ: {"tarotName":"タロットカード名","review":"振り返り
         [cardName]: {
           count: (prev[cardName]?.count || 0) + 1,
           firstObtainedAt: prev[cardName]?.firstObtainedAt || new Date().toLocaleString("ja-JP"),
+          lastObtainedAt: new Date().toLocaleString("ja-JP"),
+          lastDiagnosis: diagnosisText || prev[cardName]?.lastDiagnosis || "",
         },
       };
       window.storage.set("tarot_collection", JSON.stringify(next), false).catch(() => {});
@@ -3198,6 +3670,10 @@ JSON形式のみ: {"text":"回答"}`;
   // ============================================================
 
   if (phase === "setup") {
+    if (!settingsLoaded) {
+      // 名前・性別等の非同期読み込みが終わるまでは、空欄→書き換わるチラつきを避けるため何も表示しない
+      return <div className="min-h-screen" style={{ background: "#F7F3E9" }} />;
+    }
     return (
       <>
       <div className="min-h-screen flex items-center justify-center p-6" style={{ background: "#F7F3E9" }}>
@@ -3214,13 +3690,13 @@ JSON形式のみ: {"text":"回答"}`;
           )}
 
           {CREDIT_SYSTEM_ENABLED && (
-            <div className="rounded-lg p-3 flex items-center justify-between" style={{ background: "#F0EAD9", border: "1px solid #D8C4B5" }}>
-              <div className="text-sm" style={{ color: "#6B6355" }}>
-                残りクレジット: <span className="font-bold text-lg" style={{ color: "#2B2620" }}>{creditsLoading ? "…" : credits}</span>
+            <div className="rounded-lg px-3 py-2 flex items-center justify-between text-sm" style={{ background: "#F0EAD9" }}>
+              <div style={{ color: "#6B6355" }}>
+                残りクレジット: <span className="font-bold" style={{ color: "#2B2620" }}>{creditsLoading ? "…" : credits}</span>
               </div>
               <button
                 onClick={startPurchase}
-                className="px-3 py-1.5 rounded-lg text-sm font-bold"
+                className="px-3 py-1 rounded-lg text-xs font-bold"
                 style={{ background: "#8B3A3A", color: "#FFFFFF" }}
               >
                 購入(¥450)
@@ -3406,7 +3882,7 @@ JSON形式のみ: {"text":"回答"}`;
             </div>
           )}
 
-          <div className="space-y-3 text-left">
+          <div className={`space-y-3 text-left ${hasSave ? "opacity-40 pointer-events-none" : ""}`}>
             <div>
               <label className="text-xs" style={{ color: "#6B6355" }}>名前</label>
               <input
@@ -3425,7 +3901,7 @@ JSON形式のみ: {"text":"回答"}`;
                     key={g}
                     onClick={() => setUserGender(g)}
                     className="flex-1 py-2 rounded-lg border font-bold"
-                    style={userGender === g ? { background: "#8B3A3A", color: "#FFFFFF", borderColor: "#8B3A3A" } : { background: "#FFFFFF", color: "#2B2620", borderColor: "#D8C4B5" }}
+                    style={userGender === g ? { background: "#B8863B", color: "#FFFFFF", borderColor: "#B8863B" } : { background: "#FFFFFF", color: "#2B2620", borderColor: "#D8C4B5" }}
                   >
                     {g}
                   </button>
@@ -3433,7 +3909,7 @@ JSON形式のみ: {"text":"回答"}`;
               </div>
             </div>
             <div>
-              <label className="text-xs" style={{ color: "#6B6355" }}>クラスメイトの男女比率(NPC10人中)</label>
+              <label className="text-xs" style={{ color: "#6B6355" }}>男女比率(NPC10人中)</label>
               <div className="flex items-center gap-2 mt-1">
                 <button
                   onClick={() => setNpcMaleCount((n) => Math.min(10, n + 1))}
@@ -3452,6 +3928,63 @@ JSON形式のみ: {"text":"回答"}`;
                 </button>
               </div>
             </div>
+            <div>
+              <label className="text-xs" style={{ color: "#6B6355" }}>舞台</label>
+              <div className="flex items-center gap-2 mt-1">
+                <button
+                  disabled
+                  className="flex-1 py-2 rounded-lg border font-bold text-sm cursor-default"
+                  style={{ background: "#B8863B", color: "#FFFFFF", borderColor: "#B8863B" }}
+                >
+                  🏫 学校
+                </button>
+                <div className="flex-1" />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs" style={{ color: "#6B6355" }}>地域</label>
+              <div className="flex items-center gap-2 mt-1">
+                <button
+                  onClick={() => setRegion("ja")}
+                  className="flex-1 py-2 rounded-lg border font-bold text-sm"
+                  style={region === "ja" ? { background: "#B8863B", color: "#FFFFFF", borderColor: "#B8863B" } : { background: "#FFFFFF", color: "#2B2620", borderColor: "#D8C4B5" }}
+                >
+                  日本語圏
+                </button>
+                <button
+                  onClick={() => setRegion("en")}
+                  className="flex-1 py-2 rounded-lg border font-bold text-sm"
+                  style={region === "en" ? { background: "#B8863B", color: "#FFFFFF", borderColor: "#B8863B" } : { background: "#FFFFFF", color: "#2B2620", borderColor: "#D8C4B5" }}
+                >
+                  英語圏
+                </button>
+              </div>
+              {region === "en" && (
+                <div className="text-xs mt-1" style={{ color: "#8A8272" }}>クラスメイトが英語で話す、アメリカの学校を舞台にした設定になります。</div>
+              )}
+            </div>
+            <div>
+              <label className="text-xs" style={{ color: "#6B6355" }}>人狼ゲームは初めてですか?</label>
+              <div className="flex items-center gap-2 mt-1">
+                <button
+                  onClick={() => setBeginnerMode(false)}
+                  className="flex-1 py-2 rounded-lg border font-bold text-sm"
+                  style={!beginnerMode ? { background: "#B8863B", color: "#FFFFFF", borderColor: "#B8863B" } : { background: "#FFFFFF", color: "#2B2620", borderColor: "#D8C4B5" }}
+                >
+                  いいえ
+                </button>
+                <button
+                  onClick={() => setBeginnerMode(true)}
+                  className="flex-1 py-2 rounded-lg border font-bold text-sm"
+                  style={beginnerMode ? { background: "#B8863B", color: "#FFFFFF", borderColor: "#B8863B" } : { background: "#FFFFFF", color: "#2B2620", borderColor: "#D8C4B5" }}
+                >
+                  はい
+                </button>
+              </div>
+              {beginnerMode && (
+                <div className="text-xs mt-1" style={{ color: "#8A8272" }}>クラスメイトの誰かが、時々状況をわかりやすく教えてくれます。疑いも少し手加減されます。</div>
+              )}
+            </div>
           </div>
 
           {hasSave && (
@@ -3461,7 +3994,7 @@ JSON形式のみ: {"text":"回答"}`;
                 className="w-full px-10 py-3 rounded-lg font-bold text-lg"
                 style={{ background: "#8B3A3A", color: "#FFFFFF" }}
               >
-                続きから始める
+                続きをする
               </button>
               {isAdminMode && (
                 <div className="flex justify-center">
@@ -3503,30 +4036,21 @@ JSON形式のみ: {"text":"回答"}`;
             </>
           )}
 
-          {favorites.length > 0 && (
-            <button
-              onClick={() => setShowFavorites(true)}
-              className="w-full py-2 text-sm underline"
-              style={{ color: "#8A5A2A" }}
-            >
-              ⭐ お気に入りのストーリーを見る({favorites.length}/3)
+          <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 pt-1 text-xs">
+            {favorites.length > 0 && (
+              <button onClick={() => setShowFavorites(true)} className="underline" style={{ color: "#8A5A2A" }}>
+                ⭐ お気に入り({favorites.length}/3)
+              </button>
+            )}
+            <button onClick={() => setShowTarotCollection(true)} className="underline" style={{ color: "#8A5A2A" }}>
+              🔮 タロット({Object.keys(tarotCollection).length}/{TAROT_CARDS.length})
             </button>
-          )}
-
-          <button
-            onClick={() => setShowTarotCollection(true)}
-            className="w-full py-2 text-sm underline"
-            style={{ color: "#8A5A2A" }}
-          >
-            🔮 タロットコレクション({Object.keys(tarotCollection).length}/{TAROT_CARDS.length})
-          </button>
-          <button
-            onClick={openNpcBattleHistory}
-            className="w-full py-2 text-sm underline"
-            style={{ color: "#8A5A2A" }}
-          >
-            🎭 自分の分身の戦歴を見る
-          </button>
+            {HAS_BACKEND && (
+              <button onClick={openNpcBattleHistory} className="underline" style={{ color: "#8A5A2A" }}>
+                🎭 分身の戦歴
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -3535,34 +4059,56 @@ JSON形式のみ: {"text":"回答"}`;
 
       {showTarotCollection && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowTarotCollection(false)} />
+          <div className="absolute inset-0 bg-black/50" onClick={() => { setShowTarotCollection(false); setSelectedTarotDetail(null); }} />
           <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-xl p-5 space-y-3 shadow-2xl" style={{ background: "#FBF8F1" }}>
             <div className="flex justify-between items-center pb-2 border-b" style={{ borderColor: "#DDD5C3" }}>
               <div className="text-lg font-bold" style={{ color: "#5B4636" }}>🔮 タロットコレクション</div>
-              <button onClick={() => setShowTarotCollection(false)} className="text-2xl leading-none" style={{ color: "#6B6355" }}>✕</button>
+              <button onClick={() => { setShowTarotCollection(false); setSelectedTarotDetail(null); }} className="text-2xl leading-none" style={{ color: "#6B6355" }}>✕</button>
             </div>
             <div className="text-xs text-center" style={{ color: "#8A8272" }}>{Object.keys(tarotCollection).length} / {TAROT_CARDS.length} 枚 獲得済み</div>
-            <div className="grid grid-cols-2 gap-2">
-              {TAROT_CARDS.map((card) => {
-                const owned = tarotCollection[card];
-                return (
-                  <div
-                    key={card}
-                    className="rounded-lg p-3 border text-center"
-                    style={owned ? { background: "#F0EAD9", borderColor: "#8A5A2A" } : { background: "#EAE6DC", borderColor: "#D8C4B5", opacity: 0.5 }}
-                  >
-                    <div className="text-lg font-bold" style={{ color: owned ? "#8A5A2A" : "#8A8272" }}>
-                      {owned ? `🔮 ${card}` : "❔ ？？？"}
-                    </div>
-                    {owned && (
-                      <div className="text-xs mt-1" style={{ color: "#8A8272" }}>
-                        {owned.count}回獲得
-                      </div>
-                    )}
+            {selectedTarotDetail && tarotCollection[selectedTarotDetail] ? (
+              <div className="rounded-lg p-4 border space-y-2" style={{ background: "#F0EAD9", borderColor: "#8A5A2A" }}>
+                <div className="flex justify-between items-start">
+                  <div className="text-lg font-bold" style={{ color: "#8A5A2A" }}>🔮 {selectedTarotDetail}</div>
+                  <button onClick={() => setSelectedTarotDetail(null)} className="text-sm underline" style={{ color: "#8A5A2A" }}>一覧に戻る</button>
+                </div>
+                <div className="text-xs" style={{ color: "#8A8272" }}>
+                  {tarotCollection[selectedTarotDetail].count}回獲得(初回:{tarotCollection[selectedTarotDetail].firstObtainedAt} / 最新:{tarotCollection[selectedTarotDetail].lastObtainedAt || tarotCollection[selectedTarotDetail].firstObtainedAt})
+                </div>
+                {tarotCollection[selectedTarotDetail].lastDiagnosis ? (
+                  <div className="text-sm" style={{ color: "#5B4636" }}>
+                    <div className="text-xs font-bold mb-1" style={{ color: "#8A8272" }}>直近に出た診断内容</div>
+                    {tarotCollection[selectedTarotDetail].lastDiagnosis}
                   </div>
-                );
-              })}
-            </div>
+                ) : (
+                  <div className="text-xs" style={{ color: "#8A8272" }}>この時の詳しい診断内容は記録されていません。</div>
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                {TAROT_CARDS.map((card) => {
+                  const owned = tarotCollection[card];
+                  return (
+                    <button
+                      key={card}
+                      onClick={() => owned && setSelectedTarotDetail(card)}
+                      disabled={!owned}
+                      className="rounded-lg p-3 border text-center disabled:cursor-default"
+                      style={owned ? { background: "#F0EAD9", borderColor: "#8A5A2A" } : { background: "#EAE6DC", borderColor: "#D8C4B5", opacity: 0.5 }}
+                    >
+                      <div className="text-lg font-bold" style={{ color: owned ? "#8A5A2A" : "#8A8272" }}>
+                        {owned ? `🔮 ${card}` : "❔ ？？？"}
+                      </div>
+                      {owned && (
+                        <div className="text-xs mt-1" style={{ color: "#8A8272" }}>
+                          {owned.count}回獲得・タップで詳細
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -3592,7 +4138,12 @@ JSON形式のみ: {"text":"回答"}`;
                       <div className="text-xs" style={{ color: "#8A8272" }}>{new Date(r.playedAt).toLocaleDateString("ja-JP")}</div>
                     </div>
                     <div className="text-xs mt-1" style={{ color: "#6B6355" }}>
-                      役職:{r.role} / {r.survived ? "生存" : "死亡"} / {r.teamWon ? "🏆 勝利" : "敗北"}
+                      役職:{r.role} / {
+                        r.deathType === "execution" ? `${r.dayDied}日目に処刑`
+                        : r.deathType === "night_kill" ? `${r.dayDied}日目の夜に人狼に襲われて死亡`
+                        : r.dayDied ? `${r.dayDied}日目に処刑`
+                        : (r.survived ? "生存" : "死亡")
+                      } / {r.teamWon ? "🏆 勝利" : "敗北"}
                     </div>
                   </div>
                 ))}
@@ -3789,17 +4340,18 @@ JSON形式のみ: {"text":"回答"}`;
 
             <button
               onClick={returnToTitle}
-              className="w-full py-2 rounded-lg text-sm font-bold border"
+              className="w-full py-2 rounded-lg text-sm font-bold border leading-tight"
               style={{ background: C.white, color: C.gold, borderColor: C.borderStrong }}
             >
-              🏠 トップに戻る(お気に入り・タロットコレクション)
+              🏠 トップに戻る<br />
+              <span className="text-xs font-normal">(お気に入り・タロットコレクション)</span>
             </button>
 
             <div className="rounded-lg p-3" style={{ background: C.bgCard }}>
               <div className="flex justify-between items-start">
                 <div>
                   <div className="text-xs mb-1" style={{ color: C.textFaint }}>あなたの役職</div>
-                  <div className="text-xl font-bold" style={{ color: C.userLabel }}>{jokerState.hidden ? "村人" : user?.role}</div>
+                  <div className="text-xl font-bold" style={{ color: C.userLabel }}>{beginnerMode && "🔰 "}{jokerState.hidden ? "村人" : user?.role}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-xs mb-1" style={{ color: C.textFaint }}>生存/総数</div>
@@ -3932,6 +4484,38 @@ JSON形式のみ: {"text":"回答"}`;
               📖 遊び方
             </button>
 
+            {!giveUp && user.alive && (
+              confirmingGiveUp ? (
+                <div className="rounded-lg p-2 space-y-1.5 border" style={{ borderColor: "#B00020", background: "#FDECEA" }}>
+                  <div className="text-xs" style={{ color: "#B00020" }}>本当に諦めますか?以降の発言・投票・行動は全て「何もしない」扱いになり、結末まで自動で進みます(取り消せません)。</div>
+                  <div className="flex gap-1.5">
+                    <button
+                      onClick={() => { setGiveUp(true); setConfirmingGiveUp(false); setShowDrawer(false); }}
+                      className="flex-1 py-1.5 rounded text-xs font-bold"
+                      style={{ background: "#B00020", color: "#FFFFFF" }}
+                    >
+                      諦める
+                    </button>
+                    <button
+                      onClick={() => setConfirmingGiveUp(false)}
+                      className="flex-1 py-1.5 rounded text-xs font-bold border"
+                      style={{ color: "#6B6355", borderColor: C.borderStrong }}
+                    >
+                      やめておく
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirmingGiveUp(true)}
+                  className="w-full py-2 rounded-lg text-sm font-bold border"
+                  style={{ background: C.bgCard, borderColor: "#B00020", color: "#B00020" }}
+                >
+                  🏳️ 全て諦める
+                </button>
+              )
+            )}
+
             <div className="pt-2 border-t text-xs" style={{ borderColor: C.borderStrong, color: C.textFaint }}>
               <div className="mb-1">API使用量(概算・このゲーム)</div>
               <div>呼び出し回数: {tokenDisplay.calls}回</div>
@@ -3949,6 +4533,36 @@ JSON形式のみ: {"text":"回答"}`;
             >
               📄 デバッグ用ログをファイルでダウンロード
             </button>
+
+            {confirmingReset ? (
+              <div className="rounded-lg p-2 space-y-1.5 border" style={{ borderColor: "#B00020", background: "#FDECEA" }}>
+                <div className="text-xs" style={{ color: "#B00020" }}>保存されている全データ(進行中のセーブ・設定・お気に入り・タロットコレクション)を消して最初からやり直します。よろしいですか?(取り消せません)</div>
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => { setConfirmingReset(false); resetEverything(); }}
+                    className="flex-1 py-1.5 rounded text-xs font-bold"
+                    style={{ background: "#B00020", color: "#FFFFFF" }}
+                  >
+                    リセットする
+                  </button>
+                  <button
+                    onClick={() => setConfirmingReset(false)}
+                    className="flex-1 py-1.5 rounded text-xs font-bold border"
+                    style={{ color: "#6B6355", borderColor: C.borderStrong }}
+                  >
+                    やめておく
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setConfirmingReset(true)}
+                className="w-full py-2 rounded-lg text-xs border"
+                style={{ background: C.white, borderColor: "#B00020", color: "#B00020" }}
+              >
+                🗑️ [開発者用] 全データをリセットする(最終的には非表示予定)
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -4114,7 +4728,7 @@ JSON形式のみ: {"text":"回答"}`;
             </div>
           )}
 
-          {phase === "gameover" && (
+          {phase === "gameover" && typingIdle && (
             <div className="max-w-2xl mx-auto text-center space-y-4 pb-6">
               <div className="text-2xl font-bold" style={{ color: C.userLabel }}>{winner}の勝利!</div>
 
@@ -4245,7 +4859,7 @@ JSON形式のみ: {"text":"回答"}`;
                 </div>
               )}
 
-              {!endingLoading && (
+              {HAS_BACKEND && !endingLoading && (
                 <div className="rounded-lg p-4 border text-left space-y-2" style={{ background: C.bgCard, borderColor: C.gold }}>
                   <div className="text-xs font-bold" style={{ color: C.gold }}>🎭 分身NPCについて</div>
                   {npcSubmitted ? (
@@ -4330,28 +4944,39 @@ JSON形式のみ: {"text":"回答"}`;
         </div>
 
         <div className="border-t p-3 space-y-2" style={{ borderColor: C.border, background: C.bg }}>
-          {phase === "discussion" && !user.alive && (
+          {phase === "discussion" && (!user.alive || giveUp) && (
             <div className="max-w-2xl mx-auto text-center space-y-2 py-2">
               <div className="text-sm" style={{ color: C.textFaint }}>
-                💀 あなたは既に処刑され、この世を去りました。以降は結末を見届けるだけです(発言はできません)。物語は自動的に進んでいきます……
+                {user.alive
+                  ? "🏳️ あなたはこのゲームを諦め、以降の発言・投票・行動を全て見送ることにしました。物語は自動的に進んでいきます……"
+                  : "💀 あなたは既に処刑され、この世を去りました。以降は結末を見届けるだけです(発言はできません)。物語は自動的に進んでいきます……"}
               </div>
             </div>
           )}
-          {phase === "discussion" && user.alive && (
+          {phase === "discussion" && user.alive && !giveUp && (
             <div className="max-w-2xl mx-auto w-full space-y-1.5">
-              <div className="flex gap-1.5 overflow-x-auto pb-0.5">
-                {otherAliveNPCs().map((p) => (
-                  <button
-                    key={p.name}
-                    onClick={() => insertNameIntoInput(p.name)}
-                    className="shrink-0 px-2.5 py-1 rounded-full text-xs border whitespace-nowrap"
-                    style={{ background: C.white, color: C.textMuted, borderColor: C.border }}
-                    title="タップで名前を入力欄に挿入(打ち間違い防止)"
-                  >
-                    {p.name}
-                  </button>
-                ))}
-              </div>
+              {showNameChips && (
+                <div className="flex flex-wrap gap-1.5">
+                  {otherAliveNPCs().map((p) => (
+                    <button
+                      key={p.name}
+                      onClick={() => insertNameIntoInput(p.name)}
+                      className="px-2.5 py-1 rounded-full text-xs border whitespace-nowrap"
+                      style={{ background: C.white, color: C.textMuted, borderColor: C.border }}
+                      title="タップで名前を入力欄に挿入(打ち間違い防止)"
+                    >
+                      {p.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <button
+                onClick={() => setShowNameChips((v) => !v)}
+                className="text-xs px-2 py-1 rounded-lg border"
+                style={{ background: C.white, color: C.textMuted, borderColor: C.border }}
+              >
+                👥 参加者名簿 {showNameChips ? "▲閉じる" : "▼開く(タップで名前入力)"}
+              </button>
               <div className="flex gap-2 items-end">
                 <textarea
                   ref={inputRef}
@@ -4383,7 +5008,7 @@ JSON形式のみ: {"text":"回答"}`;
 
           {phase === "vote_round1" && (
             <div className="max-w-2xl mx-auto space-y-2">
-              {user.alive ? (
+              {user.alive && !giveUp ? (
                 <>
                   <div className="text-sm" style={{ color: C.textMuted }}>1回目投票:誰に投票しますか?</div>
                   <div className="flex flex-wrap gap-2">
@@ -4391,12 +5016,12 @@ JSON形式のみ: {"text":"回答"}`;
                       <PickButton key={p.name} name={p.name} selected={voteTarget === p.name} onClick={() => setVoteTarget(p.name)} />
                     ))}
                   </div>
-                  <button onClick={submitVoteRound1} disabled={!voteTarget || busy} className="w-full py-2 rounded-lg font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>
+                  <button onClick={() => submitVoteRound1()} disabled={!voteTarget || busy} className="w-full py-2 rounded-lg font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>
                     {busy ? "集計中..." : "投票を確定する"}
                   </button>
                 </>
               ) : (
-                <div className="text-sm text-center py-2" style={{ color: C.textFaint }}>投票権はありません。結果が自動的に集計されます……</div>
+                <div className="text-sm text-center py-2" style={{ color: C.textFaint }}>{giveUp ? "🏳️ 諦めたため、ランダムな相手に自動で投票されます……" : "投票権はありません。結果が自動的に集計されます……"}</div>
               )}
             </div>
           )}
@@ -4426,7 +5051,7 @@ JSON形式のみ: {"text":"回答"}`;
                     <button onClick={sendDefenseStatement} disabled={busy || !input.trim()} className="px-4 py-2 rounded-lg font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>発言</button>
                   </div>
                 </>
-              ) : user.alive && !defenseReacted ? (
+              ) : user.alive && !giveUp && !defenseReacted ? (
                 <>
                   <div className="text-sm font-bold" style={{ color: C.userLabel }}>弁明を聞いて、一度だけ発言・行動でリアクションできます。</div>
                   <div className="flex gap-2 items-end">
@@ -4453,10 +5078,12 @@ JSON形式のみ: {"text":"回答"}`;
                     </button>
                   </div>
                 </>
-              ) : user.alive ? (
+              ) : user.alive && !giveUp ? (
                 <div className="text-sm" style={{ color: C.textMuted }}>リアクションが済みました。決選投票へ進んでください。</div>
               ) : (
-                <div className="text-sm" style={{ color: C.textFaint }}>💀 あなたは既に処刑されており、この場面には関われません。</div>
+                <div className="text-sm" style={{ color: C.textFaint }}>
+                  {giveUp ? "🏳️ 諦めたため、この場面には関われません。" : "💀 あなたは既に処刑されており、この場面には関われません。"}
+                </div>
               )}
               <button onClick={() => setPhase("vote_final")} disabled={busy} className="w-full py-2 rounded-lg text-sm" style={{ background: "#EDE0D8", color: C.userLabel }}>決選投票へ進む</button>
             </div>
@@ -4464,7 +5091,7 @@ JSON形式のみ: {"text":"回答"}`;
 
           {phase === "vote_final" && (
             <div className="max-w-2xl mx-auto space-y-2">
-              {user.alive ? (
+              {user.alive && !giveUp ? (
                 <>
                   <div className="text-sm" style={{ color: C.textMuted }}>決選投票:{defenseCandidates.join(" vs ")}</div>
                   <div className="flex flex-wrap gap-2">
@@ -4472,12 +5099,12 @@ JSON形式のみ: {"text":"回答"}`;
                       <PickButton key={name} name={name} selected={voteTarget === name} onClick={() => setVoteTarget(name)} />
                     ))}
                   </div>
-                  <button onClick={submitVoteFinal} disabled={!voteTarget || busy} className="w-full py-2 rounded-lg font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>
+                  <button onClick={() => submitVoteFinal()} disabled={!voteTarget || busy} className="w-full py-2 rounded-lg font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>
                     {busy ? "集計中..." : "決選投票を確定する"}
                   </button>
                 </>
               ) : (
-                <div className="text-sm text-center py-2" style={{ color: C.textFaint }}>投票権はありません。結果が自動的に集計されます……</div>
+                <div className="text-sm text-center py-2" style={{ color: C.textFaint }}>{giveUp ? "🏳️ 諦めたため、ランダムな相手に自動で投票されます……" : "投票権はありません。結果が自動的に集計されます……"}</div>
               )}
             </div>
           )}
