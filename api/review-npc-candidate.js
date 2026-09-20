@@ -74,6 +74,7 @@ export default async function handler(req, res) {
       club,
       signatureLine: signatureLine || null,
       creatorDeviceId: candidate.deviceId || null,
+      region: candidate.region === "en" ? "en" : "ja", // このキャラが元々どちらの地域(言語)のプレイで生まれたか
       approvedAt: new Date().toISOString(),
     };
     candidate.status = "approved";

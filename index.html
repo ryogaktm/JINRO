@@ -10,6 +10,10 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon-v2.png" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#1a142e" />
+    <!-- ★本番環境(バックエンドあり)であることをApp.jsxに伝えるフラグ。
+         App.jsxはこのフラグが無い環境(Claudeのアーティファクト等)では、課金・デバッグログ保存・分身NPC・管理画面を
+         自動的に無効化した「ライトモード」で動く。モジュールより先に実行されるよう、通常のscriptで先頭に置く。 -->
+    <script>window.__JINRO_HAS_BACKEND__ = true;</script>
   </head>
   <body>
     <div id="root"></div>

@@ -7,6 +7,7 @@ const redis = Redis.fromEnv();
 const MAX_RECORDS_PER_NPC = 50; // 1体あたりの戦歴保存上限
 const STALE_MS = 3 * 24 * 60 * 60 * 1000; // 3日
 const ROLES = ["人狼", "狂人", "占い師", "霊媒師", "狩人", "共有者", "ジョーカー", "村人"];
+const WOLF_SIDE_ROLES = ["人狼", "狂人"]; // 水増し戦歴の陣営判定用(ジョーカーは基本村人側として扱う)
 
 async function handleSave(req, res) {
   const { creatorDeviceId, npcName, role, survived, teamWon } = req.body || {};
@@ -57,12 +58,20 @@ async function handleGet(req, res) {
         : new Date(candidate.poolEntry?.approvedAt || candidate.submittedAt).getTime();
       const stale = !lastTime || (Date.now() - lastTime) > STALE_MS;
       if (stale) {
+        // 水増し(実プレイに基づかない)の戦歴は、陣営ごとに筋が通るようにする:
+        // 人狼側(人狼・狂人)→処刑されて人狼側の負け。村人側(それ以外)→人狼に襲われて死亡するが村人側の勝ち。
+        // 「意外と楽勝だった」という自信満々な捨て台詞との整合を保ちつつ、死因と勝敗が矛盾しないようにする。
+        const role = ROLES[Math.floor(Math.random() * ROLES.length)];
+        const isWolfSide = WOLF_SIDE_ROLES.includes(role);
+        const dayDied = Math.random() < 0.8 ? 1 : 2;
         const fake = {
           playedAt: new Date().toISOString(),
           npcName: candidate.nickname,
-          role: ROLES[Math.floor(Math.random() * ROLES.length)],
-          survived: Math.random() < 0.6,
-          teamWon: Math.random() < 0.5,
+          role,
+          survived: false,
+          dayDied,
+          deathType: isWolfSide ? "execution" : "night_kill",
+          teamWon: !isWolfSide,
         };
         await redis.lpush(battleKey, JSON.stringify(fake));
         await redis.ltrim(battleKey, 0, 49);
