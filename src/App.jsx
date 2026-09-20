@@ -304,63 +304,177 @@ function sanitizeStageDirections(text) {
   });
 }
 
-// 初心者モードの案内役:性格の説明文から「無口/普通/ハイテンション」の3トーンに大まかに分類する。
-// これは定例文(AIに生成させない固定テキスト)の言い回しを選ぶためだけに使う簡易な判定。
-function classifyGuideTone(personality) {
-  const p = personality || "";
-  if (/無口|物静か|寡黙|冷静|口数少な|クール|淡々/.test(p)) return "quiet";
-  if (/元気|ハイテンション|応援団|情熱的|お調子者|とにかく前向き|ムードメーカー/.test(p)) return "hyper";
-  return "normal";
-}
 function guidePronounJa(gender) {
   return gender === "男性" ? "僕" : "あたし";
 }
 function guidePronounEn() {
-  return "I"; // 英語は代名詞で口調差を出さないため共通
+  return "I";
+}
+// 案内役の性別に応じて、定例文の語尾を機械的に少しだけ調整する(簡易な言い回し変換)。
+// 全セリフを男女別に書き分ける代わりに、女性寄りの基本文面に対して、男性の場合だけ軽く変換をかける。
+// 英語は元々性別で言い回しを分けていないため対象外。
+function applyGuideVoice(text, gender, region) {
+  if (region === "en" || gender !== "男性" || !text) return text;
+  return text
+    .replace(/あたし/g, "僕")
+    .replace(/だよね/g, "だよな")
+    .replace(/かもね/g, "かもな")
+    .replace(/だよ(?!な)/g, "だぜ")
+    .replace(/してごらん/g, "してみろよ")
+    .replace(/してみたらどうかな/g, "してみたらどうだ")
+    .replace(/してみたら\?/g, "してみたらどうだ?");
+}
+// 役職名の英語表記(案内役のセリフ・用語集で使う)
+const ROLE_EN = { "占い師": "Seer", "霊媒師": "Medium", "狩人": "Hunter", "共有者": "Mason", "村人": "Villager", "ジョーカー": "Joker", "狂人": "the Possessed", "人狼": "Werewolf" };
+
+// 初心者モード・チュートリアルの定例文(AI生成ではなく固定テキスト)。
+// プレイヤーの実際の状況(誰が本当は何か等)には一切触れない、誰が読んでも同じ一般論だけを話す内容にする
+// (プレイヤー自身の役職の説明だけは例外的に本人の役職に触れるが、これは本人が最初から知っている情報なので問題ない)。
+function buildBeginnerTutorialText(stage, region, name, pronoun) {
+  if (region === "en") {
+    const P = [
+      `Oh, ${name}, this is your first time playing Werewolf, huh? Leave it to me! I've seen it all, I'll teach you everything!\nWerewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates. At the end of each day, everyone votes for who they think is a werewolf, and that person gets voted out.\nSo basically, the more information you gather from everyone before the day ends, the better your chances of finding the werewolf among these 11 people!\nGo ahead, say or do anything first — really, anything works. Not sure what to do? Maybe start with just saying hi?`,
+      `Nice, good job!! You're doing great.\nOkay, next let me explain the roles. Actually, everyone here has been secretly assigned some role. There are a bunch of role types, so explaining all of them would be a pain, so I'll skip that.\n...Oh wait, hold on. I don't know what ${name}'s role is, but I suddenly feel like explaining it anyway, so I will.`,
+      `Whoa, you might already know more about this game than I do! Okay, let me teach you some real strategy.\nLike I said, every day you have to find someone suspicious and vote them out. But on day one, there's barely any info and not much you can actually do!\nSo what can we do about that? Just like before — watch people carefully, and if something feels a little off, ask them about it directly.\nIf someone seems restless, or keeps glancing at others, or anything catches your eye, ask them why and watch how they react.`,
+      `Looks like you got a good reaction out of someone! Nice work!\nKeep it up — even a small gesture or action that seems unimportant might connect to something important later! ...Though most of the time it doesn't, honestly.\nAnyway, keep moving and keep digging for info!\nWhat, you don't know who to talk to anymore? In that case, open the side menu up top and check everyone's affinity toward you. A heart mark means they like you the most, so maybe start by playing along with what they say to get on their good side. Staying friendly with someone might mean they help you out later when you're in trouble.`,
+    ];
+    return P[stage];
+  }
+  const P = [
+    `あ、${name}は人狼ゲーム初めてだったね。まかしといて!百戦錬磨の${pronoun}が教えるよ!\n人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。一日の終わりに人狼と思う人に投票して数の暴力で処刑していくんだ。\nつまり日が暮れる前により多く情報を皆から集めて、この11人の中に潜む人狼をいかに探し当てるかがポイントだね!\nまずは何でもいいから、話すか行動してみて。本当に何でもいいよ。何をしていいか分からなかったら、まずはあいさつとかしてみたら?`,
+    `うんうん、良い感じ!やるじゃん。\nじゃあ次は役職の説明をしようかな。実は参加者には全員、なんらかの役職が与えられているんだ。役職の種類はたくさんあるから、ちょっと今説明するのはめんどくさいから割愛するね。\n……あ、でもちょっと待てよ。${name}の役職が何か知らないけど、急に説明がしたくなったから勝手にするね。`,
+    `すごいね!もう${pronoun}より人狼ゲームを知り尽くしてるかも!じゃあ、特別に基本戦略を教えちゃおっかな。\n前言ったように、毎日誰か怪しい人を探して投票しなきゃいけないんだけど、初日はとにかく情報が少ない!取れる行動もそんなにない!\nそんな中で${pronoun}たちに何ができるかっていうと、さっきみたいに注意深く周りを観察して、ちょっとでも気になることがあったら本人に直接質問をするしかないね。\n落ち着きがなかったりとか、顔色をうかがったりとか、何か気になることがあったら、その理由を聞いて反応を見てったらいいよ。`,
+    `上手いこと反応を引き出せたみたいだね!その調子!細かいことかもしれないけど、一見大した事無さそうな行動やしぐさの一つ一つが重要な真実につながってる可能性があるよ!まあ、大体の場合は繋がってないけどね。\nさあ、どんどん動いて情報を引き出そう!\nえ?もうこれ以上誰にどう話していいか分からないって?そんな時は左上のサイドメニューを開いて、各キャラクターの好感度を見てごらん。ハートマークが最高に君のことを好きって事だから、まずはその人の言葉に適当に乗っかってご機嫌を取ってみたらどうかな。仲良くなっとけば、ピンチになった時に助けてくれるかも?`,
+  ];
+  return P[stage];
 }
 
-// 初心者モード・チュートリアルの定例文(AI生成ではなく固定テキスト。トーン×地域だけで分岐する)。
-// プレイヤーの実際の役職・状況には一切触れない、誰が読んでも同じ一般論だけを話す内容にする。
-function buildBeginnerTutorialText(stage, tone, region, name, pronoun) {
-  if (region === "en") {
-    const P = {
-      0: {
-        quiet: `Oh... ${name}, first time playing Werewolf. ...I'll teach you.\nBasically, everyone talks it out to find the "werewolves" hiding among the classmates. There are special roles too, but don't worry about that yet.\nYou just talk or act, and try to catch people's lies.\nGo ahead, say or do anything. Anything's fine.`,
-        normal: `Oh, ${name}, this is your first time playing Werewolf, right? I'll teach you!\nFirst, let's go over the basics. Werewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates. There are special roles like Seer, Medium, and Hunter too, but for now just know there's a "Village team" and a "Werewolf team".\nBasically, you talk and act to expose everyone's lies.\nGo ahead and say or do anything first — really, anything works.`,
-        hyper: `Whoa, ${name}, first time playing Werewolf!? Okay, I'll teach you everything!!\nSo here's the basics! Werewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates! There are special roles like Seer and Medium too, but for now just remember "Village team vs Werewolf team"!\nBasically you talk and act to expose everyone's lies!\nGo on, say or do literally anything! Anything works!`,
-      },
-      1: {
-        quiet: `...Not bad. Next, the roles.\nSeer checks one person each night. Medium learns if an executed person was a werewolf. Hunter can protect one person each night. Masons are a pair who know they're not werewolves. Joker inherits the ability of Seer, Medium, or Hunter if one of them dies. Then there's regular Villagers, and on the werewolf side there's Werewolves and the Possessed/Madman.\nThink about your next move with that in mind, or join the conversation.`,
-        normal: `Good, nice! Next I'll explain the roles.\nSeer checks one person each night to see if they're a werewolf. Medium learns whether an executed person was a werewolf. Hunter can protect one person each night from the werewolves. Masons are a pair who both know the other isn't a werewolf. Joker can inherit the ability of the Seer, Medium, or Hunter if one of them dies. Then there's regular Villagers, and on the werewolf side there's Werewolves and the Possessed (Madman).\nWith that in mind, maybe think about your next move, or jump into everyone's conversation!`,
-        hyper: `Ooh, nice one!! Okay, role time!!\nSeer checks someone every night and finds out if they're a werewolf! Medium finds out if an executed person was a werewolf! Hunter protects one person a night from werewolf attacks! Masons are a pair who both know for sure the other isn't a werewolf! Joker can inherit the Seer, Medium, or Hunter's power if one of them dies! And then regular Villagers, plus Werewolves and the Possessed on the wolf side!\nWith all that, maybe plan your next move or hop into the conversation!`,
-      },
-      2: {
-        quiet: `...You might know more than ${pronoun} do by now. Okay, strategy too.\nMight be tough on day one, but there's "CO". CO means a role-holder — Seer, Medium, Hunter, whoever — declares their role out loud.\nThe upside: if one person's CO goes unchallenged on day one, they're basically treated as "confirmed innocent".`,
-        normal: `Wow, you might already know more about Werewolf than ${pronoun} do! Okay, let me teach you some basic strategy.\nIt might be tricky on day one, but there's something called "CO". CO means a role-holder — like a Seer, Medium, or Hunter — comes forward and declares their role.\nThe big upside is that if someone's solo CO goes unchallenged on day one, they get treated as basically "confirmed innocent".`,
-        hyper: `Whoa, you might already know more than ${pronoun} do!! Amazing! Okay, let me teach you some strategy!!\nDay one's a bit tricky, but there's "CO"! CO is when a role-holder — Seer, Medium, Hunter, whoever — steps up and says "this is my role"!\nThe best part? If someone's the only one claiming a role on day one and nobody challenges it, they basically get treated as "confirmed innocent"! Pretty great, right!`,
-      },
-    };
-    return P[stage][tone];
-  }
-  const P = {
-    0: {
-      quiet: `あ…${name}、人狼ゲーム初めてなんだ。…${pronoun}が教える。\n簡単に言うと、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲーム。役職も色々あるけど、今は気にしなくていい。\n基本は、話したり行動したりして、みんなの嘘を見抜いていく。\nとりあえず何でもいいから、話すか行動してみて。`,
-      normal: `あ、${name}は人狼ゲーム初めてだったね。${pronoun}が教えるよ!\nまず、基本ルールと役職のおさらいをするね。人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。占い師や霊媒師、狩人みたいな特別な役職もあるけど、今はざっくり「村人チーム」と「人狼チーム」に分かれてる、ってことだけ分かってればOK。\n基本的には、話したり行動したりして、皆のウソを暴いていくゲームだよ。\nまずは何でもいいから、話すか行動してみて。何でもいいよ。`,
-      hyper: `わっ、${name}人狼ゲーム初めてなんだ!?よし、${pronoun}が教えちゃう!!\nまず基本ルールね!人狼ゲームは、クラスの中に紛れ込んだ「人狼」を、みんなでワイワイ話し合って見つけ出すゲームなの!占い師とか霊媒師とか特別な役職もあるけど、今はとりあえず「村人チーム vs 人狼チーム」ってことだけ分かってればOK!\n基本は喋ったり行動したりして、みんなのウソを暴いていく感じ!\nとりあえず何でもいいから話すか行動してみて!ほんとに何でもいいから!`,
-    },
-    1: {
-      quiet: `…悪くない感じ。次、役職の説明する。\n占い師は夜に1人占える。霊媒師は処刑された人の正体が分かる。狩人は1人を守れる。共有者は2人一組でお互い人狼じゃないって分かってる。ジョーカーはその3つの役職の誰かが死んだら力を引き継げる。あとは村人と、人狼側の人狼・狂人。\nそれ踏まえて、次どうするか考えてみて。`,
-      normal: `うんうん、良い感じ!次は役職の説明をするね。\n占い師は毎晩1人を占って、人狼かどうか分かる役職。霊媒師は、処刑された人が人狼だったかどうか分かる役職。狩人は毎晩1人を人狼の襲撃から守れる役職。共有者は2人1組で、お互いが人狼じゃないって分かってる役職。ジョーカーは、占い師・霊媒師・狩人の誰かが死ぬと、その力を引き継げる役職。あとは村人と、人狼陣営の人狼・狂人がいるよ。\nそれを踏まえて、次の行動を考えたり、みんなの会話に参加してもいいかもね!`,
-      hyper: `おおー、いい感じじゃん!!次、役職の説明しちゃうね!\n占い師は毎晩1人を占えて人狼かどうか分かる役職!霊媒師は処刑された人が人狼だったか分かる役職!狩人は毎晩1人を人狼の襲撃から守れる役職!共有者は2人1組でお互い人狼じゃないって最初から分かってる役職!ジョーカーは占い師・霊媒師・狩人の誰かが死んだらその力を引き継げるの!あとは普通の村人と、人狼陣営の人狼・狂人がいるよ!\nこれ踏まえて、次の行動考えたり、みんなの会話に混ざってみるのもいいかも!`,
-    },
-    2: {
-      quiet: `…もう${pronoun}より詳しいかもね。じゃあ、戦略も教える。\n初日は難しいかもしれないけど…「CO」ってのがある。CO(カミングアウト)は、占い師とか霊媒師とか、役職持ちが「自分はこの役職」って名乗ること。\n利点は、初日に1人だけでCOが通れば、その人はほぼ「確定白」扱いになること。`,
-      normal: `すごいね!もう${pronoun}より人狼ゲームを知り尽くしてるかも!じゃあ、特別に基本戦略を教えちゃおっかな。\n初日だと難しいかもしれないけど、「CO」っていうのがあるよ。CO(カミングアウト)っていうのは、占い師とか霊媒師とか狩人とか、役職を持ってる人が「自分はこの役職です」って名乗り出ることだよ。\nこの利点は何といっても、初日に単独でCOが成功したら、その人はほぼ「確定白」(人狼じゃないってほぼ確実)として扱われることだね。`,
-      hyper: `えっ、もう${pronoun}より人狼ゲーム詳しいんじゃない!?すごすぎ!じゃあ特別に基本戦略、教えちゃう!!\n初日だとちょっと難しいかもだけど、「CO」ってのがあるよ!CO(カミングアウト)は、占い師とか霊媒師とか役職持ちの人が「自分はこの役職です!」って名乗り出ること!\nこの利点はね、初日に1人だけでCOが成功したら、その人はほぼ「確定白」(人狼じゃないほぼ確実)って扱いになれること!すごいでしょ!`,
-    },
-  };
-  return P[stage][tone];
-}
+// Stage1で、プレイヤー自身の役職を案内役が(勝手に)説明する部分。本人が最初から知っている情報なので問題ない。
+const ROLE_INTRO_JA = {
+  "占い師": "占い師は~毎晩1人を占って、その人が人狼かどうかが分かる役職だよ~。基本の戦略としては、占いができる2日目からカミングアウトするのが良いよ。",
+  "霊媒師": "霊媒師は~処刑された人が人狼だったかどうか、次の日に分かる役職だよ~。結果は嘘をつかない限り絶対に正しいから、信頼されやすいのが強みだね。",
+  "狩人": "狩人は~毎晩1人を選んで、人狼の襲撃から守れる役職だよ~。誰を守ったかは基本、秘密にしておくものだよ。",
+  "共有者": "共有者は~2人1組で、お互いが人狼じゃないって分かっている役職だよ~。相方との密談で情報をすり合わせられるのが強みだね。",
+  "村人": "村人は~特別な能力を持たない役職だよ~。でも、みんなの発言をよく覚えて矛盾を見つけるのが、村人の一番の武器になるよ。",
+  "ジョーカー": "ジョーカーは~占い師・霊媒師・狩人の誰かが死んだ時に、その力を1回だけ引き継げる役職だよ~。今はまだその力は使えないみたいだね。",
+  "狂人": "狂人は~人狼の仲間だけど、人狼そのものではない役職だよ~。人狼陣営が勝てば、自分も勝ちになるんだ。",
+  "人狼": "人狼は~夜にみんなで1人を選んで襲う役職だよ~。正体がバレないように、村人のふりをして立ち回るのがポイントだね。",
+};
+const ROLE_INTRO_EN = {
+  "占い師": `As a Seer, every night you can check one person and find out if they're a werewolf. Basic strategy: it's usually good to come out publicly starting day two, once you actually have a result to share.`,
+  "霊媒師": `As a Medium, you find out the next day whether the person who was executed was a werewolf. The result is always true unless you lie about it yourself, so people tend to trust it a lot.`,
+  "狩人": `As a Hunter, every night you can protect one person from a werewolf attack. It's usually best to keep who you're protecting a secret.`,
+  "共有者": `As a Mason, you're paired with one other person, and you both already know for sure the other isn't a werewolf. Comparing notes in your private chat is a big strength.`,
+  "村人": `As a Villager, you don't have a special power. But remembering everything everyone says and catching contradictions is your best weapon.`,
+  "ジョーカー": `As the Joker, if the Seer, Medium, or Hunter dies, you can inherit their power — but only use it once. Looks like you can't use it yet.`,
+  "狂人": `As the Possessed, you're on the werewolves' side, but you're not a werewolf yourself. If the werewolf team wins, you win too.`,
+  "人狼": `As a Werewolf, every night you and the others pick one person to attack together. The key is blending in and acting like a villager so nobody catches on.`,
+};
+
+// 決選投票まわりの定例文
+const DEFENSE_MSG = {
+  bystanderIntroJa: (names) => `さあさあ!決選投票だ!票が多かった${names}を対象に、改めて誰が怪しいか投票するよ!${names.length > 1 ? "みんな" : ""}の言い分をしっかり聞こう。`,
+  bystanderIntroEn: (names) => `Alright, runoff vote time! We're voting again, focused on ${names}, since they got the most votes. Let's listen closely to what they have to say.`,
+  candidateIntroJa: () => `あちゃー、選ばれちゃったかー!こうなったら弁明するしかない!命乞い、自分の役職をばらす、誤解を解く、相手を下げる発言をする……何でもいい。生き残るために惨めったらしくあらゆる手段を使うんだ。もちろん、何も言わず決選投票に行っても良いぞ。`,
+  candidateIntroEn: () => `Uh oh, you got picked! Time to make your case. Beg for your life, reveal your role, clear up a misunderstanding, throw shade at someone else — anything goes. Use every trick you've got to survive. Or you can just skip it and go straight to the vote, that's fine too.`,
+  bystanderPromptJa: () => "ここまでの弁明を聞いてどう思った?気になる人から何か質問してみよう!何も聞くことなかったら、ここまでの感想とかでもいいよ。",
+  bystanderPromptEn: () => "What did you think of their defense so far? Try asking whoever's bugging you a question! If nothing comes to mind, just sharing your impression works too.",
+  candidatePromptJa: (remaining) => `さあ、皆の反応に答えるんだ。ここでうまく返せるかが勝負の分かれ道だぞ!返答できるのは後${remaining}回だ。もう決選投票に行っても良いぞ。`,
+  candidatePromptEn: (remaining) => `Alright, respond to everyone's reactions. How well you answer here could decide everything! You've got ${remaining} more chances to respond. Or you can head straight to the vote if you want.`,
+  preVoteJa: () => "よし!すべてのピースは揃った!運命の一票を入れよう!",
+  preVoteEn: () => "Alright, all the pieces are on the table! Time to cast your fateful vote!",
+};
+
+// 夜フェーズ:プレイヤー自身の役職に応じた、案内役の一言(独り言という体裁)
+const NIGHT_FLAVOR_JA = {
+  "占い師": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃占い師は、この中の誰か1人を占って、人狼かどうかを見てるんだろうな!怪しい人を占うもよし、シロを確定させて仲間にしたい人を占うもよし、戦略次第で誰を占うかが変わってくるなー!一日に一回だから慎重に選ばないとなー!`,
+  "霊媒師": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃霊媒師は、今日処刑された人が人狼だったかどうかが見えてるんだろうな!明日の朝にサイドメニューを開いて結果を確認するといいよなあ!いいなー、僕(私)も結果が知りたいなー!`,
+  "狩人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!狩人は、ひたすら身を隠してきた苦労が今報われるなー!誰を守るか考えどころだけど、やっぱり占い師とかの役職者っぽい人を守るのが定石なんだよなー。`,
+  "共有者": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃共有者は、相方とひそひそ話に花を咲かせてるんだろうなー!一見地味な役職に見えるけど、相方との密談が後で重要なヒントになったり、次の行動を相談し合えたりするから、使いこなせばなかなか面白いんだよなー。でも3回しか話せないから気をつけないとなー!`,
+  "村人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!今色々な所でいろいろなイベントが繰り広げられているけど、村人は蚊帳の外なんだよなー。ただ寝るしかやることないんだよなー。`,
+  "ジョーカー": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!もし誰かが今ジョーカーの能力に目覚めたとしたら、それは役職者が死んだってことなんだよなー。ジョーカーは一回だけ死んだ役職者の能力を引き継げるけど、一回しか使えないから使いどころを慎重に考えないとなー。この村で唯一、役職者が死んだことに気づける存在だから貴重だけど、寝返る可能性があるからどちらからも味方と思ってもらえないんだよなー。能力を公表しようと思ったら、嫌われるの覚悟でカミングアウトしないといけないから、タイミングが難しいんだよなー。`,
+  "狂人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃狂人は、洗脳されてる相方とひそひそ話に花を咲かせてるんだろうなー!一見地味な役職に見えるけど、相方との密談が後で重要なヒントになったり、次の行動を相談し合えたりするから、使いこなせばなかなか面白いんだよなー。でも3回しか話せないから気をつけないとなー!`,
+  "人狼": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃人狼は、相方と誰を襲うか相談してるんだろうなー!占い師とかの役職者を襲うのが良さそうに見えるけど、そういう重要な役職は狩人が守ってる可能性があるから、あえて外して全然関係ない人を襲う場合もあるんだよなー。気をつけなきゃなー。`,
+};
+const NIGHT_FLAVOR_EN = {
+  "占い師": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! Right about now, the Seer's probably checking someone to see if they're a werewolf! Could go after someone suspicious, or clear someone they want as a trusted ally — depends on the strategy! Only once a night, so better choose carefully!"`,
+  "霊媒師": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! Right about now, the Medium's probably finding out whether today's executed person was a werewolf! Check the side menu tomorrow morning for the result! Man, I kinda want to know too!"`,
+  "狩人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! All that hiding the Hunter's been doing is finally paying off! The question is who to protect — usually it's smart to guard whoever seems like a role-holder, like the Seer."`,
+  "共有者": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! The Masons are probably having a nice little chat right about now! Looks like a plain role at first, but comparing notes with your partner can turn into a huge hint later, or you can plan your next move together. Fun once you get the hang of it! Just remember, only 3 messages though!"`,
+  "村人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! All sorts of stuff is happening all over right now, but Villagers are stuck on the sidelines. Nothing to do but sleep, really."`,
+  "ジョーカー": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! If someone's Joker power just woke up, that means a role-holder just died. The Joker can inherit a dead role-holder's power, but only once — gotta pick the right moment. They're the only one in this village who can even tell a role-holder died, which makes them valuable, but since they could've switched sides, nobody fully trusts them either. Coming out with the power means risking getting hated, so the timing's tricky."`,
+  "狂人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! The Possessed is probably having a nice little chat with their brainwashed partner right about now! Looks like a plain role at first, but that private chat can turn into a huge hint later, or you can plan your next move together. Fun once you get the hang of it! Just remember, only 3 messages though!"`,
+  "人狼": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! The werewolves are probably discussing who to attack right about now! Going after a role-holder like the Seer seems smart, but the Hunter might be guarding them — so sometimes it's better to go after someone totally unrelated instead. Gotta be careful."`,
+};
+
+// 2日目以降の朝の定例文(共通オープニング + 役職別アドバイス)
+const MORNING_OPEN_JA = { 2: "さあ、2日目の朝だね。まずはお互い生き残れたことを称え合おう!ここからどう動くかだけど……", 3: "3日目の朝だよ。攻めのポイント:そろそろ「確定白」「確定黒」の情報も出揃ってくる頃。COしてる人同士で話が食い違ってないか、投票の時に誰が誰を庇ってたか、思い出してみるといいよ。", 4: "終盤戦だね。攻めのポイント:残り人数が少なくなってきたから、ここからは1票の重みが大きいよ。今まで的中してきた人の意見は少し信用してもいいかも。逆に、ずっと当たらなかった人の意見は割り引いて聞くのもアリ。" };
+const MORNING_OPEN_EN = { 2: "Morning of day two! First, let's celebrate that we both made it through the night. Now, about what to do from here...", 3: "Morning of day three. Key point: this is around when 'confirmed innocent' and 'confirmed guilty' info starts piling up. Worth remembering whether the people who claimed roles are contradicting each other, and who defended who during votes.", 4: "We're in the endgame now. Key point: fewer people left means each vote carries more weight. It might be worth trusting people whose reads have been right so far a bit more — and discounting the ones who've been wrong the whole game." };
+
+const MORNING_ADVICE_JA = {
+  2: {
+    "占い師": "そろそろカミングアウトを考えるタイミングかも。黙ってると信頼を得にくいけど、名乗ると人狼に狙われやすくなるから、そこは覚悟して決めてね。",
+    "霊媒師": "初日に処刑された人がいるなら、もう結果が出てるはずだよ。信頼を得るために、そろそろ公表を考えてもいいかもね。",
+    "狩人": "誰を守るか、そろそろ本命を決めてみたら?占い師とか、名乗り出た役職者を優先的に守るのが定石だよ。",
+    "共有者": "相方との密談で、教室で見聞きしたことをすり合わせておくといいよ。2人の視点を合わせると気づくことも多いから。",
+    "村人": "まだ目立った動きはできないけど、みんなの発言を覚えておくのが一番の武器。誰が誰を庇ったか、そろそろメモしておくといいかも。",
+    "ジョーカー": "まだ能力は使えないけど、誰かが死んだ時のために心構えはしておいてね。",
+    "狂人": "自分が人狼だと思われないよう、村人らしく振る舞おう。対抗COも有効な手だよ。",
+    "人狼": "そろそろ疑われ始める頃かも。仲間を守りつつ、村人のふりを続けよう。",
+  },
+  3: {
+    "占い師": "もうCOしてるなら、結果を淡々と積み重ねていこう。まだなら、そろそろ名乗るかどうか本気で考えるタイミングだよ。",
+    "霊媒師": "結果が2日分たまってきたはず。信頼してもらうために、そろそろ公表を考えてもいいかもね。",
+    "狩人": "誰かが襲撃で亡くなったなら、その人を守れなかったってこと。次は誰を守るべきか、傾向を考え直してみて。",
+    "共有者": "他の役職者のCOと、自分たちの持ってる情報がかみ合うか、密談で確認しておくといいよ。",
+    "村人": "COしてる人同士の言い分が食い違ってないか、よく思い出してみて。矛盾を見つけるのが村人の得意技だよ。",
+    "ジョーカー": "もし能力を継承してたら、そろそろ使いどころを考えてもいい頃かも。",
+    "狂人": "そろそろ村人からの疑いが強まる頃。他の人に疑いを逸らす動きも考えてみて。",
+    "人狼": "仲間が疑われ始めてたら、庇うタイミングを慎重に見極めよう。庇いすぎると自分も疑われるよ。",
+  },
+  4: {
+    "占い師": "残り人数が少ないから、あなたの結果1つで結果が大きく動くよ。落ち着いて、これまでの結果を振り返ってみて。",
+    "霊媒師": "終盤は特に、あなたの結果が最後の決め手になりやすい。今までの結果と矛盾がないか確認してみて。",
+    "狩人": "残り少ない中で誰を守るかは超重要。一番怪しまれてなさそうな役職者を守るのも手だよ。",
+    "共有者": "終盤は相方との連携が生死を分けるかも。密談で最終的な方針をすり合わせておこう。",
+    "村人": "終盤の1票はすごく重い。これまでの発言の矛盾を思い出して、自信を持って投票してみて。",
+    "ジョーカー": "能力がまだ残ってるなら、ここが使いどころかもしれないよ。",
+    "狂人": "残り少ない中で人狼を守り切れるかが勝負。怪しまれてる人狼から目を逸らす発言も考えてみて。",
+    "人狼": "終盤は数の勝負。あと何人減らせば人狼陣営が勝てるか、頭の中で数えておこう。",
+  },
+};
+const MORNING_ADVICE_EN = {
+  2: {
+    "占い師": "Might be time to think about coming out. Staying quiet makes it hard to build trust, but claiming makes you a bigger target for the werewolves — go in with your eyes open.",
+    "霊媒師": "If someone was executed on day one, you should have a result by now. Worth thinking about revealing it to build some trust.",
+    "狩人": "Might be time to settle on who to protect. Guarding whoever's claimed a role, like the Seer, is usually the safe bet.",
+    "共有者": "Worth comparing notes with your partner in your private chat about what you each saw in class. Two perspectives together often catch things one alone would miss.",
+    "村人": "Can't do much flashy yet, but remembering what everyone said is your best weapon. Might be worth noting who defended who.",
+    "ジョーカー": "Can't use your power yet, but stay ready in case someone dies.",
+    "狂人": "Act like a normal villager so nobody suspects you're on the wolves' side. A counter-claim can also be a useful move.",
+    "人狼": "People might start suspecting you soon. Keep protecting your partner while still acting the part of a villager.",
+  },
+  3: {
+    "占い師": "If you've already claimed, just keep stacking up results calmly. If not, this is the time to seriously consider coming out.",
+    "霊媒師": "You should have two days' worth of results by now. Might be worth revealing them to earn some trust.",
+    "狩人": "If someone got attacked, that means your last guard didn't work out. Worth rethinking who to protect next.",
+    "共有者": "Check with your partner in your private chat whether other people's claims line up with what you two already know.",
+    "村人": "Think back on whether the people who've claimed roles are contradicting each other. Catching contradictions is a Villager's specialty.",
+    "ジョーカー": "If you've inherited a power, this might be a good time to start thinking about when to use it.",
+    "狂人": "Suspicion from the villagers is probably ramping up. Think about ways to redirect it elsewhere.",
+    "人狼": "If your partner's getting suspected, carefully pick your moment to back them up — defending too hard makes you look suspicious too.",
+  },
+  4: {
+    "占い師": "With so few people left, one result from you can swing everything. Stay calm and look back over your past results.",
+    "霊媒師": "This late in the game, your result is often the deciding factor. Double-check it doesn't contradict what you've said before.",
+    "狩人": "Who you protect matters a ton this late. Guarding whoever looks least suspicious as a role-holder can be a smart move.",
+    "共有者": "Coordination with your partner can make or break things now. Nail down your final plan together in your private chat.",
+    "村人": "Every vote counts a lot right now. Recall the contradictions from earlier and vote with confidence.",
+    "ジョーカー": "If you've still got your power left, this might be the moment to use it.",
+    "狂人": "It's all about protecting the werewolves through to the end now. Think about ways to draw attention away from whoever's under suspicion.",
+    "人狼": "It's a numbers game in the endgame. Keep count of how many more votes the werewolf side needs to win.",
+  },
+};
 
 // 初心者モード用の用語集(テンプレート・一般的な人狼ゲーム用語)。
 // 会話中にこれらの単語(terms)が出てきたら、案内役が一度だけ(1用語1回)解説を挟む。
@@ -552,6 +666,8 @@ export default function JinroGame() {
   const [guideNpcName, setGuideNpcName] = useState(null); // 初心者モードの案内役NPC名(死亡したらこの役割も自然に終わる。特別扱いはしない)
   const [beginnerStageShown, setBeginnerStageShown] = useState(null); // 初心者チュートリアルの進行段階(0=ルール説明済み、1=役職説明済み、2=戦略説明済み、null=初心者モードでない)
   const [beginnerCoExplained, setBeginnerCoExplained] = useState(false); // 「CO」という用語の解説を、初心者モード中に一度だけ挟んだかどうか
+  const [beginnerNightFlavorDay, setBeginnerNightFlavorDay] = useState(null); // 夜の一言(役職別)を、何日目の夜まで出したか
+  const [beginnerMorningAdviceDay, setBeginnerMorningAdviceDay] = useState(null); // 朝のアドバイス(役職別)を、何日目の朝まで出したか
   const [exchangeStudents, setExchangeStudents] = useState([]); // 今回のゲームで「留学生」扱いになっている分身NPCの名前一覧(元の地域と今回の地域が違う場合)
   const [nameInput, setNameInput] = useState("");
   const [voteRound1Tally, setVoteRound1Tally] = useState(null);
@@ -897,6 +1013,8 @@ export default function JinroGame() {
   const [chatMode, setChatMode] = useState("class"); // "class"(教室) | "ally"(仲間との密談)
   const [defenseCandidates, setDefenseCandidates] = useState([]);
   const [defenseReacted, setDefenseReacted] = useState(false); // 弁明タイムに1回だけリアクションできる機会を使ったか
+  const [defenseStatementCount, setDefenseStatementCount] = useState(0); // プレイヤーが決選投票候補の時、自分の弁明を何回言ったか(上限3回)
+  const [allyChatCount, setAllyChatCount] = useState(0); // その夜、密談で何回発言したか(上限3回)
   const [defenseLoading, setDefenseLoading] = useState(false); // 弁明タイムのセリフ生成中かどうか
   const [voteTarget, setVoteTarget] = useState(null);
 
@@ -908,7 +1026,7 @@ export default function JinroGame() {
       voteRound1Tally, defenseCandidates, voteTarget, nightTarget,
       privateInfo, confirmedWhite, confirmedBlack, winner, jokerState,
       wolfActionsToday, userName, userGender, npcSeerLog, npcMediumLog, mediumRevealedName, executionHistory, npcJokerState, excludedSuspects, npcGuardLog, roleGuesses, npcAffinity, madmanDelusions, roleClaims,
-      pendingMajorityWin, defenseReacted, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerCoExplained,
+      pendingMajorityWin, defenseReacted, defenseStatementCount, allyChatCount, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerCoExplained, beginnerNightFlavorDay, beginnerMorningAdviceDay,
     };
     (async () => {
       try {
@@ -970,7 +1088,11 @@ export default function JinroGame() {
       setExchangeStudents(s.exchangeStudents || []);
       setBeginnerStageShown(typeof s.beginnerStageShown === "number" ? s.beginnerStageShown : (s.beginnerMode ? 0 : null));
       setBeginnerCoExplained(!!s.beginnerCoExplained);
+      setBeginnerNightFlavorDay(typeof s.beginnerNightFlavorDay === "number" ? s.beginnerNightFlavorDay : null);
+      setBeginnerMorningAdviceDay(typeof s.beginnerMorningAdviceDay === "number" ? s.beginnerMorningAdviceDay : null);
       setDefenseReacted(!!s.defenseReacted);
+      setDefenseStatementCount(s.defenseStatementCount || 0);
+      setAllyChatCount(s.allyChatCount || 0);
       setPlayerSeerLog(s.playerSeerLog || []);
       setPlayerMediumLog(s.playerMediumLog || []);
       setDayDigests(s.dayDigests || []);
@@ -1647,13 +1769,14 @@ JSON形式のみ: {"summary":"要約文"}`;
     // (プレイヤーの役職等に触れない一般論とはいえ、AIの生成する会話を汚染しないようにするため)。
     if (beginnerMode && chosenGuideName) {
       const guideP = chosen.find((p) => p.name === chosenGuideName);
-      const tone = classifyGuideTone(guideP?.personality);
       const pronoun = region === "en" ? guidePronounEn() : guidePronounJa(guideP?.gender);
-      introLog.push({ type: "npc", speaker: chosenGuideName, text: buildBeginnerTutorialText(0, tone, region, finalName, pronoun), secret: true });
+      introLog.push({ type: "npc", speaker: chosenGuideName, text: applyGuideVoice(buildBeginnerTutorialText(0, region, finalName, pronoun), guideP?.gender, region), secret: true });
     }
 
     setBeginnerStageShown(beginnerMode ? 0 : null);
     setBeginnerCoExplained(false);
+    setBeginnerNightFlavorDay(null);
+    setBeginnerMorningAdviceDay(null);
     glossaryScannedLenRef.current = 0;
     explainedGlossaryTermsRef.current = new Set();
 
@@ -1987,7 +2110,7 @@ ${(() => { const q = getQuietNPCsToday(npcs); return q.length > 0 ? `**発言回
 
   async function sendAllyMessage() {
     const msg = input.trim();
-    if (!msg || busy) return;
+    if (!msg || busy || allyChatCount >= 3) return;
     const me = getUser();
     const partnerInfo = getAllyPartner();
     if (!partnerInfo) {
@@ -2021,13 +2144,34 @@ JSON形式のみ: {"text":"セリフ"}`;
       addLog([{ type: "ally", speaker: ally.name, text: parsed?.text || "……そうだな。" }]);
     } catch (e) {
       addLog([{ type: "system", text: "通信エラー" }]);
+      setBusy(false);
+      return; // 通信エラー時は回数を消費しない
+    }
+    const nextAllyCount = allyChatCount + 1;
+    setAllyChatCount(nextAllyCount);
+    if (nextAllyCount >= 3) {
+      addLog([{ type: "system", text: "密談はここまでです。夜が明けます。" }]);
+      setBusy(false);
+      await resolveNight();
+      return;
     }
     setBusy(false);
   }
 
   // ---------------- プレイヤー自身が決選投票候補の場合の弁明発言 ----------------
+  // 決選投票フェーズへ移行する共通処理(初心者モードなら、投票前に案内役が一言添える)
+  function enterVoteFinalPhase() {
+    if (beginnerMode && guideNpcName) {
+      const guide = players.find((p) => p.name === guideNpcName);
+      if (guide && guide.alive) {
+        addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(region === "en" ? DEFENSE_MSG.preVoteEn() : DEFENSE_MSG.preVoteJa(), guide.gender, region), secret: true }]);
+      }
+    }
+    setPhase("vote_final");
+  }
+
   async function sendDefenseStatement() {
-    if (!input.trim() || busy) return;
+    if (!input.trim() || busy || defenseStatementCount >= 3) return;
     const msg = input.trim();
     setInput("");
     if (inputRef.current) inputRef.current.style.height = "auto";
@@ -2066,6 +2210,14 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityC
       if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
     } catch (e) {
       addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"})` }]);
+      setBusy(false);
+      return; // 通信エラー時は回数を消費しない(もう一度送信できるようにする)
+    }
+    const nextCount = defenseStatementCount + 1;
+    setDefenseStatementCount(nextCount);
+    if (nextCount >= 3) {
+      addLog([{ type: "system", text: "弁明はここまでです。決選投票へ進みます。" }]);
+      enterVoteFinalPhase();
     }
     setBusy(false);
   }
@@ -2143,6 +2295,17 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityC
       return;
     }
     setPhase("vote_round1");
+    // 初心者モード1日目、初めての投票に入る直前の定例文(チュートリアルの最終段階)
+    if (beginnerMode && day === 1 && beginnerStageShown !== null && beginnerStageShown < 3 && guideNpcName) {
+      const guide = players.find((p) => p.name === guideNpcName);
+      if (guide && guide.alive) {
+        const text = region === "en"
+          ? `Whoa, you might already be a Werewolf pro at this point! Alright, voting time! Put everything you've gathered so far into that vote!`
+          : `さすが!!いいね!いいね!もう人狼上級者と言っても過言ではないかもね。さあそろそろ投票の時間だ!今まで集めた情報を元に、導き出した答えを投票に込めるんだ!!よく分からなかったら、自分への好感度が低そうな人に投票してみても良いかもね。`;
+        addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+        setBeginnerStageShown(3);
+      }
+    }
     setTurnLabel(6);
   }
 
@@ -2305,22 +2468,51 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
       addLog([{ type: "system", text: `【1回目投票結果】${Object.entries(tally).map(([k, v]) => `${k}:${v}票`).join(" / ")}` }]);
 
       const sorted = Object.entries(tally).sort((a, b) => b[1] - a[1]);
-      const top2 = [sorted[0][0]];
-      // 2位タイの処理
-      const secondScore = sorted[1]?.[1];
-      const tiedForSecond = sorted.filter(([, v], i) => i > 0 && v === secondScore).map(([n]) => n);
-      if (tiedForSecond.length > 0) {
-        top2.push(pickRandom(tiedForSecond));
+      // 決選投票の対象を選ぶ:1位の人(複数いれば全員)、1位が1人だけなら2位タイの人も全員含める。
+      // 「2位が3人以上に割れていた場合、ランダムに1人だけ選んで残りを切り捨てる」ということはしない
+      // (票を入れたNPC・プレイヤーの意思を尊重し、同着なら全員を決選投票に進める)。
+      const topScore = sorted[0][1];
+      const topTied = sorted.filter(([, v]) => v === topScore).map(([n]) => n);
+      let finalists;
+      if (topTied.length >= 2) {
+        finalists = topTied; // 1位が複数人で並んでいる時点で、その全員が決選投票の対象
+      } else {
+        const secondEntry = sorted.find(([, v]) => v < topScore);
+        const secondTied = secondEntry ? sorted.filter(([, v]) => v === secondEntry[1]).map(([n]) => n) : [];
+        finalists = [...topTied, ...secondTied]; // 1位1人 + 2位タイの全員
       }
-      setDefenseCandidates(top2);
+      setDefenseCandidates(finalists);
       setDefenseReacted(false);
-      const freshDelusions = updateMadmanDelusionsForDecisiveVote(top2, players);
+      setDefenseStatementCount(0);
+      const freshDelusions = updateMadmanDelusionsForDecisiveVote(finalists, players);
       setVoteRound1Tally(tally);
-      addLog([{ type: "system", text: `上位2名:${top2.join("さん・")}さんが決選投票に進みます。` }]);
+      addLog([{ type: "system", text: `上位${finalists.length}名:${finalists.join("さん・")}さんが決選投票に進みます。` }]);
       setPhase("defense");
+      // 初心者モード:決選投票に入った時の案内役コメント(自分が対象かどうかで内容を分ける)
+      if (beginnerMode && guideNpcName) {
+        const guide = players.find((p) => p.name === guideNpcName);
+        if (guide && guide.alive) {
+          const isCandidate = finalists.includes(userName);
+          const text = isCandidate
+            ? (region === "en" ? DEFENSE_MSG.candidateIntroEn() : DEFENSE_MSG.candidateIntroJa())
+            : (region === "en" ? DEFENSE_MSG.bystanderIntroEn(finalists.join(", ")) : DEFENSE_MSG.bystanderIntroJa(finalists.join("・")));
+          addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+        }
+      }
       setDefenseLoading(true);
-      await runDefensePhase(top2, freshDelusions);
+      await runDefensePhase(finalists, freshDelusions);
       setDefenseLoading(false);
+      // 初心者モード:弁明を聞いた後の案内役コメント(自分が対象かどうかで内容を分ける)
+      if (beginnerMode && guideNpcName) {
+        const guide = players.find((p) => p.name === guideNpcName);
+        if (guide && guide.alive) {
+          const isCandidate = finalists.includes(userName);
+          const text = isCandidate
+            ? (region === "en" ? DEFENSE_MSG.candidatePromptEn(3) : DEFENSE_MSG.candidatePromptJa(3))
+            : (region === "en" ? DEFENSE_MSG.bystanderPromptEn() : DEFENSE_MSG.bystanderPromptJa());
+          addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+        }
+      }
     } catch (e) {
       addLog([{ type: "system", text: "投票処理でエラーが発生しました。" }]);
     }
@@ -2428,14 +2620,14 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
 
     try {
       const npcVotes = await collectSplitVotes({
-        voteLabel: `決選投票。候補は${defenseCandidates.join("・")}の2名のみ。投票は全員同時に行われる(他の人が誰に入れたかを見てから決める、という順番はない)。${userIsAlive ? "プレイヤーも既に投票済みだが、その内容はまだ他の誰にも分からない。" : "プレイヤーは既に死亡しており投票権がない。"}`,
-        targetsHint: `targetは${defenseCandidates.join("か")}のどちらか(候補者本人は自分以外の候補に投票)。相性・遺恨も反映。`,
-        wolfExtraNote: "**重要**:村側の有力な情報源(CO済みの占い師・霊媒師・狩人・確定シロ等)が候補にいれば、そちらへ票を集める。自陣営(本物の人狼)が候補なら、もう一方の候補に票を入れて本物の人狼を守る。",
+        voteLabel: `決選投票。候補は${defenseCandidates.join("・")}の${defenseCandidates.length}名。投票は全員同時に行われる(他の人が誰に入れたかを見てから決める、という順番はない)。${userIsAlive ? "プレイヤーも既に投票済みだが、その内容はまだ他の誰にも分からない。" : "プレイヤーは既に死亡しており投票権がない。"}`,
+        targetsHint: `targetは${defenseCandidates.join("・")}のいずれか(候補者本人は自分以外の候補に投票)。相性・遺恨も反映。`,
+        wolfExtraNote: "**重要**:村側の有力な情報源(CO済みの占い師・霊媒師・狩人・確定シロ等)が候補にいれば、そちらへ票を集める。自陣営(本物の人狼)が候補なら、他の候補に票を入れて本物の人狼を守る。",
         maxTokens: 1600,
         transcriptText: getHistoryContext(),
         eligibleTargets: defenseCandidates,
       });
-      const tally = { [defenseCandidates[0]]: 0, [defenseCandidates[1]]: 0 };
+      const tally = Object.fromEntries(defenseCandidates.map((n) => [n, 0]));
       if (userIsAlive && typeof effectiveTarget === "string" && tally[effectiveTarget] !== undefined) tally[effectiveTarget]++;
       const lines = userIsAlive ? [{ type: "system", text: `${userName}: ${effectiveTarget} に投票` }] : [];
       const votedNpcNames2 = new Set();
@@ -2460,12 +2652,16 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
       addLog(lines);
       addLog([{ type: "system", text: `【決選投票結果】${defenseCandidates.map((c) => `${c}:${tally[c]}票`).join(" / ")}` }]);
 
+      // 最多得票が複数人で並んだ場合(2名の決選投票での同数はもちろん、3名以上でも起こり得る)は、
+      // その全員の中から完全ランダムで処刑者を決める(再決選投票にはしない)。
+      const maxVotes = Math.max(...defenseCandidates.map((c) => tally[c]));
+      const topVoted = defenseCandidates.filter((c) => tally[c] === maxVotes);
       let executed;
-      if (tally[defenseCandidates[0]] === tally[defenseCandidates[1]]) {
-        executed = pickRandom(defenseCandidates);
+      if (topVoted.length > 1) {
+        executed = pickRandom(topVoted);
         addLog([{ type: "system", text: `同数のため、抽選で${executed}さんの処刑が決まりました。` }]);
       } else {
-        executed = tally[defenseCandidates[0]] > tally[defenseCandidates[1]] ? defenseCandidates[0] : defenseCandidates[1];
+        executed = topVoted[0];
       }
 
       const execPlayer = players.find((p) => p.name === executed);
@@ -2546,6 +2742,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
       } else {
         setVoteTarget(null);
         setDefenseCandidates([]);
+        setAllyChatCount(0);
         setPhase("night");
         setTurnLabel(7);
         addLog([{ type: "system", text: "夜になりました。" }]);
@@ -3409,11 +3606,16 @@ ${guardLogText}
     const guide = players.find((p) => p.name === guideNpcName);
     if (!guide || !guide.alive) return; // 案内役が生存していない間は進めない(バトンタッチ後に再開する)
     const nextStage = beginnerStageShown + 1;
-    if (nextStage > 2) return; // 全段階が終わっている
+    if (nextStage > 2) return; // discussionTurns由来の段階(0,1,2)は出し切っている。3(投票直前)は別の場所で扱う
     if (discussionTurns < nextStage) return; // まだそのターン数に達していない
-    const tone = classifyGuideTone(guide.personality);
     const pronoun = region === "en" ? guidePronounEn() : guidePronounJa(guide.gender);
-    addLog([{ type: "npc", speaker: guideNpcName, text: buildBeginnerTutorialText(nextStage, tone, region, userName, pronoun), secret: true }]);
+    let text = buildBeginnerTutorialText(nextStage, region, userName, pronoun);
+    if (nextStage === 1) {
+      // Stage1の最後は「急に役職の説明がしたくなった」という流れなので、そのままプレイヤー自身の役職の説明を続ける
+      const roleIntro = (region === "en" ? ROLE_INTRO_EN : ROLE_INTRO_JA)[user.role];
+      if (roleIntro) text += "\n" + roleIntro;
+    }
+    addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
     setBeginnerStageShown(nextStage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [discussionTurns, beginnerMode, day, phase, busy, guideNpcName, beginnerStageShown, players]);
@@ -3424,18 +3626,49 @@ ${guardLogText}
     const guide = players.find((p) => p.name === guideNpcName);
     if (!guide || !guide.alive) return;
     if (Object.keys(roleClaims).length === 0) return; // まだ誰もCOしていない
-    const tone = classifyGuideTone(guide.personality);
     const text = region === "en"
-      ? (tone === "quiet" ? `...That "role claim" people are making? That's what I called "CO" earlier. Someone's declaring their role out loud.`
-        : tone === "hyper" ? `Oh hey, that's the "CO" I told you about!! Someone's stepping up and declaring their role out loud!`
-        : `Oh, that role claim just now — that's the "CO" I mentioned earlier. Someone's declaring their role out loud.`)
-      : (tone === "quiet" ? `…今の役職の名乗り、さっき言った「CO」ってやつ。誰かが自分の役職を宣言してる。`
-        : tone === "hyper" ? `あ、それ!さっき教えた「CO」ってやつだよ!誰かが自分の役職を名乗り出てるの!`
-        : `あ、今の役職の名乗り、さっき教えた「CO」ってやつだよ。誰かが自分の役職を宣言してるんだね。`);
-    addLog([{ type: "npc", speaker: guideNpcName, text, secret: true }]);
+      ? `Oh, that role claim just now — that's the "CO" I mentioned earlier. Someone's declaring their role out loud.`
+      : `あ、今の役職の名乗り、さっき教えた「CO」ってやつだよ。誰かが自分の役職を宣言してるんだね。`;
+    addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
     setBeginnerCoExplained(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roleClaims, beginnerMode, beginnerCoExplained, guideNpcName, busy, players]);
+
+  // 初心者モード:夜になったら、プレイヤー自身の役職に応じた一言を案内役が挟む(1晩につき1回)
+  useEffect(() => {
+    if (!beginnerMode || phase !== "night" || busy) return;
+    if (!guideNpcName || beginnerNightFlavorDay === day) return;
+    const guide = players.find((p) => p.name === guideNpcName);
+    if (!guide || !guide.alive) return;
+    const me = getUser();
+    if (!me) return;
+    // ジョーカーは、実際に能力に目覚めた(継承した)時だけ発生させる
+    if (me.role === "ジョーカー" && !jokerState.abilityBank) return;
+    const table = region === "en" ? NIGHT_FLAVOR_EN : NIGHT_FLAVOR_JA;
+    const builder = table[me.role];
+    if (!builder) return;
+    addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(builder(userName), guide.gender, region), secret: true }]);
+    setBeginnerNightFlavorDay(day);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, day, beginnerMode, beginnerNightFlavorDay, guideNpcName, busy, players, jokerState]);
+
+  // 初心者モード:2日目以降の朝、その日の開幕コメント+プレイヤー自身の役職に応じたアドバイスを案内役が挟む(1日につき1回)
+  useEffect(() => {
+    if (!beginnerMode || phase !== "discussion" || day < 2 || busy) return;
+    if (!guideNpcName || beginnerMorningAdviceDay === day) return;
+    const guide = players.find((p) => p.name === guideNpcName);
+    if (!guide || !guide.alive) return;
+    const me = getUser();
+    if (!me || !me.alive) return; // プレイヤーが死亡している場合は聞かせない
+    const dayKey = day >= 4 ? 4 : day; // 4日目以降は同じアドバイスを使い回す
+    const openText = (region === "en" ? MORNING_OPEN_EN : MORNING_OPEN_JA)[dayKey];
+    const adviceTable = (region === "en" ? MORNING_ADVICE_EN : MORNING_ADVICE_JA)[dayKey];
+    const advice = adviceTable?.[me.role];
+    const text = advice ? `${openText}\n${advice}` : openText;
+    if (text) addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
+    setBeginnerMorningAdviceDay(day);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, day, beginnerMode, beginnerMorningAdviceDay, guideNpcName, busy, players]);
 
   // 初心者モードの用語集(JINRO_GLOSSARY):実際の会話ログに登録済みの用語が出てきたら、
   // 案内役が一度だけ(1用語につき1回)解説を挟む。CO(上のeffect)以外の用語はこちらでまとめて扱う。
@@ -3453,7 +3686,7 @@ ${guardLogText}
       if (explainedGlossaryTermsRef.current.has(entry.id)) continue;
       if (entry.terms.some((t) => combinedText.includes(t))) {
         explainedGlossaryTermsRef.current.add(entry.id);
-        addLog([{ type: "npc", speaker: guideNpcName, text: region === "en" ? entry.en : entry.ja, secret: true }]);
+        addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(region === "en" ? entry.en : entry.ja, guide.gender, region), secret: true }]);
         break; // 1回のチェックで解説を挟むのは1つだけ(まとめて連発させない)
       }
     }
@@ -5032,8 +5265,11 @@ JSON形式のみ: {"text":"回答"}`;
                 <div className="text-sm text-center" style={{ color: C.textFaint }}>候補者たちの弁明を準備しています...</div>
               )}
               {defenseCandidates.includes(userName) ? (
+                defenseStatementCount >= 3 ? (
+                  <div className="text-sm" style={{ color: C.textMuted }}>弁明は3回まで話しました。決選投票へ進んでください。</div>
+                ) : (
                 <>
-                  <div className="text-sm font-bold" style={{ color: C.accent }}>あなたも決選投票の対象です。反論・弁明を書いてください。</div>
+                  <div className="text-sm font-bold" style={{ color: C.accent }}>あなたも決選投票の対象です。反論・弁明を書いてください。(残り{3 - defenseStatementCount}回)</div>
                   <div className="flex gap-2 items-end">
                     <textarea
                       ref={inputRef}
@@ -5051,6 +5287,7 @@ JSON形式のみ: {"text":"回答"}`;
                     <button onClick={sendDefenseStatement} disabled={busy || !input.trim()} className="px-4 py-2 rounded-lg font-bold disabled:opacity-50" style={{ background: C.accent, color: C.white }}>発言</button>
                   </div>
                 </>
+                )
               ) : user.alive && !giveUp && !defenseReacted ? (
                 <>
                   <div className="text-sm font-bold" style={{ color: C.userLabel }}>弁明を聞いて、一度だけ発言・行動でリアクションできます。</div>
@@ -5085,7 +5322,7 @@ JSON形式のみ: {"text":"回答"}`;
                   {giveUp ? "🏳️ 諦めたため、この場面には関われません。" : "💀 あなたは既に処刑されており、この場面には関われません。"}
                 </div>
               )}
-              <button onClick={() => setPhase("vote_final")} disabled={busy} className="w-full py-2 rounded-lg text-sm" style={{ background: "#EDE0D8", color: C.userLabel }}>決選投票へ進む</button>
+              <button onClick={() => enterVoteFinalPhase()} disabled={busy} className="w-full py-2 rounded-lg text-sm" style={{ background: "#EDE0D8", color: C.userLabel }}>決選投票へ進む</button>
             </div>
           )}
 
@@ -5124,7 +5361,10 @@ JSON形式のみ: {"text":"回答"}`;
                 }
                 return (
                   <div className="space-y-1.5 pb-2 border-b" style={{ borderColor: C.borderStrong }}>
-                    <div className="text-xs font-bold" style={{ color: C.gold }}>🌙 仲間との密談(夜のみ)</div>
+                    <div className="text-xs font-bold" style={{ color: C.gold }}>🌙 仲間との密談(夜のみ・残り{Math.max(0, 3 - allyChatCount)}回)</div>
+                    {allyChatCount >= 3 ? (
+                      <div className="text-xs" style={{ color: C.textFaint }}>今夜の密談は3回話したので終わりです。</div>
+                    ) : (
                     <div className="flex gap-2 items-end">
                       <textarea
                         className="flex-1 rounded-lg px-3 py-2 outline-none border resize-none overflow-y-auto text-sm"
@@ -5137,6 +5377,7 @@ JSON形式のみ: {"text":"回答"}`;
                       />
                       <button onClick={sendAllyMessage} disabled={busy || !input.trim()} className="px-3 py-2 rounded-lg text-sm font-bold disabled:opacity-50" style={{ background: C.gold, color: C.white }}>送信</button>
                     </div>
+                    )}
                   </div>
                 );
               })()}
