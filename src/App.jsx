@@ -341,7 +341,7 @@ function buildBeginnerTutorialText(stage, region, name, pronoun) {
     return P[stage];
   }
   const P = [
-    `あ、${name}は人狼ゲーム初めてだったね。まかしといて!百戦錬磨の${pronoun}が教えるよ!\n人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。一日の終わりに人狼と思う人に投票して数の暴力で処刑していくんだ。\nつまり日が暮れる前により多く情報を皆から集めて、この11人の中に潜む人狼をいかに探し当てるかがポイントだね!\nまずは何でもいいから、話すか行動してみて。本当に何でもいいよ。何をしていいか分からなかったら、まずはあいさつとかしてみたら?`,
+    `あ、${name}は人狼ゲーム初めてだったね。まかしといて!百戦錬磨の${pronoun}が教えるよ!\n人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。一日の終わりに人狼と思う人に投票して数の暴力で処刑していくんだ。\nつまり日が暮れる前により多く情報を皆から集めて、この11人の中に潜む人狼をいかに探し当てるかがポイントだね!\nまずは何でもいいから話してみて。本当にどんな事を言っても良いよ。何を言っていいか分からなかったら、まずはあいさつとかしてみたら?`,
     `うんうん、良い感じ!やるじゃん。\nじゃあ次は役職の説明をしようかな。実は参加者には全員、なんらかの役職が与えられているんだ。役職の種類はたくさんあるから、ちょっと今説明するのはめんどくさいから割愛するね。\n……あ、でもちょっと待てよ。${name}の役職が何か知らないけど、急に説明がしたくなったから勝手にするね。`,
     `すごいね!もう${pronoun}より人狼ゲームを知り尽くしてるかも!じゃあ、特別に基本戦略を教えちゃおっかな。\n前言ったように、毎日誰か怪しい人を探して投票しなきゃいけないんだけど、初日はとにかく情報が少ない!取れる行動もそんなにない!\nそんな中で${pronoun}たちに何ができるかっていうと、さっきみたいに注意深く周りを観察して、ちょっとでも気になることがあったら本人に直接質問をするしかないね。\n落ち着きがなかったりとか、顔色をうかがったりとか、何か気になることがあったら、その理由を聞いて反応を見てったらいいよ。`,
     `上手いこと反応を引き出せたみたいだね!その調子!細かいことかもしれないけど、一見大した事無さそうな行動やしぐさの一つ一つが重要な真実につながってる可能性があるよ!まあ、大体の場合は繋がってないけどね。\nさあ、どんどん動いて情報を引き出そう!\nえ?もうこれ以上誰にどう話していいか分からないって?そんな時は左上のサイドメニューを開いて、各キャラクターの好感度を見てごらん。ハートマークが最高に君のことを好きって事だから、まずはその人の言葉に適当に乗っかってご機嫌を取ってみたらどうかな。仲良くなっとけば、ピンチになった時に助けてくれるかも?`,
@@ -355,7 +355,7 @@ const ROLE_INTRO_JA = {
   "霊媒師": "霊媒師は~処刑された人が人狼だったかどうか、次の日に分かる役職だよ~。結果は嘘をつかない限り絶対に正しいから、信頼されやすいのが強みだね。",
   "狩人": "狩人は~毎晩1人を選んで、人狼の襲撃から守れる役職だよ~。誰を守ったかは基本、秘密にしておくものだよ。",
   "共有者": "共有者は~2人1組で、お互いが人狼じゃないって分かっている役職だよ~。相方との密談で情報をすり合わせられるのが強みだね。",
-  "村人": "村人は~特別な能力を持たない役職だよ~。でも、みんなの発言をよく覚えて矛盾を見つけるのが、村人の一番の武器になるよ。",
+  "村人": "村人は~特別な能力を持たない役職だよ~。だから特に何も言うことはないね。しいて言うなら無価値だからこそ、気兼ねなく村のために命を捨てられる気楽な存在ともいえるね。",
   "ジョーカー": "ジョーカーは~占い師・霊媒師・狩人の誰かが死んだ時に、その力を1回だけ引き継げる役職だよ~。今はまだその力は使えないみたいだね。",
   "狂人": "狂人は~人狼の仲間だけど、人狼そのものではない役職だよ~。人狼陣営が勝てば、自分も勝ちになるんだ。",
   "人狼": "人狼は~夜にみんなで1人を選んで襲う役職だよ~。正体がバレないように、村人のふりをして立ち回るのがポイントだね。",
@@ -365,7 +365,7 @@ const ROLE_INTRO_EN = {
   "霊媒師": `As a Medium, you find out the next day whether the person who was executed was a werewolf. The result is always true unless you lie about it yourself, so people tend to trust it a lot.`,
   "狩人": `As a Hunter, every night you can protect one person from a werewolf attack. It's usually best to keep who you're protecting a secret.`,
   "共有者": `As a Mason, you're paired with one other person, and you both already know for sure the other isn't a werewolf. Comparing notes in your private chat is a big strength.`,
-  "村人": `As a Villager, you don't have a special power. But remembering everything everyone says and catching contradictions is your best weapon.`,
+  "村人": `As a Villager, you don't have a special power. So there's not much else to say, really. Though I guess you could say — being "worthless" means you're free to throw yourself into the fight for the village without a second thought.`,
   "ジョーカー": `As the Joker, if the Seer, Medium, or Hunter dies, you can inherit their power — but only use it once. Looks like you can't use it yet.`,
   "狂人": `As the Possessed, you're on the werewolves' side, but you're not a werewolf yourself. If the werewolf team wins, you win too.`,
   "人狼": `As a Werewolf, every night you and the others pick one person to attack together. The key is blending in and acting like a villager so nobody catches on.`,
@@ -418,7 +418,7 @@ const MORNING_ADVICE_JA = {
     "狩人": "誰を守るか、そろそろ本命を決めてみたら?占い師とか、名乗り出た役職者を優先的に守るのが定石だよ。",
     "共有者": "相方との密談で、教室で見聞きしたことをすり合わせておくといいよ。2人の視点を合わせると気づくことも多いから。",
     "村人": "まだ目立った動きはできないけど、みんなの発言を覚えておくのが一番の武器。誰が誰を庇ったか、そろそろメモしておくといいかも。",
-    "ジョーカー": "まだ能力は使えないけど、誰かが死んだ時のために心構えはしておいてね。",
+    "ジョーカー": "もし能力を継承してたら、そろそろ使いどころを考え始めてもいいかもね。",
     "狂人": "自分が人狼だと思われないよう、村人らしく振る舞おう。対抗COも有効な手だよ。",
     "人狼": "そろそろ疑われ始める頃かも。仲間を守りつつ、村人のふりを続けよう。",
   },
@@ -450,7 +450,7 @@ const MORNING_ADVICE_EN = {
     "狩人": "Might be time to settle on who to protect. Guarding whoever's claimed a role, like the Seer, is usually the safe bet.",
     "共有者": "Worth comparing notes with your partner in your private chat about what you each saw in class. Two perspectives together often catch things one alone would miss.",
     "村人": "Can't do much flashy yet, but remembering what everyone said is your best weapon. Might be worth noting who defended who.",
-    "ジョーカー": "Can't use your power yet, but stay ready in case someone dies.",
+    "ジョーカー": "If you've inherited a power by now, might be worth starting to think about when to use it.",
     "狂人": "Act like a normal villager so nobody suspects you're on the wolves' side. A counter-claim can also be a useful move.",
     "人狼": "People might start suspecting you soon. Keep protecting your partner while still acting the part of a villager.",
   },
@@ -3614,6 +3614,10 @@ ${guardLogText}
       // Stage1の最後は「急に役職の説明がしたくなった」という流れなので、そのままプレイヤー自身の役職の説明を続ける
       const roleIntro = (region === "en" ? ROLE_INTRO_EN : ROLE_INTRO_JA)[user.role];
       if (roleIntro) text += "\n" + roleIntro;
+      // 役職の説明が終わった後、話を戻して「行動する」という選択肢に触れる(この段階で初めて紹介する)
+      text += region === "en"
+        ? `\nOops, went off on a tangent there! Well, keep in mind what your role can actually do when you're deciding what to say next.\nWhat, nothing to say right now? Fair enough, maybe try taking an action instead — like watching people closely? Write out what you want to do and hit the action button. Who knows, you might notice something?`
+        : `\nおっと!横道にそれたね!まあでも自分の役職で出来る事を念頭に置いて、次話すことを考えても良いかもね。\nえ?今は特に何も話すことが無い?そうかそうか、だったら行動してみても良いかもね、周りを注意深く観察するとか?やりたい行動を書いて、行動するを押してごらん。もしかしたら何か見えてくるかも??`;
     }
     addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
     setBeginnerStageShown(nextStage);
@@ -3663,12 +3667,15 @@ ${guardLogText}
     const dayKey = day >= 4 ? 4 : day; // 4日目以降は同じアドバイスを使い回す
     const openText = (region === "en" ? MORNING_OPEN_EN : MORNING_OPEN_JA)[dayKey];
     const adviceTable = (region === "en" ? MORNING_ADVICE_EN : MORNING_ADVICE_JA)[dayKey];
-    const advice = adviceTable?.[me.role];
+    // ジョーカーは、役職者が死んで覚醒するまで「自分がジョーカーだ」という自覚自体がない(ただの村人だと思っている)。
+    // 覚醒前にジョーカー向けの助言を聞かせると、覚醒していないのに知っているという矛盾になるため、覚醒前は村人向けの助言を使う。
+    const adviceRole = (me.role === "ジョーカー" && jokerState.hidden) ? "村人" : me.role;
+    const advice = adviceTable?.[adviceRole];
     const text = advice ? `${openText}\n${advice}` : openText;
     if (text) addLog([{ type: "npc", speaker: guideNpcName, text: applyGuideVoice(text, guide.gender, region), secret: true }]);
     setBeginnerMorningAdviceDay(day);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, day, beginnerMode, beginnerMorningAdviceDay, guideNpcName, busy, players]);
+  }, [phase, day, beginnerMode, beginnerMorningAdviceDay, guideNpcName, busy, players, jokerState]);
 
   // 初心者モードの用語集(JINRO_GLOSSARY):実際の会話ログに登録済みの用語が出てきたら、
   // 案内役が一度だけ(1用語につき1回)解説を挟む。CO(上のeffect)以外の用語はこちらでまとめて扱う。
