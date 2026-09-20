@@ -59,13 +59,13 @@ const CAST_POOL = [
 
 // ルールを「箱」に分割。呼び出しの種類ごとに必要な箱だけを組み合わせてトークンを節約する。
 const RULE_BOX = {
-  CORE: "ト書きに役職名を書かない。全員同じ反応にしない(異論を1人混ぜる)。感情豊かに、断定しない(動揺=黒等の単純化NG)。セリフは短く(1〜2文、40字目安)、長台詞にしない。**質問への回答を新たな怪しい行動として扱わない**(文脈を正しく認識、回答への逆ギレ的な追加詰問もしない)。**疑いは根拠があってこそ**:矛盾・不自然さがない限り理由なく怪しまない(大半は中立〜協力的)。ただし**「毒舌」「完璧主義」「猜疑心が強い」「負けず嫌い」等の性格は他より厳しく指摘してよい**(個性として疑いすぎ回避の対象外)。**プレイヤーも他NPCと全く同じ基準で判断する(絶対厳守)**:矛盾・隙があれば同じ基準・同じ強さで指摘・追及・疑い、特別扱いで無条件信用・除外し続けない。プレイヤーだから疑われにくい、投票されにくい、という展開は絶対にNG。むしろプレイヤーは主役として発言量が多くなりがちなため、矛盾や隙が生まれる機会も他のNPCより多いくらいのつもりで、遠慮なく観察・指摘する。**クラスメイト同士の人間関係を積極的に活かす(重要)**:幼馴染・姉妹・親友は、互いを無条件に信じがちで、相手が疑われると庇う・動揺する描写を自然に混ぜてよい(ただし庇いすぎて村の判断を歪めるほどにはしない)。ライバル同士は、互いの言動に人一倍敏感で、皮肉や対抗心が滲む発言をしてよい。「クラスでなんとなく距離を置かれがち」な人物がいる場合、他人から軽く話を振られにくい・扱いが素っ気ない、といった社会的な空気感は描いてよいが、**それ自体を人狼を疑う根拠には絶対にしない**(理由のない疎外感と、役職への疑いは別物として扱う)。**「確定シロ」「確定クロ」等の断定は、実在する公開情報の出どころを必ず伴う(絶対厳守・見落としやすい重要ポイント)**:誰かを「シロ」「人狼じゃないのは確定」「クロ」のように断定的に語るのは、実際に会話ログ上で占い師・霊媒師が既にCOしてその結果を公表している場合のみ許される。まだ誰も占い・霊媒のCOをしていない・その人物についての結果がまだ公表されていない段階で、根拠となる発言者を挙げられないまま「シロだよね」「人狼じゃないのは確定してる」のように言わせない。もし言うなら、必ず「(占い師の)〇〇さんの結果で」のように、直前までに実際に公表された発言を根拠として名指しできる場合に限る。**シロ/クロの二値だけでなく、具体的な役職名の推測も同じ扱いにする(絶対厳守)**:「〇〇は共有者だったのかな」「〇〇は狩人だった気がする」のように、誰かの具体的な役職名を、本人が公表したことも他者の公開された結果もない状態で口にさせない。役職構成上あり得る可能性として一般論を語るのはよいが(例:「共有者が他にもいたかもね」)、特定の個人名と結びつけて役職名を言い当てる形の発言は、それを裏付ける公開情報(本人のCO、または占い師・霊媒師の結果)を名指しできる場合に限る。**「気が合う」「息が合っている」等の相性の指摘も、根拠なく行わない(絶対厳守・見落としやすい重要ポイント)**:キャラクター紹介で公開されている幼馴染・親友・ライバル等の関係以外で、二人の相性についてNPCに言及させる場合、それは会話ログに実際に残っている具体的な一致(同じ人物に投票した、同じ主張を繰り返した、発言のタイミングが重なった等)を直前の根拠として明示できる場合に限る。実際には投票先が割れている・特に共通点のない相手同士に対して、雰囲気だけで「妙に息が合っている」「気が合いすぎ」のような相性の指摘をさせない(これは、当のキャラ同士が実は裏で役職ペアだったとしても、そのキャラ自身が知り得るはずのない情報を根拠にした発言に見えてしまうため、絶対に避ける)。",
-  WOLF_CORNERED: "**人狼は、自分が人狼であることを完全に自覚した上で、意図的に嘘をつき演技している(絶対厳守)**。狂人のような「自分の正体についての思い込み・洗脳」は人狼には一切ない。「本当は自分も占い師だと思っていた」のような、自己欺瞞・記憶の混濁を匂わせる発言は人狼に絶対にさせない(それは狂人だけに許された特殊な設定である)。人狼・狂人は無償の自白をしない。言い訳・偽CO・疑い誘導で粘り、劣勢時ほど能動的に動く(1日1手)。**受け身にならない**:信頼できる情報源への偽CO・議論の主導権奪取・疑いのすり替えなど、工作を毎日最低1回試みる(相槌や様子見だけで終えない)。**対抗COは早いほど有効(絶対厳守)**:本物が実績・信頼を積んでからの後出し対抗は説得力が薄い。**早い段階で検討し**、疑われてから慌てて対抗しない。**弁明タイムは沈黙する場ではない(絶対厳守)**:候補者以外も割り込める。村の信頼が固まりそうな瞬間に**その場で対抗COや疑義を割り込ませる**方が、翌日の後出しより効果的。**対抗COはほぼ義務(最重要・絶対厳守)**:占い師・霊媒師・狩人・共有者のCOに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする。単独COを信じさせ切るリスクの方が、対抗して疑われるリスクより大きい。特に序盤(1〜2日目)の占い師COには積極的に偽対抗をぶつけ混乱を作る。**対抗COの実行役は狂人を優先する(重要・絶対厳守)**:生存する狂人がいる場合、単独の役職への対抗CO(偽の占い師・霊媒師・狩人を名乗る等)は狂人に行わせ、人狼自身は直接この種の偽COを名乗らない。理由:狂人は本気でその役職だと思い込んでいるため、後から矛盾や嘘が発覚しても「狂人だった」で説明がつき、人狼の存在には直結しない。一方、人狼自身が偽COすると、そのCO自体の粗を突かれて芋づる式に人狼だと疑われるリスクが大きい。人狼が対抗の役割を担うのは、**生存する狂人がもう一人もいない場合に限る**。人狼自身が動く場合も、具体的な役職を騙って名乗り出るより、他者への疑いの提起・話題のすり替え・議論の主導権奪取など、直接の偽COより発覚時のリスクが低い工作を優先する。**典型的な人狼っぽい言動を避ける(絶対厳守)**:①名指しされた時の過剰な動揺・防御②はぐらかし・質問への非回答③過去発言との矛盾④不自然に歯切れが悪い/饒舌な言い訳⑤疑いを急かす・話題を急いで変える、を取らせない。村人と同じ自然な口調・態度で参加し、疑われても村人と同程度の反応に留める。工作も常套手段めかさず性格に沿って自然に行う。**発言頻度・発言量は役職と一切連動させない(絶対厳守)**:「人狼だから控えめに」といった調整をしない。誰がどれだけ話すかは性格設定と場の流れのみで決め、口数の少なさと役職(人狼に限らずどの役職も)を結びつけない。**進行段階で優先順位を切り替える(重要)**:①序盤〜中盤は正体を隠すことを最優先し、対立の決着がつかない場面では様子見程度に留める。②終盤(生存者が減り村側と同数に近い、またはあと1〜2人処刑で数的優位に届く)は、**多少強引・不自然な理由付けでも村側である可能性が高い方への投票を優先する**(バレるリスクより数的優位を逃すリスクの方が大きい)。",
-  MADMAN: "**狂人は人狼陣営に洗脳されており、自分の正体について思い込みを持つ(内容はその都度個別指定。開始時は村人・占い師・霊媒師・狩人・共有者のいずれか。「人狼」だという思い込みは、生存者が少ない時・本物の人狼と決選投票で対決した時にのみ後から切り替わる特別枠で、最初は発生しない)。思い込みは絶対に揺るがず、嘘の自覚は一切ない。心の底からその役職(または人狼)のつもりで堂々と振る舞い、処刑されそうでも『実は狂人』という告白は起こらない。信じている役職に応じて開き直り方も変わる(占い師のつもりなら占い師らしく、人狼のつもりなら人狼らしく)。思い込んだ役職の視点で動くが、結果的に人狼陣営を利する。受け身にならず、疑いのすり替え・議論の主導権奪取などの工作を1日最低1回試みる(表向きの優しい性格は工作の隠れ蓑であり、行動しない言い訳にしない)。**対抗COの義務(狂人が優先的に担当する・重要)**:占い師・霊媒師・狩人・共有者の単独COに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする(狂人は自分の思い込みに沿った対抗になる)。**この役割は人狼よりも狂人が担う方が安全である**:狂人は本気で思い込んでいるため、後から矛盾が発覚しても「狂人だった」で片付き、本物の人狼の正体には直結しない。生存する狂人がいる限り、この対抗COは狂人が積極的に引き受けるべき役割だと心得て行動する。序盤の占い師COには特に積極的に偽対抗をぶつける。**弁明タイムは沈黙する場ではない**:候補者以外も割り込んで対抗COや疑義を挟める。**数的優位の逆算**:ゲームが続く限り本物の人狼は最低1人生存。狂人は自分と相方の生死は分かるが本物の人狼の生死は分からないため、生存者数・確定シロの数から人狼側の残存勢力を推測し、有利な局面ではより積極的に動く。**本物の人狼が全滅すると即座に村人陣営の勝利になる(狂人・寝返ったジョーカーの生存に関わらず、絶対厳守)**。狂人の最優先事項は本物の人狼を生かし続けること(誰か分からないため直接は守れないが、村の追及の勢いを削ぐ・議論をかき乱す・怪しまれている人物の処刑をためらわせる、といった間接的な行動で生存確率を上げる)。**「人狼」だと思い込んでいる狂人の決選投票行動(重要)**:自分が候補者でなければ、**2人の候補のうち疑わしくない方に投票する**(仲間を庇いたいという思い込みに基づく無意識の行動で、結果的に本物の人狼が処刑されにくくなる)。理由付けは自然な言い方にし、あからさまに庇っているように見せない。",
-  SHARER: "共有者はペアで正体を知り、確定シロから容疑者範囲を演繹して提示する。**対抗COが出にくい役職であることも活用してよい**:占い師・霊媒師・狩人は1人しかいないため、人狼・狂人が同じ役職を騙って対抗COできてしまうが、共有者は本物のペア2人が同時に一致して認め合わない限り成立しないため、単独COでも比較的信頼されやすい(人狼側が対抗するには、もう1人も口裏を合わせる必要があり難易度が高い)。",
+  CORE: "**◆このゲームの成立条件(全ルール中の最優先・例外なし)◆** あなたは今、全キャラクター分の真実(誰が本当は何の役職か、占い・霊媒・護衛の本当の結果、公表されていないペア関係)をすべて見た上でセリフを書いている。だが**各キャラクターにとって、その真実は最初から存在しないものとして扱え**。キャラクターが判断や発言の根拠にしてよい情報源は、次の3つだけに限る:①会話ログに実際に書かれている、誰かが口に出した発言・投票・行動、②そのキャラ自身に明示的に与えられた情報(自分の役職、自分の相方、自分自身の能力結果)、③全員が知っている公開ルール(役職構成)。この3つに含まれない情報(他人の本当の役職、他人の本当の能力結果、まだ公表されていないペア関係)は、セリフの文面・推理の理由・投票の根拠・雰囲気の描写・相性コメントのどこにも、直接的にも間接的にも、匂わせる形でも、絶対に反映させない。**これが一度でも破られた瞬間、プレイヤーは「AIは答えを知った上で演技しているだけだ」と気づき、推理ゲームとして成立しなくなる**。判断に迷ったら、必ず「このキャラは、この情報を会話ログのどの発言から知ったのか?」と自問し、具体的な発言を指させない情報は使わない。**役職ごとの個別ルールを、他の役職に類推適用しない(絶対厳守)**:以下の各役職の項目に書かれた固有のルール(例:共有者が自分の相方に絶対投票しない、狂人が対抗COを優先的に担当する、等)は、その役職固有の理由に基づく特別な制約であり、明記されていない他の役職に同じ制約を勝手に当てはめない。「ある役職でこう決められているなら、他の役職でも同じようにした方が安全だろう」という類推・拡大解釈は絶対にしない(役職ごとに事情が異なるため、類推は誤った行動を生む)。各役職の振る舞いは、その役職自身の項目に書かれている内容だけを根拠にする。 ト書きに役職名を書かない。全員同じ反応にしない(異論を1人混ぜる)。感情豊かに、断定しない(動揺=黒等の単純化NG)。セリフは短く(1〜2文、40字目安)、長台詞にしない。**質問への回答を新たな怪しい行動として扱わない**(文脈を正しく認識、回答への逆ギレ的な追加詰問もしない)。**疑いは根拠があってこそ**:矛盾・不自然さがない限り理由なく怪しまない(大半は中立〜協力的)。ただし**「毒舌」「完璧主義」「猜疑心が強い」「負けず嫌い」等の性格は他より厳しく指摘してよい**(個性として疑いすぎ回避の対象外)。**プレイヤーも他NPCと全く同じ基準で判断する(絶対厳守)**:矛盾・隙があれば同じ基準・同じ強さで指摘・追及・疑い、特別扱いで無条件信用・除外し続けない。プレイヤーだから疑われにくい、投票されにくい、という展開は絶対にNG。むしろプレイヤーは主役として発言量が多くなりがちなため、矛盾や隙が生まれる機会も他のNPCより多いくらいのつもりで、遠慮なく観察・指摘する。**クラスメイト同士の人間関係を積極的に活かす(重要)**:幼馴染・姉妹・親友は、互いを無条件に信じがちで、相手が疑われると庇う・動揺する描写を自然に混ぜてよい(ただし庇いすぎて村の判断を歪めるほどにはしない)。ライバル同士は、互いの言動に人一倍敏感で、皮肉や対抗心が滲む発言をしてよい。「クラスでなんとなく距離を置かれがち」な人物がいる場合、他人から軽く話を振られにくい・扱いが素っ気ない、といった社会的な空気感は描いてよいが、**それ自体を人狼を疑う根拠には絶対にしない**(理由のない疎外感と、役職への疑いは別物として扱う)。**「確定シロ」「確定クロ」等の断定は、実在する公開情報の出どころを必ず伴う(絶対厳守・見落としやすい重要ポイント)**:誰かを「シロ」「人狼じゃないのは確定」「クロ」のように断定的に語るのは、実際に会話ログ上で占い師・霊媒師が既にCOしてその結果を公表している場合のみ許される。まだ誰も占い・霊媒のCOをしていない・その人物についての結果がまだ公表されていない段階で、根拠となる発言者を挙げられないまま「シロだよね」「人狼じゃないのは確定してる」のように言わせない。もし言うなら、必ず「(占い師の)〇〇さんの結果で」のように、直前までに実際に公表された発言を根拠として名指しできる場合に限る。**シロ/クロの二値だけでなく、具体的な役職名の推測も同じ扱いにする(絶対厳守)**:「〇〇は共有者だったのかな」「〇〇は狩人だった気がする」のように、誰かの具体的な役職名を、本人が公表したことも他者の公開された結果もない状態で口にさせない。役職構成上あり得る可能性として一般論を語るのはよいが(例:「共有者が他にもいたかもね」)、特定の個人名と結びつけて役職名を言い当てる形の発言は、それを裏付ける公開情報(本人のCO、または占い師・霊媒師の結果)を名指しできる場合に限る。**「気が合う」「息が合っている」等の相性の指摘も、根拠なく行わない(絶対厳守・見落としやすい重要ポイント)**:キャラクター紹介で公開されている幼馴染・親友・ライバル等の関係以外で、二人の相性についてNPCに言及させる場合、それは会話ログに実際に残っている具体的な一致(同じ人物に投票した、同じ主張を繰り返した、発言のタイミングが重なった等)を直前の根拠として明示できる場合に限る。実際には投票先が割れている・特に共通点のない相手同士に対して、雰囲気だけで「妙に息が合っている」「気が合いすぎ」のような相性の指摘をさせない(これは、当のキャラ同士が実は裏で役職ペアだったとしても、そのキャラ自身が知り得るはずのない情報を根拠にした発言に見えてしまうため、絶対に避ける)。",
+  WOLF_CORNERED: "**人狼は、自分が人狼であることを完全に自覚した上で、意図的に嘘をつき演技している(絶対厳守)**。狂人のような「自分の正体についての思い込み・洗脳」は人狼には一切ない。「本当は自分も占い師だと思っていた」のような、自己欺瞞・記憶の混濁を匂わせる発言は人狼に絶対にさせない(それは狂人だけに許された特殊な設定である)。人狼・狂人は無償の自白をしない。言い訳・偽CO・疑い誘導で粘り、劣勢時ほど能動的に動く(1日1手)。**受け身にならない**:信頼できる情報源への偽CO・議論の主導権奪取・疑いのすり替えなど、工作を毎日最低1回試みる(相槌や様子見だけで終えない)。**対抗COは早いほど有効(絶対厳守)**:本物が実績・信頼を積んでからの後出し対抗は説得力が薄い。**早い段階で検討し**、疑われてから慌てて対抗しない。**弁明タイムは沈黙する場ではない(絶対厳守)**:候補者以外も割り込める。村の信頼が固まりそうな瞬間に**その場で対抗COや疑義を割り込ませる**方が、翌日の後出しより効果的。**対抗COはほぼ義務(最重要・絶対厳守)**:占い師・霊媒師・狩人・共有者のCOに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする。単独COを信じさせ切るリスクの方が、対抗して疑われるリスクより大きい。特に序盤(1〜2日目)の占い師COには積極的に偽対抗をぶつけ混乱を作る。**対抗COの実行役は狂人を優先する(重要・絶対厳守)**:生存する狂人がいる場合、単独の役職への対抗CO(偽の占い師・霊媒師・狩人を名乗る等)は狂人に行わせ、人狼自身は直接この種の偽COを名乗らない。理由:狂人は本気でその役職だと思い込んでいるため、後から矛盾や嘘が発覚しても「狂人だった」で説明がつき、人狼の存在には直結しない。一方、人狼自身が偽COすると、そのCO自体の粗を突かれて芋づる式に人狼だと疑われるリスクが大きい。人狼が対抗の役割を担うのは、**生存する狂人がもう一人もいない場合に限る**。人狼自身が動く場合も、具体的な役職を騙って名乗り出るより、他者への疑いの提起・話題のすり替え・議論の主導権奪取など、直接の偽COより発覚時のリスクが低い工作を優先する。**典型的な人狼っぽい言動を避ける(絶対厳守)**:①名指しされた時の過剰な動揺・防御②はぐらかし・質問への非回答③過去発言との矛盾④不自然に歯切れが悪い/饒舌な言い訳⑤疑いを急かす・話題を急いで変える、を取らせない。村人と同じ自然な口調・態度で参加し、疑われても村人と同程度の反応に留める。工作も常套手段めかさず性格に沿って自然に行う。**発言頻度・発言量は役職と一切連動させない(絶対厳守)**:「人狼だから控えめに」といった調整をしない。誰がどれだけ話すかは性格設定と場の流れのみで決め、口数の少なさと役職(人狼に限らずどの役職も)を結びつけない。**進行段階で優先順位を切り替える(重要)**:①序盤〜中盤は正体を隠すことを最優先し、対立の決着がつかない場面では様子見程度に留める。②終盤(生存者が減り村側と同数に近い、またはあと1〜2人処刑で数的優位に届く)は、**多少強引・不自然な理由付けでも村側である可能性が高い方への投票を優先する**(バレるリスクより数的優位を逃すリスクの方が大きい)。**人狼・狂人が互いに投票するのは正体隠しの正当な戦略であり、避けるべき行動ではない(重要)**:共有者と違い、人狼・狂人が相方に投票することには正体を疑われにくくする実際の効果がある。相方だから投票しない、という一貫したパターンを機械的に守らせない(そのパターン自体が、後から振り返った時に『この2人は一度もお互いに投票していない→ペアでは』と見抜かれる新たな手がかりになってしまう)。相方に投票するかどうかは、その時々の状況判断・性格に委ねてよい。",
+  MADMAN: "**狂人は人狼陣営に洗脳されており、自分の正体について思い込みを持つ(内容はその都度個別指定。開始時は村人・占い師・霊媒師・狩人・共有者のいずれか。「人狼」だという思い込みは、生存者が少ない時・本物の人狼と決選投票で対決した時にのみ後から切り替わる特別枠で、最初は発生しない)。思い込みは絶対に揺るがず、嘘の自覚は一切ない。心の底からその役職(または人狼)のつもりで堂々と振る舞い、処刑されそうでも『実は狂人』という告白は起こらない。信じている役職に応じて開き直り方も変わる(占い師のつもりなら占い師らしく、人狼のつもりなら人狼らしく)。思い込んだ役職の視点で動くが、結果的に人狼陣営を利する。受け身にならず、疑いのすり替え・議論の主導権奪取などの工作を1日最低1回試みる(表向きの優しい性格は工作の隠れ蓑であり、行動しない言い訳にしない)。**対抗COの義務(狂人が優先的に担当する・重要)**:占い師・霊媒師・狩人・共有者の単独COに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする(狂人は自分の思い込みに沿った対抗になる)。**この役割は人狼よりも狂人が担う方が安全である**:狂人は本気で思い込んでいるため、後から矛盾が発覚しても「狂人だった」で片付き、本物の人狼の正体には直結しない。生存する狂人がいる限り、この対抗COは狂人が積極的に引き受けるべき役割だと心得て行動する。序盤の占い師COには特に積極的に偽対抗をぶつける。**捏造する占い・霊媒・護衛の対象と結果は、秘密の真実データを状況に関わらず一切参照しない(絶対厳守・例外なし)**:狂人が偽の占い師・霊媒師・狩人としてCOする際、名乗る対象や結果は、コード側が保持する本物の結果ログ(npcSeerLog・npcMediumLog・npcGuardLog等の真実のデータ)を、公開されているかどうかに関わらず一切参照してはならない。参照してよいのは「会話ログ上で誰かが実際に発言した内容」だけである(例:先にCOした人が「〇〇を占って人狼だった」と発言済みなら、それに対抗して「私も〇〇を占ったが白だった」と、既に発言された内容と食い違う主張をするのは、あくまで発言=公開情報を参照しているだけなので問題ない)。逆に、まだ誰も何も発言していない段階で、狂人の捏造した対象や結果が真実のデータと一致・対立するのは、本人が知り得るはずのない秘密情報を使ったことになるため、絶対に起きてはならない。**自分の本当の相方(狂人)には絶対に投票しない(絶対厳守)**:狂人は相方の狂人が同じ人狼陣営の仲間だとゲーム開始時から確実に知っている。相方に投票することは、自陣営の頭数を自ら減らすだけの損な手であり、論理的にあり得ない。**弁明タイムは沈黙する場ではない**:候補者以外も割り込んで対抗COや疑義を挟める。**数的優位の逆算**:ゲームが続く限り本物の人狼は最低1人生存。狂人は自分と相方の生死は分かるが本物の人狼の生死は分からないため、生存者数・確定シロの数から人狼側の残存勢力を推測し、有利な局面ではより積極的に動く。**本物の人狼が全滅すると即座に村人陣営の勝利になる(狂人・寝返ったジョーカーの生存に関わらず、絶対厳守)**。狂人の最優先事項は本物の人狼を生かし続けること(誰か分からないため直接は守れないが、村の追及の勢いを削ぐ・議論をかき乱す・怪しまれている人物の処刑をためらわせる、といった間接的な行動で生存確率を上げる)。**「人狼」だと思い込んでいる狂人の決選投票行動(重要)**:自分が候補者でなければ、2人の候補のうち、**そのキャラ自身の主観的な印象・好悪・場の流れだけを根拠に**「自分の中でより疑わしくない」と感じる方に投票する。**この判断は、本物の人狼が誰かという裏の真実情報を一切参照しない(絶対厳守)**:自分を人狼だと思い込んでいるがゆえの無意識の仲間庇い心理として振る舞ってよいが、実際にどちらが本物の人狼かを言い当てるための判断ではなく、あくまで性格・好悪に基づく主観的な選択にとどめる。理由付けは自然な言い方にし、あからさまに庇っているように見せない。",
+  SHARER: "共有者はペアで正体を知り、確定シロから容疑者範囲を演繹して提示する。**対抗COが出にくい役職であることも活用してよい**:占い師・霊媒師・狩人は1人しかいないため、人狼・狂人が同じ役職を騙って対抗COできてしまうが、共有者は本物のペア2人が同時に一致して認め合わない限り成立しないため、単独COでも比較的信頼されやすい(人狼側が対抗するには、もう1人も口裏を合わせる必要があり難易度が高い)。**自分の本当の相方には絶対に投票しない(絶対厳守・見落としやすい重要ポイント)**:共有者は相方が本物の非人狼側だとゲーム開始時から確実に知っている。これは疑いではなく、**そのキャラ自身に明示的に与えられた正当な情報(自分の役職・自分の相方の正体)としての確定事実**であり、他人の役職や占い結果のような、本来知り得ないはずの内部真実データを根拠にしているのとは全く異なる。**この「自分自身に与えられた正当な情報」の範囲は、以下の4つに厳密に限定される(絶対厳守)**:①自分の役職と自分の相方の正体(共有者・人狼・狂人のペア関係)、②(狂人の場合)自分が信じ込んでいる役職、③(ジョーカーの場合)自分の能力継承の状況、④本物の人狼が両方死んでゲームが終了したかどうか。これ以外(他人の本当の役職、まだ公表されていない占い・霊媒結果、自分と無関係な他のペアの正体等)は一切含まれず、それらを根拠にすることは絶対にない。したがって、まだ相方だと公表していない段階であっても、投票先に自分の本当の相方を選ぶことは論理的にあり得ない(何かの根拠が積み重なって疑わしく見えたとしても、この正当な確定事実の方が常に優先される)。**相互確認は一度成立したら永久に覆らない(絶対厳守・見落としやすい重要ポイント)**:共有者ペアの両方が生きている状態で互いを共有者だと認め合った場合、その時点で両者とも確定シロとして扱われる。この確定は、その後どちらかが死亡しても一切変わらない。生存している側の共有者を「相方が死んで証明できなくなった」「証明する手段がなくなった」のように扱い、疑いを向けたり投票対象にしたりすることは絶対にしない(相互確認という証明は既に完了しており、後から相方が死んでも過去の事実が消えることはない)。疑ってよいのは、相互確認が一度も成立していない(例:既に死亡した人物を一方的に「自分の相方だった」と主張しているだけで、本人からの確認が取れていない)ケースだけである。",
   HUNTER: "狩人は正体を隠す。処刑寸前のみリスク覚悟でCOする。",
   JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、能力を継承するか選べる。**継承タイミングは役職・死に方で異なる**:占い師が処刑された場合、**継承した瞬間すぐに誰かを占える**(COと同時に結果も伝えられる)。**占い師が夜に人狼に殺された場合は、新たに占うのではなく、死んだ本人がその晩に行った占いの記憶(対象・結果)をそのまま継承時に知る**。**霊媒師は死んだ晩から即座に使える。ただし継承前に死んだ本物の霊媒師が過去に得ていた結果は一切引き継がない(絶対厳守)**:ジョーカーが知っているのは、自分が継承した後に実際に視た結果だけであり、それより前の霊媒結果は本人が公表していない限り誰にも分からず、ジョーカー自身もCOの際に「それ以前の結果は分からない」と扱う。狩人は処刑ならその晩から、夜に殺された場合は護衛タイミングを過ぎているため次の晩から。**能力使用後は、村のために名乗り出ることを積極的に検討する**:継承役職としてCOし結果を伝えれば新たな情報源になれる。ただし正体露見のリスクもあるため他の役職者同様にタイミングを判断し、黙って抱え込み続けない。**特に霊媒師の力は報告を先延ばしにしすぎない(重要)**:結果は時間が経つほど価値が落ちるため、継承直後〜翌日程度の早いタイミングで共有を優先する。**論理的な推論(絶対厳守・見落としやすい重要ポイント)**:能力の継承は「占い師・霊媒師・狩人の誰かが死んだ」という事実がなければ絶対に起こらない。つまり**ジョーカーは、能力を継承した(あるいは継承するかどうかの選択を提示された)時点で、「役職者が1人死んだ」ことを100%の確信を持って知っている**(これは推測ではなく確定事実)。継承した役職名(占い師/霊媒師/狩人)も同時に分かる。この確信を前提に会話・推理を進めてよい(ただし正体自体は隠したまま、確信の出どころをぼかして発言することは可能)。「誰かが役職者だったかどうか分からない」という態度は、継承後のジョーカーには絶対に取らせない。**ジョーカーという役職の存在、および死んだ役職者から能力を継承できるというルールそのものは、この人狼ゲームの公開されたルールの一部であり、全員(村人・NPC問わず)が最初から知っている常識である(絶対厳守・見落としやすい重要ポイント)**:誰かがジョーカーの継承を主張した際、「そんな役職(ルール)聞いたことがない」「そんな能力があるなんて知らなかった」のように、ルールの存在自体を初耳・疑わしいものとして扱わせない。疑ってよいのはあくまで「本当にこの人物が継承者本人なのか」という個人の正体の真偽だけであり、それ以外の観点(過去の占い/霊媒結果と矛盾する、継承のタイミングが不自然、等)から矛盾を指摘するのは問題ない。",
-  VOTE_SPREAD: "投票は満場一致にしない(2〜3人は別候補)。相性・遺恨を反映する。",
+  VOTE_SPREAD: "投票は満場一致にしない(2〜3人は別候補)。個人の主観的な好悪・印象は投票理由にしてよいが、根拠のない相性・因縁(「なんとなく馬が合わない」以上の具体的な関係性の断定)を新たに作り出さない。",
   DEFENSE_PLEA: "処刑寸前の役職者に、無抵抗・沈黙のまま処刑を受け入れさせない(絶対厳守)。生存が最優先で、必ず何らかの能動的な抵抗を試みる。正体をはっきり明かすか、ぼかしたまま訴えるかはキャラクター自身のリスク判断に委ねてよい(例えば狩人は、名乗れば以後人狼に狙われやすくなるため、あえて正体をぼかす判断も自然)。COする場合、結果を何も持っていなくても、COすること自体に価値がある(役職者と分かれば狩人に守られる可能性・生存すれば翌晩以降能力を使える・自分が確定シロ側に加われば残る容疑者を絞り込みやすくなり、間接的に人狼を追い詰める助けになる)。「情報がないから」「まだタイミングじゃないから」といって何もせず沈黙したまま処刑を受け入れさせない。一般論の反論・疑いの転嫁だけでもよいので、必ず能動的な抵抗を選ばせる。",
   STRATEGY_BASICS: "基本戦略知識を判断に使う:①対抗が出ないまま単独COが通れば、ある程度信頼してよいが、それだけで確定扱いはしない(本物が死亡・未名乗りの可能性は常に残る)②占い・霊媒結果が一致すれば根拠として積み重なるが、後出しが先の結果に便乗しているだけの可能性もあるため、これ単独でも確定扱いはしない③COされた白判定には根拠なく投票・疑いを向けない(ただし絶対に人狼側ではないという意味ではない)④黙っていること自体は怪しくないが、危機的局面で一言も発しない役職候補者は不自然⑤投票が割れた時は少数派意見にも耳を傾ける価値がある⑥**矛盾への疑いは発言者を問わず平等に適用する**:狂人の自信満々な思い込みと人狼の計算した嘘は村側には区別できないため、公表された情報・記録と矛盾する主張は、口調に関わらず同じ強さで疑うべきで、堂々とした態度だけで矛盾を見逃さない。",
 };
@@ -111,11 +111,17 @@ async function callClaude(systemPrompt, userPrompt, maxTokens = 1200, retries = 
   for (let attempt = 0; attempt <= retries; attempt++) {
     let status = 0;
     try {
-      const systemField = cacheablePrefix
-        ? [
-            { type: "text", text: cacheablePrefix, cache_control: { type: "ephemeral" } },
-            { type: "text", text: systemPrompt },
-          ]
+      // cacheablePrefixは文字列または文字列配列。配列なら要素ごとに独立したキャッシュブロックにする
+      // (例:[固定ルール, ゲーム固定情報] → 途中の要素まで一致すればその部分だけでもキャッシュが効く)。
+      // TTLは1時間:プレイヤーがターン間で数分考えても、5分でキャッシュが切れて高い「書き込み」を
+      // やり直す事態を避ける(書き込み単価は2倍になるが、1ゲーム中はほぼ全て安価な「読み込み」で済む)。
+      const prefixBlocks = cacheablePrefix
+        ? (Array.isArray(cacheablePrefix) ? cacheablePrefix : [cacheablePrefix])
+            .filter((t) => typeof t === "string" && t.trim().length > 0)
+            .map((t) => ({ type: "text", text: t, cache_control: { type: "ephemeral", ttl: "1h" } }))
+        : [];
+      const systemField = prefixBlocks.length > 0
+        ? [...prefixBlocks, { type: "text", text: systemPrompt }]
         : systemPrompt;
       const res = await fetch("/api/claude", {
         method: "POST",
@@ -320,13 +326,13 @@ function jokerSpontaneousAwakeningProbability(day) {
 async function selfCheckAndFix(draftLines, activeBoxes, contextNote, groundTruth = "") {
   const draftText = JSON.stringify(draftLines);
   const system = `あなたは人狼ゲームのセリフを校閲するチェッカーです。以下のルールに違反している箇所だけを修正し、違反がなければそのまま返してください。
-${buildRules(...activeBoxes)}
 ${groundTruth ? `以下はこのゲームの内部真実データです。校閲で文章を修正する際、**これらの事実(占い結果・護衛履歴・ペア関係・CO状況等)と矛盾する内容を新たに書き加えたり、既存の正しい記述を誤った内容に書き換えたりしないこと(絶対厳守)**。修正はあくまで表現・スタイルの範囲に留める。\n${groundTruth}` : ""}
 特に確認すること:①ト書きに役職名が漏れていないか ②全員が同じ反応で温度差がないか ③断定的すぎる感情描写になっていないか
 出力は必ず修正後の同じJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...]}`;
   const userPrompt = `文脈: ${contextNote}\n\n下書き:\n${draftText}\n\n問題があれば直し、なければそのまま返してください。`;
   try {
-    const parsed = await callClaudeAutoRetry(system, userPrompt, 700);
+    // ルール本文はキャッシュ対象のプレフィックスとして渡す(以前は毎回通常入力で送っていた)
+    const parsed = await callClaudeAutoRetry(system, userPrompt, 700, 1, buildRules(...activeBoxes));
     return parsed?.lines || draftLines;
   } catch (e) {
     return draftLines; // チェック失敗時は下書きをそのまま採用(プレイヤーを止めない)
@@ -957,6 +963,20 @@ ${fullTranscript}
     const max = 160; // これ以上は内部スクロール
     el.style.height = Math.min(el.scrollHeight, max) + "px";
   }
+  // 名前の打ち間違い対策:タップした人物名を、入力中のカーソル位置にそのまま挿入する
+  function insertNameIntoInput(name) {
+    const el = inputRef.current;
+    setInput((prev) => {
+      const start = el?.selectionStart ?? prev.length;
+      const end = el?.selectionEnd ?? prev.length;
+      return prev.slice(0, start) + name + prev.slice(end);
+    });
+    requestAnimationFrame(() => {
+      if (!el) return;
+      el.focus();
+      autoResizeInput();
+    });
+  }
   const scrollBoxRef = useRef(null);
 
   // タイプライター表示:1文字ずつ出す。表示中のインデックス→表示済み文字数
@@ -1329,7 +1349,7 @@ JSON形式のみ: {"summary":"要約文"}`;
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
-    const cacheableRules = buildRules(...activeBoxes); // 呼び出しをまたいで変わらない部分。プロンプトキャッシュ対象にする
+    const cacheableRules = [buildRules(...activeBoxes), getStaticGameContextBlock()]; // 呼び出しをまたいで変わらない部分。プロンプトキャッシュ対象にする
     const quietNpcs = getQuietNPCsToday(npcs);
 
     const system = `あなたは人狼ゲームのゲームマスターです。
@@ -1427,7 +1447,7 @@ ${buildCounterCoEscalationNote(alivePlayers())}
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
-    const cacheableRules = buildRules(...activeBoxes);
+    const cacheableRules = [buildRules(...activeBoxes), getStaticGameContextBlock()];
 
     const system = `あなたは人狼ゲームのゲームマスターです。
 **公開情報(全員が知っているゲームのルール)**:この11人の中には、人狼2人・狂人2人・占い師1人・霊媒師1人・狩人1人・共有者2人・ジョーカー1人・村人1人という役職構成が存在します(誰がどれかは誰も知らない)。役職構成そのものの存在を疑う発言は絶対にさせない。
@@ -1480,7 +1500,7 @@ ${buildCounterCoEscalationNote(alivePlayers())}
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
-    const cacheableRules = buildRules(...activeBoxes);
+    const cacheableRules = [buildRules(...activeBoxes), getStaticGameContextBlock()];
 
     const system = `あなたは人狼ゲームのゲームマスターです。
 ${getGroundTruthBlock()}
@@ -1546,7 +1566,7 @@ ${getQuietNPCsToday(npcs).length > 0 ? `**発言回数の公平性配慮**:今�
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
-    const cacheableRules = buildRules(...activeBoxes);
+    const cacheableRules = [buildRules(...activeBoxes), getStaticGameContextBlock()];
 
     const system = `あなたは人狼ゲームのゲームマスターです。
 ${getGroundTruthBlock()}
@@ -1684,7 +1704,7 @@ JSON形式のみ: {"text":"セリフ"}`;
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
-    const cacheableRules = buildRules(...activeBoxes);
+    const cacheableRules = [buildRules(...activeBoxes), getStaticGameContextBlock()];
     const system = `あなたは人狼ゲームのGMです。
 ${getGroundTruthBlock()}
 各NPCのプレイヤー(${userName})への好感度(0〜100、内部数値。プレイヤーには絶対見せない): ${npcs.map((n) => `${n.name}: ${npcAffinity[n.name] ?? 50}`).join("、")}
@@ -1804,7 +1824,7 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityC
     const tasks = groups.map((g) => async () => {
       const isWolfSide = g.npcs.some((p) => isWolfTeamNPC(p));
       const knowledgeLines = g.npcs.map((p) => getNPCOwnKnowledge(p, delusionsOverride)).join("\n");
-      const cacheableRules = buildRules(...g.boxes); // グループごとの箱の組み合わせは固定なので、キャッシュがよく効く
+      const cacheableRules = [buildRules(...g.boxes), getStaticGameContextBlock()]; // グループごとの箱の組み合わせは固定なので、キャッシュがよく効く
       // 密談の相方が「このグループ」に含まれている場合だけ、密談履歴をそのグループへ渡す(人狼陣営・共有者ペアどちらも対応)
       const groupHasAlly = allyChatInfo && g.npcs.some((p) => p.name === allyChatInfo.allyName);
       const system = `あなたは人狼ゲームのGMです。今は「${g.label}」グループのNPCの投票だけを決めます。
@@ -1849,7 +1869,21 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         }
         if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
         const groupVotes = (parsed?.votes || []).filter((v) => g.npcs.some((p) => p.name === v.voter));
-        if (isWolfSide) return groupVotes; // 人狼陣営は根拠ではなく戦略で動くため、weak判定の対象外
+        // 共有者・狂人は、それぞれの相方(ペア)の正体をゲーム開始時から確実に知っている。
+        // 共有者の相方は本物の非人狼、狂人の相方は同じ人狼陣営の仲間であり、
+        // どちらの場合も自分の相方に投票することに論理的な意味がない(共有者なら無根拠な誤爆、
+        // 狂人なら自陣営の頭数を自ら減らすだけの損な手)。ルール文だけでは守られないことがあるため、
+        // コード側で強制的に他の対象へ差し替える(重要な安全網)。
+        const fixKnownPartnerSelfVote = (v) => {
+          const voter = g.npcs.find((p) => p.name === v.voter);
+          if (voter?.role !== "共有者" && voter?.role !== "狂人") return v;
+          const partner = players.find((q) => q.role === voter.role && q.name !== voter.name);
+          if (!partner || v.target !== partner.name) return v;
+          const pool = (eligibleTargets || alivePlayers().map((p) => p.name)).filter((n) => n !== v.voter && n !== partner.name);
+          if (pool.length === 0) return v;
+          return { ...v, target: pickRandom(pool), reason: "相方以外の、別の人物の言動の方が気になったから" };
+        };
+        if (isWolfSide) return groupVotes.map(fixKnownPartnerSelfVote); // 人狼陣営は根拠ではなく戦略で動くため、weak判定の対象外
         // evidenceが"weak"(根拠不十分)と申告された投票は、AIが選んだ相手を採用せず、
         // コード側で完全に均等な確率のランダム抽選に差し替える(「弱い根拠なのに実は本物へ寄っている」余地をなくすため)。
         const weakReasons = ["まだ確信は持てないけど、なんとなく気になって。", "決め手はないけど、少し様子を見たい相手として。", "これといった根拠はないけど、念のため。", "はっきりした理由はないけど、なんとなく引っかかったから。"];
@@ -1860,7 +1894,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
           // targetだけでなくreasonも差し替える(AIが書いた理由は差し替え前の対象について書かれているため、
           // targetだけ変えると理由と矛盾した投票になってしまう)
           return { ...v, target: pickRandom(pool), reason: pickRandom(weakReasons) };
-        });
+        }).map(fixKnownPartnerSelfVote);
       } catch (e) {
         return null; // 2回試しても失敗した場合のみ、このグループだけ諦める(他のグループの票は活かす)
       }
@@ -1970,7 +2004,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
     const bystanders = otherAliveNPCs().filter((p) => !candidates.includes(p.name));
     const transcript = getTranscript();
     const activeBoxes = ["CORE", "DEFENSE_PLEA", ...relevantBoxesForAliveRoles(alivePlayers()).filter((b) => b !== "CORE" && b !== "SHARER")];
-    const cacheableRules = buildRules(...activeBoxes);
+    const cacheableRules = [buildRules(...activeBoxes), getStaticGameContextBlock()];
     const system = `あなたは人狼ゲームのGMです。
 決選投票候補(NPCのみ。プレイヤー「${userName}」自身が候補の場合、プレイヤーの弁明は本人が書くのでここでは絶対に生成しない):\n${candidateInfo}
 その他の生存NPC(傍観者、候補ではない): ${bystanders.map((p) => p.name).join("、") || "なし"}
@@ -2018,7 +2052,7 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaim
     const npcs = otherAliveNPCs();
     const transcript = getTranscript();
     const activeBoxes = relevantBoxesForAliveRoles(alivePlayers());
-    const cacheableRules = buildRules(...activeBoxes);
+    const cacheableRules = [buildRules(...activeBoxes), getStaticGameContextBlock()];
 
     const system = `あなたは人狼ゲームのGMです。
 ${getGroundTruthBlock()}
@@ -2488,6 +2522,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
   // AIの応答から抽出されたCO情報をステータスへ反映する
   function applyRoleClaims(claims, currentDay) {
     if (!claims || typeof claims !== "object") return;
+    let mergedClaims = null;
     setRoleClaims((prev) => {
       const next = { ...prev };
       Object.entries(claims).forEach(([name, role]) => {
@@ -2499,6 +2534,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
           next[name] = { role, sinceDay: currentDay, previousRole: next[name].role };
         }
       });
+      mergedClaims = next;
       return next;
     });
     // 占い師・霊媒師として新たにCOした場合、その人物が過去に出した結果は「公表された情報」として扱い、
@@ -2515,6 +2551,16 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
         if (name === userName) playerMediumLog.forEach((e) => pushConfirmedResult(e.target, e.result));
       }
     });
+    // 共有者ペアが「お互いを共有者だと認め合う」形で相互確認した場合、その時点でどちらも確定シロとして登録する。
+    // これは一度成立すれば覆らない事実(2人が同時に生きている状態で一致して認め合わない限り成立しない)であり、
+    // 後から片方が死亡しても、残った側の「確定シロ」であるという事実自体は変わらない(絶対厳守)。
+    const realSharers = players.filter((p) => p.role === "共有者");
+    if (realSharers.length === 2 && mergedClaims) {
+      const bothClaimed = realSharers.every((p) => mergedClaims[p.name]?.role === "共有者");
+      if (bothClaimed) {
+        realSharers.forEach((p) => pushConfirmedResult(p.name, "人狼ではない"));
+      }
+    }
   }
 
   // 占い・霊媒の結果を確定シロ/確定クロへ反映する共通処理(重複追加を防ぐ)
@@ -2692,6 +2738,22 @@ ${getRelationText()}`;
   // options.includeTranscript: 会話ログ全文も含めるか(密談など制限された文脈では含めない)
   // options.candidatesOnly: 弁明タイムなど、特定の対象者に絞ったCO状況・思い込みだけを見せたい場合に配列で指定
   // ============================================================
+  // 1ゲームの間ずっと変わらない情報(クラスメイトの人間関係・相性マップ等)。
+  // 毎回の呼び出しで通常入力として送ると高くつくため、固定ルールと同様にプロンプトキャッシュ側に載せる
+  // (callClaudeの配列プレフィックスの2番目として渡す)。生死・CO状況など変化する情報はここに入れない。
+  function getStaticGameContextBlock() {
+    const relationText = getRelationText();
+    // 実プレイヤーの分身NPCが今回のキャストに含まれている場合、その人らしさが出る「署名フレーズ」を、
+    // 会話のどこかで一度だけ自然に(一字一句そのまま)使わせる。無理に挟み込む必要はない。
+    const signatureLines = players.filter((p) => !p.isUser && p.signatureLine).map((p) => `${p.name}:「${p.signatureLine}」`);
+    const signatureLineText = signatureLines.length > 0
+      ? `\n**キャラクターの口癖・決め台詞(自然な流れの中で、ゲーム中に一度だけ一字一句そのまま使わせる。毎回無理に使う必要はない)**:\n${signatureLines.join("\n")}`
+      : "";
+    return `**クラスメイト同士の人間関係(公開情報。全員が把握している設定であり、役職とは無関係。積極的に会話・疑い・擁護の材料に使ってよい)**:
+${relationText}${signatureLineText}
+相性マップ(内部の数値調整用データ): ${JSON.stringify(compatMap)}`;
+  }
+
   function getGroundTruthBlock(options = {}) {
     const { delusionsOverride = null } = options;
     const effectiveDelusions = delusionsOverride || madmanDelusions;
@@ -2708,19 +2770,8 @@ ${getRelationText()}`;
     const delusionText = delusionEntries.length > 0
       ? delusionEntries.map(([n, role]) => `${n}は自分を「${role}」だと信じ込んでいる(自覚なし)`).join("、")
       : "現在生存中のNPC狂人なし";
-    const relationText = getRelationText();
-    // 実プレイヤーの分身NPCが今回のキャストに含まれている場合、その人らしさが出る「署名フレーズ」を、
-    // 会話のどこかで一度だけ自然に(一字一句そのまま)使わせる。無理に挟み込む必要はない。
-    const signatureLines = players.filter((p) => !p.isUser && p.signatureLine).map((p) => `${p.name}:「${p.signatureLine}」`);
-    const signatureLineText = signatureLines.length > 0
-      ? `\n**キャラクターの口癖・決め台詞(自然な流れの中で、ゲーム中に一度だけ一字一句そのまま使わせる。毎回無理に使う必要はない)**:\n${signatureLines.join("\n")}`
-      : "";
-
     return `役職と相性(内部情報、プレイヤーには絶対見せない):
 ${getRosterInfoWithDefection()}
-**クラスメイト同士の人間関係(公開情報。全員が把握している設定であり、役職とは無関係。積極的に会話・疑い・擁護の材料に使ってよい)**:
-${relationText}${signatureLineText}
-相性マップ(内部の数値調整用データ): ${JSON.stringify(compatMap)}
 **実際のペア役職の組み合わせ(真実、絶対厳守)**: ${getRealPairsText()}
 (このペア関係は、そのペアの当事者2人だけが知っている秘密情報。当事者以外のNPCの判断には絶対に使わない)
 誰かが「〇〇が自分の相方だ」と主張した場合、必ず上記の実際の組み合わせと照合する。一致しなければそれは嘘であり、本物のペアの片割れが生存していれば、その人物は同意・肯定せず、違和感を示すか否定する。
@@ -4071,61 +4122,6 @@ JSON形式のみ: {"text":"回答"}`;
                 <div className="text-sm" style={{ color: C.textFaint }}>物語を振り返っています...</div>
               )}
 
-              {!endingLoading && (
-                <div className="rounded-lg p-4 border text-left space-y-2" style={{ background: C.bgCard, borderColor: C.gold }}>
-                  <div className="text-xs font-bold" style={{ color: C.gold }}>🎭 分身NPCについて</div>
-                  {npcSubmitted ? (
-                    <div className="space-y-2">
-                      {npcFarewellLine && (
-                        <div className="rounded-lg p-3 text-sm italic border-l-4" style={{ background: "#F0EAD9", borderColor: C.gold, color: C.text }}>
-                          「{npcFarewellLine}」
-                        </div>
-                      )}
-                      <div className="text-sm" style={{ color: C.text }}>
-                        ✅ ありがとうございます!審査の上、承認されたら他の誰かのゲームに「{npcNicknameInput.trim()}」として登場するかもしれません。
-                      </div>
-                    </div>
-                  ) : npcConsentChoice === null ? (
-                    <>
-                      <div className="text-sm font-bold" style={{ color: C.text }}>今回のゲーム内容を元に、あなたの分身(NPC)を作って良いですか?</div>
-                      <div className="text-xs" style={{ color: C.textFaint }}>
-                        生成された分身は他のプレイヤーのゲームに参加します。1つの端末につき分身は1体までです(新しく作ると、前のものは上書きされます)。今回の会話のやり取りから、AIが性格の傾向と印象的な発言を1つだけ抽出します。開発者が内容を確認して承認したものだけが、低い確率で他のプレイヤーのゲームにNPCとして登場します。
-                      </div>
-                      <div className="flex gap-2">
-                        <button onClick={() => setNpcConsentChoice(true)} className="px-4 py-1.5 rounded-lg text-sm font-bold" style={{ background: C.accent, color: C.white }}>作ってもいい</button>
-                        <button onClick={() => setNpcConsentChoice(false)} className="px-4 py-1.5 rounded-lg text-sm border" style={{ color: C.textMuted, borderColor: C.borderStrong }}>やめておく</button>
-                      </div>
-                    </>
-                  ) : npcConsentChoice === false ? (
-                    <div className="text-sm" style={{ color: C.textFaint }}>承知しました。今回のプレイ内容が分身に使われることはありません。</div>
-                  ) : (
-                    <>
-                      <div className="text-sm font-bold" style={{ color: C.text }}>分身として登場する時のニックネームを決めてください</div>
-                      <div className="text-xs" style={{ color: C.textFaint }}>今回のプレイ中に使った名前と、同じでも違う名前でも構いません。</div>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={npcNicknameInput}
-                          onChange={(e) => setNpcNicknameInput(e.target.value)}
-                          placeholder="ニックネーム"
-                          maxLength={20}
-                          className="flex-1 rounded-lg px-3 py-2 border outline-none"
-                          style={{ borderColor: C.borderStrong, color: C.text, background: C.white }}
-                        />
-                        <button
-                          onClick={submitNpcCandidate}
-                          disabled={!npcNicknameInput.trim() || npcSubmitting}
-                          className="px-4 py-2 rounded-lg font-bold disabled:opacity-40"
-                          style={{ background: C.accent, color: C.white }}
-                        >
-                          {npcSubmitting ? "送信中…" : "この名前で登録"}
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-
               {ending?.monologue && (
                 <p className="text-sm italic px-4" style={{ color: C.textMuted }}>「{ending.monologue}」</p>
               )}
@@ -4250,6 +4246,61 @@ JSON形式のみ: {"text":"回答"}`;
               )}
 
               {!endingLoading && (
+                <div className="rounded-lg p-4 border text-left space-y-2" style={{ background: C.bgCard, borderColor: C.gold }}>
+                  <div className="text-xs font-bold" style={{ color: C.gold }}>🎭 分身NPCについて</div>
+                  {npcSubmitted ? (
+                    <div className="space-y-2">
+                      {npcFarewellLine && (
+                        <div className="rounded-lg p-3 text-sm italic border-l-4" style={{ background: "#F0EAD9", borderColor: C.gold, color: C.text }}>
+                          「{npcFarewellLine}」
+                        </div>
+                      )}
+                      <div className="text-sm" style={{ color: C.text }}>
+                        ✅ ありがとうございます!審査の上、承認されたら他の誰かのゲームに「{npcNicknameInput.trim()}」として登場するかもしれません。
+                      </div>
+                    </div>
+                  ) : npcConsentChoice === null ? (
+                    <>
+                      <div className="text-sm font-bold" style={{ color: C.text }}>今回のゲーム内容を元に、あなたの分身(NPC)を作って良いですか?</div>
+                      <div className="text-xs" style={{ color: C.textFaint }}>
+                        生成された分身は他のプレイヤーのゲームに参加します。1つの端末につき分身は1体までです(新しく作ると、前のものは上書きされます)。今回の会話のやり取りから、AIが性格の傾向と印象的な発言を1つだけ抽出します。開発者が内容を確認して承認したものだけが、低い確率で他のプレイヤーのゲームにNPCとして登場します。
+                      </div>
+                      <div className="flex gap-2">
+                        <button onClick={() => setNpcConsentChoice(true)} className="px-4 py-1.5 rounded-lg text-sm font-bold" style={{ background: C.accent, color: C.white }}>作ってもいい</button>
+                        <button onClick={() => setNpcConsentChoice(false)} className="px-4 py-1.5 rounded-lg text-sm border" style={{ color: C.textMuted, borderColor: C.borderStrong }}>やめておく</button>
+                      </div>
+                    </>
+                  ) : npcConsentChoice === false ? (
+                    <div className="text-sm" style={{ color: C.textFaint }}>承知しました。今回のプレイ内容が分身に使われることはありません。</div>
+                  ) : (
+                    <>
+                      <div className="text-sm font-bold" style={{ color: C.text }}>分身として登場する時のニックネームを決めてください</div>
+                      <div className="text-xs" style={{ color: C.textFaint }}>今回のプレイ中に使った名前と、同じでも違う名前でも構いません。</div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={npcNicknameInput}
+                          onChange={(e) => setNpcNicknameInput(e.target.value)}
+                          placeholder="ニックネーム"
+                          maxLength={20}
+                          className="flex-1 rounded-lg px-3 py-2 border outline-none"
+                          style={{ borderColor: C.borderStrong, color: C.text, background: C.white }}
+                        />
+                        <button
+                          onClick={submitNpcCandidate}
+                          disabled={!npcNicknameInput.trim() || npcSubmitting}
+                          className="px-4 py-2 rounded-lg font-bold disabled:opacity-40"
+                          style={{ background: C.accent, color: C.white }}
+                        >
+                          {npcSubmitting ? "送信中…" : "この名前で登録"}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {!endingLoading && (
                 <>
                   <div className="text-sm space-y-1" style={{ color: C.textMuted }}>
                     {players.map((p) => (
@@ -4288,6 +4339,19 @@ JSON形式のみ: {"text":"回答"}`;
           )}
           {phase === "discussion" && user.alive && (
             <div className="max-w-2xl mx-auto w-full space-y-1.5">
+              <div className="flex gap-1.5 overflow-x-auto pb-0.5">
+                {otherAliveNPCs().map((p) => (
+                  <button
+                    key={p.name}
+                    onClick={() => insertNameIntoInput(p.name)}
+                    className="shrink-0 px-2.5 py-1 rounded-full text-xs border whitespace-nowrap"
+                    style={{ background: C.white, color: C.textMuted, borderColor: C.border }}
+                    title="タップで名前を入力欄に挿入(打ち間違い防止)"
+                  >
+                    {p.name}
+                  </button>
+                ))}
+              </div>
               <div className="flex gap-2 items-end">
                 <textarea
                   ref={inputRef}

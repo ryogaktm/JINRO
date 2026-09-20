@@ -17,13 +17,14 @@ import { Redis } from "@upstash/redis";
 const redis = Redis.fromEnv();
 const MAX_LOGS = 20;
 
-// Claude Sonnet 5 標準料金(USD / トークン単価)。料金体系が変わったらここを更新する。
+// Claude Sonnet 5 の料金(USD / トークン単価)。Anthropic公式の料金表(platform.claude.com/docs 「Prompt caching」)に基づく。
+// 料金体系が変わったらここを更新する。実際の請求額はAnthropicコンソールが正。
 const DEFAULT_JPY_RATE = 156;
 const PRICE = {
-  input: 3 / 1_000_000,
-  output: 15 / 1_000_000,
-  cacheWrite: 3.75 / 1_000_000, // 5分キャッシュ書き込み(コードのcache_controlはTTL未指定=デフォルト5分)
-  cacheRead: 0.30 / 1_000_000,
+  input: 2 / 1_000_000,        // 通常入力 $2/MTok
+  output: 10 / 1_000_000,      // 出力 $10/MTok
+  cacheWrite: 4 / 1_000_000,   // 1時間キャッシュ書き込み $4/MTok(App.jsxのcache_controlはttl:"1h")。※旧ログ(5分キャッシュ時代)は実際には$2.50だったため、その分は少し高めの見積もりになる
+  cacheRead: 0.20 / 1_000_000, // キャッシュ読み込み $0.20/MTok
 };
 
 function checkAdmin(secret, res) {
@@ -213,7 +214,7 @@ async function handleCostStats(req, res) {
       gamesAnalyzed,
       gamesSkipped,
       jpyRate,
-      pricingBasis: "Claude Sonnet 5 標準料金(2026年9月1日以降): 入力$3/output$15/cache書込$3.75/cache読込$0.30 per MTok",
+      pricingBasis: "Claude Sonnet 5 公式料金: 入力$2 / 出力$10 / キャッシュ書込(1h)$4 / キャッシュ読込$0.20 per MTok",
       totals: {
         calls: totalCalls, input: totalInput, output: totalOutput,
         cacheRead: totalCacheRead, cacheWrite: totalCacheWrite,

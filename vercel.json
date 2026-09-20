@@ -2,6 +2,9 @@
   "functions": {
     "api/claude.js": {
       "maxDuration": 60
+    },
+    "api/save-npc-candidate.js": {
+      "maxDuration": 60
     }
   }
 }
