@@ -70,44 +70,44 @@ const CAST_POOL_EN = [
   { name: "Shawn Kelly", age: 17, gender: "男性", personality: "breezy and hard to pin down", club: "Music Club" },
   { name: "Tyler Nash", age: 17, gender: "男性", personality: "the class clown, always lightening the mood", club: "Soccer Team", closeWith: "Miguel Torres", relationType: "best friends" },
   { name: "Miguel Torres", age: 17, gender: "男性", personality: "sarcastic but warm-hearted", club: "Soccer Team", closeWith: "Tyler Nash", relationType: "best friends" },
-  { name: "Meiko Hoshino", age: 17, gender: "女性", personality: "competitive perfectionist", club: "Tennis Team", rivalWith: "Misaki Okada", relationType: "rivals" },
-  { name: "Misaki Okada", age: 17, gender: "女性", personality: "airheaded and easygoing", club: "Tennis Team", rivalWith: "Meiko Hoshino", relationType: "rivals" },
-  { name: "Riku Saito", age: 17, gender: "男性", personality: "cool-headed strategist type", club: "Chess Club" },
+  { name: "Sophia Nguyen", age: 17, gender: "女性", personality: "competitive perfectionist", club: "Tennis Team", rivalWith: "Grace Patel", relationType: "rivals" },
+  { name: "Grace Patel", age: 17, gender: "女性", personality: "airheaded and easygoing", club: "Tennis Team", rivalWith: "Sophia Nguyen", relationType: "rivals" },
+  { name: "Elijah Brooks", age: 17, gender: "男性", personality: "cool-headed strategist type", club: "Chess Club" },
   { name: "Aiden Frost", age: 17, gender: "男性", personality: "quiet but sharp-eyed", club: "Photography Club" },
-  { name: "Yui Watson", age: 17, gender: "女性", personality: "the caring class-president type", club: "Student Council", closeWith: "Fern Shaw", relationType: "childhood friends" },
-  { name: "Fern Shaw", age: 17, gender: "女性", personality: "shy but strong-willed", club: "Tea Ceremony Club", closeWith: "Yui Watson", relationType: "childhood friends" },
-  { name: "Hina Ito", age: 17, gender: "男性", personality: "hot-blooded but often misses the mark", club: "Track Team", rivalWith: "Tsubasa Tanaka", relationType: "rivals" },
-  { name: "Tsubasa Tanaka", age: 17, gender: "男性", personality: "cool and results-driven", club: "Track Team", rivalWith: "Hina Ito", relationType: "rivals" },
+  { name: "Zoe Watson", age: 17, gender: "女性", personality: "the caring class-president type", club: "Student Council", closeWith: "Fern Shaw", relationType: "childhood friends" },
+  { name: "Fern Shaw", age: 17, gender: "女性", personality: "shy but strong-willed", club: "Tea Ceremony Club", closeWith: "Zoe Watson", relationType: "childhood friends" },
+  { name: "Malik Jefferson", age: 17, gender: "男性", personality: "hot-blooded but often misses the mark", club: "Track Team", rivalWith: "Derek Coleman", relationType: "rivals" },
+  { name: "Derek Coleman", age: 17, gender: "男性", personality: "cool and results-driven", club: "Track Team", rivalWith: "Malik Jefferson", relationType: "rivals" },
   { name: "Luna Chandler", age: 17, gender: "女性", personality: "gentle and soothing presence", club: "Gardening Club" },
-  { name: "Yu Murata", age: 17, gender: "男性", personality: "sharp-tongued cynic", club: "Literary Club" },
-  { name: "Hinata Moore", age: 17, gender: "女性", personality: "energetic cheer-squad captain", club: "Cheer Squad", closeWith: "Sakura Palmer", relationType: "best friends" },
-  { name: "Sakura Palmer", age: 17, gender: "女性", personality: "calm, the brains of the group", club: "Cheer Squad", closeWith: "Hinata Moore", relationType: "best friends" },
-  { name: "Daichi Cohen", age: 17, gender: "男性", personality: "the quiet, craftsman type", club: "Cooking Club" },
-  { name: "Renji Blake", age: 17, gender: "男性", personality: "seems flaky but surprisingly loyal", club: "Film Club" },
-  { name: "Riko Sakamoto", age: 17, gender: "女性", personality: "sharp-tongued but looks out for others", club: "Newspaper Club" },
-  { name: "Kaito Fuller", age: 17, gender: "男性", personality: "relentlessly upbeat jock", club: "Judo Club" },
-  { name: "Yuna Yamada", age: 17, gender: "女性", personality: "calculating but kind at heart", club: "English Club" },
-  { name: "Yuto Ota", age: 17, gender: "男性", personality: "impossible to read", club: "No Club", outcast: true },
-  { name: "Daisuke Suzuki", age: 17, gender: "男性", personality: "too serious, not very flexible", club: "Kendo Club", rivalWith: "Sho Miyamoto", relationType: "rivals" },
-  { name: "Sho Miyamoto", age: 17, gender: "男性", personality: "shrewd and good at working the room", club: "Kendo Club", rivalWith: "Daisuke Suzuki", relationType: "rivals" },
-  { name: "Ryota Ishikawa", age: 17, gender: "男性", personality: "few words, matter-of-fact", club: "Chemistry Club" },
-  { name: "Sota Nakano", age: 17, gender: "男性", personality: "quick to get fired up, quick to cool off", club: "Track Team" },
-  { name: "Naoki Fujita", age: 17, gender: "男性", personality: "kind to everyone but lacks conviction", club: "Volunteer Club", closeWith: "Kenji Murakami", relationType: "childhood friends" },
-  { name: "Kenji Murakami", age: 17, gender: "男性", personality: "a stickler for doing the right thing", club: "Volunteer Club", closeWith: "Naoki Fujita", relationType: "childhood friends" },
-  { name: "Sota Okamoto", age: 17, gender: "男性", personality: "sarcastic and keeps people at arm's length", club: "Literary Club" },
-  { name: "Itsuki Hasegawa", age: 17, gender: "男性", personality: "airheaded and a little clueless", club: "Soccer Team", rivalWith: "Taiga Matsumoto", relationType: "rivals" },
-  { name: "Taiga Matsumoto", age: 17, gender: "男性", personality: "fiercely competitive and loud", club: "Soccer Team", rivalWith: "Itsuki Hasegawa", relationType: "rivals" },
-  { name: "Misaki Tamura", age: 17, gender: "女性", personality: "cheerful but secretly lonely", club: "Music Club", closeWith: "Hikari Ishii", relationType: "best friends" },
-  { name: "Hikari Ishii", age: 17, gender: "女性", personality: "meticulous perfectionist", club: "Marching Band", closeWith: "Misaki Tamura", relationType: "best friends" },
-  { name: "Rio Ogawa", age: 17, gender: "女性", personality: "does her own thing, oblivious to the room", club: "Art Club" },
-  { name: "Mai Kato", age: 17, gender: "女性", personality: "caring but a bit of a busybody", club: "Cooking Club", rivalWith: "Nana Nishida", relationType: "rivals" },
-  { name: "Nana Nishida", age: 17, gender: "女性", personality: "cool and keeps to herself", club: "Photography Club", rivalWith: "Mai Kato", relationType: "rivals" },
-  { name: "Anne Matsuda", age: 17, gender: "女性", personality: "optimistic and fun-loving", club: "Dance Team" },
-  { name: "Kokomi Harada", age: 17, gender: "女性", personality: "introverted bookworm", club: "Library Committee", closeWith: "Aya Kinoshita", relationType: "childhood friends" },
-  { name: "Aya Kinoshita", age: 17, gender: "女性", personality: "warm and takes care of everyone", club: "Tea Ceremony Club", closeWith: "Kokomi Harada", relationType: "childhood friends" },
-  { name: "Rena Saito", age: 17, gender: "女性", personality: "gentle, avoids conflict", club: "Gardening Club", rivalWith: "Mao Murata", relationType: "rivals" },
-  { name: "Mao Murata", age: 17, gender: "女性", personality: "ambitious and craves the spotlight", club: "Cheer Squad", rivalWith: "Rena Saito", relationType: "rivals" },
-  { name: "Runa Miyashita", age: 17, gender: "女性", personality: "strong-willed and fearless", club: "Track Team" },
+  { name: "Nathan Reyes", age: 17, gender: "男性", personality: "sharp-tongued cynic", club: "Literary Club" },
+  { name: "Jada Moore", age: 17, gender: "女性", personality: "energetic cheer-squad captain", club: "Cheer Squad", closeWith: "Chloe Palmer", relationType: "best friends" },
+  { name: "Chloe Palmer", age: 17, gender: "女性", personality: "calm, the brains of the group", club: "Cheer Squad", closeWith: "Jada Moore", relationType: "best friends" },
+  { name: "Noah Cohen", age: 17, gender: "男性", personality: "the quiet, craftsman type", club: "Cooking Club" },
+  { name: "Isaiah Blake", age: 17, gender: "男性", personality: "seems flaky but surprisingly loyal", club: "Film Club" },
+  { name: "Maya Foster", age: 17, gender: "女性", personality: "sharp-tongued but looks out for others", club: "Newspaper Club" },
+  { name: "Jayden Fuller", age: 17, gender: "男性", personality: "relentlessly upbeat jock", club: "Judo Club" },
+  { name: "Aaliyah Johnson", age: 17, gender: "女性", personality: "calculating but kind at heart", club: "English Club" },
+  { name: "Dylan Hayes", age: 17, gender: "男性", personality: "impossible to read", club: "No Club", outcast: true },
+  { name: "Carlos Mendez", age: 17, gender: "男性", personality: "too serious, not very flexible", club: "Kendo Club", rivalWith: "Bryce Whitfield", relationType: "rivals" },
+  { name: "Bryce Whitfield", age: 17, gender: "男性", personality: "shrewd and good at working the room", club: "Kendo Club", rivalWith: "Carlos Mendez", relationType: "rivals" },
+  { name: "Owen Price", age: 17, gender: "男性", personality: "few words, matter-of-fact", club: "Chemistry Club" },
+  { name: "Xavier Morris", age: 17, gender: "男性", personality: "quick to get fired up, quick to cool off", club: "Track Team" },
+  { name: "Trevor Lang", age: 17, gender: "男性", personality: "kind to everyone but lacks conviction", club: "Volunteer Club", closeWith: "Adam Fitzgerald", relationType: "childhood friends" },
+  { name: "Adam Fitzgerald", age: 17, gender: "男性", personality: "a stickler for doing the right thing", club: "Volunteer Club", closeWith: "Trevor Lang", relationType: "childhood friends" },
+  { name: "Julian Ross", age: 17, gender: "男性", personality: "sarcastic and keeps people at arm's length", club: "Literary Club" },
+  { name: "Cameron Ortiz", age: 17, gender: "男性", personality: "airheaded and a little clueless", club: "Soccer Team", rivalWith: "Damon Wells", relationType: "rivals" },
+  { name: "Damon Wells", age: 17, gender: "男性", personality: "fiercely competitive and loud", club: "Soccer Team", rivalWith: "Cameron Ortiz", relationType: "rivals" },
+  { name: "Isabella Cruz", age: 17, gender: "女性", personality: "cheerful but secretly lonely", club: "Music Club", closeWith: "Natalie Kim", relationType: "best friends" },
+  { name: "Natalie Kim", age: 17, gender: "女性", personality: "meticulous perfectionist", club: "Marching Band", closeWith: "Isabella Cruz", relationType: "best friends" },
+  { name: "Brianna Scott", age: 17, gender: "女性", personality: "does her own thing, oblivious to the room", club: "Art Club" },
+  { name: "Destiny Banks", age: 17, gender: "女性", personality: "caring but a bit of a busybody", club: "Cooking Club", rivalWith: "Paige Sullivan", relationType: "rivals" },
+  { name: "Paige Sullivan", age: 17, gender: "女性", personality: "cool and keeps to herself", club: "Photography Club", rivalWith: "Destiny Banks", relationType: "rivals" },
+  { name: "Ella Rivera", age: 17, gender: "女性", personality: "optimistic and fun-loving", club: "Dance Team" },
+  { name: "Lily Chen", age: 17, gender: "女性", personality: "introverted bookworm", club: "Library Committee", closeWith: "Sofia Martinez", relationType: "childhood friends" },
+  { name: "Sofia Martinez", age: 17, gender: "女性", personality: "warm and takes care of everyone", club: "Tea Ceremony Club", closeWith: "Lily Chen", relationType: "childhood friends" },
+  { name: "Victoria Adams", age: 17, gender: "女性", personality: "gentle, avoids conflict", club: "Gardening Club", rivalWith: "Jordan Simmons", relationType: "rivals" },
+  { name: "Jordan Simmons", age: 17, gender: "女性", personality: "ambitious and craves the spotlight", club: "Cheer Squad", rivalWith: "Victoria Adams", relationType: "rivals" },
+  { name: "Harper Bell", age: 17, gender: "女性", personality: "strong-willed and fearless", club: "Track Team" },
 ];
 
 // ルールを「箱」に分割。呼び出しの種類ごとに必要な箱だけを組み合わせてトークンを節約する。
@@ -742,6 +742,7 @@ export default function JinroGame() {
   // 1日目終了時点で2日目に進めず足止めされている状態。値は保留中の勝敗("人狼陣営"|null)。nullは「まだ勝敗つかず・通常継続」を表す。
   const [pendingDayAdvanceWin, setPendingDayAdvanceWin] = useState(undefined); // undefined = 足止め中ではない
   const [isAdminMode, setIsAdminMode] = useState(false); // URLに ?admin=1 が付いている時だけtrue(開発者専用)
+  const [adminActionError, setAdminActionError] = useState(null); // 管理者パネルの操作でエラーが起きた時の表示用(設定画面にはチャットログが無いため、ここで見せる必要がある)
   const [adminSecretInput, setAdminSecretInput] = useState("");
   const [showDebugLogViewer, setShowDebugLogViewer] = useState(false);
   const [debugLogList, setDebugLogList] = useState([]);
@@ -880,11 +881,12 @@ export default function JinroGame() {
       if (res.ok) {
         setCredits(data.credits);
         setInsufficientCredits(false);
+        setAdminActionError(null);
       } else {
-        addLog([{ type: "system", text: `テストクレジットの付与に失敗しました。(${data.error || "原因不明"})` }]);
+        setAdminActionError(`テストクレジットの付与に失敗しました。(${data.error || "原因不明"})`);
       }
     } catch (e) {
-      addLog([{ type: "system", text: "テストクレジットの付与に失敗しました。通信環境を確認してください。" }]);
+      setAdminActionError("テストクレジットの付与に失敗しました。通信環境を確認してください。");
     }
   }
 
@@ -895,11 +897,12 @@ export default function JinroGame() {
       const data = await res.json();
       if (res.ok) {
         setDebugLogList(data.logs || []);
+        setAdminActionError(null);
       } else {
-        addLog([{ type: "system", text: `ログ一覧の取得に失敗しました。(${data.error || "原因不明"})` }]);
+        setAdminActionError(`ログ一覧の取得に失敗しました。(${data.error || "原因不明"})`);
       }
     } catch (e) {
-      addLog([{ type: "system", text: "ログ一覧の取得に失敗しました。通信環境を確認してください。" }]);
+      setAdminActionError("ログ一覧の取得に失敗しました。通信環境を確認してください。");
     }
   }
 
@@ -912,11 +915,14 @@ export default function JinroGame() {
       const data = await res.json();
       if (res.ok) {
         setCostStats(data);
+        setAdminActionError(null);
       } else {
         setCostStatsError(data.error || "原因不明");
+        setAdminActionError(`コスト集計の取得に失敗しました。(${data.error || "原因不明"})`);
       }
     } catch (e) {
       setCostStatsError("通信環境を確認してください。");
+      setAdminActionError("コスト集計の取得に失敗しました。通信環境を確認してください。");
     } finally {
       setCostStatsLoading(false);
     }
@@ -947,11 +953,12 @@ export default function JinroGame() {
       const data = await res.json();
       if (res.ok) {
         setNpcCandidateList(data.candidates || []);
+        setAdminActionError(null);
       } else {
-        addLog([{ type: "system", text: `候補一覧の取得に失敗しました。(${data.error || "原因不明"})` }]);
+        setAdminActionError(`候補一覧の取得に失敗しました。(${data.error || "原因不明"})`);
       }
     } catch (e) {
-      addLog([{ type: "system", text: "候補一覧の取得に失敗しました。通信環境を確認してください。" }]);
+      setAdminActionError("候補一覧の取得に失敗しました。通信環境を確認してください。");
     }
   }
 
@@ -4100,6 +4107,11 @@ JSON形式のみ: {"text":"回答"}`;
                 className="w-full rounded px-2 py-1.5 text-sm border"
                 style={{ borderColor: "#D8C4B5" }}
               />
+              {adminActionError && (
+                <div className="rounded px-2 py-1.5 text-xs font-bold" style={{ background: "#FDECEA", color: "#B00020" }}>
+                  ⚠️ {adminActionError}(合言葉が間違っている可能性があります)
+                </div>
+              )}
               <button
                 onClick={grantTestCredits}
                 className="w-full py-1.5 rounded text-sm font-bold"
