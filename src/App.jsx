@@ -408,8 +408,11 @@ const NIGHT_FLAVOR_EN = {
 };
 
 // 2日目以降の朝の定例文(共通オープニング + 役職別アドバイス)
-const MORNING_OPEN_JA = { 2: "さあ、2日目の朝だね。まずはお互い生き残れたことを称え合おう!ここからどう動くかだけど……", 3: "3日目の朝だよ。攻めのポイント:そろそろ「確定白」「確定黒」の情報も出揃ってくる頃。COしてる人同士で話が食い違ってないか、投票の時に誰が誰を庇ってたか、思い出してみるといいよ。", 4: "終盤戦だね。攻めのポイント:残り人数が少なくなってきたから、ここからは1票の重みが大きいよ。今まで的中してきた人の意見は少し信用してもいいかも。逆に、ずっと当たらなかった人の意見は割り引いて聞くのもアリ。" };
-const MORNING_OPEN_EN = { 2: "Morning of day two! First, let's celebrate that we both made it through the night. Now, about what to do from here...", 3: "Morning of day three. Key point: this is around when 'confirmed innocent' and 'confirmed guilty' info starts piling up. Worth remembering whether the people who claimed roles are contradicting each other, and who defended who during votes.", 4: "We're in the endgame now. Key point: fewer people left means each vote carries more weight. It might be worth trusting people whose reads have been right so far a bit more — and discounting the ones who've been wrong the whole game." };
+// 2日目だけは「なぜなら」で役職アドバイスへそのまま繋げる作りなので、名前を差し込める関数にする(3・4日目以降は今まで通り固定文)
+const MORNING_OPEN_DAY2_JA = (name) => `さあ、2日目の朝だね。まずはお互い生き残れたことを称え合おう!ここからどう動くかだけど……\n2日目は${name}の動きが重要になってくると思うんだ。なぜなら`;
+const MORNING_OPEN_DAY2_EN = (name) => `Morning of day two! First, let's celebrate that we both made it through the night. Now, about what to do from here...\nDay two is going to come down to what ${name} does, I think. Because`;
+const MORNING_OPEN_JA = { 3: "3日目の朝だよ。攻めのポイント:そろそろ「確定白」「確定黒」の情報も出揃ってくる頃。COしてる人同士で話が食い違ってないか、投票の時に誰が誰を庇ってたか、思い出してみるといいよ。", 4: "終盤戦だね。攻めのポイント:残り人数が少なくなってきたから、ここからは1票の重みが大きいよ。今まで的中してきた人の意見は少し信用してもいいかも。逆に、ずっと当たらなかった人の意見は割り引いて聞くのもアリ。" };
+const MORNING_OPEN_EN = { 3: "Morning of day three. Key point: this is around when 'confirmed innocent' and 'confirmed guilty' info starts piling up. Worth remembering whether the people who claimed roles are contradicting each other, and who defended who during votes.", 4: "We're in the endgame now. Key point: fewer people left means each vote carries more weight. It might be worth trusting people whose reads have been right so far a bit more — and discounting the ones who've been wrong the whole game." };
 
 const MORNING_ADVICE_JA = {
   2: {
@@ -417,7 +420,7 @@ const MORNING_ADVICE_JA = {
     "霊媒師": "初日に処刑された人がいるなら、もう結果が出てるはずだよ。信頼を得るために、そろそろ公表を考えてもいいかもね。",
     "狩人": "誰を守るか、そろそろ本命を決めてみたら?占い師とか、名乗り出た役職者を優先的に守るのが定石だよ。",
     "共有者": "相方との密談で、教室で見聞きしたことをすり合わせておくといいよ。2人の視点を合わせると気づくことも多いから。",
-    "村人": "まだ目立った動きはできないけど、みんなの発言を覚えておくのが一番の武器。誰が誰を庇ったか、そろそろメモしておくといいかも。",
+    "村人": "まだ目立った動きはできないし、\nこれからもずっと何か活躍できる保証はどこにも無い。\nやれることと言えば、ただ他人の立ち回りを眺めてあれこれ言いながら、投票することだけ。\n疑いの矛先がこっちに向いたら終わり、何も持ってない事を証明するのが一番難しい。\nあれ?全然重要じゃなかった。",
     "ジョーカー": "もし能力を継承してたら、そろそろ使いどころを考え始めてもいいかもね。",
     "狂人": "自分が人狼だと思われないよう、村人らしく振る舞おう。対抗COも有効な手だよ。",
     "人狼": "そろそろ疑われ始める頃かも。仲間を守りつつ、村人のふりを続けよう。",
@@ -425,7 +428,7 @@ const MORNING_ADVICE_JA = {
   3: {
     "占い師": "もうCOしてるなら、結果を淡々と積み重ねていこう。まだなら、そろそろ名乗るかどうか本気で考えるタイミングだよ。",
     "霊媒師": "結果が2日分たまってきたはず。信頼してもらうために、そろそろ公表を考えてもいいかもね。",
-    "狩人": "誰かが襲撃で亡くなったなら、その人を守れなかったってこと。次は誰を守るべきか、傾向を考え直してみて。",
+    "狩人": "もう特に言うことはない。\n自由に生きて欲しい。",
     "共有者": "他の役職者のCOと、自分たちの持ってる情報がかみ合うか、密談で確認しておくといいよ。",
     "村人": "COしてる人同士の言い分が食い違ってないか、よく思い出してみて。矛盾を見つけるのが村人の得意技だよ。",
     "ジョーカー": "もし能力を継承してたら、そろそろ使いどころを考えてもいい頃かも。",
@@ -437,7 +440,7 @@ const MORNING_ADVICE_JA = {
     "霊媒師": "終盤は特に、あなたの結果が最後の決め手になりやすい。今までの結果と矛盾がないか確認してみて。",
     "狩人": "残り少ない中で誰を守るかは超重要。一番怪しまれてなさそうな役職者を守るのも手だよ。",
     "共有者": "終盤は相方との連携が生死を分けるかも。密談で最終的な方針をすり合わせておこう。",
-    "村人": "終盤の1票はすごく重い。これまでの発言の矛盾を思い出して、自信を持って投票してみて。",
+    "村人": "村側として今まで生き残ったことに意味がある。\nこの一票は重い。",
     "ジョーカー": "能力がまだ残ってるなら、ここが使いどころかもしれないよ。",
     "狂人": "残り少ない中で人狼を守り切れるかが勝負。怪しまれてる人狼から目を逸らす発言も考えてみて。",
     "人狼": "終盤は数の勝負。あと何人減らせば人狼陣営が勝てるか、頭の中で数えておこう。",
@@ -449,7 +452,7 @@ const MORNING_ADVICE_EN = {
     "霊媒師": "If someone was executed on day one, you should have a result by now. Worth thinking about revealing it to build some trust.",
     "狩人": "Might be time to settle on who to protect. Guarding whoever's claimed a role, like the Seer, is usually the safe bet.",
     "共有者": "Worth comparing notes with your partner in your private chat about what you each saw in class. Two perspectives together often catch things one alone would miss.",
-    "村人": "Can't do much flashy yet, but remembering what everyone said is your best weapon. Might be worth noting who defended who.",
+    "村人": "you can't really do anything flashy yet, and there's no guarantee you ever will.\nAll you can really do is watch everyone else, comment on it, and vote.\nOnce suspicion turns your way, it's game over — proving you have nothing is the hardest thing to prove.\n...Huh. Turns out that wasn't important at all.",
     "ジョーカー": "If you've inherited a power by now, might be worth starting to think about when to use it.",
     "狂人": "Act like a normal villager so nobody suspects you're on the wolves' side. A counter-claim can also be a useful move.",
     "人狼": "People might start suspecting you soon. Keep protecting your partner while still acting the part of a villager.",
@@ -457,7 +460,7 @@ const MORNING_ADVICE_EN = {
   3: {
     "占い師": "If you've already claimed, just keep stacking up results calmly. If not, this is the time to seriously consider coming out.",
     "霊媒師": "You should have two days' worth of results by now. Might be worth revealing them to earn some trust.",
-    "狩人": "If someone got attacked, that means your last guard didn't work out. Worth rethinking who to protect next.",
+    "狩人": "Not much else to say, honestly.\nHope you live free.",
     "共有者": "Check with your partner in your private chat whether other people's claims line up with what you two already know.",
     "村人": "Think back on whether the people who've claimed roles are contradicting each other. Catching contradictions is a Villager's specialty.",
     "ジョーカー": "If you've inherited a power, this might be a good time to start thinking about when to use it.",
@@ -469,7 +472,7 @@ const MORNING_ADVICE_EN = {
     "霊媒師": "This late in the game, your result is often the deciding factor. Double-check it doesn't contradict what you've said before.",
     "狩人": "Who you protect matters a ton this late. Guarding whoever looks least suspicious as a role-holder can be a smart move.",
     "共有者": "Coordination with your partner can make or break things now. Nail down your final plan together in your private chat.",
-    "村人": "Every vote counts a lot right now. Recall the contradictions from earlier and vote with confidence.",
+    "村人": "Just surviving this long on the village side means something.\nThis vote carries real weight.",
     "ジョーカー": "If you've still got your power left, this might be the moment to use it.",
     "狂人": "It's all about protecting the werewolves through to the end now. Think about ways to draw attention away from whoever's under suspicion.",
     "人狼": "It's a numbers game in the endgame. Keep count of how many more votes the werewolf side needs to win.",
@@ -664,7 +667,8 @@ export default function JinroGame() {
   const [region, setRegion] = useState("ja"); // "ja"(日本語圏) | "en"(英語圏)。キャストと会話の言語を切り替える(UI自体は常に日本語のまま)
   const [beginnerMode, setBeginnerMode] = useState(false); // 初心者モード:プレイヤーへの疑いを少し手加減し、生存中のNPC1人がたまに解説・ヒントを添える
   const [guideNpcName, setGuideNpcName] = useState(null); // 初心者モードの案内役NPC名(死亡したらこの役割も自然に終わる。特別扱いはしない)
-  const [beginnerStageShown, setBeginnerStageShown] = useState(null); // 初心者チュートリアルの進行段階(0=ルール説明済み、1=役職説明済み、2=戦略説明済み、null=初心者モードでない)
+  const [beginnerStageShown, setBeginnerStageShown] = useState(null); // 初心者チュートリアルの進行段階(0=ルール説明済み、1=役職説明済み、2=戦略説明済み、3以降=埋め合わせの一言を出した回数、null=初心者モードでない)
+  const [beginnerPreVoteShown, setBeginnerPreVoteShown] = useState(false); // 1回目投票直前の定例文を、1日目に一度だけ出したかどうか
   const [beginnerCoExplained, setBeginnerCoExplained] = useState(false); // 「CO」という用語の解説を、初心者モード中に一度だけ挟んだかどうか
   const [beginnerNightFlavorDay, setBeginnerNightFlavorDay] = useState(null); // 夜の一言(役職別)を、何日目の夜まで出したか
   const [beginnerMorningAdviceDay, setBeginnerMorningAdviceDay] = useState(null); // 朝のアドバイス(役職別)を、何日目の朝まで出したか
@@ -1026,7 +1030,7 @@ export default function JinroGame() {
       voteRound1Tally, defenseCandidates, voteTarget, nightTarget,
       privateInfo, confirmedWhite, confirmedBlack, winner, jokerState,
       wolfActionsToday, userName, userGender, npcSeerLog, npcMediumLog, mediumRevealedName, executionHistory, npcJokerState, excludedSuspects, npcGuardLog, roleGuesses, npcAffinity, madmanDelusions, roleClaims,
-      pendingMajorityWin, defenseReacted, defenseStatementCount, allyChatCount, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerCoExplained, beginnerNightFlavorDay, beginnerMorningAdviceDay,
+      pendingMajorityWin, defenseReacted, defenseStatementCount, allyChatCount, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerPreVoteShown, beginnerCoExplained, beginnerNightFlavorDay, beginnerMorningAdviceDay,
     };
     (async () => {
       try {
@@ -1068,6 +1072,8 @@ export default function JinroGame() {
       setTypedChars(fullyTyped);
       typingQueueRef.current = [];
       isTypingRef.current = false;
+      guideTypingQueueRef.current = [];
+      isGuideTypingRef.current = false;
       setNpcSeerLog(s.npcSeerLog || []);
       setNpcGuardLog(s.npcGuardLog || []);
       setNpcMediumLog(s.npcMediumLog || []);
@@ -1087,6 +1093,7 @@ export default function JinroGame() {
       setGuideNpcName(s.guideNpcName || null);
       setExchangeStudents(s.exchangeStudents || []);
       setBeginnerStageShown(typeof s.beginnerStageShown === "number" ? s.beginnerStageShown : (s.beginnerMode ? 0 : null));
+      setBeginnerPreVoteShown(!!s.beginnerPreVoteShown);
       setBeginnerCoExplained(!!s.beginnerCoExplained);
       setBeginnerNightFlavorDay(typeof s.beginnerNightFlavorDay === "number" ? s.beginnerNightFlavorDay : null);
       setBeginnerMorningAdviceDay(typeof s.beginnerMorningAdviceDay === "number" ? s.beginnerMorningAdviceDay : null);
@@ -1369,19 +1376,24 @@ ${fullTranscript}
   const [typedChars, setTypedChars] = useState({});
   const [typingIdle, setTypingIdle] = useState(true); // ログの文字送り(タイプライター)が全て出し切って止まっているかどうか
   const typingQueueRef = useRef([]);
+  const guideTypingQueueRef = useRef([]); // 案内役の解説(secret: true)専用のキュー。本編の表示状況とは無関係に自分のペースで進む
   const glossaryScannedLenRef = useRef(0); // 用語集の検出で、ログの何番目まで既にチェック済みか
   const explainedGlossaryTermsRef = useRef(new Set()); // 既に解説を挟んだ用語のid一覧(1ゲーム中、同じ用語は1回だけ)
   const isTypingRef = useRef(false);
+  const isGuideTypingRef = useRef(false); // 案内役専用キューが処理中かどうか
   const hasStartedRef = useRef(false);
 
   useEffect(() => {
     logRef.current.forEach((entry, i) => {
       if (typedChars[i] !== undefined) return; // 既に処理済み
-      if (!typingQueueRef.current.includes(i)) {
-        typingQueueRef.current.push(i);
+      // 案内役の解説(secret: true)は、本編とは別の専用キューに振り分ける(本編が詰まっていても影響を受けない)
+      const queue = entry.secret ? guideTypingQueueRef : typingQueueRef;
+      if (!queue.current.includes(i)) {
+        queue.current.push(i);
       }
     });
     processTypingQueue();
+    processGuideTypingQueue();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [log]);
 
@@ -1390,6 +1402,7 @@ ${fullTranscript}
     const idx = typingQueueRef.current.shift();
     if (idx === undefined) {
       setTypingIdle(true); // 出すべき文字が何も残っていない(全て出し切った)
+      processGuideTypingQueue(); // 本編が追いついたので、案内役の続きがあればここで進める
       return;
     }
     setTypingIdle(false); // まだ出している途中(この後に続きがある)
@@ -1429,20 +1442,57 @@ ${fullTranscript}
     }, startDelay);
   }
 
+  // 案内役の解説(secret: true)専用のタイプ処理。裏側の処理(キュー管理)は本編と独立しているが、
+  // 表示の見た目は「同じ1本のストーリーライン」に見えるよう、本編がまだ表示待ちの間は案内役の表示を待たせる。
+  // (本編を止めることはない。案内役の側だけが、本編に追いつくまで一時停止する)
+  function processGuideTypingQueue() {
+    if (isGuideTypingRef.current) return;
+    if (isTypingRef.current || typingQueueRef.current.length > 0) return; // 本編がまだ表示中・順番待ちなら、案内役はここで待つ
+    const idx = guideTypingQueueRef.current.shift();
+    if (idx === undefined) return;
+    const entry = logRef.current[idx];
+    if (!entry) return;
+    isGuideTypingRef.current = true;
+    let pos = typedChars[idx] || 0;
+    const speed = 48; // 通常のセリフと同じ速度
+    const startDelay = pos === 0 ? 350 : 0; // 通常のセリフと完全に同じ間にする
+    setTimeout(() => {
+      const timer = setInterval(() => {
+        pos++;
+        setTypedChars((prev) => ({ ...prev, [idx]: pos }));
+        if (hasStartedRef.current && pos % 4 === 0) {
+          scrollBoxRef.current?.scrollTo({ top: scrollBoxRef.current.scrollHeight, behavior: "auto" });
+        }
+        if (pos >= entry.text.length) {
+          clearInterval(timer);
+          isGuideTypingRef.current = false;
+          hasStartedRef.current = true;
+          scrollBoxRef.current?.scrollTo({ top: scrollBoxRef.current.scrollHeight, behavior: "auto" });
+          processGuideTypingQueue(); // 次も、本編の状況を見てから進める(上のガードで自然に足並みが揃う)
+        }
+      }, speed);
+    }, startDelay);
+  }
+
   // 安全策:何らかの理由でキューが停止・表示漏れが起きた場合に備え、定期的に取りこぼしを検知して復旧する
   useEffect(() => {
     const watchdog = setInterval(() => {
       let foundMissing = false;
+      let foundMissingGuide = false;
       logRef.current.forEach((entry, i) => {
         if (typedChars[i] === undefined) {
-          foundMissing = true;
-          if (!typingQueueRef.current.includes(i)) {
-            typingQueueRef.current.push(i);
+          const queue = entry.secret ? guideTypingQueueRef : typingQueueRef;
+          if (entry.secret) foundMissingGuide = true; else foundMissing = true;
+          if (!queue.current.includes(i)) {
+            queue.current.push(i);
           }
         }
       });
       if (foundMissing && !isTypingRef.current) {
         processTypingQueue();
+      }
+      if (foundMissingGuide && !isGuideTypingRef.current) {
+        processGuideTypingQueue();
       }
     }, 2000);
     return () => clearInterval(watchdog);
@@ -1484,8 +1534,14 @@ ${fullTranscript}
   // 初心者モードの案内役セリフは、改行(段落)ごとに別々の吹き出し(ログのエントリ)に分割する。
   // 1つの長い塊のまま1文字ずつタイプさせると表示し終わるまで時間がかかりすぎるため、
   // 実際のチャットのように、短いメッセージを連続で送っているような見た目にする(タイプライター演出はそのまま活かす)。
+  // 初心者モードの1日目だけ、投票に入るまでのターン数を1つ早める(4回目の行動の直後に投票へ)。
+  // 案内役の定例文はStage0〜3(0〜3回目の行動)までしか用意していないため、5ターン目まで引っ張ると
+  // 4回目の行動の後だけ案内役が何も言わない空白ターンができてしまう。それを避けるための調整。
+  function voteTurnCap() {
+    return beginnerMode && day === 1 ? 4 : 5;
+  }
   function guideLines(speaker, text) {
-    return text.split("\n").map((line) => line.trim()).filter(Boolean).map((line) => ({ type: "npc", speaker, text: line, secret: true }));
+    return [{ type: "npc", speaker, text, secret: true }];
   }
   function addLog(entries) {
     const sanitized = entries.map((e) => ({ ...e, text: e.text ? sanitizeStageDirections(e.text) : e.text }));
@@ -1780,6 +1836,7 @@ JSON形式のみ: {"summary":"要約文"}`;
     }
 
     setBeginnerStageShown(beginnerMode ? 0 : null);
+    setBeginnerPreVoteShown(false);
     setBeginnerCoExplained(false);
     setBeginnerNightFlavorDay(null);
     setBeginnerMorningAdviceDay(null);
@@ -1788,6 +1845,8 @@ JSON形式のみ: {"summary":"要約文"}`;
 
     typingQueueRef.current = [];
     isTypingRef.current = false;
+    guideTypingQueueRef.current = [];
+    isGuideTypingRef.current = false;
     hasStartedRef.current = false;
     setTypedChars({});
     logRef.current = introLog;
@@ -1894,7 +1953,7 @@ ${buildCounterCoEscalationNote(alivePlayers())}
     if (voteIntent) {
       addLog([{ type: "system", text: "投票する人を選んでください。" }]);
       goToVoteRound1();
-    } else if (nextTurns >= 5) {
+    } else if (nextTurns >= voteTurnCap()) {
       addLog([{ type: "system", text: "そろそろ結論を出す時間です。投票する人を選んでください。" }]);
       goToVoteRound1();
     } else {
@@ -1942,7 +2001,7 @@ ${buildCounterCoEscalationNote(alivePlayers())}
     setBusy(false);
     if (pendingMajorityWin) { triggerWolfMajorityReveal(); return; }
     const nextTurns = discussionTurns + 1;
-    if (nextTurns >= 5) {
+    if (nextTurns >= voteTurnCap()) {
       addLog([{ type: "system", text: "そろそろ結論を出す時間です。投票が行われます。" }]);
       goToVoteRound1();
     } else {
@@ -2009,7 +2068,7 @@ ${getQuietNPCsToday(npcs).length > 0 ? `**発言回数の公平性配慮**:今�
     setTurnLabel((t) => t + 1);
     if (pendingMajorityWin) { triggerWolfMajorityReveal(); return; }
     const nextActionTurns = discussionTurns + 1;
-    if (nextActionTurns >= 5) {
+    if (nextActionTurns >= voteTurnCap()) {
       addLog([{ type: "system", text: "そろそろ結論を出す時間です。投票する人を選んでください。" }]);
       goToVoteRound1();
     } else {
@@ -2055,7 +2114,7 @@ ${(() => { const q = getQuietNPCsToday(npcs); return q.length > 0 ? `**発言回
     setTurnLabel((t) => t + 1);
     if (pendingMajorityWin) { triggerWolfMajorityReveal(); return; }
     const nextActionTurns = discussionTurns + 1;
-    if (nextActionTurns >= 5) {
+    if (nextActionTurns >= voteTurnCap()) {
       addLog([{ type: "system", text: "そろそろ結論を出す時間です。投票する人を選んでください。" }]);
       goToVoteRound1();
     } else {
@@ -2302,15 +2361,15 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityC
     }
     setPhase("vote_round1");
     // 初心者モード1日目、初めての投票に入る直前の定例文(チュートリアルの最終段階)
-    if (beginnerMode && day === 1 && beginnerStageShown !== null && beginnerStageShown < 3 && guideNpcName) {
+    if (beginnerMode && day === 1 && !beginnerPreVoteShown && guideNpcName) {
       const guide = players.find((p) => p.name === guideNpcName);
       if (guide && guide.alive) {
         const text = region === "en"
           ? `Whoa, you might already be a Werewolf pro at this point! Alright, voting time! Put everything you've gathered so far into that vote!`
           : `さすが!!いいね!いいね!もう人狼上級者と言っても過言ではないかもね。さあそろそろ投票の時間だ!今まで集めた情報を元に、導き出した答えを投票に込めるんだ!!よく分からなかったら、自分への好感度が低そうな人に投票してみても良いかもね。`;
         addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
-        setBeginnerStageShown(3);
       }
+      setBeginnerPreVoteShown(true);
     }
     setTurnLabel(6);
   }
@@ -3612,7 +3671,7 @@ ${guardLogText}
     const guide = players.find((p) => p.name === guideNpcName);
     if (!guide || !guide.alive) return; // 案内役が生存していない間は進めない(バトンタッチ後に再開する)
     const nextStage = beginnerStageShown + 1;
-    if (nextStage > 2) return; // discussionTurns由来の段階(0,1,2)は出し切っている。3(投票直前)は別の場所で扱う
+    if (nextStage > 3) return; // 0,1,2,3回目の行動で書いた内容(4段階)は出し切っている。この後は投票直前の定例文まで何も挟まない
     if (discussionTurns < nextStage) return; // まだそのターン数に達していない
     const pronoun = region === "en" ? guidePronounEn() : guidePronounJa(guide.gender);
     let text = buildBeginnerTutorialText(nextStage, region, userName, pronoun);
@@ -3657,7 +3716,7 @@ ${guardLogText}
     const table = region === "en" ? NIGHT_FLAVOR_EN : NIGHT_FLAVOR_JA;
     const builder = table[me.role];
     if (!builder) return;
-    addLog(guideLines(guideNpcName, applyGuideVoice(builder(userName), guide.gender, region)));
+    addLog(guideLines(guideNpcName, applyGuideVoice(builder(guideNpcName), guide.gender, region)));
     setBeginnerNightFlavorDay(day);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, day, beginnerMode, beginnerNightFlavorDay, guideNpcName, busy, players, jokerState]);
@@ -3671,13 +3730,16 @@ ${guardLogText}
     const me = getUser();
     if (!me || !me.alive) return; // プレイヤーが死亡している場合は聞かせない
     const dayKey = day >= 4 ? 4 : day; // 4日目以降は同じアドバイスを使い回す
-    const openText = (region === "en" ? MORNING_OPEN_EN : MORNING_OPEN_JA)[dayKey];
+    const openText = dayKey === 2
+      ? (region === "en" ? MORNING_OPEN_DAY2_EN(userName) : MORNING_OPEN_DAY2_JA(userName))
+      : (region === "en" ? MORNING_OPEN_EN : MORNING_OPEN_JA)[dayKey];
     const adviceTable = (region === "en" ? MORNING_ADVICE_EN : MORNING_ADVICE_JA)[dayKey];
     // ジョーカーは、役職者が死んで覚醒するまで「自分がジョーカーだ」という自覚自体がない(ただの村人だと思っている)。
     // 覚醒前にジョーカー向けの助言を聞かせると、覚醒していないのに知っているという矛盾になるため、覚醒前は村人向けの助言を使う。
     const adviceRole = (me.role === "ジョーカー" && jokerState.hidden) ? "村人" : me.role;
     const advice = adviceTable?.[adviceRole];
-    const text = advice ? `${openText}\n${advice}` : openText;
+    // 2日目だけは「なぜなら」で終わるオープニングに、そのまま同じ文として続ける(改行しない)。3・4日目以降は今まで通り別の文として改行する。
+    const text = advice ? (dayKey === 2 ? `${openText}${advice}` : `${openText}\n${advice}`) : openText;
     if (text) addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
     setBeginnerMorningAdviceDay(day);
     // eslint-disable-next-line react-hooks/exhaustive-deps
