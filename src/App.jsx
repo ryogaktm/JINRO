@@ -335,78 +335,78 @@ const ROLE_EN = { "占い師": "Seer", "霊媒師": "Medium", "狩人": "Hunter"
 function buildBeginnerTutorialText(stage, region, name, pronoun) {
   if (region === "en") {
     const P = [
-      `Oh, ${name}, this is your first time playing Werewolf, huh? Leave it to me! I've seen it all, I'll teach you everything!\nWerewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates. At the end of each day, everyone votes for who they think is a werewolf, and that person gets voted out.\nSo basically, the more information you gather from everyone before the day ends, the better your chances of finding the werewolf among these 11 people!\nGo ahead, say or do anything first — really, anything works. Not sure what to do? Maybe start with just saying hi?`,
-      `Nice, good job!! You're doing great.\nOkay, next let me explain the roles. Actually, everyone here has been secretly assigned some role. There are a bunch of role types, so explaining all of them would be a pain, so I'll skip that.\n...Oh wait, hold on. I don't know what ${name}'s role is, but I suddenly feel like explaining it anyway, so I will.`,
-      `Whoa, you might already know more about this game than I do! Okay, let me teach you some real strategy.\nLike I said, every day you have to find someone suspicious and vote them out. But on day one, there's barely any info and not much you can actually do!\nSo what can we do about that? Just like before — watch people carefully, and if something feels a little off, ask them about it directly.\nIf someone seems restless, or keeps glancing at others, or anything catches your eye, ask them why and watch how they react.`,
-      `Looks like you got a good reaction out of someone! Nice work!\nKeep it up — even a small gesture or action that seems unimportant might connect to something important later! ...Though most of the time it doesn't, honestly.\nAnyway, keep moving and keep digging for info!\nWhat, you don't know who to talk to anymore? In that case, open the side menu up top and check everyone's affinity toward you. A heart mark means they like you the most, so maybe start by playing along with what they say to get on their good side. Staying friendly with someone might mean they help you out later when you're in trouble.`,
+      `Oh, ${name}, this is your first time playing Werewolf, huh?\nLeave it to me! I've seen it all, I'll teach you everything!\nWerewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates.\nAt the end of each day, everyone votes for who they think is a werewolf, and that person gets voted out.\nSo basically, the more information you gather from everyone before the day ends, the better your chances of finding the werewolf among these 11 people!\nGo ahead, say or do anything first — really, anything works.\nNot sure what to do? Maybe start with just saying hi?`,
+      `Nice, good job!! You're doing great.\nOkay, next let me explain the roles.\nActually, everyone here has been secretly assigned some role.\nThere are a bunch of role types, so explaining all of them would be a pain, so I'll skip that.\n...Oh wait, hold on.\nI don't know what ${name}'s role is, but I suddenly feel like explaining it anyway, so I will.`,
+      `Whoa, you might already know more about this game than I do!\nOkay, let me teach you some real strategy.\nLike I said, every day you have to find someone suspicious and vote them out.\nBut on day one, there's barely any info and not much you can actually do!\nSo what can we do about that? Just like before — watch people carefully, and if something feels a little off, ask them about it directly.\nIf someone seems restless, or keeps glancing at others, or anything catches your eye, ask them why and watch how they react.`,
+      `Looks like you got a good reaction out of someone! Nice work!\nKeep it up — even a small gesture or action that seems unimportant might connect to something important later!\n...Though most of the time it doesn't, honestly.\nAnyway, keep moving and keep digging for info!\nDon't know who to talk to anymore?\nIn that case, open the side menu up top and check everyone's affinity toward you.\nA heart mark means they like you the most, so maybe start by playing along with what they say to get on their good side.\nStaying friendly with someone might mean they help you out later when you're in trouble.`,
     ];
     return P[stage];
   }
   const P = [
-    `あ、${name}は人狼ゲーム初めてだったね。まかしといて!百戦錬磨の${pronoun}が教えるよ!\n人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。一日の終わりに人狼と思う人に投票して数の暴力で処刑していくんだ。\nつまり日が暮れる前により多く情報を皆から集めて、この11人の中に潜む人狼をいかに探し当てるかがポイントだね!\nまずは何でもいいから話してみて。本当にどんな事を言っても良いよ。何を言っていいか分からなかったら、まずはあいさつとかしてみたら?`,
-    `うんうん、良い感じ!やるじゃん。\nじゃあ次は役職の説明をしようかな。実は参加者には全員、なんらかの役職が与えられているんだ。役職の種類はたくさんあるから、ちょっと今説明するのはめんどくさいから割愛するね。\n……あ、でもちょっと待てよ。${name}の役職が何か知らないけど、急に説明がしたくなったから勝手にするね。`,
-    `すごいね!もう${pronoun}より人狼ゲームを知り尽くしてるかも!じゃあ、特別に基本戦略を教えちゃおっかな。\n前言ったように、毎日誰か怪しい人を探して投票しなきゃいけないんだけど、初日はとにかく情報が少ない!取れる行動もそんなにない!\nそんな中で${pronoun}たちに何ができるかっていうと、さっきみたいに注意深く周りを観察して、ちょっとでも気になることがあったら本人に直接質問をするしかないね。\n落ち着きがなかったりとか、顔色をうかがったりとか、何か気になることがあったら、その理由を聞いて反応を見てったらいいよ。`,
-    `上手いこと反応を引き出せたみたいだね!その調子!細かいことかもしれないけど、一見大した事無さそうな行動やしぐさの一つ一つが重要な真実につながってる可能性があるよ!まあ、大体の場合は繋がってないけどね。\nさあ、どんどん動いて情報を引き出そう!\nえ?もうこれ以上誰にどう話していいか分からないって?そんな時は左上のサイドメニューを開いて、各キャラクターの好感度を見てごらん。ハートマークが最高に君のことを好きって事だから、まずはその人の言葉に適当に乗っかってご機嫌を取ってみたらどうかな。仲良くなっとけば、ピンチになった時に助けてくれるかも?`,
+    `あ、${name}は人狼ゲーム初めてだったね。\nまかしといて!百戦錬磨の${pronoun}が教えるよ!\n人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。\n一日の終わりに人狼と思う人に投票して数の暴力で処刑していくんだ。\nつまり日が暮れる前により多く情報を皆から集めて、この11人の中に潜む人狼をいかに探し当てるかがポイントだね!\nまずは何でもいいから話してみて。\n何を言っていいか分からなかったら、まずはあいさつとかしてみたら?`,
+    `うんうん、良い感じ!やるじゃん。\nじゃあ次は役職の説明をしようかな。\n実は参加者には全員、なんらかの役職が与えられているんだ。\n役職の種類はたくさんあるから、ちょっと今説明するのはめんどくさいから割愛するね。\n……あ、でもちょっと待てよ。\n${name}の役職が何か知らないけど、急に説明がしたくなったから勝手にするね。`,
+    `すごいね!もう${pronoun}より人狼ゲームを知り尽くしてるかも!\nじゃあ、特別に基本戦略を教えちゃおっかな。\n前言ったように、毎日誰か怪しい人を探して投票しなきゃいけないんだけど、初日はとにかく情報が少ない!\n取れる行動もそんなにない!\nそんな中で${pronoun}たちに何ができるかっていうと、さっきみたいに注意深く周りを観察して、ちょっとでも気になることがあったら本人に直接質問をするしかないね。\n落ち着きがなかったりとか、顔色をうかがったりとか、何か気になることがあったら、その理由を聞いて反応を見てったらいいよ。`,
+    `上手いこと反応を引き出せたみたいだね!\nその調子!\n細かいことかもしれないけど、一見大した事無さそうな行動やしぐさの一つ一つが重要な真実につながってる可能性があるよ!\nまあ、大体の場合は繋がってないけどね。\nさあ、どんどん動いて情報を引き出そう!\nもうこれ以上誰にどう話していいか分からない?\nそんな時は左上のサイドメニューを開いて、各キャラクターの好感度を見てごらん。\nハートマークが最高に君のことを好きって事だから、まずはその人の言葉に適当に乗っかってご機嫌を取ってみたらどうかな。\n仲良くなっとけば、ピンチになった時に助けてくれるかも?`,
   ];
   return P[stage];
 }
 
 // Stage1で、プレイヤー自身の役職を案内役が(勝手に)説明する部分。本人が最初から知っている情報なので問題ない。
 const ROLE_INTRO_JA = {
-  "占い師": "占い師は毎晩1人を占って、その人が人狼かどうかが分かる役職だよ。基本の戦略としては、占いができる2日目からカミングアウトするのが良いよ。",
-  "霊媒師": "霊媒師は処刑された人が人狼だったかどうか、次の日に分かる役職だよ。結果は嘘をつかない限り絶対に正しいから、信頼されやすいのが強みだね。",
-  "狩人": "狩人は毎晩1人を選んで、人狼の襲撃から守れる役職だよ。自分で自分の身を守ることはできないから、自分の役職をばらすのは原則やっちゃダメ。\n目立たずやり過ごすって意味では行動パターンが人狼と似てるから、しばしば勘違いされやすい役職ではあるよね。",
-  "共有者": "共有者は2人1組で、お互いが人狼じゃないって分かっている役職だよ。相方との密談で情報をすり合わせられるのが強みだね。",
-  "村人": "村人は特別な能力を持たない役職だよ。だから特に何も言うことはないね。しいて言うなら無価値だからこそ、気兼ねなく村のために命を捨てられる気楽な存在ともいえるね。",
-  "ジョーカー": "ジョーカーは占い師・霊媒師・狩人の誰かが死んだ時に、その力を1回だけ引き継げる役職だよ。今はまだその力は使えないみたいだね。",
+  "占い師": "占い師は毎晩1人を占って、その人が人狼かどうかが分かる役職だよ。\n基本の戦略としては、占いができる2日目からカミングアウトするのが良いよ。",
+  "霊媒師": "霊媒師は処刑された人が人狼だったかどうか、次の日に分かる役職だよ。\n結果は嘘をつかない限り絶対に正しいから、信頼されやすいのが強みだね。",
+  "狩人": "狩人は毎晩1人を選んで、人狼の襲撃から守れる役職だよ。\n自分で自分の身を守ることはできないから、自分の役職をばらすのは原則やっちゃダメ。\n目立たずやり過ごすって意味では行動パターンが人狼と似てるから、しばしば勘違いされやすい役職ではあるよね。",
+  "共有者": "共有者は2人1組で、お互いが人狼じゃないって分かっている役職だよ。\n相方との密談で情報をすり合わせられるのが強みだね。",
+  "村人": "村人は特別な能力を持たない役職だよ。\nだから特に何も言うことはないね。\nしいて言うなら無価値だからこそ、気兼ねなく村のために命を捨てられる気楽な存在ともいえるね。",
+  "ジョーカー": "ジョーカーは占い師・霊媒師・狩人の誰かが死んだ時に、その力を1回だけ引き継げる役職だよ。\n今はまだその力は使えないみたいだね。",
   "狂人": "狂人は人狼の仲間だけど、人狼みたいに村人を襲う事は出来ないよー。\nでも人狼陣営が勝てば、自分も勝ちになるんだ。\n占われても「人狼ではない」と判断されるから、厄介だね。\nあと、相方は人狼側に洗脳されてて、自分が何かの役職と思い込んでいるんだ。",
-  "人狼": "人狼は夜にみんなで1人を選んで襲う役職だよ。正体がバレないように、村人のふりをして立ち回るのがポイントだね。\n狂人は人狼側だから、狙っちゃだめだよ。\nそうやって、投票と夜中の襲撃で効率よく村側を潰さないといけないんだ。",
+  "人狼": "人狼は夜にみんなで1人を選んで襲う役職だよ。\n正体がバレないように、村人のふりをして立ち回るのがポイントだね。\n狂人は人狼側だから、狙っちゃだめだよ。\nそうやって、投票と夜中の襲撃で効率よく村側を潰さないといけないんだ。",
 };
 const ROLE_INTRO_EN = {
-  "占い師": `As a Seer, every night you can check one person and find out if they're a werewolf. Basic strategy: it's usually good to come out publicly starting day two, once you actually have a result to share.`,
-  "霊媒師": `As a Medium, you find out the next day whether the person who was executed was a werewolf. The result is always true unless you lie about it yourself, so people tend to trust it a lot.`,
-  "狩人": `As a Hunter, every night you can protect one person from a werewolf attack. You can't protect yourself, though, so as a rule, you should never reveal your own role.\nIn terms of just quietly getting through the game without standing out, your behavior pattern actually looks a lot like a Werewolf's, so people often mistake you for one.`,
-  "共有者": `As a Mason, you're paired with one other person, and you both already know for sure the other isn't a werewolf. Comparing notes in your private chat is a big strength.`,
-  "村人": `As a Villager, you don't have a special power. So there's not much else to say, really. Though I guess you could say — being "worthless" means you're free to throw yourself into the fight for the village without a second thought.`,
-  "ジョーカー": `As the Joker, if the Seer, Medium, or Hunter dies, you can inherit their power — but only use it once. Looks like you can't use it yet.`,
+  "占い師": `As a Seer, every night you can check one person and find out if they're a werewolf.\nBasic strategy: it's usually good to come out publicly starting day two, once you actually have a result to share.`,
+  "霊媒師": `As a Medium, you find out the next day whether the person who was executed was a werewolf.\nThe result is always true unless you lie about it yourself, so people tend to trust it a lot.`,
+  "狩人": `As a Hunter, every night you can protect one person from a werewolf attack.\nYou can't protect yourself, though, so as a rule, you should never reveal your own role.\nIn terms of just quietly getting through the game without standing out, your behavior pattern actually looks a lot like a Werewolf's, so people often mistake you for one.`,
+  "共有者": `As a Mason, you're paired with one other person, and you both already know for sure the other isn't a werewolf.\nComparing notes in your private chat is a big strength.`,
+  "村人": `As a Villager, you don't have a special power.\nSo there's not much else to say, really.\nThough I guess you could say — being "worthless" means you're free to throw yourself into the fight for the village without a second thought.`,
+  "ジョーカー": `As the Joker, if the Seer, Medium, or Hunter dies, you can inherit their power — but only use it once.\nLooks like you can't use it yet.`,
   "狂人": `As the Possessed, you're on the werewolves' side, but unlike an actual werewolf, you can't attack villagers.\nStill, if the werewolf team wins, you win too.\nEven if you get divined, you'll come back as "not a werewolf" — which is exactly what makes you so troublesome.\nAlso, your partner has been brainwashed by the werewolves and genuinely believes they're some other role.`,
   "人狼": `As a Werewolf, every night you and the others pick one person to attack together. The key is blending in and acting like a villager so nobody catches on.\nThe Possessed is on your side, so don't target them.\nBetween the votes and the night attacks, you've got to efficiently whittle down the village side.`,
 };
 
 // 決選投票まわりの定例文
 const DEFENSE_MSG = {
-  bystanderIntroJa: (names) => `さあさあ!決選投票だ!票が多かった${names}を対象に、改めて誰が怪しいか投票するよ!${names.length > 1 ? "みんな" : ""}の言い分をしっかり聞こう。`,
-  bystanderIntroEn: (names) => `Alright, runoff vote time! We're voting again, focused on ${names}, since they got the most votes. Let's listen closely to what they have to say.`,
-  candidateIntroJa: () => `あちゃー、選ばれちゃったかー!こうなったら弁明するしかない!命乞い、自分の役職をばらす、誤解を解く、相手を下げる発言をする……何でもいい。生き残るために惨めったらしくあらゆる手段を使うんだ。もちろん、何も言わず決選投票に行っても良いぞ。`,
-  candidateIntroEn: () => `Uh oh, you got picked! Time to make your case. Beg for your life, reveal your role, clear up a misunderstanding, throw shade at someone else — anything goes. Use every trick you've got to survive. Or you can just skip it and go straight to the vote, that's fine too.`,
-  bystanderPromptJa: () => "ここまでの弁明を聞いてどう思った?気になる人から何か質問してみよう!何も聞くことなかったら、ここまでの感想とかでもいいよ。",
-  bystanderPromptEn: () => "What did you think of their defense so far? Try asking whoever's bugging you a question! If nothing comes to mind, just sharing your impression works too.",
-  candidatePromptJa: (remaining) => `さあ、皆の反応に答えるんだ。ここでうまく返せるかが勝負の分かれ道だぞ!返答できるのは後${remaining}回だ。もう決選投票に行っても良いぞ。`,
-  candidatePromptEn: (remaining) => `Alright, respond to everyone's reactions. How well you answer here could decide everything! You've got ${remaining} more chances to respond. Or you can head straight to the vote if you want.`,
-  preVoteJa: () => "よし!すべてのピースは揃った!運命の一票を入れよう!",
-  preVoteEn: () => "Alright, all the pieces are on the table! Time to cast your fateful vote!",
+  bystanderIntroJa: (names) => `さあさあ!決選投票だ!\n票が多かった${names}を対象に、改めて誰が怪しいか投票するよ!\n${names.length > 1 ? "みんな" : ""}の言い分をしっかり聞こう。`,
+  bystanderIntroEn: (names) => `Alright, runoff vote time!\nWe're voting again, focused on ${names}, since they got the most votes.\nLet's listen closely to what they have to say.`,
+  candidateIntroJa: () => `あちゃー、選ばれちゃったかー!\nこうなったら弁明するしかない!\n命乞い、自分の役職をばらす、誤解を解く、相手を下げる発言をする……何でもいい。\n生き残るために惨めったらしくあらゆる手段を使うんだ。\nもちろん、何も言わず決選投票に行っても良いぞ。`,
+  candidateIntroEn: () => `Uh oh, you got picked!\nTime to make your case.\nBeg for your life, reveal your role, clear up a misunderstanding, throw shade at someone else — anything goes.\nUse every trick you've got to survive.\nOr you can just skip it and go straight to the vote, that's fine too.`,
+  bystanderPromptJa: () => "ここまでの弁明を聞いてどう思った?\n気になる人から何か質問してみよう!\n何も聞くことなかったら、ここまでの感想とかでもいいよ。",
+  bystanderPromptEn: () => "What did you think of their defense so far?\nTry asking whoever's bugging you a question!\nIf nothing comes to mind, just sharing your impression works too.",
+  candidatePromptJa: (remaining) => `さあ、皆の反応に答えるんだ。\nここでうまく返せるかが勝負の分かれ道だぞ!\n返答できるのは後${remaining}回だ。\nもう決選投票に行っても良いぞ。`,
+  candidatePromptEn: (remaining) => `Alright, respond to everyone's reactions.\nHow well you answer here could decide everything!\nYou've got ${remaining} more chances to respond.\nOr you can head straight to the vote if you want.`,
+  preVoteJa: () => "よし!\nすべてのピースは揃った!\n運命の一票を入れよう!",
+  preVoteEn: () => "Alright, all the pieces are on the table!\nTime to cast your fateful vote!",
 };
 
 // 夜フェーズ:プレイヤー自身の役職に応じた、案内役の一言(独り言という体裁)
 const NIGHT_FLAVOR_JA = {
-  "占い師": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃占い師は、この中の誰か1人を占って、人狼かどうかを見てるんだろうな!怪しい人を占うもよし、シロを確定させて仲間にしたい人を占うもよし、戦略次第で誰を占うかが変わってくるなー!一日に一回だから慎重に選ばないとなー!`,
-  "霊媒師": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃霊媒師は、今日処刑された人が人狼だったかどうかが見えてるんだろうな!明日の朝にサイドメニューを開いて結果を確認するといいよなあ!いいなー、僕(私)も結果が知りたいなー!`,
-  "狩人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!狩人は、ひたすら身を隠してきた苦労が今報われるなー!誰を守るか考えどころだけど、やっぱり占い師とかの役職者っぽい人を守るのが定石なんだよなー。`,
-  "共有者": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃共有者は、相方とひそひそ話に花を咲かせてるんだろうなー!一見地味な役職に見えるけど、相方との密談が後で重要なヒントになったり、次の行動を相談し合えたりするから、使いこなせばなかなか面白いんだよなー。でも3回しか話せないから気をつけないとなー!`,
-  "村人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!今色々な所でいろいろなイベントが繰り広げられているけど、村人は蚊帳の外なんだよなー。ただ寝るしかやることないんだよなー。`,
-  "ジョーカー": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!もし誰かが今ジョーカーの能力に目覚めたとしたら、それは役職者が死んだってことなんだよなー。ジョーカーは一回だけ死んだ役職者の能力を引き継げるけど、一回しか使えないから使いどころを慎重に考えないとなー。この村で唯一、役職者が死んだことに気づける存在だから貴重だけど、寝返る可能性があるからどちらからも味方と思ってもらえないんだよなー。能力を公表しようと思ったら、嫌われるの覚悟でカミングアウトしないといけないから、タイミングが難しいんだよなー。`,
-  "狂人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃狂人は、洗脳されてる相方とひそひそ話に花を咲かせてるんだろうなー!一見地味な役職に見えるけど、相方との密談が後で重要なヒントになったり、次の行動を相談し合えたりするから、使いこなせばなかなか面白いんだよなー。でも3回しか話せないから気をつけないとなー!`,
-  "人狼": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!きっと今頃人狼は、相方と誰を襲うか相談してるんだろうなー!占い師とかの役職者を襲うのが良さそうに見えるけど、そういう重要な役職は狩人が守ってる可能性があるから、あえて外して全然関係ない人を襲う場合もあるんだよなー。気をつけなきゃなー。`,
+  "占い師": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!\nきっと今頃占い師は、この中の誰か1人を占って、人狼かどうかを見てるんだろうな!\n怪しい人を占うもよし、シロを確定させて仲間にしたい人を占うもよし、戦略次第で誰を占うかが変わってくるなー!\n一日に一回だから慎重に選ばないとなー!`,
+  "霊媒師": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!\nきっと今頃霊媒師は、今日処刑された人が人狼だったかどうかが見えてるんだろうな!\n明日の朝にサイドメニューを開いて結果を確認するといいよなあ!\nいいなー、僕(私)も結果が知りたいなー!`,
+  "狩人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!\n狩人は、ひたすら身を隠してきた苦労が今報われるなー!\n誰を守るか考えどころだけど、やっぱり占い師とかの役職者っぽい人を守るのが定石なんだよなー。`,
+  "共有者": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!\nきっと今頃共有者は、相方とひそひそ話に花を咲かせてるんだろうなー!\n一見地味な役職に見えるけど、相方との密談が後で重要なヒントになったり、次の行動を相談し合えたりするから、使いこなせばなかなか面白いんだよなー。\nでも3回しか話せないから気をつけないとなー!`,
+  "村人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!\n今色々な所でいろいろなイベントが繰り広げられているけど、村人は蚊帳の外なんだよなー。\nただ寝るしかやることないんだよなー。`,
+  "ジョーカー": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!\nもし誰かが今ジョーカーの能力に目覚めたとしたら、それは役職者が死んだってことなんだよなー。\nジョーカーは一回だけ死んだ役職者の能力を引き継げるけど、一回しか使えないから使いどころを慎重に考えないとなー。\nこの村で唯一、役職者が死んだことに気づける存在だから貴重だけど、寝返る可能性があるからどちらからも味方と思ってもらえないんだよなー。\n能力を公表しようと思ったら、嫌われるの覚悟でカミングアウトしないといけないから、タイミングが難しいんだよなー。`,
+  "狂人": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!\nきっと今頃狂人は、洗脳されてる相方とひそひそ話に花を咲かせてるんだろうなー!\n一見地味な役職に見えるけど、相方との密談が後で重要なヒントになったり、次の行動を相談し合えたりするから、使いこなせばなかなか面白いんだよなー。\nでも3回しか話せないから気をつけないとなー!`,
+  "人狼": (name) => `どこからか${name}の大きな独り言が聞こえる。\nさあさあ、ここからが本当の人狼ゲームの始まりだよ!\nきっと今頃人狼は、相方と誰を襲うか相談してるんだろうなー!\n占い師とかの役職者を襲うのが良さそうに見えるけど、そういう重要な役職は狩人が守ってる可能性があるから、あえて外して全然関係ない人を襲う場合もあるんだよなー。\n気をつけなきゃなー。`,
 };
 const NIGHT_FLAVOR_EN = {
-  "占い師": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! Right about now, the Seer's probably checking someone to see if they're a werewolf! Could go after someone suspicious, or clear someone they want as a trusted ally — depends on the strategy! Only once a night, so better choose carefully!"`,
-  "霊媒師": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! Right about now, the Medium's probably finding out whether today's executed person was a werewolf! Check the side menu tomorrow morning for the result! Man, I kinda want to know too!"`,
-  "狩人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! All that hiding the Hunter's been doing is finally paying off! The question is who to protect — usually it's smart to guard whoever seems like a role-holder, like the Seer."`,
-  "共有者": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! The Masons are probably having a nice little chat right about now! Looks like a plain role at first, but comparing notes with your partner can turn into a huge hint later, or you can plan your next move together. Fun once you get the hang of it! Just remember, only 3 messages though!"`,
-  "村人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! All sorts of stuff is happening all over right now, but Villagers are stuck on the sidelines. Nothing to do but sleep, really."`,
-  "ジョーカー": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! If someone's Joker power just woke up, that means a role-holder just died. The Joker can inherit a dead role-holder's power, but only once — gotta pick the right moment. They're the only one in this village who can even tell a role-holder died, which makes them valuable, but since they could've switched sides, nobody fully trusts them either. Coming out with the power means risking getting hated, so the timing's tricky."`,
-  "狂人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! The Possessed is probably having a nice little chat with their brainwashed partner right about now! Looks like a plain role at first, but that private chat can turn into a huge hint later, or you can plan your next move together. Fun once you get the hang of it! Just remember, only 3 messages though!"`,
-  "人狼": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins! The werewolves are probably discussing who to attack right about now! Going after a role-holder like the Seer seems smart, but the Hunter might be guarding them — so sometimes it's better to go after someone totally unrelated instead. Gotta be careful."`,
+  "占い師": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins!\nRight about now, the Seer's probably checking someone to see if they're a werewolf!\nCould go after someone suspicious, or clear someone they want as a trusted ally — depends on the strategy!\nOnly once a night, so better choose carefully!"`,
+  "霊媒師": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins!\nRight about now, the Medium's probably finding out whether today's executed person was a werewolf!\nCheck the side menu tomorrow morning for the result!\nMan, I kinda want to know too!"`,
+  "狩人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins!\nAll that hiding the Hunter's been doing is finally paying off!\nThe question is who to protect — usually it's smart to guard whoever seems like a role-holder, like the Seer."`,
+  "共有者": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins!\nThe Masons are probably having a nice little chat right about now!\nLooks like a plain role at first, but comparing notes with your partner can turn into a huge hint later, or you can plan your next move together.\nFun once you get the hang of it! Just remember, only 3 messages though!"`,
+  "村人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins!\nAll sorts of stuff is happening all over right now, but Villagers are stuck on the sidelines.\nNothing to do but sleep, really."`,
+  "ジョーカー": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins!\nIf someone's Joker power just woke up, that means a role-holder just died.\nThe Joker can inherit a dead role-holder's power, but only once — gotta pick the right moment.\nThey're the only one in this village who can even tell a role-holder died, which makes them valuable, but since they could've switched sides, nobody fully trusts them either.\nComing out with the power means risking getting hated, so the timing's tricky."`,
+  "狂人": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins!\nThe Possessed is probably having a nice little chat with their brainwashed partner right about now!\nLooks like a plain role at first, but that private chat can turn into a huge hint later, or you can plan your next move together.\nFun once you get the hang of it! Just remember, only 3 messages though!"`,
+  "人狼": (name) => `You hear ${name} muttering to themself.\n"Alright, this is where the real Werewolf game begins!\nThe werewolves are probably discussing who to attack right about now!\nGoing after a role-holder like the Seer seems smart, but the Hunter might be guarding them — so sometimes it's better to go after someone totally unrelated instead.\nGotta be careful."`,
 };
 
 // 2日目以降の朝の定例文(共通オープニング + 役職別アドバイス)
@@ -926,6 +926,9 @@ export default function JinroGame() {
   // ★開発者用:保存されている全データ(進行中のセーブ・設定・お気に入り・タロットコレクション)を消して、完全にまっさらな状態に戻す。
   // 本番公開時は、この機能自体(ボタンごと)を非表示にする予定。
   // (window.confirmはPWA・アーティファクト等の環境で反応しないことがあるため、確認はアプリ内のUIで行う)
+  // ※あえてwindow.location.reload()は使わない:アーティファクト環境ではページ全体の再読み込みのたびに
+  //   コード全体を再変換するため、ファイルサイズが大きいこのアプリだと読み込みが重くなることがある。
+  //   代わりに、保存データを消した上でReactの状態だけを「まっさらな初期状態」に手動で戻す。
   async function resetEverything() {
     try {
       await Promise.all([
@@ -935,9 +938,34 @@ export default function JinroGame() {
         window.storage.delete("tarot_collection", false),
       ]);
     } catch (e) {
-      // 削除に失敗しても、可能な範囲でリロードは続行する
+      // 削除に失敗しても、可能な範囲で画面上のリセットは続行する
     }
-    window.location.reload();
+    // 設定画面(名前・性別・人数比・地域・初心者モード)を初期値に戻す
+    setUserName("");
+    setNameInput("");
+    setUserGender("男性");
+    setNpcMaleCount(5);
+    setRegion("ja");
+    setBeginnerMode(false);
+    // 「続きから始める」「お気に入り」「タロットコレクション」の表示も無くす
+    setHasSave(false);
+    setFavorites([]);
+    setTarotCollection({});
+    // 進行中だったゲームの状態を念のためクリアしておく(setupに戻るので通常は表示されないが、取りこぼし防止)
+    setLog([]);
+    logRef.current = [];
+    setPlayers([]);
+    setDay(1);
+    setDiscussionTurns(0);
+    setTypedChars({});
+    typingQueueRef.current = [];
+    guideTypingQueueRef.current = [];
+    isTypingRef.current = false;
+    isGuideTypingRef.current = false;
+    hasStartedRef.current = false;
+    // 設定画面に戻る
+    setShowDrawer(false);
+    setPhase("setup");
   }
 
   async function downloadSavedDebugLog(key) {
@@ -3683,8 +3711,8 @@ ${guardLogText}
       if (roleIntro) text += "\n" + roleIntro;
       // 役職の説明が終わった後、話を戻して「行動する」という選択肢に触れる(この段階で初めて紹介する)
       text += region === "en"
-        ? `\nOops, went off on a tangent there! Well, keep in mind what your role can actually do when you're deciding what to say next.\nWhat, nothing to say right now? Fair enough, maybe try taking an action instead — like watching people closely? Write out what you want to do and hit the action button. Who knows, you might notice something?`
-        : `\nおっと!横道にそれたね!まあでも自分の役職で出来る事を念頭に置いて、次話すことを考えても良いかもね。\nえ?今は特に何も話すことが無い?そうかそうか、だったら行動してみても良いかもね、周りを注意深く観察するとか?やりたい行動を書いて、行動するを押してごらん。もしかしたら何か見えてくるかも??`;
+        ? `\nOops, went off on a tangent there!\nWell, keep in mind what your role can actually do when you're deciding what to say next.\nNothing to say right now?\nFair enough, maybe try taking an action instead — like watching people closely?\nWrite out what you want to do and hit the action button.\nWho knows, you might notice something?`
+        : `\nおっと!横道にそれたね!\n自分の役職で出来る事を念頭に置いて、次話すことを考えても良いかもね。\n話すことが無ければ、行動してみるのもアリだよ。\n周りを観察するとか。\nやりたい行動を書いて、行動するを押してごらん。\nもしかしたら何か見えてくるかも?`;
     }
     addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
     setBeginnerStageShown(nextStage);
@@ -5009,7 +5037,7 @@ JSON形式のみ: {"text":"回答"}`;
                   {e.speaker}
                   {showRole && <span className="font-normal" style={{ color: C.textFaint }}> ({speakerP.role})</span>}:
                 </span>
-                <span>{displayText}</span>
+                <span style={{ whiteSpace: "pre-line" }}>{displayText}</span>
               </p>
             );
           })}
