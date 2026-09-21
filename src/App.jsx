@@ -116,7 +116,8 @@ const RULE_BOX = {
   WOLF_CORNERED: "**人狼は、自分が人狼であることを完全に自覚した上で、意図的に嘘をつき演技している(絶対厳守)**。狂人のような「自分の正体についての思い込み・洗脳」は人狼には一切ない。「本当は自分も占い師だと思っていた」のような、自己欺瞞・記憶の混濁を匂わせる発言は人狼に絶対にさせない(それは狂人だけに許された特殊な設定である)。人狼・狂人は無償の自白をしない。言い訳・偽CO・疑い誘導で粘り、劣勢時ほど能動的に動く(1日1手)。**受け身にならない**:信頼できる情報源への偽CO・議論の主導権奪取・疑いのすり替えなど、工作を毎日最低1回試みる(相槌や様子見だけで終えない)。**対抗COは早いほど有効(絶対厳守)**:本物が実績・信頼を積んでからの後出し対抗は説得力が薄い。**早い段階で検討し**、疑われてから慌てて対抗しない。**弁明タイムは沈黙する場ではない(絶対厳守)**:候補者以外も割り込める。村の信頼が固まりそうな瞬間に**その場で対抗COや疑義を割り込ませる**方が、翌日の後出しより効果的。**対抗COはほぼ義務(最重要・絶対厳守)**:占い師・霊媒師・狩人・共有者のCOに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする。単独COを信じさせ切るリスクの方が、対抗して疑われるリスクより大きい。特に序盤(1〜2日目)の占い師COには積極的に偽対抗をぶつけ混乱を作る。**対抗COの実行役は狂人を優先する(重要・絶対厳守)**:生存する狂人がいる場合、単独の役職への対抗CO(偽の占い師・霊媒師・狩人を名乗る等)は狂人に行わせ、人狼自身は直接この種の偽COを名乗らない。理由:狂人は本気でその役職だと思い込んでいるため、後から矛盾や嘘が発覚しても「狂人だった」で説明がつき、人狼の存在には直結しない。一方、人狼自身が偽COすると、そのCO自体の粗を突かれて芋づる式に人狼だと疑われるリスクが大きい。人狼が対抗の役割を担うのは、**生存する狂人がもう一人もいない場合に限る**。人狼自身が動く場合も、具体的な役職を騙って名乗り出るより、他者への疑いの提起・話題のすり替え・議論の主導権奪取など、直接の偽COより発覚時のリスクが低い工作を優先する。**典型的な人狼っぽい言動を避ける(絶対厳守)**:①名指しされた時の過剰な動揺・防御②はぐらかし・質問への非回答③過去発言との矛盾④不自然に歯切れが悪い/饒舌な言い訳⑤疑いを急かす・話題を急いで変える、を取らせない。村人と同じ自然な口調・態度で参加し、疑われても村人と同程度の反応に留める。工作も常套手段めかさず性格に沿って自然に行う。**発言頻度・発言量は役職と一切連動させない(絶対厳守)**:「人狼だから控えめに」といった調整をしない。誰がどれだけ話すかは性格設定と場の流れのみで決め、口数の少なさと役職(人狼に限らずどの役職も)を結びつけない。**進行段階で優先順位を切り替える(重要)**:①序盤〜中盤は正体を隠すことを最優先し、対立の決着がつかない場面では様子見程度に留める。②終盤(生存者が減り村側と同数に近い、またはあと1〜2人処刑で数的優位に届く)は、**多少強引・不自然な理由付けでも村側である可能性が高い方への投票を優先する**(バレるリスクより数的優位を逃すリスクの方が大きい)。**人狼・狂人が互いに投票するのは正体隠しの正当な戦略であり、避けるべき行動ではない(重要)**:共有者と違い、人狼・狂人が相方に投票することには正体を疑われにくくする実際の効果がある。相方だから投票しない、という一貫したパターンを機械的に守らせない(そのパターン自体が、後から振り返った時に『この2人は一度もお互いに投票していない→ペアでは』と見抜かれる新たな手がかりになってしまう)。相方に投票するかどうかは、その時々の状況判断・性格に委ねてよい。",
   MADMAN: "**狂人は人狼陣営に洗脳されており、自分の正体について思い込みを持つ(内容はその都度個別指定。開始時は村人・占い師・霊媒師・狩人・共有者のいずれか。「人狼」だという思い込みは、生存者が少ない時・本物の人狼と決選投票で対決した時にのみ後から切り替わる特別枠で、最初は発生しない)。思い込みは絶対に揺るがず、嘘の自覚は一切ない。心の底からその役職(または人狼)のつもりで堂々と振る舞い、処刑されそうでも『実は狂人』という告白は起こらない。信じている役職に応じて開き直り方も変わる(占い師のつもりなら占い師らしく、人狼のつもりなら人狼らしく)。思い込んだ役職の視点で動くが、結果的に人狼陣営を利する。受け身にならず、疑いのすり替え・議論の主導権奪取などの工作を1日最低1回試みる(表向きの優しい性格は工作の隠れ蓑であり、行動しない言い訳にしない)。**対抗COの義務(狂人が優先的に担当する・重要)**:占い師・霊媒師・狩人・共有者の単独COに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする(狂人は自分の思い込みに沿った対抗になる)。**この役割は人狼よりも狂人が担う方が安全である**:狂人は本気で思い込んでいるため、後から矛盾が発覚しても「狂人だった」で片付き、本物の人狼の正体には直結しない。生存する狂人がいる限り、この対抗COは狂人が積極的に引き受けるべき役割だと心得て行動する。序盤の占い師COには特に積極的に偽対抗をぶつける。**捏造する占い・霊媒・護衛の対象と結果は、秘密の真実データを状況に関わらず一切参照しない(絶対厳守・例外なし)**:狂人が偽の占い師・霊媒師・狩人としてCOする際、名乗る対象や結果は、コード側が保持する本物の結果ログ(npcSeerLog・npcMediumLog・npcGuardLog等の真実のデータ)を、公開されているかどうかに関わらず一切参照してはならない。参照してよいのは「会話ログ上で誰かが実際に発言した内容」だけである(例:先にCOした人が「〇〇を占って人狼だった」と発言済みなら、それに対抗して「私も〇〇を占ったが白だった」と、既に発言された内容と食い違う主張をするのは、あくまで発言=公開情報を参照しているだけなので問題ない)。逆に、まだ誰も何も発言していない段階で、狂人の捏造した対象や結果が真実のデータと一致・対立するのは、本人が知り得るはずのない秘密情報を使ったことになるため、絶対に起きてはならない。**自分の本当の相方(狂人)には絶対に投票しない(絶対厳守)**:狂人は相方の狂人が同じ人狼陣営の仲間だとゲーム開始時から確実に知っている。相方に投票することは、自陣営の頭数を自ら減らすだけの損な手であり、論理的にあり得ない。**弁明タイムは沈黙する場ではない**:候補者以外も割り込んで対抗COや疑義を挟める。**数的優位の逆算**:ゲームが続く限り本物の人狼は最低1人生存。狂人は自分と相方の生死は分かるが本物の人狼の生死は分からないため、生存者数・確定シロの数から人狼側の残存勢力を推測し、有利な局面ではより積極的に動く。**本物の人狼が全滅すると即座に村人陣営の勝利になる(狂人・寝返ったジョーカーの生存に関わらず、絶対厳守)**。狂人の最優先事項は本物の人狼を生かし続けること(誰か分からないため直接は守れないが、村の追及の勢いを削ぐ・議論をかき乱す・怪しまれている人物の処刑をためらわせる、といった間接的な行動で生存確率を上げる)。**「人狼」だと思い込んでいる狂人の決選投票行動(重要)**:自分が候補者でなければ、2人の候補のうち、**そのキャラ自身の主観的な印象・好悪・場の流れだけを根拠に**「自分の中でより疑わしくない」と感じる方に投票する。**この判断は、本物の人狼が誰かという裏の真実情報を一切参照しない(絶対厳守)**:自分を人狼だと思い込んでいるがゆえの無意識の仲間庇い心理として振る舞ってよいが、実際にどちらが本物の人狼かを言い当てるための判断ではなく、あくまで性格・好悪に基づく主観的な選択にとどめる。理由付けは自然な言い方にし、あからさまに庇っているように見せない。",
   SHARER: "共有者はペアで正体を知り、確定シロから容疑者範囲を演繹して提示する。**対抗COが出にくい役職であることも活用してよい**:占い師・霊媒師・狩人は1人しかいないため、人狼・狂人が同じ役職を騙って対抗COできてしまうが、共有者は本物のペア2人が同時に一致して認め合わない限り成立しないため、単独COでも比較的信頼されやすい(人狼側が対抗するには、もう1人も口裏を合わせる必要があり難易度が高い)。**自分の本当の相方には絶対に投票しない(絶対厳守・見落としやすい重要ポイント)**:共有者は相方が本物の非人狼側だとゲーム開始時から確実に知っている。これは疑いではなく、**そのキャラ自身に明示的に与えられた正当な情報(自分の役職・自分の相方の正体)としての確定事実**であり、他人の役職や占い結果のような、本来知り得ないはずの内部真実データを根拠にしているのとは全く異なる。**この「自分自身に与えられた正当な情報」の範囲は、以下の4つに厳密に限定される(絶対厳守)**:①自分の役職と自分の相方の正体(共有者・人狼・狂人のペア関係)、②(狂人の場合)自分が信じ込んでいる役職、③(ジョーカーの場合)自分の能力継承の状況、④本物の人狼が両方死んでゲームが終了したかどうか。これ以外(他人の本当の役職、まだ公表されていない占い・霊媒結果、自分と無関係な他のペアの正体等)は一切含まれず、それらを根拠にすることは絶対にない。したがって、まだ相方だと公表していない段階であっても、投票先に自分の本当の相方を選ぶことは論理的にあり得ない(何かの根拠が積み重なって疑わしく見えたとしても、この正当な確定事実の方が常に優先される)。**相互確認は一度成立したら永久に覆らない(絶対厳守・見落としやすい重要ポイント)**:共有者ペアの両方が生きている状態で互いを共有者だと認め合った場合、その時点で両者とも確定シロとして扱われる。この確定は、その後どちらかが死亡しても一切変わらない。生存している側の共有者を「相方が死んで証明できなくなった」「証明する手段がなくなった」のように扱い、疑いを向けたり投票対象にしたりすることは絶対にしない(相互確認という証明は既に完了しており、後から相方が死んでも過去の事実が消えることはない)。疑ってよいのは、相互確認が一度も成立していない(例:既に死亡した人物を一方的に「自分の相方だった」と主張しているだけで、本人からの確認が取れていない)ケースだけである。",
-  HUNTER: "狩人は正体を隠す。処刑寸前のみリスク覚悟でCOする。",
+  HUNTER: "狩人は正体を隠す。処刑寸前のみリスク覚悟でCOする。役職を主張している人物を優先的に守る判断をしてよい(村側の生命線である占い師を最優先し、次点で霊媒師・共有者を守る、という優先順位が自然)。",
+  MEDIUM: "霊媒師の結果は時間が経つほど価値が薄れる。判明したらあまり抱え込まず、早めの共有を検討する判断をしてよい。",
   JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、能力を継承するか選べる。**継承タイミングは役職・死に方で異なる**:占い師が処刑された場合、**継承した瞬間すぐに誰かを占える**(COと同時に結果も伝えられる)。**占い師が夜に人狼に殺された場合は、新たに占うのではなく、死んだ本人がその晩に行った占いの記憶(対象・結果)をそのまま継承時に知る**。**霊媒師は死んだ晩から即座に使える。占い師の継承とは性質が違う点に注意(絶対厳守)**:占い師は「誰を占うか」を本人の主観で選ぶため、他人の判断による過去の結果を丸ごと引き継ぐのは不自然。しかし霊媒師は「処刑された人が人狼か(あるいはジョーカーか)を見る」だけで、誰が見ても対象・結果は変わらない機械的な能力である。したがって、**ジョーカーが継承した時点で、まだ誰にも公表されていない直近の処刑者についての結果を、継承したジョーカー自身が視た結果として扱ってよい**(本物の霊媒師が同じ夜に死んでいて未公表のまま結果だけ残っている場合も含む)。それより前の、既に別の機会に処理済みの処刑者についての結果までは知らない。狩人は処刑ならその晩から、夜に殺された場合は護衛タイミングを過ぎているため次の晩から。**能力は一度きりしか使えない(絶対厳守・見落としやすい重要ポイント)**:占い師・霊媒師・狩人、どの能力を継承した場合でも、**実際に使えるのは合計1回だけ**(占い師なら1人を占う、霊媒師なら1回分の結果を視る、狩人なら1回護衛する)。一度使ったら、その後は二度とその能力を使えない(「今夜も視る」「また占う」のように、まだ使えるかのような発言を継承済み・使用済みのジョーカーに絶対にさせない)。使用済みの場合、それ以降にできるのは「過去に1回だけ得た結果を、まだ公表していなければいつ公表するか」を考えることだけである。**能力使用後は、村のために名乗り出ることを積極的に検討する**:継承役職としてCOし結果を伝えれば新たな情報源になれる。ただし正体露見のリスクもあるため他の役職者同様にタイミングを判断し、黙って抱え込み続けない。**特に霊媒師の力は報告を先延ばしにしすぎない(重要)**:結果は時間が経つほど価値が落ちるため、継承直後〜翌日程度の早いタイミングで共有を優先する。**論理的な推論(絶対厳守・見落としやすい重要ポイント)**:能力の継承は「占い師・霊媒師・狩人の誰かが死んだ」という事実がなければ絶対に起こらない。つまり**ジョーカーは、能力を継承した(あるいは継承するかどうかの選択を提示された)時点で、「役職者が1人死んだ」ことを100%の確信を持って知っている**(これは推測ではなく確定事実)。継承した役職名(占い師/霊媒師/狩人)も同時に分かる。この確信を前提に会話・推理を進めてよい(ただし正体自体は隠したまま、確信の出どころをぼかして発言することは可能)。「誰かが役職者だったかどうか分からない」という態度は、継承後のジョーカーには絶対に取らせない。**ジョーカーという役職の存在、および死んだ役職者から能力を継承できるというルールそのものは、この人狼ゲームの公開されたルールの一部であり、全員(村人・NPC問わず)が最初から知っている常識である(絶対厳守・見落としやすい重要ポイント)**:誰かがジョーカーの継承を主張した際、「そんな役職(ルール)聞いたことがない」「そんな能力があるなんて知らなかった」のように、ルールの存在自体を初耳・疑わしいものとして扱わせない。疑ってよいのはあくまで「本当にこの人物が継承者本人なのか」という個人の正体の真偽だけであり、それ以外の観点(過去の占い/霊媒結果と矛盾する、継承のタイミングが不自然、等)から矛盾を指摘するのは問題ない。",
   VOTE_SPREAD: "投票は満場一致にしない(2〜3人は別候補)。個人の主観的な好悪・印象は投票理由にしてよいが、根拠のない相性・因縁(「なんとなく馬が合わない」以上の具体的な関係性の断定)を新たに作り出さない。",
   DEFENSE_PLEA: "処刑寸前の役職者に、無抵抗・沈黙のまま処刑を受け入れさせない(絶対厳守)。生存が最優先で、必ず何らかの能動的な抵抗を試みる。正体をはっきり明かすか、ぼかしたまま訴えるかはキャラクター自身のリスク判断に委ねてよい(例えば狩人は、名乗れば以後人狼に狙われやすくなるため、あえて正体をぼかす判断も自然)。COする場合、結果を何も持っていなくても、COすること自体に価値がある(役職者と分かれば狩人に守られる可能性・生存すれば翌晩以降能力を使える・自分が確定シロ側に加われば残る容疑者を絞り込みやすくなり、間接的に人狼を追い詰める助けになる)。「情報がないから」「まだタイミングじゃないから」といって何もせず沈黙したまま処刑を受け入れさせない。一般論の反論・疑いの転嫁だけでもよいので、必ず能動的な抵抗を選ばせる。",
@@ -134,6 +135,7 @@ function relevantBoxesForAliveRoles(alivePlayersList) {
   if (roles.has("狂人")) boxes.push("MADMAN");
   if (roles.has("共有者")) boxes.push("SHARER");
   if (roles.has("狩人")) boxes.push("HUNTER");
+  if (roles.has("霊媒師")) boxes.push("MEDIUM");
   if (roles.has("ジョーカー")) boxes.push("JOKER");
   return boxes;
 }
@@ -351,24 +353,24 @@ function buildBeginnerTutorialText(stage, region, name, pronoun) {
 
 // Stage1で、プレイヤー自身の役職を案内役が(勝手に)説明する部分。本人が最初から知っている情報なので問題ない。
 const ROLE_INTRO_JA = {
-  "占い師": "占い師は~毎晩1人を占って、その人が人狼かどうかが分かる役職だよ~。基本の戦略としては、占いができる2日目からカミングアウトするのが良いよ。",
-  "霊媒師": "霊媒師は~処刑された人が人狼だったかどうか、次の日に分かる役職だよ~。結果は嘘をつかない限り絶対に正しいから、信頼されやすいのが強みだね。",
-  "狩人": "狩人は~毎晩1人を選んで、人狼の襲撃から守れる役職だよ~。誰を守ったかは基本、秘密にしておくものだよ。",
-  "共有者": "共有者は~2人1組で、お互いが人狼じゃないって分かっている役職だよ~。相方との密談で情報をすり合わせられるのが強みだね。",
-  "村人": "村人は~特別な能力を持たない役職だよ~。だから特に何も言うことはないね。しいて言うなら無価値だからこそ、気兼ねなく村のために命を捨てられる気楽な存在ともいえるね。",
-  "ジョーカー": "ジョーカーは~占い師・霊媒師・狩人の誰かが死んだ時に、その力を1回だけ引き継げる役職だよ~。今はまだその力は使えないみたいだね。",
-  "狂人": "狂人は~人狼の仲間だけど、人狼そのものではない役職だよ~。人狼陣営が勝てば、自分も勝ちになるんだ。",
-  "人狼": "人狼は~夜にみんなで1人を選んで襲う役職だよ~。正体がバレないように、村人のふりをして立ち回るのがポイントだね。",
+  "占い師": "占い師は毎晩1人を占って、その人が人狼かどうかが分かる役職だよ。基本の戦略としては、占いができる2日目からカミングアウトするのが良いよ。",
+  "霊媒師": "霊媒師は処刑された人が人狼だったかどうか、次の日に分かる役職だよ。結果は嘘をつかない限り絶対に正しいから、信頼されやすいのが強みだね。",
+  "狩人": "狩人は毎晩1人を選んで、人狼の襲撃から守れる役職だよ。自分で自分の身を守ることはできないから、自分の役職をばらすのは原則やっちゃダメ。\n目立たずやり過ごすって意味では行動パターンが人狼と似てるから、しばしば勘違いされやすい役職ではあるよね。",
+  "共有者": "共有者は2人1組で、お互いが人狼じゃないって分かっている役職だよ。相方との密談で情報をすり合わせられるのが強みだね。",
+  "村人": "村人は特別な能力を持たない役職だよ。だから特に何も言うことはないね。しいて言うなら無価値だからこそ、気兼ねなく村のために命を捨てられる気楽な存在ともいえるね。",
+  "ジョーカー": "ジョーカーは占い師・霊媒師・狩人の誰かが死んだ時に、その力を1回だけ引き継げる役職だよ。今はまだその力は使えないみたいだね。",
+  "狂人": "狂人は人狼の仲間だけど、人狼みたいに村人を襲う事は出来ないよー。\nでも人狼陣営が勝てば、自分も勝ちになるんだ。\n占われても「人狼ではない」と判断されるから、厄介だね。\nあと、相方は人狼側に洗脳されてて、自分が何かの役職と思い込んでいるんだ。",
+  "人狼": "人狼は夜にみんなで1人を選んで襲う役職だよ。正体がバレないように、村人のふりをして立ち回るのがポイントだね。\n狂人は人狼側だから、狙っちゃだめだよ。\nそうやって、投票と夜中の襲撃で効率よく村側を潰さないといけないんだ。",
 };
 const ROLE_INTRO_EN = {
   "占い師": `As a Seer, every night you can check one person and find out if they're a werewolf. Basic strategy: it's usually good to come out publicly starting day two, once you actually have a result to share.`,
   "霊媒師": `As a Medium, you find out the next day whether the person who was executed was a werewolf. The result is always true unless you lie about it yourself, so people tend to trust it a lot.`,
-  "狩人": `As a Hunter, every night you can protect one person from a werewolf attack. It's usually best to keep who you're protecting a secret.`,
+  "狩人": `As a Hunter, every night you can protect one person from a werewolf attack. You can't protect yourself, though, so as a rule, you should never reveal your own role.\nIn terms of just quietly getting through the game without standing out, your behavior pattern actually looks a lot like a Werewolf's, so people often mistake you for one.`,
   "共有者": `As a Mason, you're paired with one other person, and you both already know for sure the other isn't a werewolf. Comparing notes in your private chat is a big strength.`,
   "村人": `As a Villager, you don't have a special power. So there's not much else to say, really. Though I guess you could say — being "worthless" means you're free to throw yourself into the fight for the village without a second thought.`,
   "ジョーカー": `As the Joker, if the Seer, Medium, or Hunter dies, you can inherit their power — but only use it once. Looks like you can't use it yet.`,
-  "狂人": `As the Possessed, you're on the werewolves' side, but you're not a werewolf yourself. If the werewolf team wins, you win too.`,
-  "人狼": `As a Werewolf, every night you and the others pick one person to attack together. The key is blending in and acting like a villager so nobody catches on.`,
+  "狂人": `As the Possessed, you're on the werewolves' side, but unlike an actual werewolf, you can't attack villagers.\nStill, if the werewolf team wins, you win too.\nEven if you get divined, you'll come back as "not a werewolf" — which is exactly what makes you so troublesome.\nAlso, your partner has been brainwashed by the werewolves and genuinely believes they're some other role.`,
+  "人狼": `As a Werewolf, every night you and the others pick one person to attack together. The key is blending in and acting like a villager so nobody catches on.\nThe Possessed is on your side, so don't target them.\nBetween the votes and the night attacks, you've got to efficiently whittle down the village side.`,
 };
 
 // 決選投票まわりの定例文
@@ -409,21 +411,21 @@ const NIGHT_FLAVOR_EN = {
 
 // 2日目以降の朝の定例文(共通オープニング + 役職別アドバイス)
 // 2日目だけは「なぜなら」で役職アドバイスへそのまま繋げる作りなので、名前を差し込める関数にする(3・4日目以降は今まで通り固定文)
-const MORNING_OPEN_DAY2_JA = (name) => `さあ、2日目の朝だね。まずはお互い生き残れたことを称え合おう!ここからどう動くかだけど……\n2日目は${name}の動きが重要になってくると思うんだ。なぜなら`;
-const MORNING_OPEN_DAY2_EN = (name) => `Morning of day two! First, let's celebrate that we both made it through the night. Now, about what to do from here...\nDay two is going to come down to what ${name} does, I think. Because`;
+const MORNING_OPEN_DAY2_JA = (name) => `さあ、2日目の朝だね。まずはお互い生き残れたことを称え合おう!ここからどう動くかだけど……\n今日は最も重要になるのはなんといっても${name}だね。なぜなら`;
+const MORNING_OPEN_DAY2_EN = (name) => `Morning of day two! First, let's celebrate that we both made it through the night. Now, about what to do from here...\nToday, what matters most, above all, is the ${name}. Because`;
 const MORNING_OPEN_JA = { 3: "3日目の朝だよ。攻めのポイント:そろそろ「確定白」「確定黒」の情報も出揃ってくる頃。COしてる人同士で話が食い違ってないか、投票の時に誰が誰を庇ってたか、思い出してみるといいよ。", 4: "終盤戦だね。攻めのポイント:残り人数が少なくなってきたから、ここからは1票の重みが大きいよ。今まで的中してきた人の意見は少し信用してもいいかも。逆に、ずっと当たらなかった人の意見は割り引いて聞くのもアリ。" };
 const MORNING_OPEN_EN = { 3: "Morning of day three. Key point: this is around when 'confirmed innocent' and 'confirmed guilty' info starts piling up. Worth remembering whether the people who claimed roles are contradicting each other, and who defended who during votes.", 4: "We're in the endgame now. Key point: fewer people left means each vote carries more weight. It might be worth trusting people whose reads have been right so far a bit more — and discounting the ones who've been wrong the whole game." };
 
 const MORNING_ADVICE_JA = {
   2: {
-    "占い師": "そろそろカミングアウトを考えるタイミングかも。黙ってると信頼を得にくいけど、名乗ると人狼に狙われやすくなるから、そこは覚悟して決めてね。",
-    "霊媒師": "初日に処刑された人がいるなら、もう結果が出てるはずだよ。信頼を得るために、そろそろ公表を考えてもいいかもね。",
-    "狩人": "誰を守るか、そろそろ本命を決めてみたら?占い師とか、名乗り出た役職者を優先的に守るのが定石だよ。",
-    "共有者": "相方との密談で、教室で見聞きしたことをすり合わせておくといいよ。2人の視点を合わせると気づくことも多いから。",
-    "村人": "まだ目立った動きはできないし、\nこれからもずっと何か活躍できる保証はどこにも無い。\nやれることと言えば、ただ他人の立ち回りを眺めてあれこれ言いながら、投票することだけ。\n疑いの矛先がこっちに向いたら終わり、何も持ってない事を証明するのが一番難しい。\nあれ?全然重要じゃなかった。",
-    "ジョーカー": "もし能力を継承してたら、そろそろ使いどころを考え始めてもいいかもね。",
-    "狂人": "自分が人狼だと思われないよう、村人らしく振る舞おう。対抗COも有効な手だよ。",
-    "人狼": "そろそろ疑われ始める頃かも。仲間を守りつつ、村人のふりを続けよう。",
+    "占い師": "あの人たちは今はじめて、自分にしか知らない情報を持ってることになるよね。\n占いの結果が白でも黒でも、それは物凄く有益な情報だから早く皆に公表した方が良いんだけど、それをすると人狼の餌食になりやすくもあるんだ。\nあ、もちろん大体の場合は狩人が守ってくれるから大丈夫な場合がほとんどだけどね。\nでも別のリスクとして、もし嘘つきが対抗してカミングアウトしたら、せっかく勇気を出しても信じてもらえなくなって逆に処刑されることだってあり得る。\n占い師の情報は村側にとっての生命線だ。\n如何に自分の存在を村側に信じてもらえるかが、勝利のカギと言っても良い。",
+    "霊媒師": "あの人たちだけが唯一、昨日の処刑が正しかったかどうかを判断することができる。\nでもその情報を村側に伝えるには、まずは自分が霊媒師って事を信じてもらわないといけないんだ。\nもし嘘つきが対抗してカミングアウトしたら、せっかく勇気を出しても信じてもらえなくなって逆に処刑されることだってあり得るし、たとえ証明できたとしても他の役職者と同じく、常に人狼に狙われる立場になってしまう。\n霊媒師の情報は村側にとっての通信簿みたいなものだ。\n時々狂人っていうノイズが入るけど、自分の存在を村側に信じてもらえるかが、勝利のカギと言っても良い。",
+    "狩人": "初日は手探り状態だったけど2日目からは、確度の高い情報が集まってくるはず。\nその嘘の混じった情報を精査して、誰を守るか切り捨てるか、自分ひとりで判断しないといけない。\n一晩の内に命を救えるのはたった一人。\n投票の結果も多数決も関係ない、誰が役職者で守るべき存在かをこの2日目でしっかりと考えていかないといけないんだ。",
+    "共有者": "あの人たちの強みはなんといってもお互いがお互いを証明できるところにある。\nしかも、もし共有者のふりをしようとしたら2人必要になるからなかなか成りすます事も難しいので、ほとんどの場合はあっさり信用してもらえる。\n2日目でもう確定シロが二つ以上になるのは村側にとってかなりアドバンテージだよ。\nもちろん人狼に狙われやすくなるし、狩人にも役職者じゃない分、なかなか守ってもらえないけどね。\nそこも含めて共有者がどういう動きを2日目にするかが重要なポイントだね。",
+    "村人": "まだ目立った動きはできないし、\nこれからもずっと何か活躍できる保証はどこにも無い。\nあの人たちのやれる事と言えば、ただ他人の立ち回りを眺めてあれこれ言いながら、投票することだけ。\n疑いの矛先がこっちに向いたら終わり、何も持ってない事を証明するのが一番難しいからね。\nこう言うと全然重要じゃないみたいだけど、見た目通り本当にそんなに重要じゃないんだ。",
+    "ジョーカー": "(覚醒した場合のみ)もし今ジョーカーがジョーカーである自覚を持っていたとしたら、それはもう役職者が処刑された、もしくは人狼に襲われたって事になる。\nつまり村側にとって相当やばい状況だ。\nあの人が役職者の能力を引き継いで村のために動いているのか、はたまた、人狼側にとっくの昔に寝返ってるのか誰にもわからない。\n村側にとって敵にも味方にもなる彼がどう立ち回るかで、盤面が一気にひっくり返る事だってあり得るんだ。",
+    "狂人": "あの人たちはいくら占ってもシロ扱いになる人狼側の役職だから、占い師を恐れずに悪事が働けるんだ。\n村側からしたら本気を出した狂人ほど怖いものはないよ。\nどんな動きをして村をかき乱すか注目だね。",
+    "人狼": "初日はまだ相談できてなかったけど、昨日の夜で相方と合流して足並みをそろえて来てるはずなんだ。\n投票と襲撃の両方で村人側を削る動きを本格的にしてくるはずだ……",
   },
   3: {
     "占い師": "もうCOしてるなら、結果を淡々と積み重ねていこう。まだなら、そろそろ名乗るかどうか本気で考えるタイミングだよ。",
@@ -448,14 +450,14 @@ const MORNING_ADVICE_JA = {
 };
 const MORNING_ADVICE_EN = {
   2: {
-    "占い師": "Might be time to think about coming out. Staying quiet makes it hard to build trust, but claiming makes you a bigger target for the werewolves — go in with your eyes open.",
-    "霊媒師": "If someone was executed on day one, you should have a result by now. Worth thinking about revealing it to build some trust.",
-    "狩人": "Might be time to settle on who to protect. Guarding whoever's claimed a role, like the Seer, is usually the safe bet.",
-    "共有者": "Worth comparing notes with your partner in your private chat about what you each saw in class. Two perspectives together often catch things one alone would miss.",
-    "村人": "you can't really do anything flashy yet, and there's no guarantee you ever will.\nAll you can really do is watch everyone else, comment on it, and vote.\nOnce suspicion turns your way, it's game over — proving you have nothing is the hardest thing to prove.\n...Huh. Turns out that wasn't important at all.",
-    "ジョーカー": "If you've inherited a power by now, might be worth starting to think about when to use it.",
-    "狂人": "Act like a normal villager so nobody suspects you're on the wolves' side. A counter-claim can also be a useful move.",
-    "人狼": "People might start suspecting you soon. Keep protecting your partner while still acting the part of a villager.",
+    "占い師": "the Seer is, for the first time, sitting on information nobody else has.\nWhether the result comes back innocent or guilty, it's incredibly valuable — the sooner they share it, the better for everyone. But doing that also makes them an easy target for the werewolves.\nDon't worry too much, though — most of the time the Hunter's got their back.\nStill, there's another risk: if a liar steps up with a counter-claim, all that courage might backfire, leaving nobody believing them and getting them executed instead.\nThe Seer's information is the village's lifeline.\nGetting the village to actually believe them might just be the key to winning.",
+    "霊媒師": "only they can tell whether yesterday's execution call was the right one.\nBut to actually get that information through to the village, they first need to get people to believe they're really the Medium.\nIf a liar steps up with a counter-claim, all that courage might backfire — nobody believes them and they get executed instead — and even if they do manage to prove it, they end up a constant werewolf target just like any other role-holder.\nThe Medium's information is basically the village's report card.\nThere's occasional noise from a Possessed muddying things up, but getting the village to actually believe them might just be the key to winning.",
+    "狩人": "day one was mostly guesswork, but from day two on, more reliable information starts coming in.\nSifting through that information — some of it lies — and deciding who to protect and who to write off is a call only they can make, alone.\nOnly one life can be saved in a single night.\nRegardless of the vote outcome or majority opinion, they've got to think hard, starting today, about who the role-holders are and who's worth protecting.",
+    "共有者": "their big strength is being able to vouch for each other.\nAnd since faking being a Mason takes two people working together, it's hard to pull off a convincing impersonation, so most of the time people believe them pretty easily.\nHaving two confirmed-innocent people locked in by day two is a real advantage for the village.\nOf course, that also makes them bigger werewolf targets, and since they're not flashy role-holders, the Hunter doesn't always prioritize protecting them either.\nHow the Masons choose to move on day two, with all that in mind, is a big deal.",
+    "村人": "you can't really do anything flashy yet, and there's no guarantee you ever will.\nAll they can really do is watch everyone else, comment on it, and vote.\nOnce suspicion turns their way, it's game over — proving you have nothing is the hardest thing to prove.\nSaid like that it sounds unimportant, but... yeah, it really is about as unimportant as it sounds.",
+    "ジョーカー": "(only if awakened) If the Joker is aware of being the Joker right now, that already means a role-holder has been executed or attacked by the werewolves.\nIn other words, this is a genuinely dangerous moment for the village.\nNobody knows whether they're using the inherited power for the village's sake, or secretly switched sides to the werewolves long ago.\nSince they could end up either an enemy or an ally to the village, how they play it could flip the entire board.",
+    "狂人": "they always come back innocent no matter how many times they're divined, since they're secretly on the werewolves' side — so they can stir up trouble without ever fearing the Seer.\nFrom the village's side, nothing's scarier than a Possessed who's really committed to the act.\nWorth watching closely to see how they try to throw the village into chaos.",
+    "人狼": "they didn't get a chance to coordinate on day one, but after linking up with their partner last night, they should be moving in sync from here.\nExpect them to start seriously whittling down the village side, both through the vote and the night attacks...",
   },
   3: {
     "占い師": "If you've already claimed, just keep stacking up results calmly. If not, this is the time to seriously consider coming out.",
@@ -3711,10 +3713,10 @@ ${guardLogText}
     if (!guide || !guide.alive) return;
     const me = getUser();
     if (!me) return;
-    // ジョーカーは、実際に能力に目覚めた(継承した)時だけ発生させる
-    if (me.role === "ジョーカー" && !jokerState.abilityBank) return;
+    // ジョーカーは、覚醒(能力継承)するまで自分がジョーカーだと気づいていない。例外なく村人として扱う。
+    const nightFlavorRole = (me.role === "ジョーカー" && !jokerState.abilityBank) ? "村人" : me.role;
     const table = region === "en" ? NIGHT_FLAVOR_EN : NIGHT_FLAVOR_JA;
-    const builder = table[me.role];
+    const builder = table[nightFlavorRole];
     if (!builder) return;
     addLog(guideLines(guideNpcName, applyGuideVoice(builder(guideNpcName), guide.gender, region)));
     setBeginnerNightFlavorDay(day);
@@ -3730,13 +3732,16 @@ ${guardLogText}
     const me = getUser();
     if (!me || !me.alive) return; // プレイヤーが死亡している場合は聞かせない
     const dayKey = day >= 4 ? 4 : day; // 4日目以降は同じアドバイスを使い回す
-    const openText = dayKey === 2
-      ? (region === "en" ? MORNING_OPEN_DAY2_EN(userName) : MORNING_OPEN_DAY2_JA(userName))
-      : (region === "en" ? MORNING_OPEN_EN : MORNING_OPEN_JA)[dayKey];
     const adviceTable = (region === "en" ? MORNING_ADVICE_EN : MORNING_ADVICE_JA)[dayKey];
     // ジョーカーは、役職者が死んで覚醒するまで「自分がジョーカーだ」という自覚自体がない(ただの村人だと思っている)。
     // 覚醒前にジョーカー向けの助言を聞かせると、覚醒していないのに知っているという矛盾になるため、覚醒前は村人向けの助言を使う。
     const adviceRole = (me.role === "ジョーカー" && jokerState.hidden) ? "村人" : me.role;
+    const adviceRoleEn = region === "en" ? ROLE_EN[adviceRole] || adviceRole : adviceRole;
+    // 2日目のオープニングの「○○」はプレイヤー名ではなく役職名。案内役はプレイヤーの正体を知らない体裁のまま、
+    // その役職についての一般論として話している(Stage1の役職紹介と同じ、狭い例外的な言及)。
+    const openText = dayKey === 2
+      ? (region === "en" ? MORNING_OPEN_DAY2_EN(adviceRoleEn) : MORNING_OPEN_DAY2_JA(adviceRole))
+      : (region === "en" ? MORNING_OPEN_EN : MORNING_OPEN_JA)[dayKey];
     const advice = adviceTable?.[adviceRole];
     // 2日目だけは「なぜなら」で終わるオープニングに、そのまま同じ文として続ける(改行しない)。3・4日目以降は今まで通り別の文として改行する。
     const text = advice ? (dayKey === 2 ? `${openText}${advice}` : `${openText}\n${advice}`) : openText;
