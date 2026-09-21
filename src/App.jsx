@@ -335,18 +335,18 @@ const ROLE_EN = { "占い師": "Seer", "霊媒師": "Medium", "狩人": "Hunter"
 function buildBeginnerTutorialText(stage, region, name, pronoun) {
   if (region === "en") {
     const P = [
-      `Oh, ${name}, this is your first time playing Werewolf, huh?\nLeave it to me! I've seen it all, I'll teach you everything!\nWerewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates.\nAt the end of each day, everyone votes for who they think is a werewolf, and that person gets voted out.\nSo basically, the more information you gather from everyone before the day ends, the better your chances of finding the werewolf among these 11 people!\nGo ahead, say or do anything first — really, anything works.\nNot sure what to do? Maybe start with just saying hi?`,
-      `Nice, good job!! You're doing great.\nOkay, next let me explain the roles.\nActually, everyone here has been secretly assigned some role.\nThere are a bunch of role types, so explaining all of them would be a pain, so I'll skip that.\n...Oh wait, hold on.\nI don't know what ${name}'s role is, but I suddenly feel like explaining it anyway, so I will.`,
-      `Whoa, you might already know more about this game than I do!\nOkay, let me teach you some real strategy.\nLike I said, every day you have to find someone suspicious and vote them out.\nBut on day one, there's barely any info and not much you can actually do!\nSo what can we do about that? Just like before — watch people carefully, and if something feels a little off, ask them about it directly.\nIf someone seems restless, or keeps glancing at others, or anything catches your eye, ask them why and watch how they react.`,
-      `Looks like you got a good reaction out of someone! Nice work!\nKeep it up — even a small gesture or action that seems unimportant might connect to something important later!\n...Though most of the time it doesn't, honestly.\nAnyway, keep moving and keep digging for info!\nDon't know who to talk to anymore?\nIn that case, open the side menu up top and check everyone's affinity toward you.\nA heart mark means they like you the most, so maybe start by playing along with what they say to get on their good side.\nStaying friendly with someone might mean they help you out later when you're in trouble.`,
+      `Oh, ${name}, this is your first time playing Werewolf, huh?\nLeave it to me! I've seen it all, I'll teach you everything!\nOh, but let me say this first — nobody else can hear this voice, so don't try to answer me out loud, okay?\nWerewolf is a game where everyone talks it out to find the "werewolves" hiding among the classmates.\nAt the end of each day, everyone votes for who they think is a werewolf, and that person gets voted out.\nSo basically, the more information you gather from everyone before the day ends, the better your chances of finding the werewolf among these 11 people!\nGo ahead, say or do anything first — really, anything works.\nNot sure what to do? Maybe start with just saying hi?`,
+      `Nice, good job!! You're doing great.\nOkay, next let me explain the roles.\nActually, everyone here has been secretly assigned some role.\nThere are a bunch of role types, so I'll skip explaining all of them — but there's one role I really want to point out.`,
+      `Whoa, you might already know more about this game than I do!\nOkay, let me teach you some real strategy.\nLike I said, every day you have to find someone suspicious and vote them out, but on day one, there's barely any info and not much you can actually do!\nSo what can we do about that? Just like before — watch people carefully, and if something feels a little off, ask them about it directly.\nIf someone seems restless, or keeps glancing at others, or anything catches your eye, ask them why and watch how they react.`,
+      `Looks like you got a good reaction out of someone! Nice work!\nKeep it up — even a small gesture or action that seems unimportant might connect to something important later!\nThough most of the time it doesn't, honestly.\n\nAnyway, keep moving and keep digging for info!\nHuh?? Don't know who to talk to anymore?\nIn that case, open the side menu up top and check everyone's affinity toward you.\nA heart mark means they like you the most, so\nmaybe start by playing along with what they say to get on their good side.\nStaying friendly with someone might mean they help you out later when you're in trouble.`,
     ];
     return P[stage];
   }
   const P = [
-    `あ、${name}は人狼ゲーム初めてだったね。\nまかしといて!百戦錬磨の${pronoun}が教えるよ!\n人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。\n一日の終わりに人狼と思う人に投票して数の暴力で処刑していくんだ。\nつまり日が暮れる前により多く情報を皆から集めて、この11人の中に潜む人狼をいかに探し当てるかがポイントだね!\nまずは何でもいいから話してみて。\n何を言っていいか分からなかったら、まずはあいさつとかしてみたら?`,
-    `うんうん、良い感じ!やるじゃん。\nじゃあ次は役職の説明をしようかな。\n実は参加者には全員、なんらかの役職が与えられているんだ。\n役職の種類はたくさんあるから、ちょっと今説明するのはめんどくさいから割愛するね。\n……あ、でもちょっと待てよ。\n${name}の役職が何か知らないけど、急に説明がしたくなったから勝手にするね。`,
-    `すごいね!もう${pronoun}より人狼ゲームを知り尽くしてるかも!\nじゃあ、特別に基本戦略を教えちゃおっかな。\n前言ったように、毎日誰か怪しい人を探して投票しなきゃいけないんだけど、初日はとにかく情報が少ない!\n取れる行動もそんなにない!\nそんな中で${pronoun}たちに何ができるかっていうと、さっきみたいに注意深く周りを観察して、ちょっとでも気になることがあったら本人に直接質問をするしかないね。\n落ち着きがなかったりとか、顔色をうかがったりとか、何か気になることがあったら、その理由を聞いて反応を見てったらいいよ。`,
-    `上手いこと反応を引き出せたみたいだね!\nその調子!\n細かいことかもしれないけど、一見大した事無さそうな行動やしぐさの一つ一つが重要な真実につながってる可能性があるよ!\nまあ、大体の場合は繋がってないけどね。\nさあ、どんどん動いて情報を引き出そう!\nもうこれ以上誰にどう話していいか分からない?\nそんな時は左上のサイドメニューを開いて、各キャラクターの好感度を見てごらん。\nハートマークが最高に君のことを好きって事だから、まずはその人の言葉に適当に乗っかってご機嫌を取ってみたらどうかな。\n仲良くなっとけば、ピンチになった時に助けてくれるかも?`,
+    `あ、${name}は人狼ゲーム初めてだったね。\nまかしといて!百戦錬磨の${pronoun}が教えるよ!\nあっ、でも先に言っとくけど、この声は皆には聞こえてないから、返事とかしないでね。\n人狼ゲームは、クラスメイトの中に紛れた「人狼」を、みんなで話し合って見つけ出すゲームだよ。\n一日の終わりに人狼と思う人に投票して数の暴力で処刑していくんだ。\nつまり日が暮れる前により多く情報を皆から集めて、この11人の中に潜む人狼をいかに探し当てるかがポイントだね!\nまずは何でもいいから話してみて。\n何を言っていいか分からなかったら、まずはあいさつとかしてみたら?`,
+    `うんうん、良い感じ!やるじゃん。\nじゃあ次は役職の説明をしようかな。\n実は参加者には全員、なんらかの役職が与えられているんだ。\n役職の種類はたくさんあるから、それぞれの説明は割愛するけど、一番注目しなきゃいけない役職だけ一つ説明するよ。`,
+    `すごいね!もう${pronoun}より人狼ゲームを知り尽くしてるかも!\nじゃあ、特別に基本戦略を教えちゃおっかな。\n前言ったように、毎日誰か怪しい人を探して投票しなきゃいけないんだけど、初日はとにかく情報が少ない!取れる行動もそんなにない!\nそんな中で${pronoun}たちに何ができるかっていうと、さっきみたいに注意深く周りを観察して、ちょっとでも気になることがあったら本人に直接質問をするしかないね。\n落ち着きがなかったりとか、顔色をうかがったりとか、何か気になることがあったら、その理由を聞いて反応を見てったらいいよ。`,
+    `上手いこと反応を引き出せたみたいだね!その調子!\n細かいことかもしれないけど、一見大した事無さそうな行動やしぐさの一つ一つが重要な真実につながってる可能性があるよ!\nまあ、大体の場合は繋がってないけどね。\n\nさあ、どんどん動いて情報を引き出そう!\nえ??もうこれ以上誰にどう話していいか分からないって?\nそんな時は左上のサイドメニューを開いて、各キャラクターの好感度を見てごらん。\nハートマークが最高に君のことを好きって事だから、\nまずはその人の言葉に適当に乗っかってご機嫌を取ってみたらどうかな。\n仲良くなっとけば、ピンチになった時に助けてくれるかも?`,
   ];
   return P[stage];
 }
@@ -487,6 +487,12 @@ const MORNING_ADVICE_EN = {
 // ここに項目を足すだけで、解説対象の用語を増やせる(コード側の検出ロジックは変更不要)。
 const JINRO_GLOSSARY = [
   {
+    id: "co",
+    terms: ["CO", "カミングアウト"],
+    ja: "あ、ちなみに「CO」っていうのは、占い師や霊媒師みたいな役職を持ってる人が「自分はこの役職です」って名乗り出ること(カミングアウトの略だよ)。",
+    en: `Oh, by the way, "CO" (short for "coming out") is when someone with a role, like a Seer or Medium, declares "this is my role" to everyone.`,
+  },
+  {
     id: "counter_co",
     terms: ["対抗CO"],
     ja: "「対抗CO」は、既に誰かがCOしている役職に対して、別の人が「本当はその役職は自分だ」と名乗り出ること。同じ役職を2人が主張してる時は、どちらかが嘘をついてる、ってことだよ。",
@@ -539,6 +545,51 @@ const JINRO_GLOSSARY = [
     terms: ["弁明タイム", "弁明"],
     ja: "「弁明タイム」は、決選投票の対象になった人が、処刑される前に自分の言い分を話せる最後のチャンスのこと。",
     en: `The "defense phase" is the last chance for someone in the runoff vote to make their case before a final decision is made.`,
+  },
+  // 役職名そのもの(人狼を除く)。プレイヤー自身の役職はStage1で詳しく説明済みだが、
+  // 会話の中で「(他の人の役職として)占い師」のような言及が出た時のための簡易な補足。
+  // 「人狼」はゲーム名そのものであり会話中に頻出しすぎる上、Stage0で既に詳しく説明しているため対象外にしている。
+  {
+    id: "role_seer",
+    terms: ["占い師"],
+    ja: "「占い師」は、毎晩1人を占って人狼かどうかを判定できる役職だよ。",
+    en: `The "Seer" is a role that can check one person each night to see if they're a werewolf.`,
+  },
+  {
+    id: "role_medium",
+    terms: ["霊媒師"],
+    ja: "「霊媒師」は、処刑された人が人狼だったかどうか、次の日に分かる役職だよ。",
+    en: `The "Medium" finds out the next day whether an executed person was a werewolf.`,
+  },
+  {
+    id: "role_hunter",
+    terms: ["狩人"],
+    ja: "「狩人」は、毎晩1人を人狼の襲撃から守れる役職だよ。",
+    en: `The "Hunter" can protect one person each night from a werewolf attack.`,
+  },
+  {
+    id: "role_mason",
+    terms: ["共有者"],
+    ja: "「共有者」は、2人1組でお互い人狼じゃないと分かっている役職だよ。",
+    en: `"Masons" are a pair who both know for sure the other isn't a werewolf.`,
+  },
+  {
+    id: "role_joker",
+    terms: ["ジョーカー"],
+    ja: "「ジョーカー」は、占い師・霊媒師・狩人の誰かが死んだ時に、その力を1回だけ引き継げる役職だよ。",
+    en: `The "Joker" can inherit the power of the Seer, Medium, or Hunter — but only once — if one of them dies.`,
+  },
+  {
+    id: "role_madman",
+    terms: ["狂人"],
+    ja: "「狂人」は、人狼側だけど、自分ではそれに気づいていない(洗脳されている)役職だよ。",
+    en: `"The Possessed" is on the werewolves' side, but doesn't realize it themselves — they're being manipulated.`,
+  },
+  {
+    id: "role_villager",
+    terms: ["村人"],
+    ja: "「村人」は、特別な能力を持たない役職だよ。",
+    en: `A "Villager" doesn't have any special power.`,
   },
 ];
 
@@ -671,7 +722,6 @@ export default function JinroGame() {
   const [guideNpcName, setGuideNpcName] = useState(null); // 初心者モードの案内役NPC名(死亡したらこの役割も自然に終わる。特別扱いはしない)
   const [beginnerStageShown, setBeginnerStageShown] = useState(null); // 初心者チュートリアルの進行段階(0=ルール説明済み、1=役職説明済み、2=戦略説明済み、3以降=埋め合わせの一言を出した回数、null=初心者モードでない)
   const [beginnerPreVoteShown, setBeginnerPreVoteShown] = useState(false); // 1回目投票直前の定例文を、1日目に一度だけ出したかどうか
-  const [beginnerCoExplained, setBeginnerCoExplained] = useState(false); // 「CO」という用語の解説を、初心者モード中に一度だけ挟んだかどうか
   const [beginnerNightFlavorDay, setBeginnerNightFlavorDay] = useState(null); // 夜の一言(役職別)を、何日目の夜まで出したか
   const [beginnerMorningAdviceDay, setBeginnerMorningAdviceDay] = useState(null); // 朝のアドバイス(役職別)を、何日目の朝まで出したか
   const [exchangeStudents, setExchangeStudents] = useState([]); // 今回のゲームで「留学生」扱いになっている分身NPCの名前一覧(元の地域と今回の地域が違う場合)
@@ -1060,7 +1110,7 @@ export default function JinroGame() {
       voteRound1Tally, defenseCandidates, voteTarget, nightTarget,
       privateInfo, confirmedWhite, confirmedBlack, winner, jokerState,
       wolfActionsToday, userName, userGender, npcSeerLog, npcMediumLog, mediumRevealedName, executionHistory, npcJokerState, excludedSuspects, npcGuardLog, roleGuesses, npcAffinity, madmanDelusions, roleClaims,
-      pendingMajorityWin, defenseReacted, defenseStatementCount, allyChatCount, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerPreVoteShown, beginnerCoExplained, beginnerNightFlavorDay, beginnerMorningAdviceDay,
+      pendingMajorityWin, defenseReacted, defenseStatementCount, allyChatCount, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerPreVoteShown, beginnerNightFlavorDay, beginnerMorningAdviceDay,
     };
     (async () => {
       try {
@@ -1124,7 +1174,6 @@ export default function JinroGame() {
       setExchangeStudents(s.exchangeStudents || []);
       setBeginnerStageShown(typeof s.beginnerStageShown === "number" ? s.beginnerStageShown : (s.beginnerMode ? 0 : null));
       setBeginnerPreVoteShown(!!s.beginnerPreVoteShown);
-      setBeginnerCoExplained(!!s.beginnerCoExplained);
       setBeginnerNightFlavorDay(typeof s.beginnerNightFlavorDay === "number" ? s.beginnerNightFlavorDay : null);
       setBeginnerMorningAdviceDay(typeof s.beginnerMorningAdviceDay === "number" ? s.beginnerMorningAdviceDay : null);
       setDefenseReacted(!!s.defenseReacted);
@@ -1867,7 +1916,6 @@ JSON形式のみ: {"summary":"要約文"}`;
 
     setBeginnerStageShown(beginnerMode ? 0 : null);
     setBeginnerPreVoteShown(false);
-    setBeginnerCoExplained(false);
     setBeginnerNightFlavorDay(null);
     setBeginnerMorningAdviceDay(null);
     glossaryScannedLenRef.current = 0;
@@ -2395,8 +2443,8 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityC
       const guide = players.find((p) => p.name === guideNpcName);
       if (guide && guide.alive) {
         const text = region === "en"
-          ? `Whoa, you might already be a Werewolf pro at this point! Alright, voting time! Put everything you've gathered so far into that vote!`
-          : `さすが!!いいね!いいね!もう人狼上級者と言っても過言ではないかもね。さあそろそろ投票の時間だ!今まで集めた情報を元に、導き出した答えを投票に込めるんだ!!よく分からなかったら、自分への好感度が低そうな人に投票してみても良いかもね。`;
+          ? `Whoa!!\nNice, nice!\nMight not be an exaggeration to call you a Werewolf pro at this point.\nAlright, voting time! Put everything you've gathered so far into that vote!\nNot sure? Maybe vote for whoever seems to like you the least.`
+          : `さすが!!\nいいね!いいね!\nもう人狼上級者と言っても過言ではないかもね。\nさあそろそろ投票の時間だ!今まで集めた情報を元に、導き出した答えを投票に込めるんだ!!\nよく分からなかったら、自分への好感度が低そうな人に投票してみても良いかもね。`;
         addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
       }
       setBeginnerPreVoteShown(true);
@@ -3706,39 +3754,34 @@ ${guardLogText}
     const pronoun = region === "en" ? guidePronounEn() : guidePronounJa(guide.gender);
     let text = buildBeginnerTutorialText(nextStage, region, userName, pronoun);
     if (nextStage === 1) {
-      // Stage1の最後は「急に役職の説明がしたくなった」という流れなので、そのままプレイヤー自身の役職の説明を続ける
-      const roleIntro = (region === "en" ? ROLE_INTRO_EN : ROLE_INTRO_JA)[user.role];
-      if (roleIntro) text += "\n" + roleIntro;
-      // 役職の説明が終わった後、話を戻して「行動する」という選択肢に触れる(この段階で初めて紹介する)
-      text += region === "en"
-        ? `\nOops, went off on a tangent there!\nWell, keep in mind what your role can actually do when you're deciding what to say next.\nNothing to say right now?\nFair enough, maybe try taking an action instead — like watching people closely?\nWrite out what you want to do and hit the action button.\nWho knows, you might notice something?`
-        : `\nおっと!横道にそれたね!\n自分の役職で出来る事を念頭に置いて、次話すことを考えても良いかもね。\n話すことが無ければ、行動してみるのもアリだよ。\n周りを観察するとか。\nやりたい行動を書いて、行動するを押してごらん。\nもしかしたら何か見えてくるかも?`;
+      // Stage1は「一番注目すべき役職を1つだけ説明する」という体で、実際にはプレイヤー自身の役職をここで明かす
+      // (本人が最初から知っている情報なので問題ない)。役職名・説明はここで動的に組み立てる。
+      const me = getUser();
+      const roleName = me?.role;
+      const roleIntroRaw = (region === "en" ? ROLE_INTRO_EN : ROLE_INTRO_JA)[roleName];
+      if (roleName && roleIntroRaw) {
+        // 直前に役職名を出しているので、説明の冒頭で同じ役職名を繰り返さないよう「あの役職は」に置き換える
+        const roleIntroSwapped = region === "en"
+          ? roleIntroRaw.replace(/^As (a|an|the) [^,]+,/, "As that role,")
+          : roleIntroRaw.replace(new RegExp(`^${roleName}は`), "あの役職は");
+        text += region === "en"
+          ? `\n\nIt's the ${ROLE_EN[roleName] || roleName}.\n${roleIntroSwapped}\n\n...something like that. I hope ${userName} isn't the ${ROLE_EN[roleName] || roleName}, huh?\nThough if you are, that's actually a really fun role to get — enjoy it.\n\nAnyway, keep in mind what your own role can actually do when you're deciding what to say next.\nNothing to say right now? Fair enough, maybe try taking an action instead — like watching people closely?\nWrite out what you want to do and hit the action button.\nWho knows, you might notice something?`
+          : `\n\nそれは${roleName}。\n${roleIntroSwapped}\n\n、、って感じかな、まさか${userName}が${roleName}とかじゃないよね?\nもしそうなら当たりの役職だから楽しんで欲しいな。\n\nまあなんであれ、自分の役職で出来る事を念頭に置いて、次話すことを考えても良いかもね。\n話すことが無ければ、行動してみるのもアリだよ。\n周りを観察するとか。\nやりたい行動を書いて、行動するを押してごらん。\nもしかしたら何か見えてくるかも?`;
+      }
     }
     addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
     setBeginnerStageShown(nextStage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [discussionTurns, beginnerMode, day, phase, busy, guideNpcName, beginnerStageShown, players]);
 
-  // 初心者モードで「CO」が初めて発生した時、案内役が一度だけ用語の解説を挟む(定例文・AI生成ではない)
-  useEffect(() => {
-    if (!beginnerMode || beginnerCoExplained || !guideNpcName || busy) return;
-    const guide = players.find((p) => p.name === guideNpcName);
-    if (!guide || !guide.alive) return;
-    if (Object.keys(roleClaims).length === 0) return; // まだ誰もCOしていない
-    const text = region === "en"
-      ? `Oh, that role claim just now — that's the "CO" I mentioned earlier. Someone's declaring their role out loud.`
-      : `あ、今の役職の名乗り、さっき教えた「CO」ってやつだよ。誰かが自分の役職を宣言してるんだね。`;
-    addLog(guideLines(guideNpcName, applyGuideVoice(text, guide.gender, region)));
-    setBeginnerCoExplained(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roleClaims, beginnerMode, beginnerCoExplained, guideNpcName, busy, players]);
-
-  // 初心者モード:夜になったら、プレイヤー自身の役職に応じた一言を案内役が挟む(1晩につき1回)
+  // 初心者モード:夜になったら、プレイヤー自身の役職に応じた一言を案内役が挟む(1晩につき1回)。
+  // 案内役が処刑・襲撃で死亡していても、この独り言だけは例外的に発生させる(幽霊的な体裁として解釈できるため)。
+  // バトンタッチ自体は今まで通り翌日の朝に発生する(この夜の時点ではまだ交代しない)。
   useEffect(() => {
     if (!beginnerMode || phase !== "night" || busy) return;
     if (!guideNpcName || beginnerNightFlavorDay === day) return;
     const guide = players.find((p) => p.name === guideNpcName);
-    if (!guide || !guide.alive) return;
+    if (!guide) return;
     const me = getUser();
     if (!me) return;
     // ジョーカーは、覚醒(能力継承)するまで自分がジョーカーだと気づいていない。例外なく村人として扱う。
@@ -3788,7 +3831,8 @@ ${guardLogText}
     glossaryScannedLenRef.current = log.length;
     if (newEntries.length === 0) return;
     // secretな行(このチュートリアル自身の解説等)は対象外。実際にキャラクターが話した内容だけを見る。
-    const combinedText = newEntries.filter((e) => !e.secret && (e.type === "npc" || e.type === "user")).map((e) => e.text || "").join(" ");
+    // プレイヤー自身が使った言葉は「もう知っている」ということなので解説不要。NPCの発言だけを対象にする。
+    const combinedText = newEntries.filter((e) => !e.secret && e.type === "npc").map((e) => e.text || "").join(" ");
     if (!combinedText) return;
     for (const entry of JINRO_GLOSSARY) {
       if (explainedGlossaryTermsRef.current.has(entry.id)) continue;
