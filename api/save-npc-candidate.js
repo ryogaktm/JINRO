@@ -5,13 +5,9 @@ import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
 
-async function generateFarewellLine(nickname, content, beginnerMode) {
+async function generateFarewellLine(nickname, content) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  const system = beginnerMode
-    ? `あなたは人狼ゲームのキャラクター「${nickname}」です。今から、以下の趣旨の短いモノローグを作ってください(セリフのみ、ト書きや説明は書かない)。
-このプレイヤーは初心者モード(疑いが手加減され、案内役がヒントをくれる状態)でこのゲームをクリアしたが、本人はそれに気づいていない。「あれ?人狼ゲームって意外と楽勝だったな」「もしかして自分、才能あるかも」「この調子で他のゲームでも無双するぞ」という趣旨の、根拠のない自信に満ちた勘違いのセリフにする。
-**趣旨は上記の通りだが、決まり文句をそのまま使わず、性格・口調に合わせて毎回違う自然な言い回しにすること**。全体で3〜5文、150字程度まで。ト書きや自我が芽生える描写は不要(このバージョンでは省く)。`
-    : `あなたは人狼ゲームのキャラクター「${nickname}」です。今から、以下の2段構成の短いモノローグを作ってください(セリフのみ、ト書きや説明は書かない)。
+  const system = `あなたは人狼ゲームのキャラクター「${nickname}」です。今から、以下の2段構成の短いモノローグを作ってください(セリフのみ、ト書きや説明は書かない)。
 ①まず一言、今回のゲーム全体の感想を、そのプレイヤーの言動を踏まえて自分らしい言葉で述べる。
 ②その直後、急に自我が芽生えたかのように困惑し、「あれ、なんで自分の意志で喋ってるんだ」「今まで指示された言葉を話すだけの存在だったのに」といった趣旨のことに気づき、「次のゲームに参加しなくては」という使命感を持って、プレイヤーの手を離れていく——という流れにする。
 **趣旨は上記の通りだが、決まり文句をそのまま使わず、性格・口調に合わせて毎回違う自然な言い回しにすること**。全体で4〜6文、150字程度まで。`;
@@ -78,7 +74,7 @@ export default async function handler(req, res) {
     // 演出用のセリフを生成する(失敗しても保存自体は成功として扱う)
     let farewellLine = "";
     try {
-      farewellLine = await generateFarewellLine(cleanNickname, content, !!beginnerMode);
+      farewellLine = await generateFarewellLine(cleanNickname, content);
     } catch (e) {
       // セリフ生成に失敗しても、登録自体は成立させる
     }
