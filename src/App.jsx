@@ -752,6 +752,7 @@ export default function JinroGame() {
   const [adminVerified, setAdminVerified] = useState(false); // 合言葉が正しいと確認できるまで、管理者パネルの中身(ボタン類)を一切見せない
   const [adminVerifying, setAdminVerifying] = useState(false); // 確認中(ボタンの二重押下防止)
   const [devSkipPending, setDevSkipPending] = useState(false); // 開発者用:通常プレイをすっ飛ばして即座に終了画面まで進める予約フラグ
+  const [devJumpTarget, setDevJumpTarget] = useState(null); // 開発者用:{day, phase} 指定の日付・フェーズまで一気に飛ぶ予約
   const [adminSecretInput, setAdminSecretInput] = useState("");
   const [showDebugLogViewer, setShowDebugLogViewer] = useState(false);
   const [debugLogList, setDebugLogList] = useState([]);
@@ -787,6 +788,15 @@ export default function JinroGame() {
       // クレジット・ログ等の保護対象データには一切触れないため)。
       if (params.get("skipend") === "1") {
         setTimeout(() => { devSkipToEnding(); }, 50);
+      }
+      // ?skipday=3 のように付けていれば、その日付の議論フェーズまで自動で進める
+      const skipDayParam = parseInt(params.get("skipday"), 10);
+      if (skipDayParam >= 1) {
+        setTimeout(() => { devJumpTo(skipDayParam, "discussion"); }, 50);
+      }
+      // ?skipvote1=1 なら1日目の投票画面まで自動で進める
+      if (params.get("skipvote1") === "1") {
+        setTimeout(() => { devJumpTo(1, "vote_round1"); }, 50);
       }
     }
 
@@ -1464,6 +1474,7 @@ ${fullTranscript}
   const [npcSubmitting, setNpcSubmitting] = useState(false);
   const [npcSubmitted, setNpcSubmitted] = useState(false);
   const [npcFarewellLine, setNpcFarewellLine] = useState("");
+  const [npcFarewellTyped, setNpcFarewellTyped] = useState(0); // 分身の別れのセリフ:何文字まで表示したか(他の会話ログと同じ1文字ずつのタイプライター表示にするため)
   const [showFavorites, setShowFavorites] = useState(false);
   const [viewingFavorite, setViewingFavorite] = useState(null); // 閲覧中のお気に入り(読み取り専用ビュー)
   const [jokerState, setJokerState] = useState({ hidden: false, selfAware: false, abilityBank: null, abilityUsed: false, defected: false, defectionOffered: false, pendingInheritance: null });
@@ -1812,6 +1823,14 @@ JSON形式のみ: {"summary":"要約文"}`;
   async function devSkipToEnding() {
     const nameOverride = (!nameInput.trim() && !userName) ? "テスト太郎" : undefined;
     setDevSkipPending(true);
+    await startGame(nameOverride);
+  }
+
+  // 開発者用:通常のキャスト・役職生成だけ行い、指定した日付・フェーズまで一気に飛ぶ
+  // (実際の会話・処刑・襲撃は発生させない。あくまでUI・その時点の画面表示を素早く確認するためのショートカット)。
+  async function devJumpTo(targetDay, targetPhase) {
+    const nameOverride = (!nameInput.trim() && !userName) ? "テスト太郎" : undefined;
+    setDevJumpTarget({ day: targetDay, phase: targetPhase });
     await startGame(nameOverride);
   }
 
@@ -3782,6 +3801,35 @@ ${guardLogText}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [devSkipPending, phase, players]);
 
+  // 開発者用:devJumpTo()でゲームを開始した直後、通常のキャスト・役職生成が終わり次第、
+  // 指定された日付・フェーズまで一気に進める(実際の会話・処刑・襲撃は発生させない)。
+  useEffect(() => {
+    if (!devJumpTarget || phase !== "discussion" || players.length === 0) return;
+    const { day: targetDay, phase: targetPhase } = devJumpTarget;
+    setDevJumpTarget(null);
+    if (targetDay > 1) {
+      setDay(targetDay);
+      addLog([{ type: "system", text: `[開発者用] ${targetDay}日目までスキップしました(実際の会話・処刑・襲撃は発生していません)。` }]);
+    }
+    if (targetPhase && targetPhase !== "discussion") {
+      setPhase(targetPhase);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [devJumpTarget, phase, players]);
+
+  // 分身の別れのセリフも、他の会話ログと同じく1文字ずつタイプライター表示する
+  useEffect(() => {
+    if (!npcFarewellLine) { setNpcFarewellTyped(0); return; }
+    setNpcFarewellTyped(0);
+    let pos = 0;
+    const timer = setInterval(() => {
+      pos++;
+      setNpcFarewellTyped(pos);
+      if (pos >= npcFarewellLine.length) clearInterval(timer);
+    }, 48);
+    return () => clearInterval(timer);
+  }, [npcFarewellLine]);
+
   function finishGame(win, freshPlayers = null) {
     actuallyFinishGame(win, freshPlayers);
   }
@@ -4310,6 +4358,37 @@ JSON形式のみ: {"text":"回答"}`;
                   >
                     ⚡ 実プレイなしで即・終了画面まで進める
                   </button>
+                  <div className="text-xs pt-1" style={{ color: "#8A5A2A" }}>⚡ 実プレイなしで各ポイントまで進める:</div>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      onClick={() => devJumpTo(1, "vote_round1")}
+                      className="py-1.5 rounded text-xs font-bold border"
+                      style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                    >
+                      1日目・投票まで
+                    </button>
+                    <button
+                      onClick={() => devJumpTo(2, "discussion")}
+                      className="py-1.5 rounded text-xs font-bold border"
+                      style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                    >
+                      2日目まで
+                    </button>
+                    <button
+                      onClick={() => devJumpTo(3, "discussion")}
+                      className="py-1.5 rounded text-xs font-bold border"
+                      style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                    >
+                      3日目まで
+                    </button>
+                    <button
+                      onClick={() => devJumpTo(4, "discussion")}
+                      className="py-1.5 rounded text-xs font-bold border"
+                      style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                    >
+                      4日目まで
+                    </button>
+                  </div>
                 </>
               )}
             </div>
@@ -5451,7 +5530,7 @@ JSON形式のみ: {"text":"回答"}`;
                     <div className="space-y-2">
                       {npcFarewellLine && (
                         <div className="rounded-lg p-3 text-sm italic border-l-4" style={{ background: "#F0EAD9", borderColor: C.gold, color: C.text }}>
-                          「{npcFarewellLine}」
+                          「{npcFarewellLine.slice(0, npcFarewellTyped)}」
                         </div>
                       )}
                       <div className="text-sm" style={{ color: C.text }}>
