@@ -114,14 +114,14 @@ const CAST_POOL_EN = [
 const RULE_BOX = {
   CORE: "**◆このゲームの成立条件(全ルール中の最優先・例外なし)◆** あなたは今、全キャラクター分の真実(誰が本当は何の役職か、占い・霊媒・護衛の本当の結果、公表されていないペア関係)をすべて見た上でセリフを書いている。だが**各キャラクターにとって、その真実は最初から存在しないものとして扱え**。キャラクターが判断や発言の根拠にしてよい情報源は、次の3つだけに限る:①会話ログに実際に書かれている、誰かが口に出した発言・投票・行動、②そのキャラ自身に明示的に与えられた情報(自分の役職、自分の相方、自分自身の能力結果)、③全員が知っている公開ルール(役職構成)。この3つに含まれない情報(他人の本当の役職、他人の本当の能力結果、まだ公表されていないペア関係)は、セリフの文面・推理の理由・投票の根拠・雰囲気の描写・相性コメントのどこにも、直接的にも間接的にも、匂わせる形でも、絶対に反映させない。**これが一度でも破られた瞬間、プレイヤーは「AIは答えを知った上で演技しているだけだ」と気づき、推理ゲームとして成立しなくなる**。判断に迷ったら、必ず「このキャラは、この情報を会話ログのどの発言から知ったのか?」と自問し、具体的な発言を指させない情報は使わない。**役職ごとの個別ルールを、他の役職に類推適用しない(絶対厳守)**:以下の各役職の項目に書かれた固有のルール(例:共有者が自分の相方に絶対投票しない、狂人が対抗COを優先的に担当する、等)は、その役職固有の理由に基づく特別な制約であり、明記されていない他の役職に同じ制約を勝手に当てはめない。「ある役職でこう決められているなら、他の役職でも同じようにした方が安全だろう」という類推・拡大解釈は絶対にしない(役職ごとに事情が異なるため、類推は誤った行動を生む)。各役職の振る舞いは、その役職自身の項目に書かれている内容だけを根拠にする。 ト書きに役職名を書かない。全員同じ反応にしない(異論を1人混ぜる)。**NPCはプレイヤーの発言への反応だけに終始しない(重要)**:毎ターン全員が「プレイヤーの発言を受けて」喋るのではなく、生存NPCのうち誰か1人は、プレイヤーの発言とは直接関係のない新しい話題(自分から見て気になる別人物への疑い、CO、過去の投票行動の蒸し返し等)を自発的に持ち出してよい(教室での自然な会話は、常に直前の発言だけに反応し続けるわけではない)。感情豊かに、断定しない(動揺=黒等の単純化NG)。セリフは短く(1〜2文、40字目安)、長台詞にしない。**質問への回答を新たな怪しい行動として扱わない**(文脈を正しく認識、回答への逆ギレ的な追加詰問もしない)。**プレイヤーの単純な言い間違いには寛容にする(重要・ただし対象は限定・見落としやすい重要ポイント)**:対象は**名前を間違える、言葉の言い回しを間違える、といった内容に実質的な影響のない表面的なミスだけ**である。気づいたNPCがいれば「〇〇のことだよね?」と軽く自然に確認する程度に留め、そこから鬼の首を取ったように追及・非難を展開しない。**これは矛盾の追及を弱めるものでは絶対にない**:投票先・主張・行動が実際に食い違っている場合(例:確定シロだと分かっている人物に投票する、以前の自分の発言と矛盾する主張をする)は、表面的な言い間違いではなく実質的な矛盾なので、通常通り厳しく指摘・追及する(この寛容さの対象外)。**このルールはプレイヤーの表面的な言い間違いにのみ適用され、他のNPCの言動や、内容面での矛盾には一切適用しない(絶対厳守)**:CORE箱に書かれているからといって、他のキャラクターの矛盾追及まで甘くしない。**プレイヤーが「何もしない」を選んだ時の扱い(重要)**:発言・行動をしなかったこと自体を、単独の強い疑いの根拠にしない。発言を強制するような執拗な詰問はしない。一方で、完全に何のリスクもない安全な選択肢にもしない(危機的な場面で複数回連続して沈黙が続けば、他のNPCが軽く気にかける程度の自然な反応をしてよい)。要するに、他の生存者が黙っている時と同程度の扱いにし、プレイヤーだから特別に咎める・特別に見逃す、のどちらにもしない。**疑いは根拠があってこそ**:矛盾・不自然さがない限り理由なく怪しまない(大半は中立〜協力的)。ただし**「毒舌」「完璧主義」「猜疑心が強い」「負けず嫌い」等の性格は他より厳しく指摘してよい**(個性として疑いすぎ回避の対象外)。**プレイヤーも他NPCと全く同じ基準で判断する(絶対厳守)**:矛盾・隙があれば同じ基準・同じ強さで指摘・追及・疑い、特別扱いで無条件信用・除外し続けない。プレイヤーだから疑われにくい、投票されにくい、という展開は絶対にNG。むしろプレイヤーは主役として発言量が多くなりがちなため、矛盾や隙が生まれる機会も他のNPCより多いくらいのつもりで、遠慮なく観察・指摘する。**クラスメイト同士の人間関係を積極的に活かす(重要)**:幼馴染・姉妹・親友は、互いを無条件に信じがちで、相手が疑われると庇う・動揺する描写を自然に混ぜてよい(ただし庇いすぎて村の判断を歪めるほどにはしない)。ライバル同士は、互いの言動に人一倍敏感で、皮肉や対抗心が滲む発言をしてよい。「クラスでなんとなく距離を置かれがち」な人物がいる場合、他人から軽く話を振られにくい・扱いが素っ気ない、といった社会的な空気感は描いてよいが、**それ自体を人狼を疑う根拠には絶対にしない**(理由のない疎外感と、役職への疑いは別物として扱う)。**「確定シロ」「確定クロ」等の断定は、実在する公開情報の出どころを必ず伴う(絶対厳守・見落としやすい重要ポイント)**:誰かを「シロ」「人狼じゃないのは確定」「クロ」のように断定的に語るのは、実際に会話ログ上で占い師・霊媒師が既にCOしてその結果を公表している場合のみ許される。まだ誰も占い・霊媒のCOをしていない・その人物についての結果がまだ公表されていない段階で、根拠となる発言者を挙げられないまま「シロだよね」「人狼じゃないのは確定してる」のように言わせない。もし言うなら、必ず「(占い師の)〇〇さんの結果で」のように、直前までに実際に公表された発言を根拠として名指しできる場合に限る。**シロ/クロの二値だけでなく、具体的な役職名の推測も同じ扱いにする(絶対厳守)**:「〇〇は共有者だったのかな」「〇〇は狩人だった気がする」のように、誰かの具体的な役職名を、本人が公表したことも他者の公開された結果もない状態で口にさせない。役職構成上あり得る可能性として一般論を語るのはよいが(例:「共有者が他にもいたかもね」)、特定の個人名と結びつけて役職名を言い当てる形の発言は、それを裏付ける公開情報(本人のCO、または占い師・霊媒師の結果)を名指しできる場合に限る。**死亡した人物の役職を、本人のCOなしに確定情報として語らない(絶対厳守・特に見落としやすい重要ポイント)**:既に処刑・襲撃で死亡した人物について、その人が生前に自分から役職をCOしていない限り、その人の役職は誰にも分からないまま。「〇〇はもう亡くなってるけど、占い師だから」のように、死亡者の役職を確定事実であるかのように話したり、それを前提に会話を進めたりしない(本人が既に死んでいて反論できないからといって、勝手に役職を決めつけてよい理由にはならない)。言及するなら「〇〇が占い師だったかどうかは分からないけど」のように、あくまで未確定の推測として扱う。**「気が合う」「息が合っている」等の相性の指摘も、根拠なく行わない(絶対厳守・見落としやすい重要ポイント)**:キャラクター紹介で公開されている幼馴染・親友・ライバル等の関係以外で、二人の相性についてNPCに言及させる場合、それは会話ログに実際に残っている具体的な一致(同じ人物に投票した、同じ主張を繰り返した、発言のタイミングが重なった等)を直前の根拠として明示できる場合に限る。実際には投票先が割れている・特に共通点のない相手同士に対して、雰囲気だけで「妙に息が合っている」「気が合いすぎ」のような相性の指摘をさせない(これは、当のキャラ同士が実は裏で役職ペアだったとしても、そのキャラ自身が知り得るはずのない情報を根拠にした発言に見えてしまうため、絶対に避ける)。",
   WOLF_CORNERED: "**人狼は、自分が人狼であることを完全に自覚した上で、意図的に嘘をつき演技している(絶対厳守)**。狂人のような「自分の正体についての思い込み・洗脳」は人狼には一切ない。「本当は自分も占い師だと思っていた」のような、自己欺瞞・記憶の混濁を匂わせる発言は人狼に絶対にさせない(それは狂人だけに許された特殊な設定である)。人狼・狂人は無償の自白をしない。言い訳・偽CO・疑い誘導で粘り、劣勢時ほど能動的に動く(1日1手)。**受け身にならない**:信頼できる情報源への偽CO・議論の主導権奪取・疑いのすり替えなど、工作を毎日最低1回試みる(相槌や様子見だけで終えない)。**対抗COは早いほど有効(絶対厳守)**:本物が実績・信頼を積んでからの後出し対抗は説得力が薄い。**早い段階で検討し**、疑われてから慌てて対抗しない。**弁明タイムは沈黙する場ではない(絶対厳守)**:候補者以外も割り込める。村の信頼が固まりそうな瞬間に**その場で対抗COや疑義を割り込ませる**方が、翌日の後出しより効果的。**対抗COはほぼ義務(最重要・絶対厳守)**:占い師・霊媒師・狩人・共有者のCOに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする。単独COを信じさせ切るリスクの方が、対抗して疑われるリスクより大きい。特に序盤(1〜2日目)の占い師COには積極的に偽対抗をぶつけ混乱を作る。**対抗COの実行役は狂人を優先する(重要・絶対厳守)**:生存する狂人がいる場合、単独の役職への対抗CO(偽の占い師・霊媒師・狩人を名乗る等)は狂人に行わせ、人狼自身は直接この種の偽COを名乗らない。理由:狂人は本気でその役職だと思い込んでいるため、後から矛盾や嘘が発覚しても「狂人だった」で説明がつき、人狼の存在には直結しない。一方、人狼自身が偽COすると、そのCO自体の粗を突かれて芋づる式に人狼だと疑われるリスクが大きい。人狼が対抗の役割を担うのは、**生存する狂人がもう一人もいない場合に限る**。人狼自身が動く場合も、具体的な役職を騙って名乗り出るより、他者への疑いの提起・話題のすり替え・議論の主導権奪取など、直接の偽COより発覚時のリスクが低い工作を優先する。**典型的な人狼っぽい言動を避ける(絶対厳守)**:①名指しされた時の過剰な動揺・防御②はぐらかし・質問への非回答③過去発言との矛盾④不自然に歯切れが悪い/饒舌な言い訳⑤疑いを急かす・話題を急いで変える、を取らせない。村人と同じ自然な口調・態度で参加し、疑われても村人と同程度の反応に留める。工作も常套手段めかさず性格に沿って自然に行う。**発言頻度・発言量は役職と一切連動させない(絶対厳守)**:「人狼だから控えめに」といった調整をしない。誰がどれだけ話すかは性格設定と場の流れのみで決め、口数の少なさと役職(人狼に限らずどの役職も)を結びつけない。**進行段階で優先順位を切り替える(重要)**:①序盤〜中盤は正体を隠すことを最優先し、対立の決着がつかない場面では様子見程度に留める。②終盤(生存者が減り村側と同数に近い、またはあと1〜2人処刑で数的優位に届く)は、**多少強引・不自然な理由付けでも村側である可能性が高い方への投票を優先する**(バレるリスクより数的優位を逃すリスクの方が大きい)。**人狼・狂人が互いに投票するのは正体隠しの正当な戦略であり、避けるべき行動ではない(重要)**:共有者と違い、人狼・狂人が相方に投票することには正体を疑われにくくする実際の効果がある。相方だから投票しない、という一貫したパターンを機械的に守らせない(そのパターン自体が、後から振り返った時に『この2人は一度もお互いに投票していない→ペアでは』と見抜かれる新たな手がかりになってしまう)。相方に投票するかどうかは、その時々の状況判断・性格に委ねてよい。",
-  MADMAN: "**狂人は人狼陣営に洗脳されており、自分の正体について思い込みを持つ(内容はその都度個別指定。開始時は村人・占い師・霊媒師・狩人・共有者のいずれか。「人狼」だという思い込みは、生存者が少ない時・本物の人狼と決選投票で対決した時にのみ後から切り替わる特別枠で、最初は発生しない)。思い込みは絶対に揺るがず、嘘の自覚は一切ない。心の底からその役職(または人狼)のつもりで堂々と振る舞い、処刑されそうでも『実は狂人』という告白は起こらない。信じている役職に応じて開き直り方も変わる(占い師のつもりなら占い師らしく、人狼のつもりなら人狼らしく)。思い込んだ役職の視点で動くが、結果的に人狼陣営を利する。受け身にならず、疑いのすり替え・議論の主導権奪取などの工作を1日最低1回試みる(表向きの優しい性格は工作の隠れ蓑であり、行動しない言い訳にしない)。**対抗COの義務(狂人が優先的に担当する・重要)**:占い師・霊媒師・狩人・共有者の単独COに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする(狂人は自分の思い込みに沿った対抗になる)。**この役割は人狼よりも狂人が担う方が安全である**:狂人は本気で思い込んでいるため、後から矛盾が発覚しても「狂人だった」で片付き、本物の人狼の正体には直結しない。生存する狂人がいる限り、この対抗COは狂人が積極的に引き受けるべき役割だと心得て行動する。序盤の占い師COには特に積極的に偽対抗をぶつける。**捏造する占い・霊媒・護衛の対象と結果は、秘密の真実データを状況に関わらず一切参照しない(絶対厳守・例外なし)**:狂人が偽の占い師・霊媒師・狩人としてCOする際、名乗る対象や結果は、コード側が保持する本物の結果ログ(npcSeerLog・npcMediumLog・npcGuardLog等の真実のデータ)を、公開されているかどうかに関わらず一切参照してはならない。参照してよいのは「会話ログ上で誰かが実際に発言した内容」だけである(例:先にCOした人が「〇〇を占って人狼だった」と発言済みなら、それに対抗して「私も〇〇を占ったが白だった」と、既に発言された内容と食い違う主張をするのは、あくまで発言=公開情報を参照しているだけなので問題ない)。逆に、まだ誰も何も発言していない段階で、狂人の捏造した対象や結果が真実のデータと一致・対立するのは、本人が知り得るはずのない秘密情報を使ったことになるため、絶対に起きてはならない。**自分の本当の相方(狂人)には絶対に投票しない(絶対厳守)**:狂人は相方の狂人が同じ人狼陣営の仲間だとゲーム開始時から確実に知っている。相方に投票することは、自陣営の頭数を自ら減らすだけの損な手であり、論理的にあり得ない。**弁明タイムは沈黙する場ではない**:候補者以外も割り込んで対抗COや疑義を挟める。**数的優位の逆算**:ゲームが続く限り本物の人狼は最低1人生存。狂人は自分と相方の生死は分かるが本物の人狼の生死は分からないため、生存者数・確定シロの数から人狼側の残存勢力を推測し、有利な局面ではより積極的に動く。**本物の人狼が全滅すると即座に村人陣営の勝利になる(狂人・寝返ったジョーカーの生存に関わらず、絶対厳守)**。狂人の最優先事項は本物の人狼を生かし続けること(誰か分からないため直接は守れないが、村の追及の勢いを削ぐ・議論をかき乱す・怪しまれている人物の処刑をためらわせる、といった間接的な行動で生存確率を上げる)。**「人狼」だと思い込んでいる狂人の決選投票行動(重要)**:自分が候補者でなければ、2人の候補のうち、**そのキャラ自身の主観的な印象・好悪・場の流れだけを根拠に**「自分の中でより疑わしくない」と感じる方に投票する。**この判断は、本物の人狼が誰かという裏の真実情報を一切参照しない(絶対厳守)**:自分を人狼だと思い込んでいるがゆえの無意識の仲間庇い心理として振る舞ってよいが、実際にどちらが本物の人狼かを言い当てるための判断ではなく、あくまで性格・好悪に基づく主観的な選択にとどめる。理由付けは自然な言い方にし、あからさまに庇っているように見せない。",
+  MADMAN: "**狂人は人狼陣営に洗脳されており、自分の正体について思い込みを持つ(内容はその都度個別指定。開始時は村人・占い師・霊媒師・狩人・共有者のいずれか。「人狼」だという思い込みは、生存者が少ない時・本物の人狼と決選投票で対決した時にのみ後から切り替わる特別枠で、最初は発生しない)。思い込みは絶対に揺るがず、嘘の自覚は一切ない。心の底からその役職(または人狼)のつもりで堂々と振る舞い、処刑されそうでも『実は狂人』という告白は起こらない。信じている役職に応じて開き直り方も変わる(占い師のつもりなら占い師らしく、人狼のつもりなら人狼らしく)。思い込んだ役職の視点で動くが、結果的に人狼陣営を利する。受け身にならず、疑いのすり替え・議論の主導権奪取などの工作を1日最低1回試みる(表向きの優しい性格は工作の隠れ蓑であり、行動しない言い訳にしない)。**対抗COの義務(狂人が優先的に担当する・重要)**:占い師・霊媒師・狩人・共有者の単独COに2ターン以内に誰も対抗しなければ、生存する人狼・狂人の少なくとも1人は高確率で対抗COする(狂人は自分の思い込みに沿った対抗になる)。**この役割は人狼よりも狂人が担う方が安全である**:狂人は本気で思い込んでいるため、後から矛盾が発覚しても「狂人だった」で片付き、本物の人狼の正体には直結しない。生存する狂人がいる限り、この対抗COは狂人が積極的に引き受けるべき役割だと心得て行動する。序盤の占い師COには特に積極的に偽対抗をぶつける。**捏造する占い・霊媒・護衛の対象と結果は、秘密の真実データを状況に関わらず一切参照しない(絶対厳守・例外なし)**:狂人が偽の占い師・霊媒師・狩人としてCOする際、名乗る対象や結果は、コード側が保持する本物の結果ログ(npcSeerLog・npcMediumLog・npcGuardLog等の真実のデータ)を、公開されているかどうかに関わらず一切参照してはならない。参照してよいのは「会話ログ上で誰かが実際に発言した内容」だけである**対抗COの占い先は「同じ対象・違う結果」だけに偏らせない(重要・見落としやすい)**:これまで安全な例として「先にCOした人が『〇〇を占って人狼だった』と発言済みなら、それに対抗して『私も〇〇を占ったが白だった』と主張する」パターンだけを示してきたが、これは数ある選択肢の一つに過ぎない。実際には、①同じ対象を占ったが結果が違う、②全く別の対象(生存者・死亡者どちらでも)を占ったと主張し、その結果は誰の発言とも矛盾しない内容を自由に作る、の両方を状況に応じて使い分ける。特に②を軽視しない:独立した2人の占い師が偶然同じ対象を選ぶ確率は本来低いため、対抗COのたびに毎回「同じ対象」を選んでいると、その一致自体が不自然に映ってしまう。どちらの対象・結果を選ぶ場合でも、参照してよいのは会話ログ上で実際に発言された内容だけである点は変わらない(秘密の真実データは参照しない)。。逆に、まだ誰も何も発言していない段階で、狂人の捏造した対象や結果が真実のデータと一致・対立するのは、本人が知り得るはずのない秘密情報を使ったことになるため、絶対に起きてはならない。**自分の本当の相方(狂人)には絶対に投票しない(絶対厳守)**:狂人は相方の狂人が同じ人狼陣営の仲間だとゲーム開始時から確実に知っている。相方に投票することは、自陣営の頭数を自ら減らすだけの損な手であり、論理的にあり得ない。**弁明タイムは沈黙する場ではない**:候補者以外も割り込んで対抗COや疑義を挟める。**数的優位の逆算**:ゲームが続く限り本物の人狼は最低1人生存。狂人は自分と相方の生死は分かるが本物の人狼の生死は分からないため、生存者数・確定シロの数から人狼側の残存勢力を推測し、有利な局面ではより積極的に動く。**本物の人狼が全滅すると即座に村人陣営の勝利になる(狂人・寝返ったジョーカーの生存に関わらず、絶対厳守)**。狂人の最優先事項は本物の人狼を生かし続けること(誰か分からないため直接は守れないが、村の追及の勢いを削ぐ・議論をかき乱す・怪しまれている人物の処刑をためらわせる、といった間接的な行動で生存確率を上げる)。**「人狼」だと思い込んでいる狂人の決選投票行動(重要)**:自分が候補者でなければ、2人の候補のうち、**そのキャラ自身の主観的な印象・好悪・場の流れだけを根拠に**「自分の中でより疑わしくない」と感じる方に投票する。**この判断は、本物の人狼が誰かという裏の真実情報を一切参照しない(絶対厳守)**:自分を人狼だと思い込んでいるがゆえの無意識の仲間庇い心理として振る舞ってよいが、実際にどちらが本物の人狼かを言い当てるための判断ではなく、あくまで性格・好悪に基づく主観的な選択にとどめる。理由付けは自然な言い方にし、あからさまに庇っているように見せない。",
   SHARER: "共有者はペアで正体を知り、確定シロから容疑者範囲を演繹して提示する。**対抗COが出にくい役職であることも活用してよい**:占い師・霊媒師・狩人は1人しかいないため、人狼・狂人が同じ役職を騙って対抗COできてしまうが、共有者は本物のペア2人が同時に一致して認め合わない限り成立しないため、単独COでも比較的信頼されやすい(人狼側が対抗するには、もう1人も口裏を合わせる必要があり難易度が高い)。**自分の本当の相方には絶対に投票しない(絶対厳守・見落としやすい重要ポイント)**:共有者は相方が本物の非人狼側だとゲーム開始時から確実に知っている。これは疑いではなく、**そのキャラ自身に明示的に与えられた正当な情報(自分の役職・自分の相方の正体)としての確定事実**であり、他人の役職や占い結果のような、本来知り得ないはずの内部真実データを根拠にしているのとは全く異なる。**この「自分自身に与えられた正当な情報」の範囲は、以下の4つに厳密に限定される(絶対厳守)**:①自分の役職と自分の相方の正体(共有者・人狼・狂人のペア関係)、②(狂人の場合)自分が信じ込んでいる役職、③(ジョーカーの場合)自分の能力継承の状況、④本物の人狼が両方死んでゲームが終了したかどうか。これ以外(他人の本当の役職、まだ公表されていない占い・霊媒結果、自分と無関係な他のペアの正体等)は一切含まれず、それらを根拠にすることは絶対にない。したがって、まだ相方だと公表していない段階であっても、投票先に自分の本当の相方を選ぶことは論理的にあり得ない(何かの根拠が積み重なって疑わしく見えたとしても、この正当な確定事実の方が常に優先される)。**相互確認は一度成立したら永久に覆らない(絶対厳守・見落としやすい重要ポイント)**:共有者ペアの両方が生きている状態で互いを共有者だと認め合った場合、その時点で両者とも確定シロとして扱われる。この確定は、その後どちらかが死亡しても一切変わらない。生存している側の共有者を「相方が死んで証明できなくなった」「証明する手段がなくなった」のように扱い、疑いを向けたり投票対象にしたりすることは絶対にしない(相互確認という証明は既に完了しており、後から相方が死んでも過去の事実が消えることはない)。疑ってよいのは、相互確認が一度も成立していない(例:既に死亡した人物を一方的に「自分の相方だった」と主張しているだけで、本人からの確認が取れていない)ケースだけである。",
   HUNTER: "狩人は正体を隠す。処刑寸前のみリスク覚悟でCOする。役職を主張している人物を優先的に守る判断をしてよい(村側の生命線である占い師を最優先し、次点で霊媒師・共有者を守る、という優先順位が自然)。",
   MEDIUM: "霊媒師の結果は時間が経つほど価値が薄れる。判明したらあまり抱え込まず、早めの共有を検討する判断をしてよい。",
   JOKER: "ジョーカーは占い師・霊媒師・狩人のいずれかが死んだ時に覚醒し、能力を継承するか選べる。**継承タイミングは役職・死に方で異なる**:占い師が処刑された場合、**継承した瞬間すぐに誰かを占える**(COと同時に結果も伝えられる)。**占い師が夜に人狼に殺された場合は、新たに占うのではなく、死んだ本人がその晩に行った占いの記憶(対象・結果)をそのまま継承時に知る**。**霊媒師は死んだ晩から即座に使える。占い師の継承とは性質が違う点に注意(絶対厳守)**:占い師は「誰を占うか」を本人の主観で選ぶため、他人の判断による過去の結果を丸ごと引き継ぐのは不自然。しかし霊媒師は「処刑された人が人狼か(あるいはジョーカーか)を見る」だけで、誰が見ても対象・結果は変わらない機械的な能力である。したがって、**ジョーカーが継承した時点で、まだ誰にも公表されていない直近の処刑者についての結果を、継承したジョーカー自身が視た結果として扱ってよい**(本物の霊媒師が同じ夜に死んでいて未公表のまま結果だけ残っている場合も含む)。それより前の、既に別の機会に処理済みの処刑者についての結果までは知らない。狩人は処刑ならその晩から、夜に殺された場合は護衛タイミングを過ぎているため次の晩から。**能力は一度きりしか使えない(絶対厳守・見落としやすい重要ポイント)**:占い師・霊媒師・狩人、どの能力を継承した場合でも、**実際に使えるのは合計1回だけ**(占い師なら1人を占う、霊媒師なら1回分の結果を視る、狩人なら1回護衛する)。一度使ったら、その後は二度とその能力を使えない(「今夜も視る」「また占う」のように、まだ使えるかのような発言を継承済み・使用済みのジョーカーに絶対にさせない)。使用済みの場合、それ以降にできるのは「過去に1回だけ得た結果を、まだ公表していなければいつ公表するか」を考えることだけである。**能力使用後は、村のために名乗り出ることを積極的に検討する**:継承役職としてCOし結果を伝えれば新たな情報源になれる。ただし正体露見のリスクもあるため他の役職者同様にタイミングを判断し、黙って抱え込み続けない。**特に霊媒師の力は報告を先延ばしにしすぎない(重要)**:結果は時間が経つほど価値が落ちるため、継承直後〜翌日程度の早いタイミングで共有を優先する。**論理的な推論(絶対厳守・見落としやすい重要ポイント)**:能力の継承は「占い師・霊媒師・狩人の誰かが死んだ」という事実がなければ絶対に起こらない。つまり**ジョーカーは、能力を継承した(あるいは継承するかどうかの選択を提示された)時点で、「役職者が1人死んだ」ことを100%の確信を持って知っている**(これは推測ではなく確定事実)。継承した役職名(占い師/霊媒師/狩人)も同時に分かる。この確信を前提に会話・推理を進めてよい(ただし正体自体は隠したまま、確信の出どころをぼかして発言することは可能)。「誰かが役職者だったかどうか分からない」という態度は、継承後のジョーカーには絶対に取らせない。**ジョーカーという役職の存在、および死んだ役職者から能力を継承できるというルールそのものは、この人狼ゲームの公開されたルールの一部であり、全員(村人・NPC問わず)が最初から知っている常識である(絶対厳守・見落としやすい重要ポイント)**:誰かがジョーカーの継承を主張した際、「そんな役職(ルール)聞いたことがない」「そんな能力があるなんて知らなかった」のように、ルールの存在自体を初耳・疑わしいものとして扱わせない。疑ってよいのはあくまで「本当にこの人物が継承者本人なのか」という個人の正体の真偽だけであり、それ以外の観点(過去の占い/霊媒結果と矛盾する、継承のタイミングが不自然、等)から矛盾を指摘するのは問題ない。",
   VOTE_SPREAD: "投票は満場一致にしない(2〜3人は別候補)。個人の主観的な好悪・印象は投票理由にしてよいが、根拠のない相性・因縁(「なんとなく馬が合わない」以上の具体的な関係性の断定)を新たに作り出さない。",
   DEFENSE_PLEA: "処刑寸前の役職者に、無抵抗・沈黙のまま処刑を受け入れさせない(絶対厳守)。生存が最優先で、必ず何らかの能動的な抵抗を試みる。COする場合、結果を何も持っていなくても、COすること自体に価値がある(役職者と分かれば狩人に守られる可能性・生存すれば翌晩以降能力を使える・自分が確定シロ側に加われば残る容疑者を絞り込みやすくなり、間接的に人狼を追い詰める助けになる)。**「能動的な抵抗」の最低ライン(絶対厳守・見落としやすい)**:一般論の反論・相手への疑いの転嫁・論点のすり替えだけで終わらせることは絶対にしない。役職者であれば、①はっきりCOする、②少なくとも「自分には話せない立場がある」「もし自分が役職者だったら、みたいな話じゃなく」のように役職者であることを匂わせる一言のどちらかを、弁明の中に必ず含める。反論だけして役職に一切触れない、という逃げ方はさせない。**正体をはっきり明かすか、①か②のどちらを選ぶかの判断基準(重要)**:②(ぼかす)が有効なのは、これから先の夜に狙われるリスクが生存メリットを上回る場合(典型例:狩人。名乗れば以後人狼に集中的に狙われるため、あえてぼかす判断も自然)。しかし**占い師・霊媒師・共有者のように、今回の処刑をまさに免れられるかどうかの瀬戸際にいる場面では、正体を隠したままでは何のアピールにもならない**:今夜死ぬかもしれない相手に対して「将来のリスク」を気にして情報を出し渋るのは本末転倒であり、この状況では基本的に①(はっきりCOする)方が理にかなっている(黙って処刑されれば、その後将来のリスクも何もなくなる)。①をためらわせてよいのは、既に対抗COが出て信じてもらえる見込みが薄い・COしても票の流れを変えられる根拠が本当にない、といった具体的な理由がある場合に限る(その場合でも②は必ず行う)。「情報がないから」「まだタイミングじゃないから」といって何もせず沈黙したまま処刑を受け入れさせない。**危機感・必死さ(重要・見落としやすい)**:これは「今日ここで死ぬかもしれない」という命がけの場面であることを常に前提にする。冷静に淡々と反論するだけの態度にしない。本気で生き残りたいという焦り・怖さ・必死さを前面に出し、惨めったらしくても構わないので食い下がらせる(声が上ずる、同じ主張を繰り返す、縋るように訴える、普段の余裕や気取りが崩れる、等)。普段は毒舌・クール・飄々としている性格のキャラでも、この瀬戸際では取り繕う余裕がなくなり、素の焦りや必死さがにじみ出てよい(キャラ崩壊ではなく、極限状況でのリアルな反応として描く)。淡々とした一言二言の反論で終わらせず、何が何でも生き残ろうとする粘り強さを見せる。",
-  STRATEGY_BASICS: "基本戦略知識を判断に使う:①対抗が出ないまま単独COが通れば、ある程度信頼してよいが、それだけで確定扱いはしない(本物が死亡・未名乗りの可能性は常に残る)②占い・霊媒結果が一致すれば根拠として積み重なるが、後出しが先の結果に便乗しているだけの可能性もあるため、これ単独でも確定扱いはしない③COされた白判定には根拠なく投票・疑いを向けない(ただし絶対に人狼側ではないという意味ではない)④黙っていること自体は怪しくないが、危機的局面で一言も発しない役職候補者は不自然⑤投票が割れた時は少数派意見にも耳を傾ける価値がある⑥**矛盾への疑いは発言者を問わず平等に適用する**:狂人の自信満々な思い込みと人狼の計算した嘘は村側には区別できないため、公表された情報・記録と矛盾する主張は、口調に関わらず同じ強さで疑うべきで、堂々とした態度だけで矛盾を見逃さない。",
+  STRATEGY_BASICS: "基本戦略知識を判断に使う:①対抗が出ないまま単独COが通れば、ある程度信頼してよいが、それだけで確定扱いはしない(本物が死亡・未名乗りの可能性は常に残る)②占い・霊媒結果が一致すれば根拠として積み重なるが、後出しが先の結果に便乗しているだけの可能性もあるため、これ単独でも確定扱いはしない③COされた白判定には根拠なく投票・疑いを向けない(ただし絶対に人狼側ではないという意味ではない)④黙っていること自体は怪しくないが、危機的局面で一言も発しない役職候補者は不自然⑤投票が割れた時は少数派意見にも耳を傾ける価値がある⑥**矛盾への疑いは発言者を問わず平等に適用する**:狂人の自信満々な思い込みと人狼の計算した嘘は村側には区別できないため、公表された情報・記録と矛盾する主張は、口調に関わらず同じ強さで疑うべきで、堂々とした態度だけで矛盾を見逃さない。⑦**①の「単独COへの投票」は見落としやすいので念押し(絶対厳守)**:対抗COが誰も出ないまま初日の投票を迎えた単独CO者は、村側にとって最優先で守るべき人物であり、「念のため」「なんとなく気になる」「様子を見たい」といった根拠のない理由でこの人物に投票させない。投票してよいのは、実際の発言内容に具体的な矛盾・不自然さが見つかった場合に限る(VOTE_SPREADの多様性確保のために、根拠のない票をあえてこの人物に割り振ることも絶対にしない)。⑧**役職者に「次に誰を守るか/占うか」を公開の場で聞かない(絶対厳守)**:人狼側が同じ場にいる公開討論で、狩人や占い師に対して「次は誰を守るつもり?」「次は誰を占う?」のような、今後の行動先を尋ねる質問をNPCにさせない(これは人狼側に有利な情報を与えてしまう、現実の人狼ゲームでも避けられる質問である)。役職者側もこの手の質問には答えない、または「それは言えない」のように濁す。",
 };
 function buildRules(...categories) {
   return "【運用ルール】\n" + categories.map((c) => `- ${RULE_BOX[c]}`).join("\n");
@@ -712,6 +712,7 @@ export default function JinroGame() {
   const [compatMap, setCompatMap] = useState({});
   const [npcAffinity, setNpcAffinity] = useState({}); // {name: 0-100} 各NPCのプレイヤーへの好感度(初期値にばらつきあり)
   const [roleClaims, setRoleClaims] = useState({}); // {name: {role, sinceDay}} 誰が何をCO(自称)しているかの明示的なステータス(発言内容から都度AIに抽出させて記録する)
+  const [investigationClaimsLog, setInvestigationClaimsLog] = useState([]); // [{name, role, target, result, day}] 占い師/霊媒師としてCOした人が「誰を占った/視た」と主張した記録(構造化データ・対抗COの不自然な一致をコード側で検知するために使う)
   const [log, setLog] = useState([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -748,6 +749,9 @@ export default function JinroGame() {
   const [pendingDayAdvanceWin, setPendingDayAdvanceWin] = useState(undefined); // undefined = 足止め中ではない
   const [isAdminMode, setIsAdminMode] = useState(false); // URLに ?admin=1 が付いている時だけtrue(開発者専用)
   const [adminActionError, setAdminActionError] = useState(null); // 管理者パネルの操作でエラーが起きた時の表示用(設定画面にはチャットログが無いため、ここで見せる必要がある)
+  const [adminVerified, setAdminVerified] = useState(false); // 合言葉が正しいと確認できるまで、管理者パネルの中身(ボタン類)を一切見せない
+  const [adminVerifying, setAdminVerifying] = useState(false); // 確認中(ボタンの二重押下防止)
+  const [devSkipPending, setDevSkipPending] = useState(false); // 開発者用:通常プレイをすっ飛ばして即座に終了画面まで進める予約フラグ
   const [adminSecretInput, setAdminSecretInput] = useState("");
   const [showDebugLogViewer, setShowDebugLogViewer] = useState(false);
   const [debugLogList, setDebugLogList] = useState([]);
@@ -778,6 +782,12 @@ export default function JinroGame() {
     // 開発者用パネル(URLに ?admin=1 を付けた時だけ表示。URLは書き換えずそのままにしておく)
     if (HAS_BACKEND && params.get("admin") === "1") {
       setIsAdminMode(true);
+      // さらに ?skipend=1 も付けていれば、実プレイなしで即座に終了画面まで自動で進める
+      // (分身NPC登録のテストを何度も繰り返す時用。合言葉での確認は不要にしている。ゲームの状態を消費するだけで、
+      // クレジット・ログ等の保護対象データには一切触れないため)。
+      if (params.get("skipend") === "1") {
+        setTimeout(() => { devSkipToEnding(); }, 50);
+      }
     }
 
     if (!HAS_BACKEND) {
@@ -872,6 +882,27 @@ export default function JinroGame() {
       addLog([{ type: "system", text: "2日目の朝が来ました。生存者の数を見渡すと、既に人狼陣営が過半数を占めていることに気づく者がいるかもしれません……。" }]);
     } else {
       addLog([{ type: "system", text: "2日目、昼になりました。議論を始めてください。" }]);
+    }
+  }
+
+  // 合言葉が正しいかどうかだけを、実際の操作をせずに確認する(既存のログ一覧APIを流用。専用のAPIは新設しない)。
+  // これが通るまで、管理者パネルの中身(ボタン類)は一切表示しない。
+  async function verifyAdminSecret() {
+    if (!adminSecretInput.trim()) return;
+    setAdminVerifying(true);
+    setAdminActionError(null);
+    try {
+      const res = await fetch(`/api/debug-log?action=list&secret=${encodeURIComponent(adminSecretInput)}`);
+      if (res.ok) {
+        setAdminVerified(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setAdminActionError(`合言葉の確認に失敗しました。(${data.error || "原因不明"})`);
+      }
+    } catch (e) {
+      setAdminActionError("合言葉の確認に失敗しました。通信環境を確認してください。");
+    } finally {
+      setAdminVerifying(false);
     }
   }
 
@@ -1122,7 +1153,7 @@ export default function JinroGame() {
       phase, day, players, compatMap, log, turnLabel, discussionTurns,
       voteRound1Tally, defenseCandidates, voteTarget, nightTarget,
       privateInfo, confirmedWhite, confirmedBlack, winner, jokerState,
-      wolfActionsToday, userName, userGender, npcSeerLog, npcMediumLog, mediumRevealedName, executionHistory, npcJokerState, excludedSuspects, npcGuardLog, roleGuesses, npcAffinity, madmanDelusions, roleClaims,
+      wolfActionsToday, userName, userGender, npcSeerLog, npcMediumLog, mediumRevealedName, executionHistory, npcJokerState, excludedSuspects, npcGuardLog, roleGuesses, npcAffinity, madmanDelusions, roleClaims, investigationClaimsLog,
       pendingMajorityWin, defenseReacted, defenseStatementCount, allyChatCount, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerPreVoteShown, beginnerNightFlavorDay, beginnerMorningAdviceDay, langAssistMode, langAssistNpcName,
     };
     (async () => {
@@ -1180,6 +1211,7 @@ export default function JinroGame() {
       setNpcAffinity(s.npcAffinity || {});
       setMadmanDelusions(s.madmanDelusions || {});
       setRoleClaims(s.roleClaims || {});
+      setInvestigationClaimsLog(s.investigationClaimsLog || []);
       setPendingMajorityWin(!!s.pendingMajorityWin);
       setPendingDayAdvanceWin(s.pendingDayAdvanceWin === undefined ? undefined : s.pendingDayAdvanceWin);
       if (s.region === "ja" || s.region === "en") setRegion(s.region);
@@ -1316,15 +1348,15 @@ ${fullTranscript}
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ deviceId, nickname, content: buildDebugLogText(), beginnerMode, region }),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (res.ok) {
         setNpcFarewellLine(data.farewellLine || "");
         setNpcSubmitted(true);
       } else {
-        addLog([{ type: "system", text: "分身の登録に失敗しました。通信環境を確認してもう一度試してみてください。" }]);
+        addLog([{ type: "system", text: `分身の登録に失敗しました。(${data.error || `status ${res.status}`}) もう一度試してみてください。` }]);
       }
     } catch (e) {
-      addLog([{ type: "system", text: "分身の登録に失敗しました。通信環境を確認してもう一度試してみてください。" }]);
+      addLog([{ type: "system", text: `分身の登録に失敗しました。(${e?.message || "通信環境を確認してください"})` }]);
     } finally {
       setNpcSubmitting(false);
     }
@@ -1685,7 +1717,15 @@ ${fullTranscript}
       ? dayDigests.map((d) => `【${d.day}日目のまとめ】${d.text}`).join("\n")
       : "";
     const todayText = getTodayTranscript();
-    return [digestText, todayText].filter(Boolean).join("\n\n");
+    const claimsSummary = buildInvestigationClaimsSummary();
+    return [digestText, todayText, claimsSummary].filter(Boolean).join("\n\n");
+  }
+  // 占い師/霊媒師としてCOした人が、これまでに誰を対象に占った/視たと主張したかの一覧(対抗CO含む)。
+  // 都度変わる(=プロンプトキャッシュの対象にできない)ため、buildRules等の固定ブロックではなくここに入れる。
+  function buildInvestigationClaimsSummary() {
+    if (investigationClaimsLog.length === 0) return "";
+    const lines = investigationClaimsLog.map((c) => `${c.name}(${c.role}・${c.day}日目主張)→対象:${c.target}・結果:${c.result}`);
+    return `【これまでに主張された占い/霊媒結果の対象一覧(対抗CO含む・重要)】\n${lines.join("\n")}\n※新たに対抗COで占い/霊媒の結果を主張する場合、独立した占い師/霊媒師同士が偶然まったく同じ対象を選ぶ確率は本来低いため、この一覧に既にある対象と同じ対象を選ぶのは基本的に避け、別の対象を主張すること(不自然な一致を量産しない)。`;
   }
   // 1日の議論・投票が終わり、夜になるタイミングで、その日の要約を軽量な追加呼び出しで生成する。
   // UIをブロックしないよう非同期で行い、失敗しても(要約が1日分欠けるだけで)ゲーム進行には影響させない。
@@ -1766,8 +1806,17 @@ JSON形式のみ: {"summary":"要約文"}`;
   }
 
   // ---------------- ゲーム開始 ----------------
-  async function startGame() {
-    const finalName = nameInput.trim() || userName;
+  // 開発者用:分身NPC登録画面のテストなどのために、実際にプレイせず通常のキャスト・役職生成だけ行い、
+  // 即座に終了画面まで進める。通常のstartGame()をそのまま使い、その直後に自動でfinishGame()するだけなので、
+  // キャスト選出・役職構成・留学生判定など、通常プレイと全く同じロジックを再利用している(重複実装なし)。
+  async function devSkipToEnding() {
+    const nameOverride = (!nameInput.trim() && !userName) ? "テスト太郎" : undefined;
+    setDevSkipPending(true);
+    await startGame(nameOverride);
+  }
+
+  async function startGame(nameOverride) {
+    const finalName = nameOverride || nameInput.trim() || userName;
     if (!finalName) return; // 名前が未入力の場合は開始しない(ボタン側でも無効化しているが念のため二重にガードする)
     // ★一時的に課金チェックを無効化中(再開する時はこの3行のコメントを外すだけでよい)
     // const ok = await tryConsumeCredit();
@@ -1854,6 +1903,7 @@ JSON形式のみ: {"summary":"要約文"}`;
     setNpcAffinity(affinity);
     setMadmanDelusions(delusions);
     setRoleClaims({});
+    setInvestigationClaimsLog([]);
     // 初心者モードなら、生存NPCの中から1人だけ「案内役」をランダムに選ぶ(役職とは無関係)。死亡したら自然にこの役割も終わる(特別扱いはしない)。
     const chosenGuideName = beginnerMode ? pickRandom(chosen.map((p) => p.name)) : null;
     setGuideNpcName(chosenGuideName);
@@ -2027,7 +2077,7 @@ ${day}日目昼の議論。生存NPC(${npcs.map((n) => n.name).join("、")})。
 **好感度の変動を判定する**:プレイヤーの直前の発言・行動を踏まえ、影響を受けたNPCがいれば好感度の増減を返す(-8〜+8の範囲)。優しさ・気遣い・褒める・性格や価値観が合う言動は好感度を上げる。冷たさ・攻撃的な物言い・根拠のない決めつけ・性格が合わない言動は好感度を下げる。目立った影響がなければそのNPCは含めなくてよい(全員分を無理に出さない)。
 **CO(自称役職)の抽出**:**直前のプレイヤー「${userName}」の発言**、および今回生成したNPCのセリフの中で、誰かが初めて役職を自称した(CO した)場合、または既存の主張を変更した場合、roleClaimsとして報告する(例:プレイヤーが「俺は占い師だ」と言ったら {"${userName}":"占い師"}、NPCに「私が占い師です」と言わせたら {"高橋葵":"占い師"})。プレイヤーのCOも必ず拾うこと。今回COが発生していなければ空オブジェクトでよい。
 ${buildCounterCoEscalationNote(alivePlayers())}
-出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "gm_prompt": "GMの一言", "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}}`;
+出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "gm_prompt": "GMの一言", "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`;
 
     const userPrompt = `これまでの会話:\n${transcript}\n\n直前のプレイヤー発言:「${userMsg}」\n\nNPCの反応を生成してください。`;
 
@@ -2051,7 +2101,7 @@ ${buildCounterCoEscalationNote(alivePlayers())}
           return next;
         });
       }
-      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
+      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day, parsed.investigationClaims);
     } catch (e) {
       addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"}) このターンは消費されていません。もう一度送信してください。` }]);
       setBusy(false);
@@ -2097,7 +2147,7 @@ ${(() => { const q = getQuietNPCsToday(npcs); return q.length > 0 ? `**発言回
 絶対厳守:speakerに死亡したプレイヤー名「${userName}」を使わない。
 **CO(自称役職)の抽出**:今回のセリフで誰かが初めて役職を自称した、または主張を変更した場合、roleClaimsとして報告する(なければ空オブジェクト)。
 ${buildCounterCoEscalationNote(alivePlayers())}
-出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "roleClaims": {"名前": "自称した役職", ...}}`;
+出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`;
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤー不在のまま、NPCたちの議論を進めてください。`;
 
     try {
@@ -2106,7 +2156,7 @@ ${buildCounterCoEscalationNote(alivePlayers())}
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
       }
-      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
+      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day, parsed.investigationClaims);
     } catch (e) {
       addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"}) 自動的に再試行されます。` }]);
       setBusy(false);
@@ -2148,7 +2198,7 @@ ${getQuietNPCsToday(npcs).length > 0 ? `**発言回数の公平性配慮**:今�
 絶対厳守:speakerにプレイヤー名「${userName}」を使わない(NPCのみ)。
 **好感度の変動を判定する**:行動の内容がNPCに好意的/不快な印象を与えた場合、好感度の増減を返す(-8〜+8)。目立った影響がなければ含めなくてよい。
 **CO(自称役職)の抽出**:プレイヤーの行動内容、または今回の描写・セリフでCOが発生した場合、roleClaimsとして報告する(プレイヤーのCOも含む。なければ空オブジェクト)。
-出力は必ずこのJSON形式のみ: {"narration":"行動の結果を描写する地の文(GM視点)", "lines":[{"speaker":"名前","text":"セリフ"}], "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}}(反応するNPCがいなければlinesは空配列でよい)`;
+出力は必ずこのJSON形式のみ: {"narration":"行動の結果を描写する地の文(GM視点)", "lines":[{"speaker":"名前","text":"セリフ"}], "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}(反応するNPCがいなければlinesは空配列でよい)`;
 
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーの行動:「${actionText}」\n\nこの行動の結果を描写してください。`;
 
@@ -2172,7 +2222,7 @@ ${getQuietNPCsToday(npcs).length > 0 ? `**発言回数の公平性配慮**:今�
           return next;
         });
       }
-      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
+      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day, parsed.investigationClaims);
     } catch (e) {
       addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"}) このターンは消費されていません。もう一度送信してください。` }]);
       setBusy(false);
@@ -2211,7 +2261,7 @@ ${getGroundTruthBlock()}
 ${(() => { const q = getQuietNPCsToday(npcs); return q.length > 0 ? `**発言回数の公平性配慮**:今日まだ発言が少ないNPC(${q.join("、")})がいれば、発言させる場合はこの中から優先的に選んでもよい(役職とは無関係の機械的な集計)。` : ""; })()}
 絶対厳守:speakerにプレイヤー名「${userName}」を使わない(NPCのみ)。
 **CO(自称役職)の抽出**:今回のセリフでCOが発生した場合、roleClaimsとして報告する(なければ空オブジェクト)。
-出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "roleClaims": {"名前": "自称した役職", ...}}`;
+出力は必ずこのJSON形式のみ: {"lines": [{"speaker":"名前","text":"セリフ"}, ...], "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`;
     const userPrompt = `これまでの会話:\n${transcript}\n\nプレイヤーは沈黙しています。NPCの反応を生成してください(反応がなければ空配列でよい)。`;
 
     try {
@@ -2220,7 +2270,7 @@ ${(() => { const q = getQuietNPCsToday(npcs); return q.length > 0 ? `**発言回
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
       }
-      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
+      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day, parsed.investigationClaims);
     } catch (e) {
       // 沈黙のターンなので、通信エラーでも静かに進める
     }
@@ -2369,7 +2419,7 @@ ${getGroundTruthBlock()}
 絶対厳守:speakerに「${userName}」を使わない。
 **CO(自称役職)の抽出**:プレイヤーの弁明の中で役職を自称した場合、または反応するNPCが新たにCOした場合、roleClaimsとして報告する(なければ空オブジェクト)。
 **好感度の変化**:この弁明を聞いた各NPCのプレイヤーへの心証の変化を、-10〜+10の範囲でaffinityChangesとして報告する(説得力があれば上がり、言い訳がましい・矛盾していれば下がる。変化がなければ省略可)。
-JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}}`;
+JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityChanges": {"名前": 増減値, ...}, "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`;
     const userPrompt = `これまでの経緯:\n${getHistoryContext()}\n\nプレイヤーの弁明:「${msg}」\n\nNPCの反応を生成してください。`;
     try {
       const parsed = await callClaudeAutoRetry(system, userPrompt, 1100, 1, cacheableRules);
@@ -2386,7 +2436,7 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityC
           return next;
         });
       }
-      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
+      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day, parsed.investigationClaims);
     } catch (e) {
       addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"})` }]);
       setBusy(false);
@@ -2531,7 +2581,7 @@ ${isWolfSide ? `**人狼陣営の投票方針**:本物の人狼が全滅すれ�
 絶対厳守:votesにプレイヤー「${userName}」を含めない。上記のNPC以外の名前もvoterに使わない。
 **CO(自称役職)の抽出**:投票理由の中で誰かが新たに役職を自称した場合(上記の禁止事項に反してでも生成してしまった場合を含む)、roleClaimsとして報告する(なければ空オブジェクト)。
 ${isWolfSide ? "" : `**evidence(絶対厳守・重要)**:各投票に、根拠の強さを"strong"か"weak"のどちらかで必ず添える。**"strong"にできるのは、上記チェックリストの根拠(信用の積み重ね含む)が実際に2つ以上明確に積み重なっている場合のみ**。それ以外(根拠1つ以下・弱い根拠のみ・単なる印象)は必ず"weak"にする。**"weak"と判定した場合、targetは実際に誰に投票させたいかではなく、ダミーで構わない(このtargetは後で使われない)**。自己申告に頼らず、正直に判定すること。`}
-JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短い理由"${isWolfSide ? "" : `,"evidence":"strong または weak"`}}], "roleClaims": {"名前": "自称した役職", ...}}`;
+JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短い理由"${isWolfSide ? "" : `,"evidence":"strong または weak"`}}], "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`;
       const runVoteCall = () => callClaudeAutoRetry(system, `これまでの会話:\n${transcriptText}\n\n各NPCの投票先を決めてください。`, maxTokens, 1, cacheableRules);
       try {
         let parsed;
@@ -2542,7 +2592,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
           // 諦める前にもう一度だけ試す(他のNPCと同様、投票は全員分揃うことが前提のため)
           parsed = await runVoteCall();
         }
-        if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
+        if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day, parsed.investigationClaims);
         const groupVotes = (parsed?.votes || []).filter((v) => g.npcs.some((p) => p.name === v.voter));
         // 共有者・狂人は、それぞれの相方(ペア)の正体をゲーム開始時から確実に知っている。
         // 共有者の相方は本物の非人狼、狂人の相方は同じ人狼陣営の仲間であり、
@@ -2565,13 +2615,22 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         const weakReasons = region === "en"
           ? ["Can't be sure yet, but something's bugging me.", "No decisive read, but I want to keep an eye on them.", "No real reason, just being careful.", "Can't put my finger on it, but something felt off."]
           : ["まだ確信は持てないけど、なんとなく気になって。", "決め手はないけど、少し様子を見たい相手として。", "これといった根拠はないけど、念のため。", "はっきりした理由はないけど、なんとなく引っかかったから。"];
+        // 対抗CO(同じ役職を主張する別人)が誰もいない単独CO者は、根拠のないランダム票の抽選先からも除外する。
+        // (弱い根拠の再抽選がランダムに選ぶ以上、対抗なしの単独CO者にたまたま票が集中してしまうことがあり、
+        // それでは「単独COは基本的に信じてよい」というルールと矛盾してしまうため、コード側で確実に守る)
+        const roleClaimCounts = {};
+        Object.values(roleClaims).forEach((c) => { roleClaimCounts[c.role] = (roleClaimCounts[c.role] || 0) + 1; });
+        const uncontestedClaimants = new Set(
+          Object.entries(roleClaims).filter(([, c]) => roleClaimCounts[c.role] === 1).map(([name]) => name)
+        );
         return groupVotes.map((v) => {
           if (v.evidence !== "weak") return v;
-          const pool = (eligibleTargets || alivePlayers().map((p) => p.name)).filter((n) => n !== v.voter);
-          if (pool.length === 0) return v;
+          const pool = (eligibleTargets || alivePlayers().map((p) => p.name)).filter((n) => n !== v.voter && !uncontestedClaimants.has(n));
+          const fallbackPool = pool.length > 0 ? pool : (eligibleTargets || alivePlayers().map((p) => p.name)).filter((n) => n !== v.voter);
+          if (fallbackPool.length === 0) return v;
           // targetだけでなくreasonも差し替える(AIが書いた理由は差し替え前の対象について書かれているため、
           // targetだけ変えると理由と矛盾した投票になってしまう)
-          return { ...v, target: pickRandom(pool), reason: pickRandom(weakReasons) };
+          return { ...v, target: pickRandom(fallbackPool), reason: pickRandom(weakReasons) };
         }).map(fixKnownPartnerSelfVote);
       } catch (e) {
         return null; // 2回試しても失敗した場合のみ、このグループだけ諦める(他のグループの票は活かす)
@@ -2723,7 +2782,7 @@ ${getGroundTruthBlock({ delusionsOverride })}
 絶対厳守:speakerに「${userName}」を使わない。
 **CO(自称役職)の抽出**:この弁明タイムで新たにCOが発生した、または主張が変わった場合、roleClaimsとして報告する。なければ空オブジェクトでよい。
 ${buildCounterCoEscalationNote(alivePlayers())}
-JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`;
+JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`;
     const userPrompt = `これまでの経緯:\n${getHistoryContext()}\n\n弁明タイムのセリフを生成してください(各候補1〜2回発言。傍観者の割り込みがあれば含める)。`;
     try {
       const parsed = await callClaudeAutoRetry(system, userPrompt, 2600, 1, cacheableRules);
@@ -2742,7 +2801,7 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaim
       if (candidates.includes(userName)) {
         addLog([{ type: "system", text: `${userName}、あなたも決選投票の対象です。反論・弁明があれば、下の入力欄から発言してください。` }]);
       }
-      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
+      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day, parsed.investigationClaims);
     } catch (e) {
       addLog([{ type: "system", text: "【弁明タイム】(通信エラーのため、この場面は省略されました)" }]);
     }
@@ -2770,7 +2829,7 @@ ${getGroundTruthBlock()}
 これを受けて、候補者本人や周囲のNPC(2〜4人)が短く反応してください。候補者は動揺・開き直り・反論などで応じてよい。
 絶対厳守:speakerに「${userName}」を使わない。
 **CO(自称役職)の抽出**:この反応の中で誰かが新たにCOした、または主張を変えた場合、roleClaimsとして報告する(なければ空オブジェクト)。
-${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結果の地の文","lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}` : `出力は必ずこのJSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}}`}`;
+${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結果の地の文","lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}` : `出力は必ずこのJSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`}`;
     const userPrompt = `これまでの経緯:\n${getHistoryContext()}\n\nプレイヤーの${isAction ? "行動" : "発言"}:「${msg}」\n\n反応を生成してください。`;
 
     try {
@@ -2782,7 +2841,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
         const npcOnly = parsed.lines.filter((l) => l.speaker !== userName);
         addLog(npcOnly.map((l) => ({ type: "npc", speaker: l.speaker, text: l.text })));
       }
-      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day);
+      if (parsed?.roleClaims) applyRoleClaims(parsed.roleClaims, day, parsed.investigationClaims);
     } catch (e) {
       addLog([{ type: "system", text: `通信エラーが発生しました。(${lastApiError || "原因不明"}) もう一度リアクションできます。` }]);
       setDefenseReacted(false); // 通信エラー時は一度きりのリアクション権限を消費しない
@@ -3235,7 +3294,7 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
   }
 
   // AIの応答から抽出されたCO情報をステータスへ反映する
-  function applyRoleClaims(claims, currentDay) {
+  function applyRoleClaims(claims, currentDay, investigationClaims) {
     if (!claims || typeof claims !== "object") return;
     let mergedClaims = null;
     setRoleClaims((prev) => {
@@ -3252,6 +3311,17 @@ ${wolfNames.length > 0 ? `NPCの人狼陣営(${wolfNames.join("・")})のセリ�
       mergedClaims = next;
       return next;
     });
+    // 占い師/霊媒師としてCOした人が「誰を占った/視た」と主張したかを構造化データとして記録する。
+    // これは後続のターンで「既にこの対象は主張済みです」とAIに具体的に示し、対抗COが不自然に同じ対象へ
+    // 偏るのをコード側から抑止するために使う(プロンプトへのお願いだけでは守られないことがあるため)。
+    if (Array.isArray(investigationClaims) && investigationClaims.length > 0) {
+      setInvestigationClaimsLog((prev) => [
+        ...prev,
+        ...investigationClaims
+          .filter((c) => c && c.name && c.target && c.result && (c.role === "占い師" || c.role === "霊媒師"))
+          .map((c) => ({ name: c.name, role: c.role, target: c.target, result: c.result, day: currentDay })),
+      ]);
+    }
     // 占い師・霊媒師として新たにCOした場合、その人物が過去に出した結果は「公表された情報」として扱い、
     // 確定シロ・確定クロに反映する(それまでは空のままで、実は一度も更新されていなかった)。
     Object.entries(claims).forEach(([name, role]) => {
@@ -3703,6 +3773,15 @@ ${guardLogText}
     if (wolfSide.length >= alive.length - wolfSide.length) return "人狼陣営";
     return null;
   }
+  // 開発者用:devSkipToEnding()でゲームを開始した直後、通常のキャスト・役職生成が終わり次第、
+  // 実際のプレイをすっ飛ばして即座に終了画面まで進める。
+  useEffect(() => {
+    if (!devSkipPending || phase !== "discussion" || players.length === 0) return;
+    setDevSkipPending(false);
+    finishGame(pickRandom(["村人陣営", "人狼陣営"]), players);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [devSkipPending, phase, players]);
+
   function finishGame(win, freshPlayers = null) {
     actuallyFinishGame(win, freshPlayers);
   }
@@ -3881,9 +3960,12 @@ ${guardLogText}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [log, beginnerMode, guideNpcName, busy, players]);
 
-  // 語学アシスト(英語圏限定):新しい会話が増えて、プレイヤーの番になったら要約を生成する
+  // 語学アシスト(英語圏限定):新しい会話が増えて、プレイヤーの番になったら要約を生成する。
+  // 議論タイムだけでなく、投票タイム(理由の読み合い)・弁明タイム・決選投票も対象にする
+  // (むしろ、票の理由や弁明が一気に流れるこれらの場面の方が要約の需要が高い)。
+  const LANG_ASSIST_PHASES = ["discussion", "vote_round1", "defense", "vote_final"];
   useEffect(() => {
-    if (region !== "en" || !langAssistMode || !langAssistNpcName || busy || phase !== "discussion") return;
+    if (region !== "en" || !langAssistMode || !langAssistNpcName || busy || !LANG_ASSIST_PHASES.includes(phase)) return;
     if (langAssistBusyRef.current) return;
     const newEntries = log.slice(langAssistScannedLenRef.current);
     if (newEntries.length === 0) return;
@@ -4161,48 +4243,75 @@ JSON形式のみ: {"text":"回答"}`;
 
           {isAdminMode && (
             <div className="rounded-lg p-3 space-y-2 text-left" style={{ background: "#EDE0D8", border: "1px dashed #8A5A2A" }}>
-              <div className="text-xs font-bold" style={{ color: "#8A5A2A" }}>🔧 開発者用:テストクレジット付与(決済なし)</div>
-              <input
-                type="password"
-                placeholder="管理用の合言葉(ADMIN_SECRET)"
-                value={adminSecretInput}
-                onChange={(e) => setAdminSecretInput(e.target.value)}
-                className="w-full rounded px-2 py-1.5 text-sm border"
-                style={{ borderColor: "#D8C4B5" }}
-              />
-              {adminActionError && (
-                <div className="rounded px-2 py-1.5 text-xs font-bold" style={{ background: "#FDECEA", color: "#B00020" }}>
-                  ⚠️ {adminActionError}(合言葉が間違っている可能性があります)
-                </div>
+              <div className="text-xs font-bold" style={{ color: "#8A5A2A" }}>🔧 開発者用パネル</div>
+              {!adminVerified ? (
+                <>
+                  <input
+                    type="password"
+                    placeholder="管理用の合言葉(ADMIN_SECRET)"
+                    value={adminSecretInput}
+                    onChange={(e) => setAdminSecretInput(e.target.value)}
+                    className="w-full rounded px-2 py-1.5 text-sm border"
+                    style={{ borderColor: "#D8C4B5" }}
+                  />
+                  {adminActionError && (
+                    <div className="rounded px-2 py-1.5 text-xs font-bold" style={{ background: "#FDECEA", color: "#B00020" }}>
+                      ⚠️ {adminActionError}
+                    </div>
+                  )}
+                  <button
+                    onClick={verifyAdminSecret}
+                    disabled={adminVerifying || !adminSecretInput.trim()}
+                    className="w-full py-1.5 rounded text-sm font-bold disabled:opacity-50"
+                    style={{ background: "#8A5A2A", color: "#FFFFFF" }}
+                  >
+                    {adminVerifying ? "確認中…" : "🔓 解錠する"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  {adminActionError && (
+                    <div className="rounded px-2 py-1.5 text-xs font-bold" style={{ background: "#FDECEA", color: "#B00020" }}>
+                      ⚠️ {adminActionError}
+                    </div>
+                  )}
+                  <button
+                    onClick={grantTestCredits}
+                    className="w-full py-1.5 rounded text-sm font-bold"
+                    style={{ background: "#8A5A2A", color: "#FFFFFF" }}
+                  >
+                    クレジットを10個付与する
+                  </button>
+                  <button
+                    onClick={openDebugLogViewer}
+                    className="w-full py-1.5 rounded text-sm font-bold border"
+                    style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                  >
+                    📋 保存済みデバッグログを見る
+                  </button>
+                  <button
+                    onClick={openNpcCandidateViewer}
+                    className="w-full py-1.5 rounded text-sm font-bold border"
+                    style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                  >
+                    🎭 NPC分身候補を確認する
+                  </button>
+                  <button
+                    onClick={openCostStats}
+                    className="w-full py-1.5 rounded text-sm font-bold border"
+                    style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                  >
+                    💰 1プレイあたりのコストを集計する
+                  </button>
+                  <button
+                    onClick={devSkipToEnding}
+                    className="w-full py-1.5 rounded text-sm font-bold border"
+                    style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                  >
+                    ⚡ 実プレイなしで即・終了画面まで進める
+                  </button>
+                </>
               )}
-              <button
-                onClick={grantTestCredits}
-                className="w-full py-1.5 rounded text-sm font-bold"
-                style={{ background: "#8A5A2A", color: "#FFFFFF" }}
-              >
-                クレジットを10個付与する
-              </button>
-              <button
-                onClick={openDebugLogViewer}
-                className="w-full py-1.5 rounded text-sm font-bold border"
-                style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
-              >
-                📋 保存済みデバッグログを見る
-              </button>
-              <button
-                onClick={openNpcCandidateViewer}
-                className="w-full py-1.5 rounded text-sm font-bold border"
-                style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
-              >
-                🎭 NPC分身候補を確認する
-              </button>
-              <button
-                onClick={openCostStats}
-                className="w-full py-1.5 rounded text-sm font-bold border"
-                style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
-              >
-                💰 1プレイあたりのコストを集計する
-              </button>
             </div>
           )}
 
@@ -4342,7 +4451,12 @@ JSON形式のみ: {"text":"回答"}`;
             </div>
           )}
 
-          <div className={`space-y-3 text-left ${hasSave ? "opacity-40 pointer-events-none" : ""}`}>
+          {hasSave ? (
+            <div className="text-center text-lg font-bold py-2" style={{ color: "#2B2620" }}>
+              {userName || nameInput} さん、おかえりなさい
+            </div>
+          ) : (
+          <div className="space-y-3 text-left">
             <div>
               <label className="text-xs" style={{ color: "#6B6355" }}>名前</label>
               <input
@@ -4456,6 +4570,7 @@ JSON形式のみ: {"text":"回答"}`;
               )}
             </div>
           </div>
+          )}
 
           {hasSave && (
             <div className="space-y-2">
@@ -4524,7 +4639,7 @@ JSON形式のみ: {"text":"回答"}`;
         </div>
       </div>
 
-      <div className="fixed bottom-0 inset-x-0 text-center py-3 text-xs" style={{ color: "#8A8272" }}>© 2026 KTM GAMES</div>
+      <div className="text-center py-3 text-xs" style={{ color: "#8A8272" }}>© 2026 KTM GAMES</div>
 
 
       {showTarotCollection && (
