@@ -757,6 +757,7 @@ export default function JinroGame() {
   const [showDebugLogViewer, setShowDebugLogViewer] = useState(false);
   const [debugLogList, setDebugLogList] = useState([]);
   const [showNpcCandidateViewer, setShowNpcCandidateViewer] = useState(false);
+  const [npcCandidateConfirmingDelete, setNpcCandidateConfirmingDelete] = useState(null); // 削除確認中のkey(誤操作防止のため、押した直後は削除しない)
   const [npcCandidateList, setNpcCandidateList] = useState([]);
   const [showCostStats, setShowCostStats] = useState(false);
   const [costStats, setCostStats] = useState(null);
@@ -1015,14 +1016,19 @@ export default function JinroGame() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key, action, secret: adminSecretInput }),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (res.ok) {
-        setNpcCandidateList((prev) => prev.map((c) => (c.key === key ? { ...c, status: action === "approve" ? "approved" : "rejected" } : c)));
+        setAdminActionError(null);
+        if (action === "delete") {
+          setNpcCandidateList((prev) => prev.filter((c) => c.key !== key));
+        } else {
+          setNpcCandidateList((prev) => prev.map((c) => (c.key === key ? { ...c, status: action === "approve" ? "approved" : "rejected" } : c)));
+        }
       } else {
-        addLog([{ type: "system", text: `処理に失敗しました。(${data.error || "原因不明"})` }]);
+        setAdminActionError(`処理に失敗しました。(${data.error || "原因不明"})`);
       }
     } catch (e) {
-      addLog([{ type: "system", text: "処理に失敗しました。通信環境を確認してください。" }]);
+      setAdminActionError("処理に失敗しました。通信環境を確認してください。");
     }
   }
 
@@ -4524,6 +4530,35 @@ JSON形式のみ: {"text":"回答"}`;
                         </button>
                       </div>
                     )}
+                    <div className="mt-1">
+                      {npcCandidateConfirmingDelete === item.key ? (
+                        <div className="flex gap-2 items-center">
+                          <span style={{ color: "#B00020" }}>本当に削除しますか?元に戻せません。</span>
+                          <button
+                            onClick={() => { reviewNpcCandidate(item.key, "delete"); setNpcCandidateConfirmingDelete(null); }}
+                            className="px-2 py-1 rounded text-xs font-bold"
+                            style={{ background: "#B00020", color: "#FFFFFF" }}
+                          >
+                            削除する
+                          </button>
+                          <button
+                            onClick={() => setNpcCandidateConfirmingDelete(null)}
+                            className="px-2 py-1 rounded text-xs font-bold border"
+                            style={{ color: "#6B6355", borderColor: "#D8C4B5" }}
+                          >
+                            やめる
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setNpcCandidateConfirmingDelete(item.key)}
+                          className="px-2 py-1 rounded text-xs font-bold border"
+                          style={{ color: "#B00020", borderColor: "#B00020" }}
+                        >
+                          🗑️ 削除する
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
