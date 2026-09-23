@@ -700,7 +700,7 @@ ${groundTruth ? `以下はこのゲームの内部真実データです。校閲
 
 // ★課金機能を一時的に無効化中。再開する時はこれをtrueに戻すだけでよい
 // (startGame内のクレジット消費チェックも別途コメントアウトしてあるので、そちらも一緒に戻すこと)
-const CREDIT_SYSTEM_SWITCH = false; // ★課金を有効にする時はここをtrueにする(HAS_BACKENDが無い環境では自動的に無効のまま)
+const CREDIT_SYSTEM_SWITCH = true; // ★課金を有効にする時はここをtrueにする(HAS_BACKENDが無い環境では自動的に無効のまま)
 const CREDIT_SYSTEM_ENABLED = HAS_BACKEND && CREDIT_SYSTEM_SWITCH;
 // 1日目が終わり、2日目に進む前(クレジット不足時)に表示する煽り文章。
 const DAY1_END_TEASER_TEXT = "1日目が終わりました。まだ、誰の言葉も完全には信じられていません。占い師を騙る者、狩人のまま沈黙を守る者、そして本当に牙を隠している人狼——2日目は、疑いがようやく具体的な確信に変わっていく夜です。ここで教室を後にするには、あまりに惜しい。";
@@ -1917,7 +1917,8 @@ JSON形式のみ: {"summary":"要約文"}`;
   async function startGame(nameOverride) {
     const finalName = nameOverride || nameInput.trim() || userName;
     if (!finalName) return; // 名前が未入力の場合は開始しない(ボタン側でも無効化しているが念のため二重にガードする)
-    // ★一時的に課金チェックを無効化中(再開する時はこの3行のコメントを外すだけでよい)
+    // ★ここでは課金チェックをしない(古い「開始時に即消費」方式の名残。今は下の「1日目は無料、
+    //   2日目に進む直前だけ消費する」方式に一本化しているため、ここを有効化すると二重課金になる)
     // const ok = await tryConsumeCredit();
     // if (!ok) return; // 残高不足。insufficientCreditsがtrueになり、購入UIが表示される
     tokenTotals = { input: 0, output: 0, calls: 0, cacheRead: 0, cacheWrite: 0 };
