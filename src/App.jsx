@@ -1009,6 +1009,26 @@ export default function JinroGame() {
     }
   }
 
+  // クーポンの「配布済み」印をタップで切り替える(実際の使用状態とは別の、個人的なメモ用フラグ)
+  async function toggleCouponDistributed(code, nextDistributed) {
+    setCouponList((prev) => prev.map((c) => (c.code === code ? { ...c, distributed: nextDistributed } : c))); // 先に見た目だけ即反映
+    try {
+      const res = await fetch("/api/check-credits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "toggle_distributed", secret: adminSecretInput, code, distributed: nextDistributed }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setAdminActionError(`配布済みの更新に失敗しました。(${data.error || "原因不明"})`);
+        setCouponList((prev) => prev.map((c) => (c.code === code ? { ...c, distributed: !nextDistributed } : c))); // 失敗したら元に戻す
+      }
+    } catch (e) {
+      setAdminActionError("配布済みの更新に失敗しました。通信環境を確認してください。");
+      setCouponList((prev) => prev.map((c) => (c.code === code ? { ...c, distributed: !nextDistributed } : c)));
+    }
+  }
+
   async function openDebugLogViewer() {
     setShowDebugLogViewer(true);
     try {
@@ -4752,17 +4772,29 @@ JSON形式のみ: {"text":"回答"}`;
                 </div>
                 {couponList.length === 0 && <p className="text-sm" style={{ color: "#8A8272" }}>まだ発行したクーポンがありません。</p>}
                 {couponList.map((c) => (
-                  <div key={c.code} className="rounded-lg p-2 border text-xs flex justify-between items-center" style={{ borderColor: "#D8C4B5" }}>
+                  <div
+                    key={c.code}
+                    onClick={() => toggleCouponDistributed(c.code, !c.distributed)}
+                    className="rounded-lg p-2 border text-xs flex justify-between items-center cursor-pointer select-none"
+                    style={{ borderColor: c.distributed ? "#B8863B" : "#D8C4B5", background: c.distributed ? "#FFF7E0" : "transparent" }}
+                  >
                     <div>
                       <div className="font-bold tracking-wider" style={{ color: "#2B2620" }}>{c.code}</div>
                       <div style={{ color: "#8A8272" }}>{c.amount}回分・{new Date(c.createdAt).toLocaleString("ja-JP")}</div>
                     </div>
-                    <span
-                      className="px-1.5 py-0.5 rounded text-[10px] font-bold"
-                      style={c.used ? { background: "#FDECEA", color: "#B00020" } : { background: "#E8F5E9", color: "#2E7D32" }}
-                    >
-                      {c.used ? "使用済み" : "未使用"}
-                    </span>
+                    <div className="flex gap-1 items-center">
+                      {c.distributed && (
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold" style={{ background: "#B8863B", color: "#FFFFFF" }}>
+                          配布済み
+                        </span>
+                      )}
+                      <span
+                        className="px-1.5 py-0.5 rounded text-[10px] font-bold"
+                        style={c.used ? { background: "#FDECEA", color: "#B00020" } : { background: "#E8F5E9", color: "#2E7D32" }}
+                      >
+                        {c.used ? "使用済み" : "未使用"}
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>
