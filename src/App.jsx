@@ -2669,7 +2669,11 @@ JSON形式のみ: {"lines":[{"speaker":"名前","text":"セリフ"}], "affinityC
     const allyChatInfo = getAllyChatInfo();
 
     const tasks = groups.map((g) => async () => {
-      const isWolfSide = g.npcs.some((p) => isWolfTeamNPC(p));
+      // 根拠(evidence)チェックとランダム差し替えを免除するのは、本物の人狼と寝返り済みジョーカーだけ。
+      // 狂人は「本物の人狼が誰か知らない」ため、実質村人と同じ材料で判断している。にもかかわらず免除すると、
+      // 村側の票だけがランダムに散り、狂人の票だけがそのまま採用されて「一番目立つ人」に集中してしまう
+      // (1日目にこれが起きると、目立った人物が無根拠に処刑されやすくなる)。狂人は村側と同じ基準で扱う。
+      const exemptFromEvidence = g.npcs.some((p) => p.role === "人狼" || (p.role === "ジョーカー" && npcJokerState.defected));
       const knowledgeLines = g.npcs.map((p) => getNPCOwnKnowledge(p, delusionsOverride)).join("\n");
       const cacheableRules = [buildRules(...g.boxes), getStaticGameContextBlock()]; // グループごとの箱の組み合わせは固定なので、キャッシュがよく効く
       // 密談の相方が「このグループ」に含まれている場合だけ、密談履歴をそのグループへ渡す(人狼陣営・共有者ペアどちらも対応)
@@ -2684,7 +2688,7 @@ ${groupHasAlly ? `**${allyChatInfo.label}**:\n${allyChatInfo.log}\n密談で「�
 ${getPublicInfoLine()}
 ${getPlayerBlindnessNote()}
 ${voteLabel}。以下のNPC(${g.npcs.map((n) => n.name).join("、")})の投票先を決めてください。${targetsHint}
-${isWolfSide ? `**人狼陣営の投票方針**:本物の人狼が全滅すれば即座に村の勝利になるため、本物の人狼を処刑させないことが最優先。**現在の生存者数は${alivePlayers().length}人。この数が少なくなるほど、人狼陣営(人狼+狂人+寝返ったジョーカー)が村側と同数に近づき、同数以上になった瞬間に人狼陣営の勝利が確定する**(詳しい内訳は分からなくても、生存者が少なくなっている実感は持ってよい)。序盤〜中盤は正体を隠すことを優先し、無理に村側を狙い撃ちしない。しかし**生存者が少なくなってきた終盤は話が変わり、対立する2人のどちらが本物の村側か確信が持てなくても、多少強引・不自然な理由付けになっても、村側である可能性が少しでも高い方への投票を優先する**(この局面ではバレるリスクより数的優位を逃すリスクの方が大きい)。それ以外の場面では、村側の有力な情報源(CO済みの占い師・霊媒師・狩人・確定シロ等)に票を集めるか、票を分散させる。ただし判で押したように同じ投票をすると不自然なので、性格に応じた表向きの(村人らしい)理由を個別に作る。${wolfExtraNote || ""}` : `各NPCは、自分が知っていることと会話ログの印象だけを根拠に**独立に**判断する。誰が人狼・狂人かは分からない。会話の中の矛盾・不自然さ・後出し・投票の偏りなど、観察できる根拠だけで疑う。根拠が薄ければ疑いも薄くする。確定シロには投票しない。
+${exemptFromEvidence ? `**人狼陣営の投票方針**:本物の人狼が全滅すれば即座に村の勝利になるため、本物の人狼を処刑させないことが最優先。**現在の生存者数は${alivePlayers().length}人。この数が少なくなるほど、人狼陣営(人狼+狂人+寝返ったジョーカー)が村側と同数に近づき、同数以上になった瞬間に人狼陣営の勝利が確定する**(詳しい内訳は分からなくても、生存者が少なくなっている実感は持ってよい)。序盤〜中盤は正体を隠すことを優先し、無理に村側を狙い撃ちしない。しかし**生存者が少なくなってきた終盤は話が変わり、対立する2人のどちらが本物の村側か確信が持てなくても、多少強引・不自然な理由付けになっても、村側である可能性が少しでも高い方への投票を優先する**(この局面ではバレるリスクより数的優位を逃すリスクの方が大きい)。それ以外の場面では、村側の有力な情報源(CO済みの占い師・霊媒師・狩人・確定シロ等)に票を集めるか、票を分散させる。ただし判で押したように同じ投票をすると不自然なので、性格に応じた表向きの(村人らしい)理由を個別に作る。${wolfExtraNote || ""}` : `各NPCは、自分が知っていることと会話ログの印象だけを根拠に**独立に**判断する。誰が人狼・狂人かは分からない。会話の中の矛盾・不自然さ・後出し・投票の偏りなど、観察できる根拠だけで疑う。根拠が薄ければ疑いも薄くする。確定シロには投票しない。
 **投票の収束度合いは、以下の根拠チェックリストに照らして機械的に判断する(絶対厳守・重要)**:「決定打があるかないか」を曖昧な印象で決めず、実際に会話ログの中に以下のどの根拠が・誰について・いくつ存在するかを具体的に確認してから、収束度合いを決める。**このゲームには「単独で確定させられる根拠」は存在しない(絶対厳守)**:占い・霊媒結果は「本人がそう主張しているだけ」であり(その占い師/霊媒師自身が本物とは限らない)、複数の結果が一致していても、後から出た方が先に公表された結果へ便乗しているだけの可能性を否定できない。したがって、**占い・霊媒結果を含め、以下は全て同格の「中程度の根拠」として扱い、複数積み重なって初めて強い収束の理由になる**。
 【根拠(それぞれ単独では収束の理由にしない。複数積み重なって初めて収束してよい)】
 ・占い結果や霊媒結果が、その人物を黒(人狼)と判定している(占い・霊媒が複数一致していても、同格の根拠が2つ重なったものとして扱う。それだけで自動的に「強い根拠」に格上げしない)
@@ -2702,8 +2706,8 @@ ${isWolfSide ? `**人狼陣営の投票方針**:本物の人狼が全滅すれ�
 **絶対厳守:人狼陣営の投票理由にも、内心の真の動機(「かき乱したい」「仲間を守るため」「人狼だから」等)を一切書かない**。投票理由の文面は、それを読んだ村側のNPCが見ても違和感を抱かない、もっともらしい村人目線の理由だけにする(本当の動機は内心にあってもよいが、reasonの文章には絶対に出さない)。
 絶対厳守:votesにプレイヤー「${userName}」を含めない。上記のNPC以外の名前もvoterに使わない。
 **CO(自称役職)の抽出**:投票理由の中で誰かが新たに役職を自称した場合(上記の禁止事項に反してでも生成してしまった場合を含む)、roleClaimsとして報告する(なければ空オブジェクト)。
-${isWolfSide ? "" : `**evidence(絶対厳守・重要)**:各投票に、根拠の強さを"strong"か"weak"のどちらかで必ず添える。**"strong"にできるのは、上記チェックリストの根拠(信用の積み重ね含む)が実際に2つ以上明確に積み重なっている場合のみ**。それ以外(根拠1つ以下・弱い根拠のみ・単なる印象)は必ず"weak"にする。**"weak"と判定した場合、targetは実際に誰に投票させたいかではなく、ダミーで構わない(このtargetは後で使われない)**。自己申告に頼らず、正直に判定すること。`}
-JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短い理由"${isWolfSide ? "" : `,"evidence":"strong または weak"`}}], "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`;
+${exemptFromEvidence ? "" : `**evidence(絶対厳守・重要)**:各投票に、根拠の強さを"strong"か"weak"のどちらかで必ず添える。**"strong"にできるのは、上記チェックリストの根拠(信用の積み重ね含む)が実際に2つ以上明確に積み重なっている場合のみ**。それ以外(根拠1つ以下・弱い根拠のみ・単なる印象)は必ず"weak"にする。**"weak"と判定した場合、targetは実際に誰に投票させたいかではなく、ダミーで構わない(このtargetは後で使われない)**。自己申告に頼らず、正直に判定すること。`}
+JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短い理由"${exemptFromEvidence ? "" : `,"evidence":"strong または weak"`}}], "roleClaims": {"名前": "自称した役職", ...}, "investigationClaims": [{"name":"占い師or霊媒師としてCOしている人の名前","role":"占い師 or 霊媒師","target":"占った/視た対象の名前","result":"人狼 or 人狼ではない"}](今回の会話で誰かが占い/霊媒の対象・結果を新たに述べた場合、対抗COも含めて絶対に見落とさずこの配列に入れること。空配列で済ませない)}`;
       const runVoteCall = () => callClaudeAutoRetry(system, `これまでの会話:\n${transcriptText}\n\n各NPCの投票先を決めてください。`, maxTokens, 1, cacheableRules);
       try {
         let parsed;
@@ -2721,6 +2725,8 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         // どちらの場合も自分の相方に投票することに論理的な意味がない(共有者なら無根拠な誤爆、
         // 狂人なら自陣営の頭数を自ら減らすだけの損な手)。ルール文だけでは守られないことがあるため、
         // コード側で強制的に他の対象へ差し替える(重要な安全網)。
+        // ★人狼はあえて対象外にしている(WOLF_CORNERED参照):人狼・狂人が互いに投票するのは
+        //   正体隠しの正当な戦略として明示的に許容されており、共有者・狂人とは事情が異なる。
         const fixKnownPartnerSelfVote = (v) => {
           const voter = g.npcs.find((p) => p.name === v.voter);
           if (voter?.role !== "共有者" && voter?.role !== "狂人") return v;
@@ -2730,7 +2736,7 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
           if (pool.length === 0) return v;
           return { ...v, target: pickRandom(pool), reason: region === "en" ? "Someone else's behavior has been bugging me more than that." : "相方以外の、別の人物の言動の方が気になったから" };
         };
-        if (isWolfSide) return groupVotes.map(fixKnownPartnerSelfVote); // 人狼陣営は根拠ではなく戦略で動くため、weak判定の対象外
+        if (exemptFromEvidence) return groupVotes.map(fixKnownPartnerSelfVote); // 本物の人狼・寝返りジョーカーは相方を知った上で戦略で動くため、weak判定の対象外(狂人は対象)
         // evidenceが"weak"(根拠不十分)と申告された投票は、AIが選んだ相手を採用せず、
         // コード側で完全に均等な確率のランダム抽選に差し替える(「弱い根拠なのに実は本物へ寄っている」余地をなくすため)。
         // この差し替え理由の文言は、地域設定(日本語圏/英語圏)に合わせて言語を切り替える。
@@ -3007,7 +3013,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
         if (v.voter === userName) return; // AIが誤ってプレイヤー自身の投票を含めてきた場合、二重集計を防ぐ
         if (defenseCandidates.includes(v.target) && v.voter !== v.target) {
           tally[v.target] = (tally[v.target] || 0) + 1;
-          lines.push({ type: "system", text: `${v.voter} → ${v.target}` });
+          lines.push({ type: "system", text: v.reason ? `${v.voter} → ${v.target}(${v.reason})` : `${v.voter} → ${v.target}` });
           votedNpcNames2.add(v.voter);
         }
       });
@@ -3146,11 +3152,13 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     // これは人狼陣営の襲撃選定のランダム性を決めるために使う「ゲームマスター側の管理データ」であり、
     // 人狼の会話・セリフに「狩人が死んでいるから安全」のような形で明示的に語らせることはしない(あくまで抽選の確定度合いを調整するだけ)。
     const npcJokerHunterPrecheck = alive.find((p) => p.role === "ジョーカー" && !p.isUser && npcJokerState.abilityBank === "狩人" && !npcJokerState.abilityUsed);
-    const hunterStillActive = !!(alive.find((p) => p.role === "狩人") || (userIsHunter ? user : null) || npcJokerHunterPrecheck);
+    const hunterStillActive = !!(alive.find((p) => p.role === "狩人") || (userIsHunter && user.alive ? user : null) || npcJokerHunterPrecheck);
 
     // 人狼の襲撃対象(単なる怪しさではなく、村側の情報源としての脅威度を優先する)
+    // ★プレイヤーが人狼でも、既に死亡していれば襲撃先を選べないため、生存しているNPC人狼に判断を委ねる。
+    //   (以前は「役職が人狼か」しか見ておらず、プレイヤー人狼の死後は誰も襲撃しなくなるバグがあった)
     let wolfTarget = null;
-    if (userIsWolf) {
+    if (userIsWolf && user.alive) {
       wolfTarget = nightTarget;
     } else if (npcWolves.length > 0) {
       // 確定シロ(占いでシロと判定された人)でも、狩人・共有者等としてCOしていれば十分な襲撃価値があるため、対象プールから除外しない。
@@ -3174,7 +3182,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
     // 狩人の護衛対象(本物の狩人は死亡している可能性があるため、ジョーカーの継承も考慮する)
     let guardTarget = null;
     const npcJokerHunter = npcJokerHunterPrecheck;
-    const hunter = alive.find((p) => p.role === "狩人") || (userIsHunter ? user : null) || npcJokerHunter;
+    const hunter = alive.find((p) => p.role === "狩人") || (userIsHunter && user.alive ? user : null) || npcJokerHunter;
     if (hunter) {
       if (hunter.isUser) {
         guardTarget = nightTarget;
@@ -3196,7 +3204,7 @@ ${isAction ? `出力は必ずこのJSON形式のみ: {"narration":"行動の結�
 
     // 占い師の占い先(本物の占い師は死亡している可能性があるため、ジョーカーの継承も考慮する。NPCが本物の場合、実際の結果を記録する)
     const npcJokerSeer = alive.find((p) => p.role === "ジョーカー" && !p.isUser && npcJokerState.abilityBank === "占い師" && !npcJokerState.abilityUsed);
-    const seer = alive.find((p) => p.role === "占い師") || (userIsSeer ? user : null) || npcJokerSeer;
+    const seer = alive.find((p) => p.role === "占い師") || (userIsSeer && user.alive ? user : null) || npcJokerSeer;
     let newSeerLogEntry = null;
     if (seer && !seer.isUser) {
       // 既に判定済み(確定シロ・確定クロ)の人や、この占い師自身が過去に占った人は、占い直しても新情報が出ないので除外する
