@@ -23,10 +23,11 @@ export default async function handler(req, res) {
     const origin = req.headers.origin || `https://${req.headers.host}`;
 
     // ★payment_method_types(支払い方法の明示指定)は指定しない。
-    //   Stripeアカウント側で「Managed Payments」が有効な場合、この指定と衝突してエラーになるため、
-    //   Stripe側に任せる(Managed Paymentsが無効なアカウントでも、指定しなければ既定でカード払いが使える)。
+    // ★Managed Payments(Stripeアカウント側の既定機能)は、税コードの設定が別途必要になり複雑なため、
+    //   このチェックアウトセッションだけ明示的に無効化する(エラーメッセージが案内している対処法)。
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      managed_payments: { enabled: false },
       line_items: [
         {
           price_data: {
