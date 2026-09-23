@@ -11,7 +11,13 @@
 //   料金体系が変わった場合はこのファイル冒頭の定数を更新すること。
 import { Redis } from "@upstash/redis";
 
-const redis = Redis.fromEnv();
+// VercelのUpstash連携が自動生成する変数名(KV_REST_API_URL/TOKEN)を直接指定する。
+// Redis.fromEnv()は既定でUPSTASH_REDIS_REST_URL/TOKENという別名を探すため、
+// 名前が一致せず接続できない問題があったので、ここで明示的に読みに行くようにしている。
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 // 円換算レートはUSD/JPYの変動が大きいため、クエリパラメータ ?rate= で上書き可能にしている。
 // 指定がなければ目安の値を使う(必要に応じて随時更新)。

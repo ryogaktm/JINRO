@@ -3,7 +3,13 @@
 // クエリパラメータ ?action=... (GET) または body.action (POST) で処理を振り分ける。
 import { Redis } from "@upstash/redis";
 
-const redis = Redis.fromEnv();
+// VercelのUpstash連携が自動生成する変数名(KV_REST_API_URL/TOKEN)を直接指定する。
+// Redis.fromEnv()は既定でUPSTASH_REDIS_REST_URL/TOKENという別名を探すため、
+// 名前が一致せず接続できない問題があったので、ここで明示的に読みに行くようにしている。
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 const MAX_RECORDS_PER_NPC = 50; // 1体あたりの戦歴保存上限
 const STALE_MS = 3 * 24 * 60 * 60 * 1000; // 3日
 const ROLES = ["人狼", "狂人", "占い師", "霊媒師", "狩人", "共有者", "ジョーカー", "村人"];

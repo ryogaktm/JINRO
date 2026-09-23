@@ -3,7 +3,13 @@
 // 実際のゲームで使う「承認済みNPCプール」に追加する。
 import { Redis } from "@upstash/redis";
 
-const redis = Redis.fromEnv();
+// VercelのUpstash連携が自動生成する変数名(KV_REST_API_URL/TOKEN)を直接指定する。
+// Redis.fromEnv()は既定でUPSTASH_REDIS_REST_URL/TOKENという別名を探すため、
+// 名前が一致せず接続できない問題があったので、ここで明示的に読みに行くようにしている。
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 const CLUBS = ["帰宅部", "図書委員会", "茶道部", "美術部", "軽音楽部", "調理部", "写真部", "園芸部", "応援団", "ボランティア部"];
 
 async function extractPersonalityAndLine(content) {

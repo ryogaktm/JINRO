@@ -2,7 +2,13 @@
 // 個人情報は含まない(ニックネーム・抽出済みの性格・印象的な発言・年齢・性別・部活だけ)。
 import { Redis } from "@upstash/redis";
 
-const redis = Redis.fromEnv();
+// VercelのUpstash連携が自動生成する変数名(KV_REST_API_URL/TOKEN)を直接指定する。
+// Redis.fromEnv()は既定でUPSTASH_REDIS_REST_URL/TOKENという別名を探すため、
+// 名前が一致せず接続できない問題があったので、ここで明示的に読みに行くようにしている。
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {

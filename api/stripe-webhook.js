@@ -4,7 +4,13 @@ import Stripe from "stripe";
 import { Redis } from "@upstash/redis";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const redis = Redis.fromEnv();
+// VercelのUpstash連携が自動生成する変数名(KV_REST_API_URL/TOKEN)を直接指定する。
+// Redis.fromEnv()は既定でUPSTASH_REDIS_REST_URL/TOKENという別名を探すため、
+// 名前が一致せず接続できない問題があったので、ここで明示的に読みに行くようにしている。
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 export const config = {
   api: {

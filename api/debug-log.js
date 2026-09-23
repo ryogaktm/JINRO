@@ -14,7 +14,13 @@
 //   削除できる対象が足りない場合は、データを失わないことを優先し上限超過を許容する。
 import { Redis } from "@upstash/redis";
 
-const redis = Redis.fromEnv();
+// VercelのUpstash連携が自動生成する変数名(KV_REST_API_URL/TOKEN)を直接指定する。
+// Redis.fromEnv()は既定でUPSTASH_REDIS_REST_URL/TOKENという別名を探すため、
+// 名前が一致せず接続できない問題があったので、ここで明示的に読みに行くようにしている。
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 const MAX_LOGS = 20;
 
 // Claude Sonnet 5 の料金(USD / トークン単価)。Anthropic公式の料金表(platform.claude.com/docs 「Prompt caching」)に基づく。
