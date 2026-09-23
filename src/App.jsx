@@ -753,6 +753,7 @@ export default function JinroGame() {
   const [adminVerifying, setAdminVerifying] = useState(false); // 確認中(ボタンの二重押下防止)
   const [devSkipPending, setDevSkipPending] = useState(false); // 開発者用:通常プレイをすっ飛ばして即座に終了画面まで進める予約フラグ
   const [devJumpTarget, setDevJumpTarget] = useState(null); // 開発者用:{day, phase} 指定の日付・フェーズまで一気に飛ぶ予約
+  const [devForceRole, setDevForceRole] = useState(null); // 開発者用:次に始めるゲームでプレイヤーに強制する役職(nullならランダム)
   const [adminSecretInput, setAdminSecretInput] = useState("");
   const [showDebugLogViewer, setShowDebugLogViewer] = useState(false);
   const [debugLogList, setDebugLogList] = useState([]);
@@ -2008,6 +2009,15 @@ JSON形式のみ: {"summary":"要約文"}`;
       { name: finalName, age: 17, gender: userGender, personality: "快活だが少し天然", club: "帰宅部", alive: true, isUser: true },
     ];
     all.forEach((p, i) => (p.role = roles[i]));
+    // 開発者用:管理画面で役職が指定されていれば、その役職を持つNPCとプレイヤーの役職を入れ替える
+    // (役職構成の内訳は変えず、誰がどの役職かだけを入れ替えるので、ゲームバランスには影響しない)
+    if (isAdminMode && devForceRole) {
+      const me = all.find((p) => p.isUser);
+      if (me.role !== devForceRole) {
+        const holder = all.find((p) => !p.isUser && p.role === devForceRole);
+        if (holder) { holder.role = me.role; me.role = devForceRole; }
+      }
+    }
     const compat = buildCompatMap(all);
     const affinity = buildInitialAffinity(chosen.map((n) => n.name));
 
@@ -4543,6 +4553,19 @@ JSON形式のみ: {"text":"回答"}`;
                   >
                     ⚡ 実プレイなしで即・終了画面まで進める
                   </button>
+                  <div className="text-xs pt-2" style={{ color: "#8A5A2A" }}>🎭 次のゲームで自分の役職を指定(デバッグ用):</div>
+                  <div className="grid grid-cols-4 gap-1">
+                    {[null, "人狼", "狂人", "占い師", "霊媒師", "狩人", "共有者", "ジョーカー", "村人"].map((r) => (
+                      <button
+                        key={r ?? "random"}
+                        onClick={() => setDevForceRole(r)}
+                        className="py-1 rounded text-[11px] font-bold border"
+                        style={devForceRole === r ? { background: "#8A5A2A", color: "#FFFFFF", borderColor: "#8A5A2A" } : { background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                      >
+                        {r ?? "ランダム"}
+                      </button>
+                    ))}
+                  </div>
                   <div className="text-xs pt-1" style={{ color: "#8A5A2A" }}>⚡ 実プレイなしで各ポイントまで進める:</div>
                   <div className="grid grid-cols-2 gap-1.5">
                     <button
