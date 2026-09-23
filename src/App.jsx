@@ -761,6 +761,7 @@ export default function JinroGame() {
   const [generatedCoupon, setGeneratedCoupon] = useState(null); // 管理画面で今しがた発行したクーポン({code, amount})
   const [couponCodeInput, setCouponCodeInput] = useState(""); // プレイヤーが入力するクーポンコード
   const [couponRedeemMessage, setCouponRedeemMessage] = useState(null); // クーポン使用結果のメッセージ({type: "success"|"error", text})
+  const [purchaseError, setPurchaseError] = useState(null); // 決済ページ作成に失敗した時のエラー文言(設定画面にはチャットログが無いため、ここで見せる)
   const [couponRedeeming, setCouponRedeeming] = useState(false);
   const [showCouponList, setShowCouponList] = useState(false);
   const [couponList, setCouponList] = useState([]);
@@ -838,6 +839,7 @@ export default function JinroGame() {
   }
 
   async function startPurchase() {
+    setPurchaseError(null);
     try {
       const res = await fetch("/api/create-checkout", {
         method: "POST",
@@ -848,10 +850,10 @@ export default function JinroGame() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        addLog([{ type: "system", text: `決済ページの作成に失敗しました。(${data.error || "原因不明"})` }]);
+        setPurchaseError(`決済ページの作成に失敗しました。(${data.error || "原因不明"})`);
       }
     } catch (e) {
-      addLog([{ type: "system", text: "決済ページの作成に失敗しました。通信環境を確認してください。" }]);
+      setPurchaseError("決済ページの作成に失敗しました。通信環境を確認してください。");
     }
   }
 
@@ -4401,12 +4403,18 @@ JSON形式のみ: {"text":"回答"}`;
                 残りクレジット: <span className="font-bold" style={{ color: "#2B2620" }}>{creditsLoading ? "…" : credits}</span>
               </div>
               <button
-                onClick={startPurchase}
+                onClick={() => startPurchase()}
                 className="px-3 py-1 rounded-lg text-xs font-bold"
                 style={{ background: "#8B3A3A", color: "#FFFFFF" }}
               >
                 購入(¥450)
               </button>
+            </div>
+          )}
+
+          {purchaseError && (
+            <div className="rounded-lg px-3 py-2 text-xs font-bold" style={{ background: "#FDECEA", color: "#B00020" }}>
+              ⚠️ {purchaseError}
             </div>
           )}
 
@@ -5599,6 +5607,11 @@ JSON形式のみ: {"text":"回答"}`;
               {!(!creditsLoading && credits > 0) && (
                 <div className="rounded-lg p-3 text-sm max-w-xs mx-auto" style={{ background: "#FDECEA", color: "#B00020", border: "1px solid #F5C6CB" }}>
                   2日目に進むには、クレジットが必要です。
+                </div>
+              )}
+              {purchaseError && (
+                <div className="rounded-lg p-3 text-sm max-w-xs mx-auto font-bold" style={{ background: "#FDECEA", color: "#B00020", border: "1px solid #F5C6CB" }}>
+                  ⚠️ {purchaseError}
                 </div>
               )}
               <button
