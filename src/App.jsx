@@ -1231,16 +1231,20 @@ export default function JinroGame() {
   const [allyChatCount, setAllyChatCount] = useState(0); // その夜、密談で何回発言したか(上限3回)
   const [defenseLoading, setDefenseLoading] = useState(false); // 弁明タイムのセリフ生成中かどうか
   const [voteTarget, setVoteTarget] = useState(null);
+  const [ending, setEnding] = useState(null); // { review: string, diagnosis: string, title: string } (自動保存の依存配列で使うため、ここで先に宣言しておく)
 
-  // ゲーム進行を都度、永続化ストレージに自動保存する(閉じても続きから遊べるように)
+  // ゲーム進行を都度、永続化ストレージに自動保存する(閉じても続きから遊べるように)。
+  // gameover(終了画面)になった後も、明示的に新しいゲームを始めるまでは保存し続ける
+  // (でないと、終了画面を見た直後にアプリを閉じただけで「続きから」が使えなくなってしまうため)。
   useEffect(() => {
-    if (phase === "setup" || phase === "gameover" || players.length === 0) return;
+    if (phase === "setup" || players.length === 0) return;
     const snapshot = {
       phase, day, players, compatMap, log, turnLabel, discussionTurns,
       voteRound1Tally, defenseCandidates, voteTarget, nightTarget,
       privateInfo, confirmedWhite, confirmedBlack, winner, jokerState,
       wolfActionsToday, userName, userGender, npcSeerLog, npcMediumLog, mediumRevealedName, executionHistory, npcJokerState, excludedSuspects, npcGuardLog, roleGuesses, npcAffinity, madmanDelusions, roleClaims, investigationClaimsLog,
       pendingMajorityWin, defenseReacted, defenseStatementCount, allyChatCount, playerSeerLog, playerMediumLog, dayDigests, pendingDayAdvanceWin, region, giveUp, beginnerMode, guideNpcName, exchangeStudents, beginnerStageShown, beginnerPreVoteShown, beginnerNightFlavorDay, beginnerMorningAdviceDay, langAssistMode, langAssistNpcName,
+      ending,
     };
     (async () => {
       try {
@@ -1249,7 +1253,7 @@ export default function JinroGame() {
         // 保存に失敗しても進行は止めない
       }
     })();
-  }, [log, phase]);
+  }, [log, phase, ending]);
 
   async function resumeGame() {
     try {
@@ -1275,6 +1279,7 @@ export default function JinroGame() {
       setConfirmedWhite(s.confirmedWhite || []);
       setConfirmedBlack(s.confirmedBlack || []);
       setWinner(s.winner || null);
+      setEnding(s.ending || null);
       setJokerState(s.jokerState || { hidden: false, selfAware: false, abilityBank: null, abilityUsed: false, defected: false, defectionOffered: false, pendingInheritance: null });
       setWolfActionsToday(s.wolfActionsToday || {});
       if (s.userName) setUserName(s.userName);
@@ -1500,7 +1505,6 @@ ${fullTranscript}
   const [confirmedBlack, setConfirmedBlack] = useState([]);
   const [winner, setWinner] = useState(null);
   const [pendingMajorityWin, setPendingMajorityWin] = useState(false); // 朝を迎えた時点で人狼側が過半数に達した場合、即終了せず1ターンだけ猶予してから演出する
-  const [ending, setEnding] = useState(null); // { review: string, diagnosis: string, title: string }
   const [endingQuestionTarget, setEndingQuestionTarget] = useState(null);
   const [endingQuestionInput, setEndingQuestionInput] = useState("");
   const [endingAnswer, setEndingAnswer] = useState(null); // {speaker, text}
@@ -2710,6 +2714,14 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         const weakReasons = region === "en"
           ? ["Can't be sure yet, but something's bugging me.", "No decisive read, but I want to keep an eye on them.", "No real reason, just being careful.", "Can't put my finger on it, but something felt off."]
           : ["まだ確信は持てないけど、なんとなく気になって。", "決め手はないけど、少し様子を見たい相手として。", "これといった根拠はないけど、念のため。", "はっきりした理由はないけど、なんとなく引っかかったから。"];
+        // AIが自己申告する"evidence"だけに頼らない安全網:理由の文面自体が、具体的な言動への言及を一切含まない
+        // 典型的な曖昧フレーズ("念のため"「なんとなく」等)だけで構成されている場合も、weak扱いにする。
+        // (AI自身の自己申告は、無意識に「本当は根拠がある」と判断してすり抜けてしまう余地があるため、
+        // 文面そのものによる二重チェックで、根拠のない票が真実に寄ることを確実に防ぐ)
+        const genericHedgePatterns = region === "en"
+          ? ["not sure", "just a feeling", "no real reason", "can't put my finger on it", "just being careful", "just in case", "hard to say", "no decisive"]
+          : ["念のため", "念の為", "なんとなく", "はっきりした理由はない", "これといった根拠はない", "決め手はない", "確信は持てない"];
+        const looksLikeWeakReason = (text) => !!text && genericHedgePatterns.some((p) => text.includes(p));
         // 対抗CO(同じ役職を主張する別人)が誰もいない単独CO者は、根拠のないランダム票の抽選先からも除外する。
         // (弱い根拠の再抽選がランダムに選ぶ以上、対抗なしの単独CO者にたまたま票が集中してしまうことがあり、
         // それでは「単独COは基本的に信じてよい」というルールと矛盾してしまうため、コード側で確実に守る)
@@ -2718,8 +2730,12 @@ JSON形式のみ: {"votes": [{"voter":"名前","target":"名前","reason":"短�
         const uncontestedClaimants = new Set(
           Object.entries(roleClaims).filter(([, c]) => roleClaimCounts[c.role] === 1).map(([name]) => name)
         );
+        // ★保留中:以前は「根拠のない票は本物の人狼も抽選対象から除外する」という仕組みを試したが、
+        // これを続けると「根拠のない票が一度も集まらない人=人狼」とメタ的に学習されてしまう
+        // (何ゲームもプレイした先で、統計的なパターンとして見抜かれてしまう)恐れがあるため、一旦保留にしている。
+        // 弱い根拠の判定自体の精度向上(looksLikeWeakReasonによる二重チェック)は残したまま。
         return groupVotes.map((v) => {
-          if (v.evidence !== "weak") return v;
+          if (v.evidence !== "weak" && !looksLikeWeakReason(v.reason)) return v;
           const pool = (eligibleTargets || alivePlayers().map((p) => p.name)).filter((n) => n !== v.voter && !uncontestedClaimants.has(n));
           const fallbackPool = pool.length > 0 ? pool : (eligibleTargets || alivePlayers().map((p) => p.name)).filter((n) => n !== v.voter);
           if (fallbackPool.length === 0) return v;
@@ -3966,9 +3982,8 @@ ${guardLogText}
     if (freshPlayers) setPlayers(freshPlayers);
     setWinner(win);
     setPhase("gameover");
-    // ゲームが終わったら「続きから始める」の対象ではなくなるため、保存データを削除する
-    try { window.storage.delete("game_save", false); } catch (e) {}
-    setHasSave(false);
+    // ゲームが終わっても、明示的に新しいゲームを始めるまでは保存データを消さない。
+    // (「続きから」を押した時に終了画面へ正しく戻れるようにするため。新しいゲームを始める時点で別途削除される)
     recordNpcBattleIfAny(freshPlayers || players, win);
     const alive = (freshPlayers || players).filter((p) => p.alive);
     const wolvesAlive = alive.filter((p) => p.role === "人狼");
