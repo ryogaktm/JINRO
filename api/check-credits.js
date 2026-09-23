@@ -138,6 +138,34 @@ async function handleListCoupons(req, res) {
   }
 }
 
+// 管理者用:クーポンの「配布済み」印をオン/オフする(実際の使用状態とは別の、個人的なメモ用フラグ)。
+async function handleToggleDistributed(req, res) {
+  const { secret, code, distributed } = req.body || {};
+  if (!process.env.ADMIN_SECRET || secret !== process.env.ADMIN_SECRET) {
+    res.status(403).json({ error: "権限がありません" });
+    return;
+  }
+  const cleanCode = (code || "").trim().toUpperCase();
+  if (!cleanCode) {
+    res.status(400).json({ error: "codeが必要です" });
+    return;
+  }
+  try {
+    const key = `coupon:${cleanCode}`;
+    const raw = await redis.get(key);
+    if (!raw) {
+      res.status(404).json({ error: "そのクーポンコードは見つかりませんでした" });
+      return;
+    }
+    const coupon = typeof raw === "string" ? JSON.parse(raw) : raw;
+    coupon.distributed = !!distributed;
+    await redis.set(key, JSON.stringify(coupon));
+    res.status(200).json({ ok: true, distributed: coupon.distributed });
+  } catch (e) {
+    res.status(500).json({ error: `更新に失敗しました: ${e.message}` });
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method === "GET") {
     if (req.query.action === "list_coupons") return handleListCoupons(req, res);
@@ -147,6 +175,7 @@ export default async function handler(req, res) {
     const action = (req.body || {}).action;
     if (action === "generate_coupon") return handleGenerateCoupon(req, res);
     if (action === "redeem_coupon") return handleRedeemCoupon(req, res);
+    if (action === "toggle_distributed") return handleToggleDistributed(req, res);
     return handleAddTest(req, res); // actionを指定しない場合は今まで通り(開発者用テスト付与)
   }
   res.status(405).json({ error: "Method not allowed" });
