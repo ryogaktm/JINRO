@@ -49,11 +49,21 @@ export default async function handler(req, res) {
     res.status(403).json({ error: "権限がありません" });
     return;
   }
-  if (!key || !["approve", "reject"].includes(action)) {
-    res.status(400).json({ error: "keyとaction(approve/reject)が必要です" });
+  if (!key || !["approve", "reject", "delete"].includes(action)) {
+    res.status(400).json({ error: "keyとaction(approve/reject/delete)が必要です" });
     return;
   }
   try {
+    if (action === "delete") {
+      // 候補自体と、承認済みだった場合のプール枠(実際のゲームに登場する分)を両方消す。
+      // 端末側のインデックス(npc_candidate:index)からも外し、二度と一覧に出てこないようにする。
+      await redis.del(key);
+      await redis.srem("npc_candidate:index", key);
+      await redis.del(`npc_pool_entry:${key}`);
+      await redis.srem("npc_pool:index", `npc_pool_entry:${key}`);
+      res.status(200).json({ ok: true });
+      return;
+    }
     const raw = await redis.get(key);
     if (!raw) {
       res.status(404).json({ error: "候補が見つかりません" });
