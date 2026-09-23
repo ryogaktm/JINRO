@@ -4909,7 +4909,7 @@ JSON形式のみ: {"text":"回答"}`;
           {!hasSave && (
             <>
               <button
-                onClick={startGame}
+                onClick={() => startGame()}
                 disabled={!nameInput.trim() && !userName}
                 className="w-full px-10 py-3 rounded-lg font-bold text-lg disabled:opacity-40"
                 style={{ background: "#8B3A3A", color: "#FFFFFF" }}
