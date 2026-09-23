@@ -4906,24 +4906,15 @@ JSON形式のみ: {"text":"回答"}`;
             </div>
           )}
 
-          {CREDIT_SYSTEM_ENABLED && (insufficientCredits || (!creditsLoading && credits === 0)) && (
-            <div className="rounded-lg p-3 text-sm" style={{ background: "#FDECEA", color: "#B00020", border: "1px solid #F5C6CB" }}>
-              クレジットが不足しています。プレイするには購入してください。
-            </div>
-          )}
-
           {!hasSave && (
             <>
               <button
-                onClick={() => {
-                  if (CREDIT_SYSTEM_ENABLED && !creditsLoading && credits === 0) { startPurchase(); return; }
-                  startGame();
-                }}
+                onClick={startGame}
                 disabled={!nameInput.trim() && !userName}
                 className="w-full px-10 py-3 rounded-lg font-bold text-lg disabled:opacity-40"
                 style={{ background: "#8B3A3A", color: "#FFFFFF" }}
               >
-                {CREDIT_SYSTEM_ENABLED && !creditsLoading && credits === 0 ? "クレジットを購入する" : "はじめる"}
+                はじめる
               </button>
               {!nameInput.trim() && !userName && (
                 <p className="text-xs text-center" style={{ color: "#B05050" }}>ニックネームを入力してください</p>
