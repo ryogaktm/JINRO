@@ -22,9 +22,11 @@ export default async function handler(req, res) {
     // リクエストのOriginを使って、決済完了後に同じサイトへ戻す
     const origin = req.headers.origin || `https://${req.headers.host}`;
 
+    // ★payment_method_types(支払い方法の明示指定)は指定しない。
+    //   Stripeアカウント側で「Managed Payments」が有効な場合、この指定と衝突してエラーになるため、
+    //   Stripe側に任せる(Managed Paymentsが無効なアカウントでも、指定しなければ既定でカード払いが使える)。
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
