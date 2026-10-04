@@ -700,7 +700,7 @@ ${groundTruth ? `以下はこのゲームの内部真実データです。校閲
 
 // ★課金機能を一時的に無効化中。再開する時はこれをtrueに戻すだけでよい
 // (startGame内のクレジット消費チェックも別途コメントアウトしてあるので、そちらも一緒に戻すこと)
-const CREDIT_SYSTEM_SWITCH = true; // ★課金を有効にする時はここをtrueにする(HAS_BACKENDが無い環境では自動的に無効のまま)
+const CREDIT_SYSTEM_SWITCH = false; // ★課金を有効にする時はここをtrueにする(HAS_BACKENDが無い環境では自動的に無効のまま)
 const CREDIT_SYSTEM_ENABLED = HAS_BACKEND && CREDIT_SYSTEM_SWITCH;
 // 1日目が終わり、2日目に進む前(クレジット不足時)に表示する煽り文章。
 const DAY1_END_TEASER_TEXT = "1日目が終わりました。まだ、誰の言葉も完全には信じられていません。占い師を騙る者、狩人のまま沈黙を守る者、そして本当に牙を隠している人狼——2日目は、疑いがようやく具体的な確信に変わっていく夜です。ここで教室を後にするには、あまりに惜しい。";
@@ -754,6 +754,8 @@ export default function JinroGame() {
   const [devSkipPending, setDevSkipPending] = useState(false); // 開発者用:通常プレイをすっ飛ばして即座に終了画面まで進める予約フラグ
   const [devJumpTarget, setDevJumpTarget] = useState(null); // 開発者用:{day, phase} 指定の日付・フェーズまで一気に飛ぶ予約
   const [devForceRole, setDevForceRole] = useState(null); // 開発者用:次に始めるゲームでプレイヤーに強制する役職(nullならランダム)
+  const [showProgressViewer, setShowProgressViewer] = useState(false); // 管理者用:全端末の進行状況一覧
+  const [progressEntries, setProgressEntries] = useState([]);
   const [adminSecretInput, setAdminSecretInput] = useState("");
   const [showDebugLogViewer, setShowDebugLogViewer] = useState(false);
   const [debugLogList, setDebugLogList] = useState([]);
@@ -1010,6 +1012,35 @@ export default function JinroGame() {
     }
   }
 
+  // 進行状況(日付・フェーズ)が変わるたびにサーバーへ軽く報告する(管理画面で「今誰がどこまで遊んでいるか」を見るため)。
+  // 失敗してもゲームには一切影響させない。
+  useEffect(() => {
+    if (!HAS_BACKEND || !deviceId || phase === "setup") return;
+    fetch("/api/check-credits", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "report_progress", deviceId, day, phase, name: userName, region }),
+    }).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, day, deviceId]);
+
+  // 管理者用:全端末の進行状況を取得する
+  async function openProgressViewer() {
+    setShowProgressViewer(true);
+    try {
+      const res = await fetch(`/api/check-credits?action=list_progress&secret=${encodeURIComponent(adminSecretInput)}`);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setProgressEntries(data.entries || []);
+        setAdminActionError(null);
+      } else {
+        setAdminActionError(`進行状況の取得に失敗しました。(${data.error || "原因不明"})`);
+      }
+    } catch (e) {
+      setAdminActionError("進行状況の取得に失敗しました。通信環境を確認してください。");
+    }
+  }
+
   // クーポンの「配布済み」印をタップで切り替える(実際の使用状態とは別の、個人的なメモ用フラグ)
   async function toggleCouponDistributed(code, nextDistributed) {
     setCouponList((prev) => prev.map((c) => (c.code === code ? { ...c, distributed: nextDistributed } : c))); // 先に見た目だけ即反映
@@ -1205,6 +1236,7 @@ export default function JinroGame() {
           if (typeof prefs.npcMaleCount === "number") setNpcMaleCount(prefs.npcMaleCount);
           if (prefs.region === "ja" || prefs.region === "en") setRegion(prefs.region);
           if (typeof prefs.beginnerMode === "boolean") setBeginnerMode(prefs.beginnerMode);
+          if (typeof prefs.chosenRole === "string" || prefs.chosenRole === null) setDevForceRole(prefs.chosenRole ?? null);
           if (typeof prefs.langAssistMode === "boolean") setLangAssistMode(prefs.langAssistMode);
         }
       } catch (e) {
@@ -1952,7 +1984,7 @@ JSON形式のみ: {"summary":"要約文"}`;
     setHasSave(false);
     setUserName(finalName);
     try {
-      window.storage.set("player_prefs", JSON.stringify({ name: finalName, gender: userGender, npcMaleCount, region, beginnerMode, langAssistMode }), false);
+      window.storage.set("player_prefs", JSON.stringify({ name: finalName, gender: userGender, npcMaleCount, region, beginnerMode, langAssistMode, chosenRole: devForceRole }), false);
     } catch (e) {
       // 保存に失敗しても進行は止めない
     }
@@ -2009,9 +2041,9 @@ JSON形式のみ: {"summary":"要約文"}`;
       { name: finalName, age: 17, gender: userGender, personality: "快活だが少し天然", club: "帰宅部", alive: true, isUser: true },
     ];
     all.forEach((p, i) => (p.role = roles[i]));
-    // 開発者用:管理画面で役職が指定されていれば、その役職を持つNPCとプレイヤーの役職を入れ替える
+    // プレイヤーが設定画面で役職を指定していれば、その役職を持つNPCとプレイヤーの役職を入れ替える
     // (役職構成の内訳は変えず、誰がどの役職かだけを入れ替えるので、ゲームバランスには影響しない)
-    if (isAdminMode && devForceRole) {
+    if (devForceRole) {
       const me = all.find((p) => p.isUser);
       if (me.role !== devForceRole) {
         const holder = all.find((p) => !p.isUser && p.role === devForceRole);
@@ -4553,19 +4585,6 @@ JSON形式のみ: {"text":"回答"}`;
                   >
                     ⚡ 実プレイなしで即・終了画面まで進める
                   </button>
-                  <div className="text-xs pt-2" style={{ color: "#8A5A2A" }}>🎭 次のゲームで自分の役職を指定(デバッグ用):</div>
-                  <div className="grid grid-cols-4 gap-1">
-                    {[null, "人狼", "狂人", "占い師", "霊媒師", "狩人", "共有者", "ジョーカー", "村人"].map((r) => (
-                      <button
-                        key={r ?? "random"}
-                        onClick={() => setDevForceRole(r)}
-                        className="py-1 rounded text-[11px] font-bold border"
-                        style={devForceRole === r ? { background: "#8A5A2A", color: "#FFFFFF", borderColor: "#8A5A2A" } : { background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
-                      >
-                        {r ?? "ランダム"}
-                      </button>
-                    ))}
-                  </div>
                   <div className="text-xs pt-1" style={{ color: "#8A5A2A" }}>⚡ 実プレイなしで各ポイントまで進める:</div>
                   <div className="grid grid-cols-2 gap-1.5">
                     <button
@@ -4622,6 +4641,13 @@ JSON形式のみ: {"text":"回答"}`;
                     style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
                   >
                     🎟️ 発行済みクーポン一覧を見る
+                  </button>
+                  <button
+                    onClick={openProgressViewer}
+                    className="w-full py-1.5 rounded text-sm font-bold border"
+                    style={{ background: "#FFFFFF", color: "#8A5A2A", borderColor: "#8A5A2A" }}
+                  >
+                    📊 プレイ状況(誰がどこまで)を見る
                   </button>
                 </>
               )}
@@ -4832,6 +4858,43 @@ JSON形式のみ: {"text":"回答"}`;
             </div>
           )}
 
+          {showProgressViewer && (() => {
+            const now = Date.now();
+            const within = (e, ms) => now - new Date(e.updatedAt).getTime() < ms;
+            const active1h = progressEntries.filter((e) => within(e, 60 * 60 * 1000)).length;
+            const active24h = progressEntries.filter((e) => within(e, 24 * 60 * 60 * 1000)).length;
+            const totalGames = progressEntries.reduce((s, e) => s + (e.games || 0), 0);
+            const phaseLabel = (p) => ({ discussion: "議論", vote_round1: "投票", defense: "弁明", vote_final: "決選投票", night: "夜", ally_chat: "密談", day1_paywall: "1日目終了(購入待ち)", gameover: "終了" }[p] || p);
+            const ago = (iso) => { const m = Math.floor((now - new Date(iso).getTime()) / 60000); return m < 1 ? "たった今" : m < 60 ? `${m}分前` : m < 1440 ? `${Math.floor(m / 60)}時間前` : `${Math.floor(m / 1440)}日前`; };
+            return (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black/50" onClick={() => setShowProgressViewer(false)} />
+                <div className="relative w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-4 space-y-2 shadow-2xl text-left" style={{ background: "#FBF8F1" }}>
+                  <div className="flex justify-between items-center pb-2 border-b" style={{ borderColor: "#D8C4B5" }}>
+                    <div className="text-sm font-bold" style={{ color: "#2B2620" }}>📊 プレイ状況</div>
+                    <button onClick={() => setShowProgressViewer(false)} className="text-xl leading-none" style={{ color: "#6B6355" }}>✕</button>
+                  </div>
+                  <div className="grid grid-cols-4 gap-1 text-center text-xs">
+                    <div className="rounded p-2" style={{ background: "#F0EAD9" }}><div className="text-lg font-bold" style={{ color: "#2B2620" }}>{progressEntries.length}</div><div style={{ color: "#8A8272" }}>端末数</div></div>
+                    <div className="rounded p-2" style={{ background: "#F0EAD9" }}><div className="text-lg font-bold" style={{ color: "#2B2620" }}>{active1h}</div><div style={{ color: "#8A8272" }}>1時間以内</div></div>
+                    <div className="rounded p-2" style={{ background: "#F0EAD9" }}><div className="text-lg font-bold" style={{ color: "#2B2620" }}>{active24h}</div><div style={{ color: "#8A8272" }}>24時間以内</div></div>
+                    <div className="rounded p-2" style={{ background: "#F0EAD9" }}><div className="text-lg font-bold" style={{ color: "#2B2620" }}>{totalGames}</div><div style={{ color: "#8A8272" }}>完了ゲーム</div></div>
+                  </div>
+                  {progressEntries.length === 0 && <p className="text-sm" style={{ color: "#8A8272" }}>まだ記録がありません。</p>}
+                  {progressEntries.map((e) => (
+                    <div key={e.deviceId} className="rounded-lg p-2 border text-xs flex justify-between items-center" style={{ borderColor: "#D8C4B5" }}>
+                      <div>
+                        <div className="font-bold" style={{ color: "#2B2620" }}>{e.name || "(名前なし)"} <span className="font-normal" style={{ color: "#8A8272" }}>{e.region === "en" ? "🇺🇸" : "🇯🇵"} · {String(e.deviceId).slice(0, 8)}</span></div>
+                        <div style={{ color: "#8A8272" }}>{e.day}日目・{phaseLabel(e.phase)} · 完了{e.games || 0}回</div>
+                      </div>
+                      <div className="text-right" style={{ color: within(e, 60 * 60 * 1000) ? "#2E7D32" : "#8A8272" }}>{ago(e.updatedAt)}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
           {hasSave ? (
             <div className="text-center text-lg font-bold py-2" style={{ color: "#2B2620" }}>
               {userName || nameInput} さん、おかえりなさい
@@ -4895,6 +4958,24 @@ JSON形式のみ: {"text":"回答"}`;
                 </button>
                 <div className="flex-1" />
               </div>
+            </div>
+            <div>
+              <label className="text-xs" style={{ color: "#6B6355" }}>役職</label>
+              <div className="grid grid-cols-3 gap-2 mt-1">
+                {[null, "人狼", "狂人", "占い師", "霊媒師", "狩人", "共有者", "ジョーカー", "村人"].map((r) => (
+                  <button
+                    key={r ?? "random"}
+                    onClick={() => setDevForceRole(r)}
+                    className="py-2 rounded-lg border font-bold text-sm"
+                    style={devForceRole === r ? { background: "#B8863B", color: "#FFFFFF", borderColor: "#B8863B" } : { background: "#FFFFFF", color: "#2B2620", borderColor: "#D8C4B5" }}
+                  >
+                    {r ?? "ランダム"}
+                  </button>
+                ))}
+              </div>
+              {devForceRole && (
+                <div className="text-xs mt-1" style={{ color: "#8A8272" }}>指定した役職で始まります。役職の人数構成は変わりません。</div>
+              )}
             </div>
             <div>
               <label className="text-xs" style={{ color: "#6B6355" }}>地域</label>

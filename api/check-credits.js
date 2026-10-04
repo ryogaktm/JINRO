@@ -166,9 +166,61 @@ async function handleToggleDistributed(req, res) {
   }
 }
 
+// プレイヤー端末から:今どこまで遊んでいるか(日付・フェーズ)を報告する(合言葉不要・軽量)。
+async function handleReportProgress(req, res) {
+  const { deviceId, day, phase, name, region } = req.body || {};
+  if (!deviceId || typeof deviceId !== "string") {
+    res.status(400).json({ error: "deviceIdが必要です" });
+    return;
+  }
+  try {
+    const key = `progress:${deviceId}`;
+    const prevRaw = await redis.get(key);
+    const prev = prevRaw ? (typeof prevRaw === "string" ? JSON.parse(prevRaw) : prevRaw) : {};
+    const entry = {
+      deviceId,
+      day: Number(day) || 0,
+      phase: String(phase || ""),
+      name: typeof name === "string" ? name.slice(0, 20) : (prev.name || ""),
+      region: region === "en" ? "en" : "ja",
+      firstSeen: prev.firstSeen || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      games: (prev.games || 0) + (phase === "gameover" && prev.phase !== "gameover" ? 1 : 0),
+    };
+    await redis.set(key, JSON.stringify(entry));
+    await redis.sadd("progress:index", deviceId);
+    res.status(200).json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: `報告に失敗しました: ${e.message}` });
+  }
+}
+
+// 管理者用:全端末の進行状況を一覧する。
+async function handleListProgress(req, res) {
+  if (!process.env.ADMIN_SECRET || req.query.secret !== process.env.ADMIN_SECRET) {
+    res.status(403).json({ error: "権限がありません" });
+    return;
+  }
+  try {
+    const ids = await redis.smembers("progress:index");
+    if (!ids || ids.length === 0) {
+      res.status(200).json({ entries: [] });
+      return;
+    }
+    const raw = await redis.mget(...ids.map((id) => `progress:${id}`));
+    const entries = raw.map((r) => {
+      try { return typeof r === "string" ? JSON.parse(r) : r; } catch (e) { return null; }
+    }).filter(Boolean).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    res.status(200).json({ entries });
+  } catch (e) {
+    res.status(500).json({ error: `取得に失敗しました: ${e.message}` });
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method === "GET") {
     if (req.query.action === "list_coupons") return handleListCoupons(req, res);
+    if (req.query.action === "list_progress") return handleListProgress(req, res);
     return handleCheck(req, res);
   }
   if (req.method === "POST") {
@@ -176,6 +228,7 @@ export default async function handler(req, res) {
     if (action === "generate_coupon") return handleGenerateCoupon(req, res);
     if (action === "redeem_coupon") return handleRedeemCoupon(req, res);
     if (action === "toggle_distributed") return handleToggleDistributed(req, res);
+    if (action === "report_progress") return handleReportProgress(req, res);
     return handleAddTest(req, res); // actionを指定しない場合は今まで通り(開発者用テスト付与)
   }
   res.status(405).json({ error: "Method not allowed" });

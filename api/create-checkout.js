@@ -2,7 +2,9 @@
 // deviceIdをmetadataに含めておき、決済完了時のwebhookでどの端末にクレジットを付与するか特定する。
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Cloudflare(Workers)には Node の http モジュールが無いため、fetch ベースの HTTP クライアントを明示する。
+// (Vercel/Node 上でもこの指定のまま問題なく動く)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { httpClient: Stripe.createFetchHttpClient() });
 
 // 1プレイあたりの価格(税込・円)。変更したい場合はここだけ直せばよい。
 const PRICE_JPY = 450;

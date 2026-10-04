@@ -1,0 +1,8 @@
+# Cloudflare Pages の設定。
+# - pages_build_output_dir: Vite のビルド出力先
+# - nodejs_compat: 既存の api/ コードが process.env を参照しているため必要。
+#   このフラグが有効だと、ダッシュボードで設定した環境変数・シークレットが process.env に自動で入る。
+name = "jinro"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]
